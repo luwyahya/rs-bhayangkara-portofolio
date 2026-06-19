@@ -10,6 +10,7 @@
 namespace App\Http\Controllers\EMR;
 
 use App\Http\Controllers\ApiController;
+use App\Master\DetailResepMaster;
 use App\Master\DiagnosaKeperawatan;
 use App\Master\Evaluasi;
 use App\Master\Implementasi;
@@ -20,94 +21,90 @@ use App\Master\KelompokPasien;
 use App\Master\KelompokTransaksi;
 use App\Master\Pasien;
 use App\Master\Pegawai;
+use App\Master\ResepMaster;
 use App\Master\Ruangan;
 use App\Master\SettingDataFixed;
-use App\Master\ResepMaster;
-use App\Master\DetailResepMaster;
+use App\Traits\Valet;
 use App\Transaksi\Anamnesis;
 use App\Transaksi\AntrianPasienDiperiksa;
 use App\Transaksi\AntrianPasienRegistrasi;
+use App\Transaksi\AsuhanGizi;
+use App\Transaksi\AsuhanGiziDetail;
 use App\Transaksi\CPPT;
 use App\Transaksi\CPPTDetail;
+use App\Transaksi\DataReaksiObatResumeMedis;
 use App\Transaksi\DetailDiagnosaPasien;
 use App\Transaksi\DetailDiagnosaTindakanPasien;
 use App\Transaksi\DiagnosaPasien;
 use App\Transaksi\DiagnosaTindakanPasien;
+use App\Transaksi\DokumenTransaksi;
 use App\Transaksi\Edukasi;
 use App\Transaksi\EECG;
-use App\Transaksi\EmrFoto;
 use App\Transaksi\EmrAnestesi;
+use App\Transaksi\EmrFoto;
+use App\Transaksi\EMROdontogram;
+use App\Transaksi\EMRPasien;
 use App\Transaksi\EMRPasienD_Temp;
+use App\Transaksi\EMRPasienD;
 use App\Transaksi\FormulisObat;
 use App\Transaksi\FormulisObatDetail;
+use App\Transaksi\HasilLaboratorium;
+use App\Transaksi\HasilRadiologi;
 use App\Transaksi\KendaliDokumenRekamMedis;
+use App\Transaksi\KepatuhanAPD;
+use App\Transaksi\KepatuhanCuciTangan;
+use App\Transaksi\KepatuhanHandHygiene;
+use App\Transaksi\KonsulRehab;
 use App\Transaksi\LoggingUser;
-use App\Transaksi\OrderPelayanan;
-use App\Transaksi\PasienDaftar;
-use App\Transaksi\PasienPerjanjian;
-use App\Transaksi\PemeriksaanUmum;
-use App\Transaksi\PengkajianAwalBaru;
-use App\Transaksi\RekamMedisDokter;
-use App\Transaksi\RekamMedis;
-use App\Transaksi\Tatalaksana;
-use App\Transaksi\tempviewicu;
 use App\Transaksi\MasalahICU;
 use App\Transaksi\MasalahICUHead;
-use App\Transaksi\SoapEmr;
-use App\Transaksi\temporariigd;
+use App\Transaksi\Meso;
+use App\Transaksi\MesoDetail;
+use App\Transaksi\OrderPelayanan;
+use App\Transaksi\PapAlergi;
+use App\Transaksi\PAPJ;
+use App\Transaksi\PasienDaftar;
+use App\Transaksi\PasienPerjanjian;
+use App\Transaksi\PelayananPasien;
+use App\Transaksi\PemeriksaanUmum;
+use App\Transaksi\PengkajianAwalBaru;
+use App\Transaksi\RekamMedis;
+use App\Transaksi\RekamMedisDokter;
 use App\Transaksi\RekamMedisICU;
 use App\Transaksi\RekamMedisICUDetail;
+use App\Transaksi\Rekonsiliasi;
+use App\Transaksi\RekonsiliasiDetail;
+use App\Transaksi\RekonsiliasiDetailMandiri;
+use App\Transaksi\RekonsiliasiObat;
 use App\Transaksi\Rencana;
+use App\Transaksi\RencanaAskep;
 use App\Transaksi\ResumeMedis;
 use App\Transaksi\ResumeMedisDetail;
 use App\Transaksi\RisOrder;
 use App\Transaksi\RiwayatPengobatan;
 use App\Transaksi\RmPemeriksaanFisik;
+use App\Transaksi\SeqNumberEMR;
+use App\Transaksi\SoapEmr;
 use App\Transaksi\StrukOrder;
-use App\Transaksi\EMRPasien;
-use App\Transaksi\EMRPasienD;
-use App\Transaksi\EMROdontogram;
 use App\Transaksi\Surveilans;
 use App\Transaksi\SurveilansAntibiotik;
 use App\Transaksi\SurveilansFaktorResiko;
 use App\Transaksi\SurveilansFrd;
 use App\Transaksi\SurveilansOperasi;
-use App\Transaksi\TempEMR;
-use App\Transaksi\RencanaAskep;
-use App\Transaksi\RekonsiliasiObat;
-use App\Transaksi\TempResumeMedisRj;
-use App\Transaksi\TempEdukasiPasien;
-use App\Transaksi\Ttv;
-use App\Transaksi\Meso;
-use App\Transaksi\MesoDetail;
-use App\Transaksi\Rekonsiliasi;
-use App\Transaksi\RekonsiliasiDetail;
-use App\Transaksi\RekonsiliasiDetailMandiri;
-use App\Transaksi\AsuhanGizi;
-use App\Transaksi\AsuhanGiziDetail;
-use App\Transaksi\DokumenTransaksi;
-use App\Transaksi\PelayananPasien;
-use App\Transaksi\HasilLaboratorium;
-use App\Transaksi\HasilRadiologi;
-use App\Transaksi\KonsulRehab;
-use App\Transaksi\TempKonsulRehab;
-use App\Transaksi\TempKonsul;
-use App\Transaksi\TglKonsulRehab;
-use App\Transaksi\KepatuhanCuciTangan;
-use App\Transaksi\KepatuhanHandHygiene;
-use App\Transaksi\KepatuhanAPD;
-use App\Transaksi\SeqNumberEMR;
+use App\Transaksi\Tatalaksana;
 use App\Transaksi\TempCairanInfus;
-use App\Transaksi\DataReaksiObatResumeMedis;
-use App\Transaksi\PAPJ;
-
-
-use Illuminate\Http\Request;
-//use Illuminate\Http\Response;
-use DB;
+use App\Transaksi\TempEdukasiPasien;
+use App\Transaksi\TempEMR;
+use App\Transaksi\TempKonsul;
+use App\Transaksi\TempKonsulRehab;
+use App\Transaksi\temporariigd;
+use App\Transaksi\TempResumeMedisRj;
+use App\Transaksi\tempviewicu;
+use App\Transaksi\TglKonsulRehab;
+use App\Transaksi\Ttv;
 use DateTime;
-use App\Traits\Valet;
-//use Carbon\Carbon;
+use DB;
+use Illuminate\Http\Request;
 use MongoDB\Driver\ReadConcern;
 use phpDocumentor\Reflection\Types\Null_;
 use Webpatser\Uuid\Uuid;
@@ -30669,4 +30666,180 @@ WHERE rm.norec = '$norec_resume'
         );
         return $this->respond($result);
     }
+
+    public function getComboAlergi(Request $request){
+        $kdProfile = (int) $this->getDataKdProfile($request);
+
+        $kdjenisobat = explode (',',$this->settingDataFixed('kdJenisProdukObat',$kdProfile));
+        $arrkdjenisobat = [];
+        foreach ($kdjenisobat as $it){
+            $arrkdjenisobat []=  (int)$it;
+        }
+
+        $dataProduk = \DB::table('produk_m as pr')
+            ->JOIN('detailjenisproduk_m as djp','djp.id','=','pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp','jp.id','=','djp.objectjenisprodukfk')
+            ->leftJOIN('satuanstandar_m as ss','ss.id','=','pr.objectsatuanstandarfk')
+            ->select('pr.id','pr.namaproduk','ss.id as ssid','ss.satuanstandar')
+            ->where('pr.kdprofile', $kdProfile)
+            ->where('pr.statusenabled',true)
+            ->whereIn('jp.id',$arrkdjenisobat)
+            ->groupBy('pr.id','pr.namaproduk','ss.id','ss.satuanstandar')
+            ->orderBy('pr.namaproduk')
+            ->get();
+
+        $namaalergi = \DB::table('alergi_m as ru')
+            ->select('ru.id', 'ru.namaalergi')
+            ->where('ru.kdprofile', $kdProfile)
+            ->where('ru.statusenabled', true)
+            ->orderBy('ru.namaalergi')
+            ->get();
+        $dokter = \DB::table('pegawai_m as rm')
+            ->select('rm.id', 'rm.namalengkap')
+            ->where('rm.kdprofile', $kdProfile)
+            ->where('rm.statusenabled', true)
+            ->where('rm.objectjenispegawaifk', 1)
+            ->orderBy('rm.namalengkap')
+            ->get();
+
+        $result = array(
+            "produk" => $dataProduk,
+            'alergi' => $namaalergi,
+            'dokter' => $dokter,
+        );
+        
+        return $this->respond($result);        
+    }
+
+    public function saveAlergiIntoleren(Request $request)
+    {
+        $kdProfile = (int) $this->getDataKdProfile($request);
+        DB::beginTransaction();
+        try {
+           
+            if ($request['norec'] == "") {
+                $dataSO = new PapAlergi();
+                $dataSO->norec = $dataSO->generateNewId();
+                $dataSO->kdprofile = $kdProfile;
+                $dataSO->statusenabled = true;
+            } else {
+                $dataSO = PapAlergi::where('norec', $request['norec'])->where('kdprofile', $kdProfile)->first();
+              
+            }
+         
+            $dataSO->objectalergifk = $request['alergifk'];
+            $dataSO->keterangandata =$request['keterangan'];
+            $dataSO->objectpasienfk = $request['norec_pd'];
+            $dataSO->tglinput = $request['tglinput'];
+            $dataSO->pegawaifk = $request['pegawaifk'];
+            $dataSO->kategori = $request['kategori'];
+            $dataSO->reaksi = $request['reaksi'];
+         
+            $dataSO->save();
+
+            $noregistrasi = PasienDaftar::where('norec',$request['norec_pd'])->first()->noregistrasi;
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = 'Sukses';
+            DB::commit();
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest['noregistrasi'] = $noregistrasi;
+            $ihs = app('App\Http\Controllers\Bridging\IHSController')->AllergyIntolerance($objetoRequest, true);
+           
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                "data" => $dataSO,
+                "ihs" => $ihs,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Simpan Gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+                "e" => $e->getMessage().' ' .$e->getLine(),
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function deleteAlergiIntoleren(Request $request)
+    {
+        $kdProfile = (int) $this->getDataKdProfile($request);
+        DB::beginTransaction();
+        try {
+           
+           
+           $dataSO = PapAlergi::where('norec', $request['norec'])->where('kdprofile', $kdProfile)->update(
+            [
+                'statusenabled' => false
+            ]
+           );
+              
+           
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = 'Sukses';
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                "strukorder" => $dataSO,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Hapus Gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+                "e" => $e->getMessage().' ' .$e->getLine(),
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function getAlergiDataIntoleren(Request $request)
+    {
+        $kdProfile = $this->getDataKdProfile($request);
+       
+
+        $data = \DB::table('papalergi_t as pap')
+            ->join('pasiendaftar_t as pd','pd.norec','=','pap.objectpasienfk')
+            ->join('pasien_m as ps','pd.nocmfk','=','ps.id')
+            ->join('alergi_m as al','al.id','=','pap.objectalergifk')
+            ->join('pegawai_m as pg','pap.pegawaifk','=','pg.id')
+            ->select('pap.*', 'al.namaalergi','pg.namalengkap')
+            // ->where('pap.kdprofile', $kdProfile)
+            ->where('pap.statusenabled', true);
+         if(isset($request['noregistrasi']) && $request['noregistrasi']!=''){
+            $data=$data->where('pd.noregistrasi', $request['noregistrasi']);
+         }  
+         if(isset($request['nocm']) && $request['nocm']!=''){
+            $data=$data->where('ps.nocm', $request['nocm']);
+         }   
+        
+         $data=$data->get();
+      
+        $result = array(
+            'data' => $data,
+            'message' => 'inhuman',
+        );
+
+        return $this->respond($result);
+    }
+
+
 }

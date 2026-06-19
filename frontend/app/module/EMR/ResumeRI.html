@@ -349,6 +349,20 @@
             </div>
         </div> -->
 
+        <!-- Bagian Riwayat Alergi di dalam Resume Medis -->
+        <div class="grid_12" style="margin-top: 20px;">
+            <c-panel item="item" header="'Riwayat Alergi & Intoleransi'" disabled>
+                <div class="panel panel-default container_12">
+                    <div class="panel-body">
+                        <!-- Grid untuk menampilkan daftar alergi aktif -->
+                        <div class="grid_12">
+                            <div id="gridAlergiResume" kendo-grid k-data-source="sourceAlergi" options="alergiOpt"></div>
+                        </div>
+                    </div>
+                </div>
+            </c-panel>
+        </div>
+
         <div class="grid_12">
             <fieldset style="margin-top: 10px;    height: 400px;">
                 <legend>
@@ -2288,6 +2302,46 @@
                 </div>
             </div>
     
+        </div>
+    </div>
+
+        <!-- Pop Up PopUp Tambah/Edit Alergi (Letakkan di bagian paling bawah HTML Resume) -->
+    <div kendo-window="popUpAlergi" k-title="'Tambah Data Alergi Pasien'" k-width="800" k-height="500" k-visible="false">
+        <div class="panel panel-default container_12" style="padding: 0px 10px;">
+            <fieldset>
+                <legend>Detail Alergi</legend>
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <label c-label>Tanggal Penemuan</label>
+                        <input style="width: 100%" k-ng-model="itemAlergi.tglKonsul" kendo-datetimepicker k-format="'yyyy-MM-dd HH:mm'" />
+                    </div>
+                    <div class="grid_4">
+                        <label c-label>Jenis Alergi</label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="itemAlergi.jenis" k-data-text-field="'namaalergi'" k-data-value-field="'id'" k-filter="'contains'" k-data-source="listAlergi" />
+                    </div>
+                    <div class="grid_4">
+                        <label c-label>Dokter Pemeriksa</label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="itemAlergi.dokter" k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'" k-data-source="listDokter" />
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px">
+                    <label c-label>Kategori</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="itemAlergi.kategori" k-data-text-field="'name'" k-data-value-field="'name'" k-filter="'contains'" k-data-source="listKategori" />
+                </div>
+                <div class="grid_12" style="margin-top: 10px">
+                    <label c-label>Reaksi Alergi</label>
+                    <textarea class="k-textbox" style="height: 60px; width: 100%; resize: none;" ng-model="itemAlergi.reaksi"></textarea>
+                </div>
+                <div class="grid_12" style="margin-top: 10px">
+                    <label c-label>Keterangan Tambahan</label>
+                    <textarea class="k-textbox" style="height: 60px; width: 100%; resize: none;" ng-model="itemAlergi.keterangan"></textarea>
+                </div>
+            </fieldset>
+
+            <div class="k-edit-buttons k-state-default pull-right" style="margin-top:15px">
+                <button class="k-button k-button-icontext k-primary" ng-click="saveAlergi()"><span class="k-icon k-update"></span>Simpan Alergi</button>
+                <button class="k-button k-button-icontext" ng-click="tutupPopUpAlergi()"><span class="k-icon k-cancel"></span>Batal</button>
+            </div>
         </div>
     </div>
 

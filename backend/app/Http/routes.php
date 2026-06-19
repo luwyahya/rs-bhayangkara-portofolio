@@ -1405,6 +1405,11 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('delete-mapping-navigasi', 'EMR\EMRController@deleteMappingNavigasiEmr');
             Route::post('update-jenis-pegawai', 'EMR\EMRController@UpdateJenisPegawai');
 
+            Route::get('get-combo-alergi', 'EMR\EMRController@getComboAlergi');
+            Route::post('post-alergi-intoleren', 'EMR\EMRController@saveAlergiIntoleren');
+            Route::post('disabled-alergi-intoleren', 'EMR\EMRController@deleteAlergiIntoleren');
+            Route::get('get-alergi-intoleren', 'EMR\EMRController@getAlergiDataIntoleren');
+
             // add by key 06-12-2023 from polri
             // laporan EMR Ranap
             Route::group(['prefix' => 'laporan'], function () {
