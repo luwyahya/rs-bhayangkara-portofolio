@@ -218,8 +218,7 @@ define(['initialize'], function (initialize) {
                                 if (dataLoad[i].emrdfk == "1901303154") {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
-                                    $scope.item.objcbo[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
-                                    // $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
                                 }
                             }
 
@@ -284,8 +283,7 @@ define(['initialize'], function (initialize) {
                                 if (dataLoad[i].emrdfk == "1901303154") {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
-                                    $scope.item.objcbo[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
-                                    // $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+                                    $scope.item.obja[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
                                 }
                             }
 
@@ -339,9 +337,7 @@ define(['initialize'], function (initialize) {
                             if (dataLoad[i].emrdfk == "1901303154") {
                                 var str = dataLoad[i].value
                                 var res = str.split("~");
-                                $scope.item.objcbo[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
-                                // $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
-
+                                $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
                             }
                         }
 

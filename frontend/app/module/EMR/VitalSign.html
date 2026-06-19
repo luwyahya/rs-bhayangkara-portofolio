@@ -33,7 +33,7 @@
     legend b {
         color: #41abf2;
     }
-    
+
     .manchester {
         color: #ff3d3d;
     }
@@ -58,7 +58,8 @@
                                             </legend>
                                             <div class="grid_12">
                                                 <div class="grid_3">
-                                                    <label c-label item="item" c-label-text="Tanda Vital" class="manchester"></label>
+                                                    <label c-label item="item" c-label-text="Tanda Vital"
+                                                        class="manchester"></label>
                                                 </div>
                                             </div>
                                             <div class="grid_3">
@@ -124,7 +125,8 @@
 
                                             <div class="grid_12">
                                                 <div class="grid_3">
-                                                    <label c-label item="item" c-label-text="Pemeriksaan umum" class="manchester"></label>
+                                                    <label c-label item="item" c-label-text="Pemeriksaan umum"
+                                                        class="manchester"></label>
                                                 </div>
                                             </div>
                                             <div class="grid_3">
@@ -136,8 +138,12 @@
                                                         ng-model="item.obj[116066]" />
                                                 </div> -->
                                                 <div class="grid_12">
-                                                    <input required style="width: 100%;" kendo-combo-box k-ng-model="item.obj[1901303154]"
+                                                    <!-- <input required style="width: 100%;" kendo-combo-box k-ng-model="item.obj[1901303154]"
                                                         k-data-text-field="'text'" k-filter="'contains'" k-data-value-field="'value'"
+                                                        k-data-source="listKeadaanUmum" /> -->
+                                                    <input required style="width: 100%;" kendo-combo-box
+                                                        k-ng-model="item.obj[1901303154]" k-data-text-field="'text'"
+                                                        k-filter="'contains'" k-data-value-field="'value'"
                                                         k-data-source="listKeadaanUmum" />
                                                 </div>
                                             </div>
@@ -213,12 +219,15 @@
                                             <div class="grid_12">
                                                 <div class="grid_6"></div>
                                                 <div class="grid_6">
-                                                <div class="grid_3" style="margin-top: 5px" ng-show='tombolSimpanVis'>
-                                                    <button class="btnTemplate1" ng-click="Save()"><i class="fa fa-save"></i>Simpan</button>
-                                                </div>
-                                                <div class="grid_3" style="margin-top: 5px">
-                                                    <button class="btnTemplate1" ng-click="Batal()"><i class="fa fa-refresh"></i>Batal</button>
-                                                </div>
+                                                    <div class="grid_3" style="margin-top: 5px"
+                                                        ng-show='tombolSimpanVis'>
+                                                        <button class="btnTemplate1" ng-click="Save()"><i
+                                                                class="fa fa-save"></i>Simpan</button>
+                                                    </div>
+                                                    <div class="grid_3" style="margin-top: 5px">
+                                                        <button class="btnTemplate1" ng-click="Batal()"><i
+                                                                class="fa fa-refresh"></i>Batal</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -229,10 +238,10 @@
                                         <div ng-include='"../app/module/EMR/TemplateButtonDinamis" '></div>
                                     </div> -->
                                     <!--button old-->
-                                    
+
                                 </md-content>
                             </md-tab>
-                        
+
                             <!--dihide pindah kebawah riwayatnya-->
                             <!-- <md-tab label="Riwayat" ng-if="showRiwayatEMR === true">
                                 <md-content class="md-padding">
@@ -286,12 +295,12 @@
                                         k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)">
                                     </kendo-grid>
                                     <div k-detail-template>
-                                    <kendo-tabstrip>
-                                        <div>
-                                            <div kendo-grid k-options="detailGridOptions(dataItem)"></div>
-                                        </div>
-                                    </kendo-tabstrip>
-                                </div>
+                                        <kendo-tabstrip>
+                                            <div>
+                                                <div kendo-grid k-options="detailGridOptions(dataItem)"></div>
+                                            </div>
+                                        </kendo-tabstrip>
+                                    </div>
                                 </div>
                             </div>
 
@@ -306,7 +315,8 @@
                                         Vital Sign</button>
                                 </div>
                                 <div class="grid_2" style="margin-top: 10px">
-                                    <button class="btnTemplate1 error" ng-click="hapus()"><i class="fa fa-trash"></i>Hapus
+                                    <button class="btnTemplate1 error" ng-click="hapus()"><i
+                                            class="fa fa-trash"></i>Hapus
                                         Vital Sign</button>
                                 </div>
                             </div>
@@ -320,7 +330,8 @@
                                     </legend>
                                     <div class="grid_12">
                                         <div class="grid_3">
-                                            <label c-label item="item" c-label-text="Tanda Vital" class="manchester"></label>
+                                            <label c-label item="item" c-label-text="Tanda Vital"
+                                                class="manchester"></label>
                                         </div>
                                     </div>
                                     <div class="grid_3">
@@ -386,7 +397,8 @@
 
                                     <div class="grid_12">
                                         <div class="grid_3">
-                                            <label c-label item="item" c-label-text="Pemeriksaan umum" class="manchester"></label>
+                                            <label c-label item="item" c-label-text="Pemeriksaan umum"
+                                                class="manchester"></label>
                                         </div>
                                     </div>
                                     <div class="grid_3">
@@ -394,8 +406,9 @@
                                             <label c-label item="item" c-label-text="Keadaan Umum"></label>
                                         </div>
                                         <div class="grid_12">
-                                            <input c-text-box type="text" filter="" class="k-textbox"
-                                                ng-model="item.obja[116066]" />
+                                            <input required style="width: 100%;" kendo-combo-box k-ng-model="item.obja[1901303154]"
+                                                k-data-text-field="'text'" k-filter="'contains'" k-data-value-field="'value'"
+                                                k-data-source="listKeadaanUmum" />
                                         </div>
                                     </div>
                                     <div class="grid_3">
@@ -438,41 +451,40 @@
                                             <label c-label item="item" required>E</label>
                                         </div>
                                         <div class="grid_2">
-                                            <input required style="width: 100%;" kendo-combo-box
-                                                placeholder="'1 - 4'" k-ng-model="item.obja[116067]"
-                                                k-data-text-field="'text'" k-filter="'contains'"
-                                                k-data-value-field="'value'" k-data-source="listGcsE" />
+                                            <input required style="width: 100%;" kendo-combo-box placeholder="'1 - 4'"
+                                                k-ng-model="item.obja[116067]" k-data-text-field="'text'"
+                                                k-filter="'contains'" k-data-value-field="'value'"
+                                                k-data-source="listGcsE" />
 
                                         </div>
-                                        <div class="grid_2"
-                                            style="margin-top:12px;margin-left:4%; margin-right: -13%;">
+                                        <div class="grid_2" style="margin-top:12px;margin-left:4%; margin-right: -13%;">
                                             <label c-label item="item" required>M</label>
                                         </div>
                                         <div class="grid_2">
-                                            <input required style="width: 100%;" kendo-combo-box
-                                                placeholder="'1 - 6'" k-ng-model="item.obja[116068]"
-                                                k-data-text-field="'text'" k-filter="'contains'"
-                                                k-data-value-field="'value'" k-data-source="listGcsM" />
+                                            <input required style="width: 100%;" kendo-combo-box placeholder="'1 - 6'"
+                                                k-ng-model="item.obja[116068]" k-data-text-field="'text'"
+                                                k-filter="'contains'" k-data-value-field="'value'"
+                                                k-data-source="listGcsM" />
 
                                         </div>
-                                        <div class="grid_2"
-                                            style="margin-top:12px;margin-left:4%; margin-right: -13%;">
+                                        <div class="grid_2" style="margin-top:12px;margin-left:4%; margin-right: -13%;">
                                             <label c-label item="item" required>V</label>
                                         </div>
                                         <div class="grid_2">
-                                            <input required style="width: 100%;" kendo-combo-box
-                                                placeholder="'1 - 5'" k-ng-model="item.obja[116069]"
-                                                k-data-text-field="'text'" k-filter="'contains'"
-                                                k-data-value-field="'value'" k-data-source="listGcsV" />
+                                            <input required style="width: 100%;" kendo-combo-box placeholder="'1 - 5'"
+                                                k-ng-model="item.obja[116069]" k-data-text-field="'text'"
+                                                k-filter="'contains'" k-data-value-field="'value'"
+                                                k-data-source="listGcsV" />
 
                                         </div>
                                     </div>
                                     <div class="grid_12">
                                         <div class="grid_6"></div>
                                         <div class="grid_6">
-                                        <div class="grid_3" style="margin-top: 5px">
-                                            <button class="btnTemplate1" ng-click="batalLihat()"><i class="fa fa-refresh"></i>Batal Lihat</button>
-                                        </div>
+                                            <div class="grid_3" style="margin-top: 5px">
+                                                <button class="btnTemplate1" ng-click="batalLihat()"><i
+                                                        class="fa fa-refresh"></i>Batal Lihat</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </fieldset>
