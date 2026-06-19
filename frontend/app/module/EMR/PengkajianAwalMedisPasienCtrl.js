@@ -532,10 +532,8 @@ define(['initialize'], function (initialize) {
                     } else {
                         medifirstService.get('emr/get-image-from-jenis-surat?').then(function (dat) {
                             debugger
-                            // $scope.user.poto2 = dat.data[0].template
-                            $scope.user.poto = dat.data[4].template
-                            // $scope.user.poto3 = dat.data[2].template
-                            // $scope.user.poto4 = dat.data[3].template
+                            $scope.user.poto2 = dat.data[6].template
+                            $scope.user.poto = dat.data[5].template
                         })
                         $scope.item.obj = {}
                         $scope.item.obj[1239] = moment($scope.now).format('DD-MM-YYYY HH:mm')
