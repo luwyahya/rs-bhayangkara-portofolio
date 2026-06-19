@@ -4639,7 +4639,7 @@ public function getDaftarOrderPenunjang(Request $request)
                     ->where('so.objectruangantujuanfk', $request['ruanganTujuanId'])
                     ->where('so.statusenabled', true);
                 if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
-                    if ($request['isNotVerif'] == true) {
+                    if ($request['isNotVerif'] == 'true' || $request['isNotVerif'] === true) {
                         $data = $data->whereNull('so.statusorder');
                         if (isset($request['tglAwalCek']) && $request['tglAwalCek'] != "" && $request['tglAwalCek'] != "undefined") {
                             $data = $data->where('so.tglorder', '>=', $request['tglAwalCek']);
@@ -4648,6 +4648,15 @@ public function getDaftarOrderPenunjang(Request $request)
 
                             $tgl = $request['tglAkhirCek'];
                             $data = $data->where('so.tglorder', '<=', $tgl);
+                        }
+                    } else {
+                        // isNotVerif=false → tampilkan yang sudah verifikasi
+                        $data = $data->whereNotNull('so.statusorder');
+                        if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                            $data = $data->where('so.tglorder', '>=', $request['tglAwal']);
+                        }
+                        if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                            $data = $data->where('so.tglorder', '<=', $request['tglAkhir']);
                         }
                     }
                 } else { //ash
@@ -4715,7 +4724,7 @@ public function getDaftarOrderPenunjang(Request $request)
                     ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiLaboratorium'))
                     ->where('so.statusenabled', true);
                 if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
-                    if ($request['isNotVerif'] == true) {
+                    if ($request['isNotVerif'] == 'true' || $request['isNotVerif'] === true) {
                         $data = $data->whereNull('so.statusorder');
                         if (isset($request['tglAwalCek']) && $request['tglAwalCek'] != "" && $request['tglAwalCek'] != "undefined") {
                             $data = $data->where('so.tglorder', '>=', $request['tglAwalCek']);
@@ -4724,6 +4733,15 @@ public function getDaftarOrderPenunjang(Request $request)
 
                             $tgl = $request['tglAkhirCek'];
                             $data = $data->where('so.tglorder', '<=', $tgl);
+                        }
+                    } else {
+                        // isNotVerif=false → tampilkan yang sudah verifikasi
+                        $data = $data->whereNotNull('so.statusorder');
+                        if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                            $data = $data->where('so.tglorder', '>=', $request['tglAwal']);
+                        }
+                        if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                            $data = $data->where('so.tglorder', '<=', $request['tglAkhir']);
                         }
                     }
                 } else { //ash
@@ -4880,7 +4898,7 @@ public function getDaftarOrderPenunjang(Request $request)
                     ->where('so.statusenabled', true)
                     ->whereNotIn('so.objectruangantujuanfk', [$this->settingDataFixed('kdRuanganElektromedik')]);
                 if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
-                    if ($request['isNotVerif'] == true) {
+                    if ($request['isNotVerif'] == 'true' || $request['isNotVerif'] === true) {
                         //$data = $data->whereNull('pp.order_no');
                         $data = $data->whereNull('so.statusorder'); //ash
                         if (isset($request['tglAwalCek']) && $request['tglAwalCek'] != "" && $request['tglAwalCek'] != "undefined") {
@@ -4890,6 +4908,15 @@ public function getDaftarOrderPenunjang(Request $request)
 
                             $tgl = $request['tglAkhirCek'];
                             $data = $data->where('so.tglorder', '<=', $tgl);
+                        }
+                    } else {
+                        // isNotVerif=false → tampilkan yang sudah verifikasi
+                        $data = $data->whereNotNull('so.statusorder');
+                        if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                            $data = $data->where('so.tglorder', '>=', $request['tglAwal']);
+                        }
+                        if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                            $data = $data->where('so.tglorder', '<=', $request['tglAkhir']);
                         }
                     }
                 } else { //ash
@@ -5220,12 +5247,12 @@ public function getDaftarOrderPenunjang(Request $request)
         //        }
 
         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-            $data = $data->where('so.tglpelayananakhir', '>=', $request['tglAwal']);
+            $data = $data->where('so.tglorder', '>=', $request['tglAwal']);
         }
         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
 
             $tgl = $request['tglAkhir'];
-            $data = $data->where('so.tglpelayananakhir', '<=', $tgl);
+            $data = $data->where('so.tglorder', '<=', $tgl);
         }
         if (isset($request['tglAwalOperasi']) && $request['tglAwalOperasi'] != "" && $request['tglAwalOperasi'] != "undefined") {
             $data = $data->where('so.tglpelayananakhir', '>=', $request['tglAwalOperasi']);

@@ -135,11 +135,9 @@ define(['initialize'], function (initialize) {
                 }
                 var isNotVerif = ""
                 if ($scope.item.belumVerifikasi) {
-                    var isNotVerif = "isNotVerif=" + true
-                    var jmlRow = ""
-                    if ($scope.item.jmlRow) {
-                        jmlRow = "&jmlRow=" + $scope.item.jmlRow
-                    }
+                    isNotVerif = "isNotVerif=true"
+                } else {
+                    isNotVerif = "isNotVerif=false"
                 }
                 var jmlRow = ""
                 if ($scope.item.jmlRow) {
@@ -148,7 +146,7 @@ define(['initialize'], function (initialize) {
 
                 var tglAwal = ""
                 var tglAkhir = ""
-                if ($scope.cekBelumVerifs == false) {
+                if (!$scope.item.belumVerifikasi) {
                     tglAwal = "&tglAwal=" + moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                     tglAkhir = "&tglAkhir=" + moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
                 }
