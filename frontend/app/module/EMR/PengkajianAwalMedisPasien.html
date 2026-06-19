@@ -358,7 +358,7 @@
                                 <div ng-switch on="jawab.type">
                                     <div class="grid_2" ng-switch-when="checkbox">
                                         <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}"
-                                            ng-model="item.obj[jawab.id]" />
+                                            ng-model="item.obj[jawab.id]" ng-change="updateGabungan()" />
                                         <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
                                             &nbsp;{{jawab.nama}}</label>
                                     </div>

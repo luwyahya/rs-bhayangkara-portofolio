@@ -207,6 +207,36 @@ define(['initialize'], function (initialize) {
             }
 
 
+
+            // Mapping bagian tubuh: "Ada Kelainan" checkbox ID → { namaField, jelaskanId }
+            var pemeriksaanFisikMap = [
+                { nama: 'Kepala',                adaKelainanId: 2619,        jelaskanId: 2620 },
+                { nama: 'Mata',                  adaKelainanId: 1901300357,  jelaskanId: 1901300358 },
+                { nama: 'Leher',                 adaKelainanId: 2622,        jelaskanId: 2623 },
+                { nama: 'Thorax',                adaKelainanId: 2625,        jelaskanId: 2626 },
+                { nama: 'Abdomen',               adaKelainanId: 2628,        jelaskanId: 2629 },
+                { nama: 'Extremitas',            adaKelainanId: 2631,        jelaskanId: 2632 },
+                { nama: 'Genitalia',             adaKelainanId: 2634,        jelaskanId: 2635 },
+                { nama: 'Anus',                  adaKelainanId: 2677,        jelaskanId: 2678 },
+                { nama: 'Pemeriksaan Neurologis',adaKelainanId: 2680,        jelaskanId: 2681 },
+                { nama: 'Kulit',                 adaKelainanId: 1901300360,  jelaskanId: 1901300361 },
+            ];
+
+            $scope.updateGabungan = function () {
+                var bagianAda = [];
+                for (var i = 0; i < pemeriksaanFisikMap.length; i++) {
+                    var map = pemeriksaanFisikMap[i];
+                    var adaKelainan = $scope.item.obj[map.adaKelainanId];
+                    var jelaskan    = $scope.item.obj[map.jelaskanId];
+                    if (adaKelainan && jelaskan && jelaskan.trim() !== '') {
+                        bagianAda.push(map.nama + ': ' + jelaskan.trim());
+                    }
+                }
+                var gabungan = bagianAda.join(', ');
+                $scope.item.obj[2423] = gabungan;
+                $scope.item.obj[2424] = gabungan;
+            };
+
             $scope.showPopUp = function () {
                 $scope.popUpUpload.center().open()
             }
