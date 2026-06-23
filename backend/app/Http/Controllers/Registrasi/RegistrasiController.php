@@ -22757,7 +22757,7 @@ GROUP BY y.KET
 
         $result = array(
             'data' => $data,
-            'datadiag' => $datad,
+            'datadiag' => $datadiag,
             'jml' => count($data),
             'date' => $date,
             'message' => 'er@epic',
@@ -26614,5 +26614,284 @@ GROUP BY y.KET
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveDiagnosaIdrg9(Request $request)
+    {
+        $dataLogin = $request->all();
+        DB::beginTransaction();
+        $dataPegawaiUser = DB::select(
+            DB::raw("select pg.id,pg.namalengkap from loginuser_s as lu
+                INNER JOIN pegawai_m as pg on lu.objectpegawaifk=pg.id
+                where lu.id=:idLoginUser"),
+            array(
+                'idLoginUser' => $dataLogin['userData']['id'],
+            )
+        );
+
+        $dataNoregistrasiPd = DB::select(
+            DB::raw("select apd.norec norec_apd, dp.norec norec_dp from pasiendaftar_t pd
+                LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec and apd.objectruanganfk=pd.objectruanganlastfk
+                left join diagnosapasien_t dp on dp.noregistrasifk=apd.norec
+                where pd.noregistrasi=:noregistrasi"),
+            array(
+                'noregistrasi' => $request['detaildiagnosapasien']['noregistrasifk'],
+            )
+        );
+       
+        // return($dataNoregistrasiPd);
+        // die();
+        
+        $dataDiagnosa = new DiagnosaIdrg();
+        $dataDiagnosa->norec = $dataDiagnosa->generateNewId();
+        $dataDiagnosa->kdprofile = 0;
+        $dataDiagnosa->statusenabled = true;
+        $dataDiagnosa->noregistrasifk =  $dataNoregistrasiPd[0]->norec_apd;
+        $dataDiagnosa->tglinputdiagnosa = date('Y-m-d H:i:s');
+        $dataDiagnosa->code = $request['detaildiagnosapasien']['code'];
+        $dataDiagnosa->description = $request['detaildiagnosapasien']['description'];
+        $dataDiagnosa->jenisdiagnosaidrgfk = $request['detaildiagnosapasien']['jenisdiagnosaidrgfk'];
+        $dataDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id;
+        $dataDiagnosa->jumlah = $request['detaildiagnosapasien']['jumlah'];
+       
+        // try {
+            $dataDiagnosa->save();
+            $transStatus = 'true';
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        //     $transMessage = "simpan Diagnosa Baru";
+        // }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Data Tersimpan";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'data' => $dataDiagnosa,
+                'as' => '@tukcom',
+            );
+        } else {
+            $transMessage = "Data Gagal Disimpan";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'data' => $dataDiagnosa,
+                'as' => '@tukcom',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveDiagnosaIdrg(Request $request)
+    {
+        $dataLogin = $request->all();
+        DB::beginTransaction();
+        $dataPegawaiUser = DB::select(
+            DB::raw("select pg.id,pg.namalengkap from loginuser_s as lu
+                INNER JOIN pegawai_m as pg on lu.objectpegawaifk=pg.id
+                where lu.id=:idLoginUser"),
+            array(
+                'idLoginUser' => $dataLogin['userData']['id'],
+            )
+        );
+
+        $dataNoregistrasiPd = DB::select(
+            DB::raw("select apd.norec norec_apd, dp.norec norec_dp from pasiendaftar_t pd
+                LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec and apd.objectruanganfk=pd.objectruanganlastfk
+                left join diagnosapasien_t dp on dp.noregistrasifk=apd.norec
+                where pd.noregistrasi=:noregistrasi"),
+            array(
+                'noregistrasi' => $request['detaildiagnosapasien']['noregistrasifk'],
+            )
+        );
+        $dataNoregistrasi = DB::select(
+            DB::raw("select apd.norec norec_apd, dp.norec norec_dp from pasiendaftar_t pd
+                LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec
+                Inner join diagnosaidrg_t dp on dp.noregistrasifk=apd.norec
+                where dp.jenisdiagnosaidrgfk=10 and pd.noregistrasi=:noregistrasi"),
+            array(
+                'noregistrasi' => $request['detaildiagnosapasien']['noregistrasifk'],
+            )
+        );
+        // return($dataNoregistrasiPd);
+        // die();
+        
+        $dataDiagnosa = new DiagnosaIdrg();
+        $dataDiagnosa->norec = $dataDiagnosa->generateNewId();
+        $dataDiagnosa->kdprofile = 0;
+        $dataDiagnosa->statusenabled = true;
+        $dataDiagnosa->noregistrasifk =  $dataNoregistrasiPd[0]->norec_apd;
+        $dataDiagnosa->tglinputdiagnosa = date('Y-m-d H:i:s');
+        $dataDiagnosa->code = $request['detaildiagnosapasien']['code'];
+        $dataDiagnosa->description = $request['detaildiagnosapasien']['description'];
+        $dataDiagnosa->jenisdiagnosaidrgfk = $request['detaildiagnosapasien']['jenisdiagnosaidrgfk'];
+        $dataDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id;
+        if (count($dataNoregistrasi) > 0){
+            $dataDiagnosa->objectjenisdiagnosafk =2;
+        }else{
+            $dataDiagnosa->objectjenisdiagnosafk =1;
+        }
+        // try {
+            $dataDiagnosa->save();
+            $transStatus = 'true';
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        //     $transMessage = "simpan Diagnosa Baru";
+        // }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Data Tersimpan";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'data' => $dataDiagnosa,
+                'as' => '@tukcom',
+            );
+        } else {
+            $transMessage = "Data Gagal Disimpan";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'data' => $dataDiagnosa,
+                'as' => '@tukcom',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function updateDiagnosaPasienTargetIDRG(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $dataLogin = $request->all();
+
+            // 🔹 Ambil user login
+            $dataPegawaiUser = DB::select(
+                DB::raw("select pg.id,pg.namalengkap from loginuser_s as lu
+                    INNER JOIN pegawai_m as pg on lu.objectpegawaifk=pg.id
+                    where lu.id=:idLoginUser"),
+                ['idLoginUser' => $dataLogin['userData']['id']]
+            );
+
+            $detailInput = $request['detaildiagnosapasien'];
+
+            if (!isset($detailInput['norec'])) {
+                return $this->setStatusCode(400)->respond([], "Norec detail diagnosa wajib diisi.");
+            }
+
+            $detail = DetailDiagnosaPasien::where('norec', $detailInput['norec'])->first();
+            if (!$detail) {
+                return $this->setStatusCode(404)->respond([], "Data diagnosa tidak ditemukan.");
+            }
+
+            // 🔹 Ambil diagnosa baru untuk validasi
+            $diagnosaBaru = DB::table('diagnosa_m')
+                ->where('id', $detailInput['objectdiagnosafk'])
+                ->first();
+
+            if (!$diagnosaBaru) {
+                return $this->setStatusCode(400)->respond([], "Diagnosa tidak ditemukan di master diagnosa.");
+            }
+
+            if ($diagnosaBaru->validcode == 0) {
+                return $this->setStatusCode(400)->respond([], "Diagnosa ini tidak valid (validcode=0).");
+            }
+
+            // 🔹 Cek apakah diagnosa yang diupdate adalah primer
+            $isPrimer = ($detail->objectjenisdiagnosafk == 1);
+
+            if ($isPrimer) {
+                // Jika diagnosa primer diubah, pastikan diagnosa baru boleh jadi primer
+                if ($diagnosaBaru->accpdx != 'Y') {
+                    DB::rollBack();
+                    return $this->setStatusCode(400)->respond([], "Diagnosa ini tidak bisa dijadikan primer (accpdx != 'Y').");
+                }
+
+                // Cek apakah ada diagnosa lain yang primer (selain ini)
+                $adaDiagnosaPrimerLain = DB::table('detaildiagnosapasien_t')
+                    ->where('noregistrasifk', $detail->noregistrasifk)
+                    ->where('norec', '!=', $detail->norec)
+                    ->where('objectjenisdiagnosafk', 1)
+                    ->exists();
+
+                if ($adaDiagnosaPrimerLain) {
+                    // Jika ada primer lain, ubah yang ini jadi sekunder
+                    $detail->objectjenisdiagnosafk = 2;
+                } else {
+                    // Tetap jadi primer
+                    $detail->objectjenisdiagnosafk = 1;
+                }
+            } else {
+                // Kalau sekunder, cek apakah masih ada primer aktif
+                $adaDiagnosaPrimer = DB::table('detaildiagnosapasien_t')
+                    ->where('noregistrasifk', $detail->noregistrasifk)
+                    ->where('objectjenisdiagnosafk', 1)
+                    ->exists();
+
+                // Jika tidak ada primer sama sekali, dan diagnosa ini valid primer, naikkan jadi primer
+                if (!$adaDiagnosaPrimer && $diagnosaBaru->accpdx == 'Y') {
+                    $detail->objectjenisdiagnosafk = 1;
+                } else {
+                    $detail->objectjenisdiagnosafk = 2;
+                }
+            }
+
+            // 🔹 Update data diagnosa
+            $detail->objectdiagnosafk = $detailInput['objectdiagnosafk'];
+            $detail->tglregistrasi = $detailInput['tglregistrasi'];
+            $detail->keterangan = $detailInput['keterangan'] ?? '-';
+            $detail->tglinputdiagnosa = date('Y-m-d H:i:s');
+            $detail->objectpegawaifk = $dataPegawaiUser[0]->id;
+            $detail->save();
+
+            DB::commit();
+
+            return $this->setStatusCode(201)->respond([
+                'status' => 201,
+                'message' => 'Diagnosa berhasil diperbarui',
+                'data' => $detail,
+            ], "Diagnosa berhasil diperbarui.");
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->setStatusCode(500)->respond([], "Terjadi kesalahan: " . $e->getMessage());
+        }
+    }
+    public function updateDiagnosaTindakanPasienTargetIDRG(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $data = $request['detaildiagnosatindakanpasien'];
+            $dataLogin = $request['userData'];
+
+            $pegawai = DB::table('loginuser_s as lu')
+                ->join('pegawai_m as pg', 'lu.objectpegawaifk', '=', 'pg.id')
+                ->select('pg.id', 'pg.namalengkap')
+                ->where('lu.id', $dataLogin['id'])
+                ->first();
+
+            if (!$pegawai) {
+                return $this->setStatusCode(401)->respond([], "User tidak ditemukan");
+            }
+
+            $detail = DetailDiagnosaTindakanPasien::where('norec', $data['norec_dp'])->first();
+            if (!$detail) {
+                return $this->setStatusCode(404)->respond([], "Data diagnosa tindakan tidak ditemukan");
+            }
+
+            $detail->objectdiagnosatindakanfk = $data['objectdiagnosatindakanfk'];
+            $detail->keterangantindakan = $data['keterangantindakan'] ?? '-';
+            $detail->jumlah = $data['jumlah'] ?? 1;
+            $detail->objectpegawaifk = $pegawai->id;
+            $detail->tglinputdiagnosa = date('Y-m-d H:i:s');
+            $detail->save();
+
+            DB::commit();
+            return $this->setStatusCode(201)->respond([], "Diagnosa tindakan berhasil diperbarui");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->setStatusCode(500)->respond([], "Gagal memperbarui diagnosa tindakan: " . $e->getMessage());
+        }
     }
 }
