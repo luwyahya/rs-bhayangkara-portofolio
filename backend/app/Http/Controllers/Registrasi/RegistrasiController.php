@@ -26894,4 +26894,39 @@ GROUP BY y.KET
             return $this->setStatusCode(500)->respond([], "Gagal memperbarui diagnosa tindakan: " . $e->getMessage());
         }
     }
+    public function saveAsPrimaryDiagnosaPasien(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $norecDp = $request['diagnosa']['norec_dp'] ?? null;
+            $noregistrasifk = $request['noregistrasifk'] ?? null;
+            $objectJenisDiagnosaFk = $request['objectjenisdiagnosafk'] ?? null;
+            $Iddiagnosa = $request['Iddiagnosa'] ?? null;
+
+            if (!$norecDp || !$noregistrasifk) {
+                return $this->setStatusCode(400)->respond([], "Data diagnosa atau registrasi tidak valid");
+            }
+
+            $diagnosa =  DB::table('diagnosa_m as dg')
+                            ->where('dg.id', $Iddiagnosa)->first();
+
+            if ($diagnosa->accpdx == 'N') {
+                return $this->setStatusCode(400)->respond([], "Diagnosa ini tidak dapat dijadikan diagnosa primer");
+            }
+
+            DetailDiagnosaPasien::where('noregistrasifk', $noregistrasifk)
+                ->where('objectjenisdiagnosafk', 1)
+                ->update(['objectjenisdiagnosafk' => 2]);
+
+            DetailDiagnosaPasien::where('norec', $norecDp)
+                ->update(['objectjenisdiagnosafk' => $objectJenisDiagnosaFk]);
+
+            DB::commit();
+            return $this->setStatusCode(201)->respond([], "Diagnosa berhasil diset sebagai primary");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->setStatusCode(500)->respond([], "Gagal update diagnosa: " . $e->getMessage());
+        }
+    }
 }

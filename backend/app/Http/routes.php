@@ -2807,6 +2807,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-diagnosa-inacbg', 'Registrasi\RegistrasiController@saveDiagnosaInacbg');
             Route::post('save-diagnosa-inacbg9', 'Registrasi\RegistrasiController@saveDiagnosaInacbg9');
             Route::post('save-diagnosa-idrg', 'Registrasi\RegistrasiController@saveDiagnosaIdrg');
+            Route::post('daftar-antrian-pasien/save-primary-diagnosa-pasien', 'Registrasi\RegistrasiController@saveAsPrimaryDiagnosaPasien');
 
             Route::get('get-image', 'Registrasi\RegistrasiController@getImage');
             Route::get('store-image-to-folder/{nocm}', 'Registrasi\RegistrasiController@storeImageToFolder');
