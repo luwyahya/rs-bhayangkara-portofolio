@@ -77,20 +77,20 @@ class TagihanController  extends ApiController
         $result = [];
         $dataLogin = $request->all();
 
-        if (isset($dataLogin['ruangan']) && $dataLogin['ruangan']!="" && $dataLogin['ruangan']!="undefined"){
+        if (isset($dataLogin['ruangan']) && $dataLogin['ruangan'] != "" && $dataLogin['ruangan'] != "undefined") {
             $dataRuangan = \DB::table('ruangan_m as ru')
                 ->select('ru.id', 'ru.namaruangan')
-                ->whereIn('ru.objectdepartemenfk', array(3, 17, 18, 24, 25, 26, 27, 28, 16, 30, 34,73,74,75))
+                ->whereIn('ru.objectdepartemenfk', array(3, 17, 18, 24, 25, 26, 27, 28, 16, 30, 34, 73, 74, 75))
                 ->where('ru.statusenabled', true)
                 ->orderBy('ru.namaruangan')
                 ->get();
             $result['ruangan'] = $dataRuangan;
         }
 
-        if (isset($dataLogin['dataRuanganKonsul']) && $dataLogin['dataRuanganKonsul']!="" && $dataLogin['dataRuanganKonsul']!="undefined"){
+        if (isset($dataLogin['dataRuanganKonsul']) && $dataLogin['dataRuanganKonsul'] != "" && $dataLogin['dataRuanganKonsul'] != "undefined") {
             $dataRuanganKonsul = \DB::table('ruangan_m as ru')
                 ->select('ru.id', 'ru.namaruangan')
-                ->whereIn('ru.objectdepartemenfk', array(3, 17, 18, 24, 25, 26, 27, 28, 30,34, 73, 74, 75))
+                ->whereIn('ru.objectdepartemenfk', array(3, 17, 18, 24, 25, 26, 27, 28, 30, 34, 73, 74, 75))
                 ->where('ru.statusenabled', true)
                 ->orderBy('ru.namaruangan')
                 ->get();
@@ -98,7 +98,7 @@ class TagihanController  extends ApiController
         }
 
 
-        if (isset($dataLogin['rekanana']) && $dataLogin['rekanana']!="" && $dataLogin['rekanana']!="undefined"){
+        if (isset($dataLogin['rekanana']) && $dataLogin['rekanana'] != "" && $dataLogin['rekanana'] != "undefined") {
             $dataRekanan = \DB::table('rekanan_m as ru')
                 ->where('ru.statusenabled', true)
                 ->select('ru.id', 'ru.namarekanan', 'ru.objectkelompokpasienfk')
@@ -107,8 +107,8 @@ class TagihanController  extends ApiController
             $result['rekanana'] = $dataRekanan;
         }
 
-       
-        if (isset($dataLogin['kelas']) && $dataLogin['kelas']!="" && $dataLogin['kelas']!="undefined"){
+
+        if (isset($dataLogin['kelas']) && $dataLogin['kelas'] != "" && $dataLogin['kelas'] != "undefined") {
             $kelas = \DB::table('kelas_m as kls')
                 ->select('kls.id', 'kls.namakelas')
                 ->where('kls.statusenabled', true)
@@ -116,7 +116,7 @@ class TagihanController  extends ApiController
                 ->get();
             $result['kelas'] = $kelas;
         }
-        if (isset($dataLogin['statuspulang']) && $dataLogin['statuspulang']!="" && $dataLogin['statuspulang']!="undefined"){
+        if (isset($dataLogin['statuspulang']) && $dataLogin['statuspulang'] != "" && $dataLogin['statuspulang'] != "undefined") {
             $statuspulang = \DB::table('statuspulang_m as sp')
                 ->select('sp.id', 'sp.namaexternal')
                 ->where('sp.statusenabled', true)
@@ -125,7 +125,7 @@ class TagihanController  extends ApiController
                 ->get();
             $result['statuspulang'] = $statuspulang;
         }
-        if (isset($dataLogin['pembatalan']) && $dataLogin['pembatalan']!="" && $dataLogin['pembatalan']!="undefined"){
+        if (isset($dataLogin['pembatalan']) && $dataLogin['pembatalan'] != "" && $dataLogin['pembatalan'] != "undefined") {
             $pembatalan = \DB::table('pembatal_m as p')
                 ->select('p.id', 'p.name')
                 ->where('p.statusenabled', true)
@@ -133,17 +133,17 @@ class TagihanController  extends ApiController
                 ->get();
             $result['pembatalan'] = $pembatalan;
         }
-      
-        if (isset($dataLogin['dokter']) && $dataLogin['dokter']!="" && $dataLogin['dokter']!="undefined"){
+
+        if (isset($dataLogin['dokter']) && $dataLogin['dokter'] != "" && $dataLogin['dokter'] != "undefined") {
             $dataPenulis = Pegawai::where('statusenabled', true)
                 ->select('id', 'namalengkap')
                 ->where('objectjenispegawaifk', 1)
                 ->get();
             $result['dokter'] = $dataPenulis;
         }
-      
-        
-        if (isset($dataLogin['departemen']) && $dataLogin['departemen']!="" && $dataLogin['departemen']!="undefined"){
+
+
+        if (isset($dataLogin['departemen']) && $dataLogin['departemen'] != "" && $dataLogin['departemen'] != "undefined") {
             $dataInstalasi = \DB::table('departemen_m as dp')
                 ->select('dp.id', 'dp.namadepartemen')
                 //            ->whereIn('dp.id',[3, 14, 16, 17, 18, 19, 24, 25, 26, 27, 28, 35,30])
@@ -151,7 +151,7 @@ class TagihanController  extends ApiController
                 ->orderBy('dp.namadepartemen')
                 ->get();
             $dataRuanganAll = \DB::table('ruangan_m as ru')
-            ->select('ru.namaruangan', 'ru.id', 'ru.objectdepartemenfk')
+                ->select('ru.namaruangan', 'ru.id', 'ru.objectdepartemenfk')
                 ->where('ru.statusenabled', true)
                 ->orderBy('ru.namaruangan')
                 ->get();
@@ -275,7 +275,7 @@ class TagihanController  extends ApiController
         $b = 0;
         $c = 0;
         $biayanaikkelas = 0;
-     
+
 
         $setBiayaNaikKelas = DB::select(
             DB::raw("
@@ -770,7 +770,7 @@ class TagihanController  extends ApiController
     }
     public function detailTagihan($noRegister, Request $request)
     {
-       
+
         $delete = TempBilling::where('noregistrasi', $noRegister)->delete();
         // //        ini_set('max_execution_time', 3000); //6 minutes
         $dataRuangan = \DB::table('pasiendaftar_t as pd')
@@ -926,10 +926,10 @@ class TagihanController  extends ApiController
             $pelayanan = $pelayanan->whereNull('pp.aturanpakai');
         }
 
-        if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
-            $pelayanan = $pelayanan->where('pp.strukfk',$request['norecverifikasi']);
+        if (isset($request['norecverifikasi']) && $request['norecverifikasi'] != "" && $request['norecverifikasi'] != "undefined") {
+            $pelayanan = $pelayanan->where('pp.strukfk', $request['norecverifikasi']);
         };
-           
+
         $pelayanan = $pelayanan->get();
 
 
@@ -957,7 +957,7 @@ class TagihanController  extends ApiController
             ->orderBy('jpp.kodeexternal', 'desc')
             ->where('pd.noregistrasi', $noRegister)
             ->get();
-        if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
+        if (isset($request['norecverifikasi']) && $request['norecverifikasi'] != "" && $request['norecverifikasi'] != "undefined") {
             $sudahBayar = DB::select(
                 DB::raw("
                 select sum(sbm.totaldibayar) sudahbayar from strukbuktipenerimaan_t as sbm
@@ -965,32 +965,32 @@ class TagihanController  extends ApiController
                 join pasiendaftar_t as pd on pd.norec=sp.noregistrasifk
                 where sbm.keteranganlainnya in ('Pembayaran Tagihan Pasien','Pembayaran Cicilan Tagihan Pasien') and pd.noregistrasi=:noregistrasi and sp.norec=:norec;
                 "),
-                    array(
-                        'noregistrasi' => $noRegister,
-                        'norec'=> $request['norecverifikasi']
-                    )
+                array(
+                    'noregistrasi' => $noRegister,
+                    'norec' => $request['norecverifikasi']
+                )
             );
-        }else{
-             $sudahBayar = DB::select(
+        } else {
+            $sudahBayar = DB::select(
                 DB::raw("
                 select sum(sbm.totaldibayar) sudahbayar from strukbuktipenerimaan_t as sbm
                 join strukpelayanan_t as sp on sbm.nostrukfk=sp.norec
                 join pasiendaftar_t as pd on pd.norec=sp.noregistrasifk
                 where sbm.keteranganlainnya in ('Pembayaran Tagihan Pasien','Pembayaran Cicilan Tagihan Pasien') and pd.noregistrasi=:noregistrasi;
                 "),
-                    array(
-                        'noregistrasi' => $noRegister,
-                    )
+                array(
+                    'noregistrasi' => $noRegister,
+                )
             );
         }
-           
-       
+
+
         // // return($sudahBayar[0]->sudahbayar);
         // // die();
-            if ($request['jenisdata'] == 'bill') {
-                if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
-                    $pelayanankelasdijamin = DB::select(
-                        DB::raw("
+        if ($request['jenisdata'] == 'bill') {
+            if (isset($request['norecverifikasi']) && $request['norecverifikasi'] != "" && $request['norecverifikasi'] != "undefined") {
+                $pelayanankelasdijamin = DB::select(
+                    DB::raw("
                         select pp.norec, pd.noregistrasi,pd.objectkelasfk,kls_pd.namakelas,asp.objectkelasdijaminfk,
                         kls_dijamin.namakelas as namakelas_dijamin,pp.hargajual, case when qtydetailresep is null then pp.jumlah else qtydetailresep end as jumlah,
                         case when hnpk.harganetto2 is null then pp.hargajual else hnpk.harganetto2 end as harga_kelasdijamin
@@ -1004,14 +1004,14 @@ class TagihanController  extends ApiController
                         left join kelas_m as kls_dijamin on kls_dijamin.id=asp.objectkelasdijaminfk
                         where noregistrasi=:noregistrasi and pp.strukfk=:strukfk;
                     "),
-                        array(
-                            'noregistrasi' => $noRegister,                            
-                            'strukfk'=> $request['norecverifikasi']
-                        )
-                    );
-                }else{
-                    $pelayanankelasdijamin = DB::select(
-                        DB::raw("
+                    array(
+                        'noregistrasi' => $noRegister,
+                        'strukfk' => $request['norecverifikasi']
+                    )
+                );
+            } else {
+                $pelayanankelasdijamin = DB::select(
+                    DB::raw("
                         select pp.norec, pd.noregistrasi,pd.objectkelasfk,kls_pd.namakelas,asp.objectkelasdijaminfk,
                         kls_dijamin.namakelas as namakelas_dijamin,pp.hargajual, case when qtydetailresep is null then pp.jumlah else qtydetailresep end as jumlah,
                         case when hnpk.harganetto2 is null then pp.hargajual else hnpk.harganetto2 end as harga_kelasdijamin
@@ -1025,18 +1025,17 @@ class TagihanController  extends ApiController
                         left join kelas_m as kls_dijamin on kls_dijamin.id=asp.objectkelasdijaminfk
                         where noregistrasi=:noregistrasi;
                     "),
-                        array(
-                            'noregistrasi' => $noRegister,
-                        )
-                    );
-                }
-               
+                    array(
+                        'noregistrasi' => $noRegister,
+                    )
+                );
             }
-            $totototol = 0;
-            // return($pelayanan);
-            // die();
-            $totalBillingNonDiskon = 0;
-            $totalDiskon = 0;
+        }
+        $totototol = 0;
+        // return($pelayanan);
+        // die();
+        $totalBillingNonDiskon = 0;
+        $totalDiskon = 0;
         if (count($pelayanan) > 0) {
             $alamat = [];
             $alamat = \DB::table('alamat_m as al')
@@ -1052,7 +1051,7 @@ class TagihanController  extends ApiController
 
             $totalBilling = 0;
             $totalBillingNonDiskon = 0;
-            $terbilangtotalBillingNonDiskon='';
+            $terbilangtotalBillingNonDiskon = '';
             $totalDiskon = 0;
             $norecAPD = '';
             $norecSP = '';
@@ -1184,7 +1183,7 @@ class TagihanController  extends ApiController
                 $norecSP = $value->norec_sp;
                 $totalBilling = $totalBilling + (($harga - $diskon) * $value->jumlah) + $value->jasa;
                 $totalBillingNonDiskon = $totalBillingNonDiskon + ($harga * $value->jumlah) + $value->jasa;
-                $totalDiskon = $totalDiskon + ($diskon*$value->jumlah);
+                $totalDiskon = $totalDiskon + ($diskon * $value->jumlah);
                 $total =  (($harga - $diskon) * $value->jumlah) + $value->jasa;
                 $details[] = $detail;
 
@@ -1323,21 +1322,20 @@ class TagihanController  extends ApiController
                 }
             }
         }
-        if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
+        if (isset($request['norecverifikasi']) && $request['norecverifikasi'] != "" && $request['norecverifikasi'] != "undefined") {
             $dataTotalBill = DB::select(
-                    DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
+                DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
                         from pasiendaftar_t as pd
                         INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
                         INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
                         where  pd.noregistrasi=:noregistrasi and pp.produkfk not in (402611) and pp.strukfk=:strukfk;
                     "),
-                    array(  
-                        'noregistrasi' => $noRegister,
-                        'strukfk'=>$request['norecverifikasi']
-                    )
-                );
-
-        }else{
+                array(
+                    'noregistrasi' => $noRegister,
+                    'strukfk' => $request['norecverifikasi']
+                )
+            );
+        } else {
             $dataTotalBill = DB::select(
                 DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
                         from pasiendaftar_t as pd
@@ -1350,7 +1348,7 @@ class TagihanController  extends ApiController
                 )
             );
         }
-       
+
         $totalBilling = 0;
         $totalBilling = $dataTotalBill[0]->total;
         $terbilang = "";
@@ -1362,19 +1360,19 @@ class TagihanController  extends ApiController
 
         if (isset($request['norecverifikasi']) && $request['norecverifikasi'] != "" && $request['norecverifikasi'] != "undefined") {
             $dataTotaldibayar = DB::select(
-                        DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
+                DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
                             from pasiendaftar_t as pd
                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
                             INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
                             INNER JOIN strukpelayanan_t as sp on sp.norec=pp.strukfk
                             where  pd.noregistrasi=:noregistrasi and sp.nosbmlastfk is not null and pp.produkfk not in (402611) and pp.strukfk=:strukfk;
                         "),
-                        array(
-                            'noregistrasi' => $noRegister,
-                            'strukfk' => $request['norecverifikasi']
-                        )
-                    );
-        }else{
+                array(
+                    'noregistrasi' => $noRegister,
+                    'strukfk' => $request['norecverifikasi']
+                )
+            );
+        } else {
             $dataTotaldibayar = DB::select(
                 DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
                             from pasiendaftar_t as pd
@@ -1388,12 +1386,12 @@ class TagihanController  extends ApiController
                 )
             );
         }
-        
-       
+
+
         $dibayar = 0;
         $dibayar = $dataTotaldibayar[0]->total;
         if (isset($request['norecverifikasi']) && $request['norecverifikasi'] != "" && $request['norecverifikasi'] != "undefined") {
-            
+
             $dataTotalverif = DB::select(
                 DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
                     from pasiendaftar_t as pd
@@ -1406,8 +1404,8 @@ class TagihanController  extends ApiController
                     'strukfk' => $request['norecverifikasi']
                 )
             );
-        }else{
-                 $dataTotalverif = DB::select(
+        } else {
+            $dataTotalverif = DB::select(
                 DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
                     from pasiendaftar_t as pd
                     INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
@@ -1577,13 +1575,12 @@ class TagihanController  extends ApiController
                 'terbilang' => $terbilang,
                 'nosep' => $nosep,
                 'sudahbayar' => $sudahBayar[0]->sudahbayar,
-                'totalDiskon'=>$totalDiskon,
-                'totalBillingNonDiskon'=>$totalBillingNonDiskon,
-                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon,
-                'dokterpj'=>$pelayanan[0]->dokterpj
+                'totalDiskon' => $totalDiskon,
+                'totalBillingNonDiskon' => $totalBillingNonDiskon,
+                'terbilangtotalBillingNonDiskon' => $terbilangtotalBillingNonDiskon,
+                'dokterpj' => $pelayanan[0]->dokterpj
             );
-        }
-         else {
+        } else {
             $pelayanan = \DB::table('pasiendaftar_t as pd')
                 ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
                 ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
@@ -1689,14 +1686,14 @@ class TagihanController  extends ApiController
                 )
                 ->where('pd.noregistrasi', $noRegister)
                 ->orderBy('pp.tglpelayanan', 'pp.rke');
-                if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
-                    $pelayanan = $pelayanan->where('pp.strukfk',$request['norecverifikasi']);
-                };
-           
+            if (isset($request['norecverifikasi']) && $request['norecverifikasi'] != "" && $request['norecverifikasi'] != "undefined") {
+                $pelayanan = $pelayanan->where('pp.strukfk', $request['norecverifikasi']);
+            };
 
-        //     //            if(isset($request['idruangan']) && $request['idruangan']!="" && $request['idruangan']!="undefined"){
-        //     //                $pelayanan = $pelayanan->where('apd.objectruanganfk',$request['idruangan']);
-        //     //            };
+
+            //     //            if(isset($request['idruangan']) && $request['idruangan']!="" && $request['idruangan']!="undefined"){
+            //     //                $pelayanan = $pelayanan->where('apd.objectruanganfk',$request['idruangan']);
+            //     //            };
             $pelayanan = $pelayanan->first();
 
             $isRawatInap = false;
@@ -1717,10 +1714,10 @@ class TagihanController  extends ApiController
             }
             try {
                 $rekanan = [];
-        //         //                $rekanan = \DB::table('rekanan_m as al')
-        //         //                    ->select('al.namarekanan')
-        //         //                    ->where('al.id', $pelayanan[0]->rekananid)
-        //         //                    ->first();
+                //         //                $rekanan = \DB::table('rekanan_m as al')
+                //         //                    ->select('al.namarekanan')
+                //         //                    ->where('al.id', $pelayanan[0]->rekananid)
+                //         //                    ->first();
                 $penjamin = $pelayanan->namarekanan;
             } catch (\Exception $e) {
                 $penjamin = '-';
@@ -1802,10 +1799,10 @@ class TagihanController  extends ApiController
                 'terbilang' => $terbilang,
                 'nosep' => $nosep,
                 'sudahbayar' => $sudahBayar[0]->sudahbayar,
-                'totalDiskon'=>$totalDiskon,
-                'totalBillingNonDiskon'=>$totalBillingNonDiskon,
-                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon,
-                'dokterpj'=>$pelayanan->dokterpj
+                'totalDiskon' => $totalDiskon,
+                'totalBillingNonDiskon' => $totalBillingNonDiskon,
+                'terbilangtotalBillingNonDiskon' => $terbilangtotalBillingNonDiskon,
+                'dokterpj' => $pelayanan->dokterpj
             );
 
             //            $result = array(
@@ -2312,7 +2309,7 @@ class TagihanController  extends ApiController
             "),
             ['noregistrasi' => (string)$noRegister] // Parameter binding untuk keamanan
         );
-        
+
 
         $totalBilling = 0;
         $totalBilling = $dataTotalBill[0]->total;
@@ -2342,7 +2339,7 @@ class TagihanController  extends ApiController
             "),
             ['noregistrasi' => $noRegister] // Binding variabel
         );
-        
+
 
         $dataTotaldibayar = DB::select(
             DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
@@ -4900,7 +4897,7 @@ class TagihanController  extends ApiController
             $data = $data->take($filter['jmlRows']);
         }
 
-        
+
 
         $data = $data->orderBy('pd.noregistrasi');
 
@@ -5181,7 +5178,7 @@ class TagihanController  extends ApiController
     }
     public function getDataComboDaftarRegPasien(Request $request)
     {
-  
+
         $dataLogin = $request->all();
         $dataInstalasi = \DB::table('departemen_m as dp')
             //            ->whereIn('dp.id', array(3, 14, 16, 17, 18, 19, 24, 25, 26, 27, 28, 35))
@@ -5222,18 +5219,18 @@ class TagihanController  extends ApiController
             ->get();
 
 
-            // idDokter
+        // idDokter
         $dataDokter = \DB::table('pegawai_m as ru')
             ->where('ru.statusenabled', true)
             ->where('ru.objectjenispegawaifk', 1)->orderBy('ru.namalengkap')
             ->get();
-            
+
 
         // if (isset($filter['idDokter']) && $filter['idDokter'] != "" && $filter['idDokter'] != "undefined") {
         //     $data = $data->where('ru.id', '=', $filter['idDokter']);
         // }
 
-            
+
         foreach ($dataInstalasi as $item) {
             $detail = [];
             foreach ($dataRuangan as $item2) {
@@ -5327,7 +5324,7 @@ class TagihanController  extends ApiController
             ->join('kelompokpasien_m as kp', 'kp.id', '=', 'mkp.objectkelompokpasienfk')
             ->join('rekanan_m as rk', 'rk.id', '=', 'mkp.kdpenjaminpasien')
             ->select('rk.id', 'rk.namarekanan', 'kp.id as id_kelompokpasien', 'kp.kelompokpasien')
-            
+
             ->where('mkp.statusenabled', true)
             ->get();
         $result = array(
@@ -5664,7 +5661,7 @@ class TagihanController  extends ApiController
                 ->update([
                     'totalplapon' => $request['totalPlapon'],
                 ]);
-            
+
             $transMessage = "Simpan Plapon berhasil!";
         } catch (\Exception $e) {
             $transStatus = 'false';
@@ -5853,18 +5850,18 @@ class TagihanController  extends ApiController
 
         if ($transStatus != 'false') {
             DB::commit();
-            $ihs=[];
-            if($rua->objectdepartemenfk==3){
-                if($dataAPD->objectruanganfk !='251' && $dataAPD->objectruanganfk != '453'){
+            $ihs = [];
+            if ($rua->objectdepartemenfk == 3) {
+                if ($dataAPD->objectruanganfk != '251' && $dataAPD->objectruanganfk != '453') {
                     $objetoRequest = new \Illuminate\Http\Request();
-                    $objetoRequest ['noregistrasi']= $dataAPD->norec;
-                    $ihs = app('App\Http\Controllers\Bridging\PHSController')->EncounterLab($objetoRequest,true);
+                    $objetoRequest['noregistrasi'] = $dataAPD->norec;
+                    $ihs = app('App\Http\Controllers\Bridging\PHSController')->EncounterLab($objetoRequest, true);
                 }
             }
             $result = array(
                 "status" => 201,
                 "data" => $dataAPD,
-                "ihs" =>$ihs,
+                "ihs" => $ihs,
                 "message" => $transMessage,
             );
         } else {
@@ -5884,11 +5881,11 @@ class TagihanController  extends ApiController
         $transStatus = 'true';
         try {
             $dataAPD = AntrianPasienDiperiksa::where('norec', $request['norec_apd'])
-                    ->update(
-                        [
-                            'israwattitipan' => $request['statustitipan']
-                        ]
-                    );
+                ->update(
+                    [
+                        'israwattitipan' => $request['statustitipan']
+                    ]
+                );
             $transStatus = 'true';
             $transMessage = "update Rawat Titipan";
         } catch (\Exception $e) {
@@ -6997,7 +6994,7 @@ class TagihanController  extends ApiController
 
         $dataRuangan = \DB::table('ruangan_m as ru')
             ->select('ru.id', 'ru.namaruangan')
-            ->whereIn('ru.objectdepartemenfk', array(3, 17, 18, 24, 25, 26, 27, 28, 16, 30, 34,73,74,75))
+            ->whereIn('ru.objectdepartemenfk', array(3, 17, 18, 24, 25, 26, 27, 28, 16, 30, 34, 73, 74, 75))
             ->where('ru.statusenabled', true)
             ->orderBy('ru.namaruangan')
             ->get();
@@ -8725,8 +8722,9 @@ class TagihanController  extends ApiController
                 // 'spp.noverifikasi',
                 'dept.id as deptid',
                 'asu.objectkelasdijaminfk',
-                'pd.tglclosing', DB::raw("case when  dept.id = 16 then 'Sesuai' end as status")
-        
+                'pd.tglclosing',
+                DB::raw("case when  dept.id = 16 then 'Sesuai' end as status")
+
             )
             //            ->whereNull('pd.nostruklastfk')
             //            ->whereNull('pd.nosbmlastfk')
@@ -8819,7 +8817,7 @@ class TagihanController  extends ApiController
         // $data = $data->distinct();
         $data = $data->get();
 
-        
+
         $result = array();
         foreach ($data as $pasienD) {
             $resumemedis = DB::table('antrianpasiendiperiksa_t as apd')
@@ -8866,8 +8864,9 @@ class TagihanController  extends ApiController
             //            }
             // return($resumemedis);
             // die();
-            if($pasienD->deptid==16 && $pasienD->idkelompokpasien == 2){
-                $cekKelasTertinggi = DB::select(DB::raw("
+            if ($pasienD->deptid == 16 && $pasienD->idkelompokpasien == 2) {
+                $cekKelasTertinggi = DB::select(
+                    DB::raw("
                 select * from ( select tglmasuk,tglkeluar,reportdisplay,	
                     CASE antrianpasiendiperiksa_t.objectkelasfk WHEN 6 THEN  0
                     WHEN 1 THEN  1  WHEN 2 THEN 2 WHEN 3 THEN 3  WHEN 4 THEN  4
@@ -8879,27 +8878,26 @@ class TagihanController  extends ApiController
                     where noregistrasifk ='$pasienD->norec'  ) as x where  x.derajatkelas>$pasienD->objectkelasdijaminfk order by x.derajatkelas asc 
                     ")
                 );
-                $statusnaikkelas='0';
-                foreach($cekKelasTertinggi as $item){
-                    if($item->israwattitipan==false){
+                $statusnaikkelas = '0';
+                foreach ($cekKelasTertinggi as $item) {
+                    if ($item->israwattitipan == false) {
                         $statusnaikkelas = '1';
                         $pasienD->status = 'Naik Kelas';
                     }
                 }
-
             }
-            
-            
-             $carititipan = DB::table('antrianpasiendiperiksa_t as apd')
-                
+
+
+            $carititipan = DB::table('antrianpasiendiperiksa_t as apd')
+
                 ->select('apd.israwattitipan')
                 ->where('apd.statusenabled', true)
                 ->where('apd.noregistrasifk', '=', $pasienD->norec)
                 ->get();
             foreach ($carititipan as $itil) {
-               if ($itil->israwattitipan == 1 ){
-                   $pasienD->status = 'Titipan';
-               };
+                if ($itil->israwattitipan == 1) {
+                    $pasienD->status = 'Titipan';
+                };
             }
             $result[] = array(
                 'tanggalMasuk'  => $pasienD->tglregistrasi,
@@ -10406,10 +10404,10 @@ class TagihanController  extends ApiController
             $totalKlaim = (float)$request['data']['totalKlaim'];
             $jumlahbayar = (float)$request['data']['jumlahBayar'];
             $jumlahbayarnew =
-            (float)$request['data']['jumlahBayarNew'];
-         
-            if ($totalKlaim > 0){
-                
+                (float)$request['data']['jumlahBayarNew'];
+
+            if ($totalKlaim > 0) {
+
                 //            $strukPelayanan->totalharusdibayar -= $totalKlaim;
                 $strukPelayanan->totalprekanan = $totalKlaim;
                 if ($pasienDaftar->objectkelompokpasienlastfk == $this->getKelompokPasienPerjanjian()) {
@@ -10438,7 +10436,8 @@ class TagihanController  extends ApiController
                 $SPPenjamin->nostrukfk = $strukPelayanan->norec;
                 $pasienDaftar->nostruklastfk = $strukPelayanan->norec;
                 $SPPenjamin->save();
-                if ($dataLogin['data']['cekMultiPenjamin'] == true && count($dataLogin['data']['multiPenjamin']) > 0
+                if (
+                    $dataLogin['data']['cekMultiPenjamin'] == true && count($dataLogin['data']['multiPenjamin']) > 0
                 ) {
                     $reqDetail = $dataLogin['data']['multiPenjamin'];
                     foreach ($reqDetail as $values) {
@@ -10456,7 +10455,7 @@ class TagihanController  extends ApiController
                         $SPPenjaminDet->save();
                     }
                 }
-            }else if ($jumlahbayar < $jumlahbayarnew) {
+            } else if ($jumlahbayar < $jumlahbayarnew) {
                 $totalBilling = (float)$request['data']['billing'];
                 //            $strukPelayanan->totalharusdibayar -= $totalKlaim;
                 $strukPelayanan->totalprekanan = $totalKlaim;
@@ -10474,21 +10473,19 @@ class TagihanController  extends ApiController
                 $SPPenjamin->kdrekananpenjamin = $rekananpenjamin_id;
                 $SPPenjamin->totalbiaya =
                     $totalBilling;
-                $SPPenjamin->totalsudahppenjamin =0; //? apa in ?
+                $SPPenjamin->totalsudahppenjamin = 0; //? apa in ?
                 $SPPenjamin->totalsisaharusdibayar = 0;
                 $SPPenjamin->totalppenjamin = 0;
-                $SPPenjamin->totalharusdibayar =$jumlahbayar;
+                $SPPenjamin->totalharusdibayar = $jumlahbayar;
                 $SPPenjamin->totalsudahdibayar = $jumlahbayar;
                 $SPPenjamin->totalsudahdibebaskan = 0;
-                $SPPenjamin->totalsisapiutang = $totalBilling-$jumlahbayar;
+                $SPPenjamin->totalsisapiutang = $totalBilling - $jumlahbayar;
                 $SPPenjamin->totaldibayarlebih = 0;
                 $SPPenjamin->nostrukfk = $strukPelayanan->norec;
                 $pasienDaftar->nostruklastfk = $strukPelayanan->norec;
                 $SPPenjamin->save();
-
-              
             }
-       
+
             $pasienDaftar->nostruklastfk = $strukPelayanan->norec;
             $pasienDaftar->save();
             $strukPelayanan->save();
@@ -10791,7 +10788,7 @@ class TagihanController  extends ApiController
                 'php.noposting',
                 'spt.statusenabled',
                 'bpjs.biayanaikkelas',
-            'sbm.totaldibayar'
+                'sbm.totaldibayar'
             )
             ->whereNull('sp.statusenabled');
         //            ->where('php.statusenabled',1);
@@ -10857,8 +10854,8 @@ class TagihanController  extends ApiController
             'php.noposting',
             'spt.statusenabled',
             'bpjs.totalpiutangpenjamin',
-            'bpjs.biayanaikkelas', 
-            'sbm.totaldibayar' 
+            'bpjs.biayanaikkelas',
+            'sbm.totaldibayar'
         );
         $dataPiutang = $dataPiutang->orderBy('p.namapasien');
         //        $dataPiutang =$dataPiutang->take(50);
@@ -12344,7 +12341,7 @@ class TagihanController  extends ApiController
         return $this->respond($result);
     }
 
-    
+
     public function getDataPenyakitPonekIGD(Request $request)
     {
         $data = [];
@@ -12402,7 +12399,7 @@ class TagihanController  extends ApiController
         }
         $paramJenisPenyakit = '';
         if (isset($jenisPenyakit) && $jenisPenyakit != "" && $jenisPenyakit != "undefined") {
-            if($jenisPenyakit == 'tidakdiisi') {
+            if ($jenisPenyakit == 'tidakdiisi') {
                 $paramJenisPenyakit = " and ddp.penyakitponekigd IS NULL";
             } else {
                 $paramJenisPenyakit = " and ddp.penyakitponekigd = '" . $jenisPenyakit . "'";
@@ -15135,14 +15132,14 @@ class TagihanController  extends ApiController
     public function detailTagihanVerifikasipenjamin($noRegister, Request $request)
     {
         $dataRuangan = \DB::table('pasiendaftar_t as pd')
-        ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
-        ->select('ru.namaruangan as namaruangan')
-        ->where('pd.noregistrasi', $noRegister)
+            ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+            ->select('ru.namaruangan as namaruangan')
+            ->where('pd.noregistrasi', $noRegister)
             ->first();
 
         $pelayanan = [];
         $datasudahada = \DB::table('pembayarantindakanperpenjamin_t as pd')
-        ->where('pd.noregistrasi', $noRegister)
+            ->where('pd.noregistrasi', $noRegister)
             ->take(1)
             ->get();
         $ada = false;
@@ -15150,66 +15147,66 @@ class TagihanController  extends ApiController
             $ada = true;
         }
         $dataRekanan2 = \DB::table('mapkelompokpasientopenjamin_m as mkp')
-        ->join('kelompokpasien_m as kp', 'kp.id', '=', 'mkp.objectkelompokpasienfk')
-        ->join('rekanan_m as rk', 'rk.id', '=', 'mkp.kdpenjaminpasien')
-        ->select('rk.id', 'rk.namarekanan', 'kp.id as id_kelompokpasien', 'kp.kelompokpasien')
+            ->join('kelompokpasien_m as kp', 'kp.id', '=', 'mkp.objectkelompokpasienfk')
+            ->join('rekanan_m as rk', 'rk.id', '=', 'mkp.kdpenjaminpasien')
+            ->select('rk.id', 'rk.namarekanan', 'kp.id as id_kelompokpasien', 'kp.kelompokpasien')
 
-        ->where('mkp.statusenabled', true)
-        ->get();
+            ->where('mkp.statusenabled', true)
+            ->get();
         if ($ada) {
             $pelayanan = \DB::table('pasiendaftar_t as pd')
-            ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-            ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
-            ->leftjoin('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-            ->leftjoin('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
-            ->leftjoin('pembayarantindakanperpenjamin_t as ptp', 'ptp.norecpp', '=', 'pp.norec')
-            ->leftjoin('rekanan_m as rk', DB::raw("rk.id::varchar "), '=', 'ptp.idrekanan1')
-            ->leftjoin('kelompokpasien_m as kp',  DB::raw("kp.id::varchar "), '=', 'ptp.jenis1')
-            ->leftjoin('rekanan_m as rk2', DB::raw("rk2.id::varchar "), '=', 'ptp.idrekanan2')
-            ->leftjoin('kelompokpasien_m as kp2', DB::raw("kp2.id::varchar "), '=', 'ptp.jenis2')
+                ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+                ->leftjoin('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+                ->leftjoin('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
+                ->leftjoin('pembayarantindakanperpenjamin_t as ptp', 'ptp.norecpp', '=', 'pp.norec')
+                ->leftjoin('rekanan_m as rk', DB::raw("rk.id::varchar "), '=', 'ptp.idrekanan1')
+                ->leftjoin('kelompokpasien_m as kp',  DB::raw("kp.id::varchar "), '=', 'ptp.jenis1')
+                ->leftjoin('rekanan_m as rk2', DB::raw("rk2.id::varchar "), '=', 'ptp.idrekanan2')
+                ->leftjoin('kelompokpasien_m as kp2', DB::raw("kp2.id::varchar "), '=', 'ptp.jenis2')
 
-            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-            ->select(
-                'pp.norec',
-                'pp.tglpelayanan',
-                'pp.rke',
-                'pr.id as prid',
-                'pr.namaproduk',
-                'pp.jumlah',
-                'kl.id as klid',
-                'kl.namakelas',
-                'ru.id as ruid',
-                'ru.namaruangan',
-                'pp.produkfk',
-                'pp.hargajual',
-                'pp.hargadiscount',
-                'apd.norec as norec_apd',
-                'pp.jasa',
-                'pd.nocmfk',
-                'pd.nostruklastfk',
-                'pd.noregistrasi',
-                'pd.tglregistrasi',
-                'pd.norec as norec_pd',
-                'pd.tglpulang',
-                'pd.objectrekananfk as rekananid',
-                'pp.jasa',
-                'pd.kdprofile',
-                'pp.aturanpakai',
-                'pp.iscito',
-                'pd.statuspasien',
-                'pp.isparamedis',
-                'ptp.pasien',
-                'ptp.penjamin1',
-                'ptp.penjamin2',
-                'rk.namarekanan',
-                'rk2.namarekanan as namarekanan2',
-                'ptp.idrekanan1',
-                'ptp.idrekanan2',
-                'ptp.jenis1',
-                'ptp.jenis2',
-                'kp.kelompokpasien',
-                'kp2.kelompokpasien as kelompokpasien2'
-            )
+                ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->select(
+                    'pp.norec',
+                    'pp.tglpelayanan',
+                    'pp.rke',
+                    'pr.id as prid',
+                    'pr.namaproduk',
+                    'pp.jumlah',
+                    'kl.id as klid',
+                    'kl.namakelas',
+                    'ru.id as ruid',
+                    'ru.namaruangan',
+                    'pp.produkfk',
+                    'pp.hargajual',
+                    'pp.hargadiscount',
+                    'apd.norec as norec_apd',
+                    'pp.jasa',
+                    'pd.nocmfk',
+                    'pd.nostruklastfk',
+                    'pd.noregistrasi',
+                    'pd.tglregistrasi',
+                    'pd.norec as norec_pd',
+                    'pd.tglpulang',
+                    'pd.objectrekananfk as rekananid',
+                    'pp.jasa',
+                    'pd.kdprofile',
+                    'pp.aturanpakai',
+                    'pp.iscito',
+                    'pd.statuspasien',
+                    'pp.isparamedis',
+                    'ptp.pasien',
+                    'ptp.penjamin1',
+                    'ptp.penjamin2',
+                    'rk.namarekanan',
+                    'rk2.namarekanan as namarekanan2',
+                    'ptp.idrekanan1',
+                    'ptp.idrekanan2',
+                    'ptp.jenis1',
+                    'ptp.jenis2',
+                    'kp.kelompokpasien',
+                    'kp2.kelompokpasien as kelompokpasien2'
+                )
 
                 ->where('pd.noregistrasi', $noRegister)
                 ->orderBy('pp.tglpelayanan', 'pp.rke');
@@ -15222,41 +15219,41 @@ class TagihanController  extends ApiController
             $pelayanan = $pelayanan->get();
         } else {
             $pelayanan = \DB::table('pasiendaftar_t as pd')
-            ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-            ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
-            ->leftjoin('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-            ->leftjoin('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
-            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-            ->select(
-                'pp.norec',
-                'pp.tglpelayanan',
-                'pp.rke',
-                'pr.id as prid',
-                'pr.namaproduk',
-                'pp.jumlah',
-                'kl.id as klid',
-                'kl.namakelas',
-                'ru.id as ruid',
-                'ru.namaruangan',
-                'pp.produkfk',
-                'pp.hargajual',
-                'pp.hargadiscount',
-                'apd.norec as norec_apd',
-                'pp.jasa',
-                'pd.nocmfk',
-                'pd.nostruklastfk',
-                'pd.noregistrasi',
-                'pd.tglregistrasi',
-                'pd.norec as norec_pd',
-                'pd.tglpulang',
-                'pd.objectrekananfk as rekananid',
-                'pp.jasa',
-                'pd.kdprofile',
-                'pp.aturanpakai',
-                'pp.iscito',
-                'pd.statuspasien',
-                'pp.isparamedis'
-            )
+                ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+                ->leftjoin('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+                ->leftjoin('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
+                ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->select(
+                    'pp.norec',
+                    'pp.tglpelayanan',
+                    'pp.rke',
+                    'pr.id as prid',
+                    'pr.namaproduk',
+                    'pp.jumlah',
+                    'kl.id as klid',
+                    'kl.namakelas',
+                    'ru.id as ruid',
+                    'ru.namaruangan',
+                    'pp.produkfk',
+                    'pp.hargajual',
+                    'pp.hargadiscount',
+                    'apd.norec as norec_apd',
+                    'pp.jasa',
+                    'pd.nocmfk',
+                    'pd.nostruklastfk',
+                    'pd.noregistrasi',
+                    'pd.tglregistrasi',
+                    'pd.norec as norec_pd',
+                    'pd.tglpulang',
+                    'pd.objectrekananfk as rekananid',
+                    'pp.jasa',
+                    'pd.kdprofile',
+                    'pp.aturanpakai',
+                    'pp.iscito',
+                    'pd.statuspasien',
+                    'pp.isparamedis'
+                )
 
                 ->where('pd.noregistrasi', $noRegister)
                 ->orderBy('pp.tglpelayanan', 'pp.rke');
@@ -15431,23 +15428,23 @@ class TagihanController  extends ApiController
     public function getfrommamppinganpenjamin($noRegister, Request $request)
     {
         $pd = \DB::table('pasiendaftar_t as pd')
-        ->where('pd.noregistrasi', $noRegister)
+            ->where('pd.noregistrasi', $noRegister)
             ->get();
         foreach ($pd as $kanjut) {
             // dd($kanjut->objectkelompokpasienlastfk); 
             $idkelasfk = $kanjut->objectkelasfk;
         }
         $mappingan = \DB::table('pasiendaftar_t as pd')
-        ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-        ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
-        ->leftjoin('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-        ->leftjoin('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
-        ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-        ->join('mappenjamintoproduk_s as mpp', 'mpp.idprodukfk', '=', 'pr.id')
-        ->select(
-            'mpp.idprodukfk',
-            'mpp.potongan'
-        )
+            ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+            ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+            ->leftjoin('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->leftjoin('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->join('mappenjamintoproduk_s as mpp', 'mpp.idprodukfk', '=', 'pr.id')
+            ->select(
+                'mpp.idprodukfk',
+                'mpp.potongan'
+            )
             ->where('idrekananfk', '=', $request['idrekanan'])
             ->where('idkelasfk', '=', $idkelasfk)
             ->where('pd.noregistrasi', $noRegister)
@@ -15460,17 +15457,17 @@ class TagihanController  extends ApiController
     {
         DB::beginTransaction();
         $transStatus = 'true';
-    
+
         try {
             // Cek apakah data sudah ada berdasarkan noregistrasifk
             $PL = PemeriksaanLuar::where('noregistrasifk', $request['noregistrasi'])->first();
-    
+
             if (!$PL) { // Jika data belum ada, insert data baru
                 $PL = new PemeriksaanLuar();
                 $PL->norec = $PL->generateNewId();
                 $PL->statusenabled = true;
             }
-    
+
             // Set nilai (baik untuk insert maupun update)
             $PL->tglkirimsample = $request['tglkirimsample'] ?? null;
             $PL->tarifluar = (float)($request['tarifluar'] ?? 0);
@@ -15479,15 +15476,15 @@ class TagihanController  extends ApiController
             $PL->jenispelayanan = $request['jenispelayanan'] ?? null;
             $PL->jenispelayananfk = $request['jenispelayananfk'] ?? null;
             $PL->noregistrasifk = $request['noregistrasi'];
-    
+
             $PL->save();
-    
+
             $transMessage = "Save Pemeriksaan berhasil!";
         } catch (\Exception $e) {
             $transStatus = 'false';
             $transMessage = "Save Pemeriksaan gagal: " . $e->getMessage();
         }
-    
+
         if ($transStatus != 'false') {
             DB::commit();
             $result = [
@@ -15501,7 +15498,7 @@ class TagihanController  extends ApiController
                 "message" => $transMessage,
             ];
         }
-    
+
         return response()->json($result, $result['status']);
     }
     //KLAIM INACBG V3 dari sartika
@@ -17749,8 +17746,8 @@ class TagihanController  extends ApiController
             $query->take($filter['jmlRows']);
         }
 
-       if (isset($filter['statusGet']) && $filter['statusGet'] != "" && $filter['statusGet'] != "undefined" && $filter['statusGet'] == "Notif") {
-            $query->where('sp.statuspulang', '!=', 'Rawat'); 
+        if (isset($filter['statusGet']) && $filter['statusGet'] != "" && $filter['statusGet'] != "undefined" && $filter['statusGet'] == "Notif") {
+            $query->where('sp.statuspulang', '!=', 'Rawat');
         }
 
         $data = collect($query->get());
@@ -17848,7 +17845,7 @@ class TagihanController  extends ApiController
 
         $totalBiayaQuery = DB::table('pelayananpasien_t as pp')
             ->join('antrianpasiendiperiksa_t as apd', 'pp.noregistrasifk', '=', 'apd.norec')
-            ->join('pasiendaftar_t as pd', 'apd.noregistrasifk', '=', 'pd.norec') 
+            ->join('pasiendaftar_t as pd', 'apd.noregistrasifk', '=', 'pd.norec')
             ->select(
                 'pd.noregistrasi',
                 DB::raw("sum((((pp.hargasatuan - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is not null then pp.jasa else 0 end ) - (CASE WHEN (pp.produkfk = 402611) THEN pp.hargasatuan ELSE (0) END * pp.jumlah)) as total")
@@ -18009,6 +18006,373 @@ class TagihanController  extends ApiController
         } catch (\Exception $e) {
             $transStatus = 'false';
             $transMessage = "Kirim PAPJ Gagal" . trim($e->getMessage());
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => trim($transMessage),
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => trim($transMessage),
+            );
+        }
+
+        return response()->json($result, $result['status']);
+    }
+
+    public function savePapjVerif(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => 2,
+                    'pegawaifk_verif' => $request['pegawaifk_verif'],
+                    'tglverif' => date('Y-m-d H:i:s')
+                ]);
+
+            $transMessage = "Update Verif PAPJ Berhasil";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Verif PAPJ Gagal";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function savePapjKlaim(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => 3,
+                    'pegawaifk_klaim' => $request['pegawaifk_verif'],
+                    'tglklaim' => date('Y-m-d H:i:s')
+                ]);
+
+            $transMessage = "Update Klaim PAPJ Berhasil";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Klaim PAPJ Gagal";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function savePapjTidakLayak(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => 7,
+                    'pegawaifk_klaim' => $request['pegawaifk_verif'],
+                    'keterangan' => $request['alasan'],
+                    'tglklaim' => date('Y-m-d H:i:s')
+                ]);
+
+            $transMessage = "Update Klaim PAPJ Berhasil";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Klaim PAPJ Gagal";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function savePapjDirajalkan(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => 8,
+                    'pegawaifk_klaim' => $request['pegawaifk_verif'],
+                    'keterangan' => $request['alasan'],
+                    'tglklaim' => date('Y-m-d H:i:s')
+                ]);
+
+            $transMessage = "Update Klaim PAPJ Berhasil";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Klaim PAPJ Gagal";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function savePapjPending(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => 9,
+                    'pegawaifk_klaim' => $request['pegawaifk_verif'],
+                    'keterangan' => $request['alasan'],
+                    'tglklaim' => date('Y-m-d H:i:s')
+                ]);
+
+            $transMessage = "Update Klaim PAPJ Berhasil";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Klaim PAPJ Gagal";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function savePapjDikembalikan(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => 4,
+                    'pegawaifk_kembalikan' => $request['pegawaifk_kembalikan'],
+                    'tgldikembalikan' => date('Y-m-d H:i:s'),
+                    'keterangan' => $request['keterangan'],
+                    'statusbag' => $request['statusbag']
+                ]);
+
+            $transMessage = "Update Dikembalikan PAPJ Berhasil";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Dikembalikan PAPJ Gagal";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function savePapjBatalVerif(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => 1,
+                    'pegawaifk_batalverif' => $request['pegawaifk_batalverif'],
+                    'tglbatalverif' => date('Y-m-d H:i:s')
+                ]);
+
+            $transMessage = "Update Batal Verifikasi PAPJ Berhasil";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Batal Verifikasi PAPJ Gagal";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function savePapjBatalSiapKlaim(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => 2,
+                    'pegawai_batalsiapklaim' => $request['pegawai_batalsiapklaim'],
+                    'tglbatalsiapklaim' => date('Y-m-d H:i:s')
+                ]);
+
+            $transMessage = "Update Batal Siap Klaim PAPJ Berhasil";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Batal Siap Klaim PAPJ Gagal";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function savePapjKirimUlang(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => $request['statusbag'] == 2 ? 2 : 1,
+                    'pegawaifk_kirim' => $request['pegawaifk_kirim'],
+                    'tglkirim' => date('Y-m-d H:i:s')
+                ]);
+            $transMessage = "Update Kirim PAPJ Berhasil";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Kirim PAPJ Gagal";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function savePapjKadaluarsa(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $data = PAPJ::where('norec_pd', $request['norec_pd'])->first();
+
+            if ($data) {
+                $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                    ->update([
+                        'statuspapj' => 10,
+                        'iskadaluarsa' => true,
+                        'pegawai_kadaluarsa' => $request['pegawai_kadaluarsa'],
+                    ]);
+                $transMessage = "Update Kadaluarsa PAPJ Berhasil";
+            } else {
+                $spapj = new PAPJ();
+                $spapj->norec = $spapj->generateNewId();
+                $spapj->norec_pd = $request['norec_pd'];
+                $spapj->pegawai_kadaluarsa = $request['pegawai_kadaluarsa'];
+                $spapj->ruanganfk = $request['ruangan'];
+                $spapj->statuspapj = 10;
+                $spapj->save();
+
+                $transMessage = "Simpan Kadaluarsa PAPJ Berhasil";
+            }
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Kadaluarsa PAPJ Gagal" . trim($e->getMessage());
         }
 
         if ($transStatus != 'false') {
