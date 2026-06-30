@@ -14407,6 +14407,7 @@ class EMRController  extends ApiController
                     $dataSO->objectkelompoktransaksifk = 22;
                     $dataSO->tglpelayananakhir = $request['tgloperasi'];
                     $dataSO->tglpelayananawal = $request['tgloperasi'];
+                    $dataSO->tglorder = $request['tglorder'];
                 } 
                 if ($request['departemenfk'] == 3 || $request['departemenfk'] == 27 || $request['departemenfk'] == 25) {
                     $dataSO->tglorder = $request['tanggal'];

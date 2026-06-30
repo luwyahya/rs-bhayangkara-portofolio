@@ -6273,7 +6273,6 @@ class RadiologiController extends ApiController
             $data = $data->where('so.tglpelayananakhir', '>=', $request['tglAwal']);
         }
         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-
             $tgl = $request['tglAkhir'];
             $data = $data->where('so.tglpelayananakhir', '<=', $tgl);
         }
