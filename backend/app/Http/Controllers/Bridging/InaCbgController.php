@@ -98,6 +98,7 @@ class InaCbgController   extends ApiController
         //        return $this->respond($responseArr);
         return $this->setStatusCode($result['status'])->respond($result, "Bridging InaCBG");
     }
+
     public function saveBridgingINACBGIDRG(Request $request)
     {
         ini_set('max_execution_time', 1000); //6 minutes
@@ -1300,9 +1301,10 @@ class InaCbgController   extends ApiController
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->join('diagnosatindakanpasien_t as dtp', 'dtp.objectpasienfk', '=', 'apd.norec')
             ->join('detaildiagnosatindakanpasien_t as ddt', 'ddt.objectdiagnosatindakanpasienfk', '=', 'dtp.norec')
-            ->join('diagnosatindakan_m as dt', 'dt.id', '=', 'ddt.objectdiagnosatindakanfk')
+            ->join('diagnosatindakanidrg_m as dt', 'dt.id', '=', 'ddt.objectdiagnosatindakanfk')
             ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'ddt.objectpegawaifk')
-            ->where('pd.norec', $noregistrasifk);
+            ->where('pd.norec', $noregistrasifk)
+            ->orderBy('ddt.tglinputdiagnosa', 'asc');
 
         $dataDiagnosa9 = $dataDiagnosa9->get();
         $dataDiagnosa9Inacbg = '';
