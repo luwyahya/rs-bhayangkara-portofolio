@@ -41,6 +41,7 @@ use App\Transaksi\EMRPasien;
 use App\Transaksi\IdentifikasiPasien;
 use App\Transaksi\LoggingUser;
 use App\Transaksi\OrderPelayanan;
+use App\Transaksi\DiagnosaIdrg;
 use App\Transaksi\PasienDaftar;
 use App\Transaksi\PasienVisum;
 use App\Transaksi\PelayananPasien;

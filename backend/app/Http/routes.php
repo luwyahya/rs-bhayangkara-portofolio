@@ -114,7 +114,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('delete-data-sal', 'Akuntansi\AkuntansiController@deleteDataSal'); //done
             Route::post('save-map-jurnal', 'Akuntansi\AkuntansiController@saveMapJurnal');
             Route::post('save-map-jurnal-loop', 'Akuntansi\AkuntansiController@saveMapJurnalLoop');
-            Route::post('hapus-map-jurnal', 'Akuntansi\AkuntansiController@hapusMapJurnal'); 
+            Route::post('hapus-map-jurnal', 'Akuntansi\AkuntansiController@hapusMapJurnal');
             Route::post('update-jurnalpenjamin', 'Akuntansi\AkuntansiController@updatejurnalpenjamin');
             /*END POST*/
         });
@@ -161,8 +161,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-nopol', 'Ambulance\AmbulanController@getNopol');
             Route::post('batal-cetak-kematian', 'Ambulance\AmbulanController@BatalCetakKematian');
         });
-        Route::group(['prefix' => 'askep'], function () {
-        });
+        Route::group(['prefix' => 'askep'], function () {});
         Route::group(['prefix' => 'bedah'], function () {
             Route::get('get-data-combo-dokter', 'Bedah\BedahController@getDataComboDokter');
             Route::get('get-daftar-antrian-bedah', 'Bedah\BedahController@getDaftarRegistrasiDokterBedah');
@@ -189,7 +188,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-monitoring-klaim-per-bulan-jaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@getDataMonitoringKlaimJaspel');
             Route::get('get-daftar-setoran-kasir', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarSetoranKasir');
             Route::get('get-daftar-kelompok-transaksi', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarKelompokTransaksi');
-            
+
             Route::get('get-penjamin', 'BendaharaPenerimaan\BendaharaPenerimaanController@getobjeectkelompokpasienlast');
 
             //ash
@@ -218,7 +217,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('unverifikasi-Setoran', 'BendaharaPenerimaan\BendaharaPenerimaanController@unverifikasiSetoran');
 
             //ash
-            
+
             Route::post('simpan-kelompoktransaksi', 'BendaharaPenerimaan\BendaharaPenerimaanController@simpanKelompokTransaksi');
             //**POST**//
         });
@@ -288,13 +287,12 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('post-all-patient-igd', 'Bridging\PHSController@PostAllPatientIGD');
                 Route::post('post-all-patient-rj', 'Bridging\PHSController@PostAllPatientRJ');
             });
-            
+
             Route::group(['prefix' => 'radiologi'], function () {
                 Route::post('post-order', 'Bridging\BridgingRadiologiController@postorderradiologi');
                 Route::post('post-order-2', 'Bridging\BridgingRadiologiController@postOrderPacsOtomatis');
                 Route::post('post-expertise', 'Bridging\BridgingRadiologiController@postexpertiseradiologi');
                 Route::post('update-pacs', 'Bridging\BridgingRadiologiController@updateOrderPacsInPP');
-               
             });
 
             Route::group(['prefix' => 'anta'], function () {
@@ -337,7 +335,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-rujukan-pcare-nokartu', 'Bridging\BridgingBPJSV2Controller@getNoRujukanPcareNoKartu');
                 Route::get('get-rujukan-rs-nokartu', 'Bridging\BridgingBPJSV2Controller@getNoRujukanRsNoKartu');
                 Route::post('icare', 'Bridging\BridgingBPJSV2Controller@Icare');
-               
+
                 //*End Fer V2*
                 //** Rujukan */
                 Route::get('get-rujukan-pcare', 'Bridging\BridgingBPJSV2Controller@getNoRujukanPcare');
@@ -383,7 +381,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('monitoring/HistoriPelayanan-duabulan/NoKartu/{noKartu}', 'Bridging\BridgingBPJSV2Controller@getMonitoringHistoriDuaBulan');
                 Route::post('monitoring/HistoriPelayanan-duabulan/noSep', 'Bridging\BridgingBPJSV2Controller@kirimNoSEP');
                 Route::get('cari-jumlah-sep-rujukan', 'Bridging\BridgingBPJSV2Controller@carijumlahsep');
-                
+
                 //##MJKN
                 Route::get('mjkn/antrian/getRefPoli', 'Bridging\BridgingBPJSV2Controller@mjknRefPoli');
                 Route::get('mjkn/antrian/getRefDokter', 'Bridging\BridgingBPJSV2Controller@mjknRefDokter');
@@ -408,7 +406,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('mjkn/antrian/UpdateWaktuTaskIdRombongan', 'Bridging\BridgingBPJSV2Controller@UpdateWaktuTaskIdRombongan');
 
                 Route::get('mjkn/antrian/getDokterDPJPLokal', 'Bridging\BridgingBPJSV2Controller@getDokterDPJPLokal');
-                Route::get('mjkn/antrian/get-asal-rujukan-bpjs','Bridging\BridgingBPJSV2Controller@getAsalRujukanBPJS');
+                Route::get('mjkn/antrian/get-asal-rujukan-bpjs', 'Bridging\BridgingBPJSV2Controller@getAsalRujukanBPJS');
                 Route::get('mjkn/antrian/cek-rm', 'Bridging\BridgingBPJSV2Controller@getPasien');
 
                 //##END JKN
@@ -745,41 +743,41 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
 
             // ROUTE BRIDGING SATU SEHAT
             Route::group(['prefix' => 'ihs'], function () {
-              Route::post('tools', 'Bridging\IHSController@ihsTools');
-              Route::post('generate-token', 'Bridging\IHSController@generateToken');
-              Route::post('Organization', 'Bridging\IHSController@Organization');
-              Route::post('Location', 'Bridging\IHSController@Location');
-              Route::post('Encounter', 'Bridging\IHSController@Encounter');
-              Route::post('Condition', 'Bridging\IHSController@Condition');
-              Route::post('Practitioner', 'Bridging\IHSController@Practitioner');
-              Route::post('update-ihs-pasien', 'Bridging\IHSController@updateIHSPasien');
-              Route::post('Medication', 'Bridging\IHSController@Medication');
-              Route::post('MedicationRequest', 'Bridging\IHSController@MedicationRequest');
-              Route::post('MedicationDispense', 'Bridging\IHSController@MedicationDispense');
-              Route::post('MedicationDispenseObatBebas', 'Bridging\IHSController@MedicationDispenseObatBebas');
-              Route::post('Observation', 'Bridging\IHSController@Observation');
-              Route::post('ObservationRajal', 'Bridging\IHSController@ObservationRajal');
-              Route::post('ObservationRanap', 'Bridging\IHSController@ObservationRanap');
-              Route::post('Procedure', 'Bridging\IHSController@Procedure');
-              Route::post('Immunization', 'Bridging\IHSController@Immunization');
-              Route::post('Composition', 'Bridging\IHSController@Composition');
-              Route::post('ServiceRequest', 'Bridging\IHSController@ServiceRequest');
-              Route::post('Specimen', 'Bridging\IHSController@Specimen');
-              Route::post('ObservationLab', 'Bridging\IHSController@ObservationLab');
-              Route::post('ObservationRad', 'Bridging\IHSController@ObservationRad');
-              Route::post('DiagnosticReport', 'Bridging\IHSController@DiagnosticReport');
-              Route::post('ObservationLabDiagnos', 'Bridging\IHSController@ObservationLabDiagnos');
-              Route::post('AllergyIntolerance', 'Bridging\IHSController@AllergyIntolerance');
-              Route::post('ClinicalImpression', 'Bridging\IHSController@ClinicalImpression');
-              Route::post('ObservationKesadaran', 'Bridging\IHSController@ObservationKesadaran');
-              Route::post('ProcedureEdukasi', 'Bridging\IHSController@ProcedureEdukasi');
-              Route::post('ConditionSaatMeninggalkanRS', 'Bridging\IHSController@ConditionSaatMeninggalkanRS');
-              Route::get('get-pasien', 'Bridging\IHSController@getPasienByIHSId');
+                Route::post('tools', 'Bridging\IHSController@ihsTools');
+                Route::post('generate-token', 'Bridging\IHSController@generateToken');
+                Route::post('Organization', 'Bridging\IHSController@Organization');
+                Route::post('Location', 'Bridging\IHSController@Location');
+                Route::post('Encounter', 'Bridging\IHSController@Encounter');
+                Route::post('Condition', 'Bridging\IHSController@Condition');
+                Route::post('Practitioner', 'Bridging\IHSController@Practitioner');
+                Route::post('update-ihs-pasien', 'Bridging\IHSController@updateIHSPasien');
+                Route::post('Medication', 'Bridging\IHSController@Medication');
+                Route::post('MedicationRequest', 'Bridging\IHSController@MedicationRequest');
+                Route::post('MedicationDispense', 'Bridging\IHSController@MedicationDispense');
+                Route::post('MedicationDispenseObatBebas', 'Bridging\IHSController@MedicationDispenseObatBebas');
+                Route::post('Observation', 'Bridging\IHSController@Observation');
+                Route::post('ObservationRajal', 'Bridging\IHSController@ObservationRajal');
+                Route::post('ObservationRanap', 'Bridging\IHSController@ObservationRanap');
+                Route::post('Procedure', 'Bridging\IHSController@Procedure');
+                Route::post('Immunization', 'Bridging\IHSController@Immunization');
+                Route::post('Composition', 'Bridging\IHSController@Composition');
+                Route::post('ServiceRequest', 'Bridging\IHSController@ServiceRequest');
+                Route::post('Specimen', 'Bridging\IHSController@Specimen');
+                Route::post('ObservationLab', 'Bridging\IHSController@ObservationLab');
+                Route::post('ObservationRad', 'Bridging\IHSController@ObservationRad');
+                Route::post('DiagnosticReport', 'Bridging\IHSController@DiagnosticReport');
+                Route::post('ObservationLabDiagnos', 'Bridging\IHSController@ObservationLabDiagnos');
+                Route::post('AllergyIntolerance', 'Bridging\IHSController@AllergyIntolerance');
+                Route::post('ClinicalImpression', 'Bridging\IHSController@ClinicalImpression');
+                Route::post('ObservationKesadaran', 'Bridging\IHSController@ObservationKesadaran');
+                Route::post('ProcedureEdukasi', 'Bridging\IHSController@ProcedureEdukasi');
+                Route::post('ConditionSaatMeninggalkanRS', 'Bridging\IHSController@ConditionSaatMeninggalkanRS');
+                Route::get('get-pasien', 'Bridging\IHSController@getPasienByIHSId');
 
-              Route::post('Encounter-tes', 'Bridging\IHSController@Encountertes');
-              Route::get('get-list', 'Bridging\IHSController@getList');
-              Route::get('Encounter-list', 'Bridging\IHSController@EncounterList');
-          });
+                Route::post('Encounter-tes', 'Bridging\IHSController@Encountertes');
+                Route::get('get-list', 'Bridging\IHSController@getList');
+                Route::get('Encounter-list', 'Bridging\IHSController@EncounterList');
+            });
         });
         Route::group(['prefix' => 'CSSD'], function () {
             //****CSSD****
@@ -824,7 +822,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('cssd-sterilisasi/get-map-paket-to-produk', 'CSSD\transaksiController@getMapPaket');
             Route::post('cssd-sterilisasi/save-all-map-paket-to-produk', 'CSSD\transaksiController@SimpanMapping');
             Route::post('cssd-sterilisasi/unmapping-paket-to-produk', 'CSSD\transaksiController@unMapping');
-        //****END****	   
+            //****END****	   
         });
         Route::group(['prefix' => 'eis'], function () {
             Route::get('get-count-pasien', 'EIS\EISController@countPasienRS');
@@ -1353,8 +1351,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('delete-order-bedah', 'EMR\EMRController@deleteOrderBedah');
             Route::post('update-is-cppt', 'EMR\EMRController@updateIsCppt');
             Route::get('get-order-penunjang-to-cppt', 'EMR\EMRController@getOrderPenunjangToCppt');
-    
-         
+
+
 
             //ash -- 2023-09-01
             Route::get('get-riwayat-laporan-operasi', 'EMR\EMRController@getRiwayatLaporanOperasi');
@@ -1755,7 +1753,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-maplap-penerimaan', 'Kasir\KasirController@updateMapLapPenerimaan');
             Route::get('get-data-lap-rekap-pendapatan-harian', 'Kasir\KasirController@getDataLaporanRekapPendapatanHarian');
             //all
-            
+
             Route::get('get-data-lap-rekap-pendapatan-all-new', 'Kasir\KasirController@getPendapatanAll');
             Route::get('get-data-lap-rekap-pendapatan-all-new-sync1', 'Kasir\KasirController@getPendapatanAllSync1');
             Route::get('get-data-lap-rekap-pendapatan-all-new-sync2', 'Kasir\KasirController@getPendapatanAllSync2');
@@ -1907,7 +1905,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-nilai-kritis', 'Laboratorium\LaboratoriumController@getNilaiKritis');
             Route::post('save-nilai-kritis', 'Laboratorium\LaboratoriumController@saveNilaiKritis');
             Route::post('delete-nilai-kritis', 'Laboratorium\LaboratoriumController@deleteNilaiKritis');
-       
         });
 
         Route::get('report/cetak-ekspertise', 'Report\ReportController@cetakEkspertise');
@@ -1947,7 +1944,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
         Route::get('report/cetak-kfd-visum-koreksi-instalasi', 'Report\ReportController@cetakKfdVisumKoreksiInstalasi');
         Route::get('report/cetak-kll-visum-koreksi-instalasi', 'Report\ReportController@cetakKllVisumKoreksiInstalasi');
         Route::get('report/cetak-antrian', 'Report\ReportController@cetakAntrianKiosk');
-        Route::get('report/cetak-sep', 'Report\ReportController@cetakSEP'); 
+        Route::get('report/cetak-sep', 'Report\ReportController@cetakSEP');
         Route::get('report/cetak-ttd-new', 'Report\ReportController@cetakTtd');
         Route::get('report/cetak-ttd-anestesi', 'Report\ReportController@cetakTTDAnestesi');
         Route::get('report/cetak-ttd-fleksibel', 'Report\ReportController@cetakTtdFleksibel');
@@ -2198,8 +2195,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 /*END GET*/
             });
         });
-        Route::group(['prefix' => 'perawatanintensive'], function () {
-        });
+        Route::group(['prefix' => 'perawatanintensive'], function () {});
         Route::group(['prefix' => 'perencanaan'], function () {
             Route::get('get-data-realisasi', 'Perencanaan\PerencanaanController@getDataRealisasi');
             Route::get('get-data-combo', 'Perencanaan\PerencanaanController@getDataCombo');
@@ -2390,8 +2386,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-laporan-dokter-baca', 'Radiologi\RadiologiController@getLaporanDokterBaca');
             Route::get('get-laporan-tindakan-usg', 'Radiologi\RadiologiController@getLaporanTindakanUSG');
             Route::get('get-laporan-kinerja-pertindakan', 'Radiologi\RadiologiController@getLaporanKinerjaPelaksanaPertindakan');
-            
-            
+
+
             Route::get('get-rincian-pelayanan-emr', 'Radiologi\RadiologiController@getRincianPelayananEMR');
             Route::get('get-rincian-pelayanan-rad', 'Radiologi\RadiologiController@getRincianPelayananRad');
             Route::get('get-rincian-pelayanan-lab', 'Radiologi\RadiologiController@getRincianPelayananLab');
@@ -2473,7 +2469,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-pasien-jatuh', 'RawatInap\RawatInapController@saveIndikatorPasienJatuh');
             Route::get('get-combo-pindahpasien', 'RawatInap\PindahPulangController@getComboPindahPulang');
             Route::get('get-pasien-bynorec/{norec_pd}/{norec_apd}', 'RawatInap\PindahPulangController@getPindahPasienByNoreg');
-             Route::get('get-daftar-viewer-bed-new', 'RawatInap\RawatInapController@getViewerbedNew');
+            Route::get('get-daftar-viewer-bed-new', 'RawatInap\RawatInapController@getViewerbedNew');
             Route::get('get-pelayanan/{norec_pd}/{norec_apd}', 'RawatInap\PindahPulangController@getPelayanan');
             Route::get('get-pelayanan-2/{norec_pd}', 'RawatInap\PindahPulangController@getPelayanan2');
             Route::get('get-kelasbyruangan', 'RawatInap\PindahPulangController@getKelasByRuangan');
@@ -2526,7 +2522,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-laporan-mpp', 'RawatInap\RawatInapController@getLaporanMPP');
             Route::get('get-data-sensus', 'RawatInap\RawatInapController@getDataSensus');
             Route::get('get-data-for-sidopak', 'RawatInap\RawatInapController@getDataForSidopak');
-            
+
             Route::get('get-ruanganranap-for-aplicare', 'RawatInap\RawatInapController@getRuanganRanapForAplicare');
             Route::get('get-kelasruangan-for-aplicare', 'RawatInap\RawatInapController@getKelasRuanganForAplicare');
             Route::get('get-jumlahtt-for-aplicare', 'RawatInap\RawatInapController@getJumlahTTForAplicare');
@@ -2580,6 +2576,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-rujukan-keluar-lab', 'RawatJalan\RawatJalanController@getPemeriksaanRujukLab');
         });
         Route::group(['prefix' => 'registrasi'], function () {
+
+            Route::post('save-diagnosa-idrg9', 'Registrasi\RegistrasiController@saveDiagnosaIdrg9');
+            Route::post('save-diagnosa-tindakan-pasien-target-idrg', 'Registrasi\RegistrasiController@saveDiagnosaTindakanPasienTargetIDRG');
             // 2021-02 penambahan trisno
             Route::get('get-combo-baru', 'Registrasi\LaporanRegistrasiController@getComboBaru');
             Route::get('get-apd-baru', 'Registrasi\RegistrasiController@getApdLembarMasukRI');
@@ -2622,10 +2621,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-datapasieneis', 'Registrasi\RegistrasiController@datapasieneis');
             Route::get('get-geteisperrs', 'Registrasi\RegistrasiController@geteisperrs');
             Route::get('geteisperrstotalinstalasi', 'Registrasi\RegistrasiController@geteisperrstotalinstalasi');
-            Route::get('get-ruangan-pasien', 'Registrasi\RegistrasiController@getRuanganPasien'); 
-            
+            Route::get('get-ruangan-pasien', 'Registrasi\RegistrasiController@getRuanganPasien');
 
-            
+
+
             Route::post('hapus-pasienisoman', 'Registrasi\RegistrasiController@hapusPasienIsoman');
             Route::post('upload-dokumen', 'Registrasi\RegistrasiController@uploadDokumen');
             Route::post('upload-dokumen-registrasi', 'Registrasi\RegistrasiController@uploadDokumenRegistrasi');
@@ -2923,15 +2922,15 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-rekap-dokumen-rekmed', 'Registrasi\KendaliDokumenRMController@getRekapDokumenRekamMedis');
                 Route::get('get-daftar-dokumen-rekmed-belumkembali', 'Registrasi\KendaliDokumenRMController@getDaftarDokumenRekamMedisBelumKembali');
 
-     
+
                 Route::get('get-histori-dokumen-rekmed/{nocm}', 'Registrasi\KendaliDokumenRMController@getHistoriDokumenRekmed');
                 Route::post('updatetglterima', 'Registrasi\KendaliDokumenRMController@updateDokumenTerima');
                 Route::post('alamat', 'Registrasi\KendaliDokumenRMController@perbaikannocm');
                 Route::post('save-dokumen-rekmed', 'Registrasi\KendaliDokumenRMController@saveDokumenRekamMedis');
                 Route::post('hapuskendali', 'Registrasi\KendaliDokumenRMController@hapuskendali');
                 Route::post('cetakTracer', 'Registrasi\KendaliDokumenRMController@cetakTracer');
-                
-         
+
+
                 // Route::get('get-combo-cppt', 'EMR\EMRController@getComboCppt');
 
             });
@@ -2983,7 +2982,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('save-ruangan-data', 'Registrasi\LaporanRegistrasiController@saveRuanganData');
                 Route::post('save-edit-ruangan', 'Registrasi\LaporanRegistrasiController@saveEditRuangan');
                 Route::post('save-delete-ruangan', 'Registrasi\LaporanRegistrasiController@saveDeleteRuangan');
-               
+
 
                 Route::get('get-data-combo-tindakan', 'Registrasi\LaporanRegistrasiController@getTindakan');
                 Route::get('get-data-combo-tindakan-all', 'Registrasi\LaporanRegistrasiController@getTindakanAll');
@@ -3312,9 +3311,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
 
             Route::get('cek-pemakaianasuransi', 'ReservasiOnline\ReservasiOnlineController@geCekPemakaianAsuransi');
 
-            
-            Route::get('get-kelurahan', 'ReservasiOnline\ReservasiOnlineController@getKelurahan');
 
+            Route::get('get-kelurahan', 'ReservasiOnline\ReservasiOnlineController@getKelurahan');
         });
         Route::group(['prefix' => 'sanitasi'], function () {
             Route::get('get-tempat-tidur', 'Sanitasi\SanitasiController@getTempatTidur');
@@ -3880,11 +3878,11 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                     Route::post('post-pengembalian-dok-rm', 'EIS\EISController@postPengembalianRekamMedik');
                     Route::post('post-waktu-tunggu-rj', 'EIS\EISController@postWaktuTungguRawatJalan');
                     Route::post('save-kelompok-transaksi', 'EIS\EISController@saveKelompokTransaksi');
- 
+
                     Route::post('save-tipelayanan', 'EIS\EISController@saveTipelayanan');
-                    Route::post('save-mapakunbank', 'EIS\EISController@saveMapAkunBank'); 
+                    Route::post('save-mapakunbank', 'EIS\EISController@saveMapAkunBank');
                     Route::post('save-kelompok-transaksi-new', 'EIS\EISController@saveKelompokTransaksiNew'); //ash
- 
+
                     /*POST*/
                 });
             });
@@ -3924,7 +3922,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('list-produk/{limit?}', 'SysAdmin\Master\MasterController@getListProdukMap');
                 Route::get('list-produk-penjamin/{limit?}', 'SysAdmin\Master\MasterController@getListProdukMapPenjamin');
                 Route::get('list-produk-penjamin-isi/{limit?}', 'SysAdmin\Master\MasterController@getListProdukMapPenjaminisi');
-               
+
                 Route::get('get-kelompok-produk', 'SysAdmin\Master\MasterController@getkelompokproduk');
                 Route::get('get-daftar-jenisdiet', 'SysAdmin\Master\MasterController@getDaftarJenisDiet');
                 Route::get('get-daftar-jeniswaktu', 'SysAdmin\Master\MasterController@getDaftarJenisWaktu');
@@ -4001,7 +3999,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
 
                 Route::post('save-data-mapproduktoruangan', 'SysAdmin\Master\MasterController@addProdukToRuangan');
                 Route::post('save-data-mapproduktopenjamin', 'SysAdmin\Master\MasterController@addProdukToPenjamin');
-              
+
                 Route::post('save-data-bed', 'SysAdmin\Master\MasterController@saveBed');
                 Route::post('save-jenisdiet', 'SysAdmin\Master\MasterController@saveJenisDiet');
                 Route::post('delete-jenisdiet', 'SysAdmin\Master\MasterController@deleteJenisDiet');
@@ -4021,7 +4019,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-combo-baru', 'TataRekening\TagihanController@getComboBaru');
             Route::post('update-petugas-pelaksana', 'TataRekening\TagihanController@updatePetugasPelaksana');
             Route::post('save-petugas-pelaksana', 'TataRekening\TagihanController@savePetugasPelaksana');
-            
+
             //Send PAPJ sartika
             //2026/05/07
             Route::post('save-papj-kirim', 'TataRekening\TagihanController@savePapjKirim');
@@ -4145,7 +4143,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('detail-tagihan-verifikasi/{noRegister}', 'TataRekening\TagihanController@detailTagihanVerifikasi');
             Route::get('detail-tagihan-verifikasipenjamin/{noRegister}', 'TataRekening\TagihanController@detailTagihanVerifikasipenjamin');
             Route::get('detail-tagihan-getfrommamppinganpenjamin/{noRegister}', 'TataRekening\TagihanController@getfrommamppinganpenjamin');
-           
+
             Route::post('simpan-verifikasi-tagihan/{noRegister}', 'TataRekening\TagihanController@simpanVerifikasiTagihan');
             Route::post('simpan-verifikasi-tagihan-tatarekening', 'TataRekening\TagihanController@simpanVerifikasiTagihanTatarekening');
             Route::post('simpan-verifikasi-tagihan-inacbg/{noRegister}', 'Transaksi\TataRekening\TagihanRev2Controller@simpanVerifikasiTagihanInacbg');  //done
@@ -4178,7 +4176,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-plapon', 'TataRekening\TagihanController@simpanPlapon');
             Route::post('simpan-verifikasi-tagihan-tatarekening-penjamin-pertindakan', 'TataRekening\TagihanController@simpanVerifikasiTagihanPenjaminPertindakan');
             Route::post('save-pemeriksaan-luar-lab', 'TataRekening\TagihanController@simpanPemeriksaanLuarLab');
-          
+
             // @all 
             Route::get('get-data-passien-batal', 'TataRekening\TagihanController@getDataLaporanPasienBatalRegis');
             Route::get('get-data-passien-unclose-faktur', 'TataRekening\TagihanController@getDataLaporanPasienUncloseFaktur');
