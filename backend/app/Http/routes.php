@@ -2576,7 +2576,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-rujukan-keluar-lab', 'RawatJalan\RawatJalanController@getPemeriksaanRujukLab');
         });
         Route::group(['prefix' => 'registrasi'], function () {
-
             Route::post('save-diagnosa-idrg9', 'Registrasi\RegistrasiController@saveDiagnosaIdrg9');
             Route::post('save-diagnosa-tindakan-pasien-target-idrg', 'Registrasi\RegistrasiController@saveDiagnosaTindakanPasienTargetIDRG');
             // 2021-02 penambahan trisno
