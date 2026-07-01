@@ -1931,7 +1931,8 @@ class InaCbgController   extends ApiController
             } else if (strlen($filter['nosep']) < 11) {
                 $data = $data->where('pd.noregistrasi', '=', $filter['nosep']);
             } else {
-                $data = $data->where('pas.nokepesertaan', '=', $filter['nosep']);
+                // $data = $data->where('pas.nokepesertaan', '=', $filter['nosep']);
+                $data = $data->where('pas.nosep', '=', $filter['nosep']);
             }
         }
         $data = $data->orderBy('pd.tglregistrasi', 'desc');
