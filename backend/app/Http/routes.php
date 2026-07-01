@@ -1907,6 +1907,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('delete-nilai-kritis', 'Laboratorium\LaboratoriumController@deleteNilaiKritis');
         });
 
+
+        Route::get('report/cetak-semua-inacbg-newtes-donwload', 'Report\ReportController@TescetakSemuaInaCbgDonwload');
         Route::get('report/cetak-ekspertise', 'Report\ReportController@cetakEkspertise');
         Route::get('report/cetak-ekspertise-kemkes', 'Report\ReportController@cetakEkspertiseKemkes');
         Route::get('report/cetak-hasil-lab-histopatologi', 'Report\ReportController@cetakHispatologi');
