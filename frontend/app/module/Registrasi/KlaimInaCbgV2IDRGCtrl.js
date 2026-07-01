@@ -24,7 +24,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
       $scope.formGridDetail = false;
       $scope.formGridHistory = false;
       $scope.formGridDetailKembali = false;
-      
+
       // Initialize empty DataSource to ensure grid widget loads properly
       $scope.dataGrid = new kendo.data.DataSource({
         data: [],
@@ -58,27 +58,27 @@ define(["initialize", "Configuration"], function (initialize, config) {
 
       // Helper function untuk refresh kendo grid dengan multiple approaches
       function refreshKendoGrid(gridId) {
-        $timeout(function() {
+        $timeout(function () {
           try {
             var gridElement = $("#" + gridId);
             if (gridElement.length === 0) {
               console.log("Grid element " + gridId + " not found in DOM");
               return;
             }
-            
+
             var kendoGrid = gridElement.data("kendoGrid");
             if (kendoGrid) {
               // Approach 1: Direct refresh
               kendoGrid.refresh();
               console.log("Grid " + gridId + " refreshed - method 1");
-              
+
               // Approach 2: Trigger scope apply
               if (!$scope.$$phase) {
                 $scope.$apply();
               }
-              
+
               // Approach 3: Rebind data
-              setTimeout(function() {
+              setTimeout(function () {
                 if (kendoGrid.dataSource && kendoGrid.dataSource.data()) {
                   kendoGrid.setDataSource(kendoGrid.dataSource);
                   console.log("Grid " + gridId + " data source re-bound");
@@ -87,11 +87,11 @@ define(["initialize", "Configuration"], function (initialize, config) {
             } else {
               console.log("Kendo Grid " + gridId + " widget not initialized yet, retrying...");
               // Retry after delay
-              $timeout(function() {
+              $timeout(function () {
                 refreshKendoGrid(gridId);
               }, 200);
             }
-          } catch(e) {
+          } catch (e) {
             console.error("Error refreshing grid " + gridId + ":", e);
           }
         }, 100);
@@ -191,132 +191,132 @@ define(["initialize", "Configuration"], function (initialize, config) {
       LoadCache();
       // LoadDataClosingFaktur();
       function LoadCache() {
-         $timeout(function () {
-         var chacePeriodeJSON = localStorage.getItem("BerkasKirimanDariRuangan");
-         var chacePeriode = JSON.parse(chacePeriodeJSON);
-        if (chacePeriode && chacePeriode[0] && chacePeriode[1]) {
-          $scope.item.tglAwalKirim = moment(chacePeriode[0], 'YYYY-MM-DD').startOf('day').toDate(); // <-- UBAH DI SINI
-          $scope.item.tglAkhirKirim = moment(chacePeriode[1], 'YYYY-MM-DD').endOf('day').toDate();
-          if (chacePeriode[2] != undefined) {
-            $scope.item.noRm = chacePeriode[2];
+        $timeout(function () {
+          var chacePeriodeJSON = localStorage.getItem("BerkasKirimanDariRuangan");
+          var chacePeriode = JSON.parse(chacePeriodeJSON);
+          if (chacePeriode && chacePeriode[0] && chacePeriode[1]) {
+            $scope.item.tglAwalKirim = moment(chacePeriode[0], 'YYYY-MM-DD').startOf('day').toDate(); // <-- UBAH DI SINI
+            $scope.item.tglAkhirKirim = moment(chacePeriode[1], 'YYYY-MM-DD').endOf('day').toDate();
+            if (chacePeriode[2] != undefined) {
+              $scope.item.noRm = chacePeriode[2];
+            }
+
+            // console.log(chacePeriode[3])
+
+            if (chacePeriode[3] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.instalasi = { id: chacePeriode[3].id, nama: chacePeriode[3].nama };
+            }
+            if (chacePeriode[4] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.ruanganripapj = { id: chacePeriode[4].id, nama: chacePeriode[4].nama };
+            }
+            if (chacePeriode[5] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.ruanganigdpapj = { id: chacePeriode[5].id, namaruangan: chacePeriode[5].namaruangan };
+            }
+            if (chacePeriode[6] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.ruanganrmpapj = { id: chacePeriode[6].id, namaruangan: chacePeriode[6].namaruangan };
+            }
+            if (chacePeriode[7] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.ruanganrjpapj = { id: chacePeriode[7].id, namaruangan: chacePeriode[7].namaruangan };
+            }
+            debugger;
+            LoadDataKirimPAPJ(false);
+          } else {
+            $scope.item.tglAwalKirim = moment().startOf('day').toDate();
+            $scope.item.tglAkhirKirim = moment().endOf('day').toDate();
+            LoadDataKirimPAPJ(true);
           }
 
-          // console.log(chacePeriode[3])
+          var chacePeriodeJSON = localStorage.getItem("BerkasSudahVerif");
+          var chacePeriode = JSON.parse(chacePeriodeJSON);
+          if (chacePeriode && chacePeriode[0] && chacePeriode[1]) {
+            $scope.item.tglAwalPulangVerif = moment(chacePeriode[0], 'YYYY-MM-DD').startOf('day').toDate(); //komen bentar biar getdatenya masuk
+            $scope.item.tglAkhirPulangVerif = moment(chacePeriode[1], 'YYYY-MM-DD').endOf('day').toDate();
+            if (chacePeriode[2] != undefined) {
+              $scope.item.noRm = chacePeriode[2];
+            }
+            console.log(chacePeriode[3]);
+            if (chacePeriode[3] != undefined) {
+              $scope.item.instalasiverif = { id: chacePeriode[3].id, nama: chacePeriode[3].nama };
+            }
+            if (chacePeriode[4] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.ruanganripapjverif = { id: chacePeriode[4].id, nama: chacePeriode[4].nama };
+            }
+            if (chacePeriode[5] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.ruanganigdpapjverif = { id: chacePeriode[5].id, namaruangan: chacePeriode[5].namaruangan };
+            }
+            if (chacePeriode[6] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.ruanganrmpapjverif = { id: chacePeriode[6].id, namaruangan: chacePeriode[6].namaruangan };
+            }
+            if (chacePeriode[7] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.ruanganrjpapjverif = { id: chacePeriode[7].id, namaruangan: chacePeriode[7].namaruangan };
+            }
+            LoadDataVerifPAPJ(false);
+          } else {
+            $scope.item.tglAwalPulangVerif = moment().startOf('day').toDate();
+            $scope.item.tglAkhirPulangVerif = moment().endOf('day').toDate();
+            LoadDataVerifPAPJ(true);
+          }
 
-          if (chacePeriode[3] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.instalasi = { id: chacePeriode[3].id, nama: chacePeriode[3].nama };
-          }
-          if (chacePeriode[4] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.ruanganripapj = { id: chacePeriode[4].id, nama: chacePeriode[4].nama };
-          }
-          if (chacePeriode[5] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.ruanganigdpapj = { id: chacePeriode[5].id, namaruangan: chacePeriode[5].namaruangan };
-          }
-          if (chacePeriode[6] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.ruanganrmpapj = { id: chacePeriode[6].id, namaruangan: chacePeriode[6].namaruangan };
-          }
-          if (chacePeriode[7] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.ruanganrjpapj = { id: chacePeriode[7].id, namaruangan: chacePeriode[7].namaruangan };
-          }
-          debugger;
-          LoadDataKirimPAPJ(false);
-        } else {
-          $scope.item.tglAwalKirim = moment().startOf('day').toDate();
-          $scope.item.tglAkhirKirim = moment().endOf('day').toDate();
-          LoadDataKirimPAPJ(true);
-        }
+          var chacePeriodeJSON = localStorage.getItem("BerkasSiapKlaim");
+          var chacePeriode = JSON.parse(chacePeriodeJSON);
+          if (chacePeriode && chacePeriode[0] && chacePeriode[1]) {
+            $scope.item.tanggalRegistrasiAwal = moment(chacePeriode[0], 'YYYY-MM-DD').startOf('day').toDate(); //komen bentar biar getdatenya masuk
+            $scope.item.tanggalRegistrasiAkhir = moment(chacePeriode[1], 'YYYY-MM-DD').endOf('day').toDate();
+            // if (chacePeriode[2] != undefined) {
+            //     $scope.item.noseppapj = chacePeriode[2];
+            // }
 
-        var chacePeriodeJSON = localStorage.getItem("BerkasSudahVerif");
-        var chacePeriode = JSON.parse(chacePeriodeJSON);
-        if (chacePeriode && chacePeriode[0] && chacePeriode[1]) {
-          $scope.item.tglAwalPulangVerif = moment(chacePeriode[0], 'YYYY-MM-DD').startOf('day').toDate(); //komen bentar biar getdatenya masuk
-          $scope.item.tglAkhirPulangVerif = moment(chacePeriode[1], 'YYYY-MM-DD').endOf('day').toDate();
-          if (chacePeriode[2] != undefined) {
-            $scope.item.noRm = chacePeriode[2];
-          }
-          console.log(chacePeriode[3]);
-          if (chacePeriode[3] != undefined) {
-            $scope.item.instalasiverif = { id: chacePeriode[3].id, nama: chacePeriode[3].nama };
-          }
-          if (chacePeriode[4] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.ruanganripapjverif = { id: chacePeriode[4].id, nama: chacePeriode[4].nama };
-          }
-          if (chacePeriode[5] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.ruanganigdpapjverif = { id: chacePeriode[5].id, namaruangan: chacePeriode[5].namaruangan };
-          }
-          if (chacePeriode[6] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.ruanganrmpapjverif = { id: chacePeriode[6].id, namaruangan: chacePeriode[6].namaruangan };
-          }
-          if (chacePeriode[7] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.ruanganrjpapjverif = { id: chacePeriode[7].id, namaruangan: chacePeriode[7].namaruangan };
-          }
-          LoadDataVerifPAPJ(false);
-        } else {
-          $scope.item.tglAwalPulangVerif = moment().startOf('day').toDate();
-          $scope.item.tglAkhirPulangVerif = moment().endOf('day').toDate();
-          LoadDataVerifPAPJ(true);
-        }
+            // // console.log(chacePeriode[3])
 
-        var chacePeriodeJSON = localStorage.getItem("BerkasSiapKlaim");
-        var chacePeriode = JSON.parse(chacePeriodeJSON);
-        if (chacePeriode && chacePeriode[0] && chacePeriode[1]) {
-          $scope.item.tanggalRegistrasiAwal = moment(chacePeriode[0], 'YYYY-MM-DD').startOf('day').toDate(); //komen bentar biar getdatenya masuk
-          $scope.item.tanggalRegistrasiAkhir = moment(chacePeriode[1], 'YYYY-MM-DD').endOf('day').toDate();
-          // if (chacePeriode[2] != undefined) {
-          //     $scope.item.noseppapj = chacePeriode[2];
-          // }
+            if (chacePeriode[2] != undefined) {
+              // $scope.item.instalasi = chacePeriode[3]
+              $scope.item.instalasiklaim = { id: chacePeriode[2].id, nama: chacePeriode[2].nama };
+            }
+            // if (chacePeriode[4] != undefined) {
+            //     // $scope.item.instalasi = chacePeriode[3]
+            //     $scope.item.ruanganripapj = { id : chacePeriode[4].id    ,
+            //     nama : chacePeriode[4].nama
+            //     }
+            // }
+            // if (chacePeriode[5] != undefined) {
+            //     // $scope.item.instalasi = chacePeriode[3]
+            //     $scope.item.ruanganigdpapj = { id : chacePeriode[5].id    ,
+            //     namaruangan : chacePeriode[5].namaruangan
+            //     }
+            // }
+            // if (chacePeriode[6] != undefined) {
+            //     // $scope.item.instalasi = chacePeriode[3]
+            //     $scope.item.ruanganrmpapj = { id : chacePeriode[6].id    ,
+            //     namaruangan : chacePeriode[6].namaruangan
+            //     }
+            // }
+            // if (chacePeriode[7] != undefined) {
+            //     // $scope.item.instalasi = chacePeriode[3]
+            //     $scope.item.ruanganrjpapj = { id : chacePeriode[7].id    ,
+            //     namaruangan : chacePeriode[7].namaruangan
+            //     }
+            // }
+            debugger;
+            LoadDataKlaimPAPJ(false);
+          } else {
+            $scope.item.tanggalRegistrasiAwal = moment().startOf('day').toDate();
+            $scope.item.tanggalRegistrasiAkhir = moment().endOf('day').toDate();
 
-          // // console.log(chacePeriode[3])
-
-          if (chacePeriode[2] != undefined) {
-            // $scope.item.instalasi = chacePeriode[3]
-            $scope.item.instalasiklaim = { id: chacePeriode[2].id, nama: chacePeriode[2].nama };
+            // $scope.item.tanggalAwalKlaimBerkas = moment().startOf('day').toDate();
+            // $scope.item.tanggalAkhirKlaimBerkas = moment().endOf('day').toDate();
+            LoadDataKlaimPAPJ(true);
           }
-          // if (chacePeriode[4] != undefined) {
-          //     // $scope.item.instalasi = chacePeriode[3]
-          //     $scope.item.ruanganripapj = { id : chacePeriode[4].id    ,
-          //     nama : chacePeriode[4].nama
-          //     }
-          // }
-          // if (chacePeriode[5] != undefined) {
-          //     // $scope.item.instalasi = chacePeriode[3]
-          //     $scope.item.ruanganigdpapj = { id : chacePeriode[5].id    ,
-          //     namaruangan : chacePeriode[5].namaruangan
-          //     }
-          // }
-          // if (chacePeriode[6] != undefined) {
-          //     // $scope.item.instalasi = chacePeriode[3]
-          //     $scope.item.ruanganrmpapj = { id : chacePeriode[6].id    ,
-          //     namaruangan : chacePeriode[6].namaruangan
-          //     }
-          // }
-          // if (chacePeriode[7] != undefined) {
-          //     // $scope.item.instalasi = chacePeriode[3]
-          //     $scope.item.ruanganrjpapj = { id : chacePeriode[7].id    ,
-          //     namaruangan : chacePeriode[7].namaruangan
-          //     }
-          // }
-          debugger;
-          LoadDataKlaimPAPJ(false);
-        } else {
-          $scope.item.tanggalRegistrasiAwal = moment().startOf('day').toDate();
-          $scope.item.tanggalRegistrasiAkhir = moment().endOf('day').toDate();
 
-          // $scope.item.tanggalAwalKlaimBerkas = moment().startOf('day').toDate();
-          // $scope.item.tanggalAkhirKlaimBerkas = moment().endOf('day').toDate();
-          LoadDataKlaimPAPJ(true);
-        }
-        
-      }, 50)
+        }, 50)
       }
       // function
       //     LoadDataClosingFaktur() {
@@ -326,7 +326,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
       //         });
       // }
       $scope.saveLogging = function (jenis, referensi, noreff, ket) {
-        medifirstService.get("sysadmin/logging/save-log-all?jenislog=" + jenis + "&referensi=" + referensi + "&noreff=" + noreff + "&keterangan=" + ket).then(function (data) {});
+        medifirstService.get("sysadmin/logging/save-log-all?jenislog=" + jenis + "&referensi=" + referensi + "&noreff=" + noreff + "&keterangan=" + ket).then(function (data) { });
       };
       $scope.tagihanClosing = function (data) {
         if (data == undefined) {
@@ -347,12 +347,12 @@ define(["initialize", "Configuration"], function (initialize, config) {
               if (dat.data.details[i].norec != null) {
                 alert(
                   "data belum lengkap (Dokter Pemeriksa Belum Diisi lengkapi Data terlebihdahulu )!!" +
-                    "pelayanan :" +
-                    dat.data.details[i].namaPelayanan +
-                    "ruangan :" +
-                    dat.data.details[i].ruanganTindakan +
-                    "tgl.peelayanan :" +
-                    dat.data.details[i].tglPelayanan
+                  "pelayanan :" +
+                  dat.data.details[i].namaPelayanan +
+                  "ruangan :" +
+                  dat.data.details[i].ruanganTindakan +
+                  "tgl.peelayanan :" +
+                  dat.data.details[i].tglPelayanan
                 );
                 return;
               }
@@ -697,11 +697,11 @@ define(["initialize", "Configuration"], function (initialize, config) {
                 $scope.target_statusnaikkelas = "Tidak Naik Kelas";
                 $scope.target_kelaspelayanan = "-";
                 $scope.target_upgrade_class_payor = "Tidak Naik Kelas";
-                 if (e.data.data[0].caramasuk != null) {
-                    $scope.target_cara_masuk = e.data.data[0].caramasuk;
-                    } else {
-                      $scope.target_cara_masuk = "Rujukan FKTP";
-                  }
+                if (e.data.data[0].caramasuk != null) {
+                  $scope.target_cara_masuk = e.data.data[0].caramasuk;
+                } else {
+                  $scope.target_cara_masuk = "Rujukan FKTP";
+                }
               } else {
                 $scope.paramInacbg = "Rawat Inap";
                 $scope.targetkelas_rawat = e.data.data[0].namakelas;
@@ -709,7 +709,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
                 $scope.lamarawatintensiv = e.data.datanaikkelas[0].lamarawatintensiv + " Hari";
                 if (e.data.datanaikkelas[0].statusnaikkelas == "1") {
                   $scope.target_statusnaikkelas = "Naik Kelas";
-                  if (e.data.data[0].namanaikkelas != null) 
+                  if (e.data.data[0].namanaikkelas != null)
                     $scope.target_upgrade_class_payor = $scope.item.data[0].namanaikkelas;
                   else $scope.target_upgrade_class_payor = "Belum Diisi";
                 } else {
@@ -720,12 +720,12 @@ define(["initialize", "Configuration"], function (initialize, config) {
               if (set.tipe == "RI") {
                 // $scope.target_cara_masuk = "Dari Rawat Darurat";
                 if (e.data.data[0].caramasuk == "Rujukan FKTP" && $scope.item.data[0].kodecaramasuk == "gp") {
-                    $scope.target_cara_masuk = "Dari Rawat Darurat";
-                    $scope.item.data[0].kodecaramasuk = "emd";
-                  } else {
-                      $scope.target_cara_masuk = e.data.data[0].caramasuk;
-                      $scope.item.data[0].kodecaramasuk;
-                  }
+                  $scope.target_cara_masuk = "Dari Rawat Darurat";
+                  $scope.item.data[0].kodecaramasuk = "emd";
+                } else {
+                  $scope.target_cara_masuk = e.data.data[0].caramasuk;
+                  $scope.item.data[0].kodecaramasuk;
+                }
               }
               $scope.item.noregistrasi = e.data.data[0].noregistrasi;
               $scope.targettgl_masuk = e.data.data[0].tglregistrasi;
@@ -790,9 +790,9 @@ define(["initialize", "Configuration"], function (initialize, config) {
               $scope.item.kantongdarah = parseInt($scope.item.data[0].kantongdarah);
               // $scope.item.dializer = parseInt($scope.item.data[0].dializer);
               if ($scope.item.data[0].dializer != null) {
-                  $scope.item.dializer = parseInt($scope.item.data[0].dializer);
+                $scope.item.dializer = parseInt($scope.item.data[0].dializer);
               } else {
-                  $scope.item.dializer = 1; // default Single Use
+                $scope.item.dializer = 1; // default Single Use
               }
               $scope.item.appearance = parseInt($scope.item.data[0].appearance);
               $scope.item.appearance2 = parseInt($scope.item.data[0].appearance2);
@@ -1055,7 +1055,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           console.log("Response data:", e.data);
           console.log("Data type:", typeof e.data, "Is Array:", Array.isArray(e.data));
           $scope.isRouteLoading = false;
-          
+
           // Handle response - cek apakah data di-wrap dalam property lain
           var data2 = e.data;
           if (!Array.isArray(data2)) {
@@ -1066,7 +1066,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           if (data2.length > 0) {
             console.log("Sample data item:", data2[0]);
           }
-          
+
           $scope.dataGrid = new kendo.data.DataSource({
             data: data2,
             pageSize: 100,
@@ -1099,18 +1099,18 @@ define(["initialize", "Configuration"], function (initialize, config) {
           // Force read data
           $scope.dataGrid.read();
           console.log("DataGrid created, total items:", $scope.dataGrid.total());
-          
+
           // Force Angular digest
           if (!$scope.$$phase && !$rootScope.$$phase) {
             $scope.$apply();
           }
-          
+
           // Delay refresh for grid to initialize
-          $timeout(function() {
+          $timeout(function () {
             console.log("Refreshing grid after $apply (clickCard)...");
             refreshKendoGrid("kGrid");
           }, 200);
-        }, function(error) {
+        }, function (error) {
           console.error("Error fetching data:", error);
           $scope.isRouteLoading = false;
         });
@@ -1151,14 +1151,14 @@ define(["initialize", "Configuration"], function (initialize, config) {
           // Force read data
           $scope.dataGrid2.read();
           console.log("DataGrid2 created, total items:", $scope.dataGrid2.total());
-          
+
           // Force Angular digest
           if (!$scope.$$phase && !$rootScope.$$phase) {
             $scope.$apply();
           }
-          
+
           // Delay refresh for grid to initialize
-          $timeout(function() {
+          $timeout(function () {
             console.log("Refreshing grid after $apply (DataGrid2)...");
             refreshKendoGrid("kGrid2");
           }, 200);
@@ -1195,7 +1195,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           console.log("Response data:", e.data);
           console.log("Data type:", typeof e.data, "Is Array:", Array.isArray(e.data));
           $scope.isRouteLoading = false;
-          
+
           // Handle response - cek apakah data di-wrap dalam property lain
           var data2 = e.data;
           if (!Array.isArray(data2)) {
@@ -1206,7 +1206,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           if (data2.length > 0) {
             console.log("Sample data item:", data2[0]);
           }
-          
+
           $scope.dataGrid = new kendo.data.DataSource({
             data: data2,
             pageSize: 100,
@@ -1239,18 +1239,18 @@ define(["initialize", "Configuration"], function (initialize, config) {
           // Force read data
           $scope.dataGrid.read();
           console.log("DataGrid created, total items:", $scope.dataGrid.total());
-          
+
           // Force Angular digest
           if (!$scope.$$phase && !$rootScope.$$phase) {
             $scope.$apply();
           }
-          
+
           // Delay refresh for grid to initialize
-          $timeout(function() {
+          $timeout(function () {
             console.log("Refreshing grid after $apply (SET.NOSEP)...");
             refreshKendoGrid("kGrid");
           }, 200);
-        }, function(error) {
+        }, function (error) {
           console.error("Error fetching data (SET.NOSEP):", error);
           $scope.isRouteLoading = false;
         });
@@ -1259,7 +1259,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           console.log("Response data:", e.data);
           console.log("Data type:", typeof e.data, "Is Array:", Array.isArray(e.data));
           $scope.isRouteLoading = false;
-          
+
           // Handle response - cek apakah data di-wrap dalam property lain
           var data2 = e.data;
           if (!Array.isArray(data2)) {
@@ -1300,7 +1300,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           console.log("DataGrid2 created, total items:", $scope.dataGrid2.total());
           // Refresh grid after datasource is set
           refreshKendoGrid("kGrid");
-        }, function(error) {
+        }, function (error) {
           console.error("Error fetching data (SET.NOCM):", error);
           $scope.isRouteLoading = false;
         });
@@ -2020,47 +2020,47 @@ define(["initialize", "Configuration"], function (initialize, config) {
       };
       $scope.clickHapus9 = function (x) {
         var diagnosa = {
-            norec_dp: x.norec_diagnosapasien,
-            noregistrasi: x.noregistrasi,
+          norec_dp: x.norec_diagnosapasien,
+          noregistrasi: x.noregistrasi,
         };
         var objDelete = { diagnosa: diagnosa };
 
         medifirstService.post("registrasi/delete-diagnosa-tindakan-pasien", objDelete).then(function (e) {
-            if (!Array.isArray($scope.item.dataDiagnosa9InacbgImport)) {
-                $scope.item.dataDiagnosa9InacbgImport = [];
-            }
+          if (!Array.isArray($scope.item.dataDiagnosa9InacbgImport)) {
+            $scope.item.dataDiagnosa9InacbgImport = [];
+          }
 
-            $scope.item.dataDiagnosa9InacbgImport = $scope.item.dataDiagnosa9InacbgImport.filter(function (d) {
-                return d.kddiagnosatindakan !== x.kddiagnosatindakan;
+          $scope.item.dataDiagnosa9InacbgImport = $scope.item.dataDiagnosa9InacbgImport.filter(function (d) {
+            return d.kddiagnosatindakan !== x.kddiagnosatindakan;
+          });
+
+          delete $scope.item.diagnosisPrimer1;
+          $scope.dataSelected1 = {};
+
+          $scope.setdetail(set);
+
+          if ($scope.item.data[0].nosep) {
+            var dt1 = {
+              metadata: {
+                method: "idrg_procedure_set",
+                nomor_sep: $scope.item.data[0].nosep
+              },
+              data: {
+                procedure: $scope.item.dataDiagnosa9InacbgImport
+              }
+            };
+            var dt2 = [dt1];
+            var objData = { data: dt2 };
+
+            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (res) {
+              var responData = res.data.dataresponse;
+              toastr.info("Procedure iDRG berhasil diupdate", "INACBG");
+
+              $scope.setdetail(set);
             });
-
-            delete $scope.item.diagnosisPrimer1;
-            $scope.dataSelected1 = {};
-
-            $scope.setdetail(set);
-
-            if ($scope.item.data[0].nosep) { 
-                var dt1 = {
-                    metadata: {
-                        method: "idrg_procedure_set",
-                        nomor_sep: $scope.item.data[0].nosep
-                    },
-                    data: {
-                        procedure: $scope.item.dataDiagnosa9InacbgImport
-                    }
-                };
-                var dt2 = [dt1];
-                var objData = { data: dt2 };
-
-                medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (res) {
-                    var responData = res.data.dataresponse;
-                    toastr.info("Procedure iDRG berhasil diupdate", "INACBG");
-
-                    $scope.setdetail(set);
-                });
-            }
+          }
         });
-    };
+      };
 
       $scope.clickSITB = function () {
         var dt1 = {};
@@ -2265,7 +2265,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: 0,
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              kode_tarif: "BP",
+              kode_tarif: "CP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -2461,7 +2461,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: "",
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              kode_tarif: "BP",
+              kode_tarif: "CP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -2988,7 +2988,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           noregistrasi: $scope.dataSelected.noregistrasi,
           file: file,
         };
-        medifirstService.postNonMessage("registrasi/post-file-papj", objSave).then(function (e) {});
+        medifirstService.postNonMessage("registrasi/post-file-papj", objSave).then(function (e) { });
       }
       $scope.clickEditClaim = function () {
         var dt1 = {};
@@ -3097,12 +3097,12 @@ define(["initialize", "Configuration"], function (initialize, config) {
 
           // Ambil total dari biayars
           if (data.data.biayars && data.data.biayars.length > 0) {
-              totalBiayaRS = data.data.biayars[0].total;
+            totalBiayaRS = data.data.biayars[0].total;
           }
 
           // Masukkan total ke setiap item
           dataICD10.forEach(function (item) {
-              item.biayars = totalBiayaRS;
+            item.biayars = totalBiayaRS;
           });
 
           // Simpan juga ke scope (kalau mau dipakai di luar tabel)
@@ -3110,11 +3110,11 @@ define(["initialize", "Configuration"], function (initialize, config) {
 
           // Buat DataSource Kendo
           $scope.dataSourceDiagnosaIcd10 = new kendo.data.DataSource({
-              data: dataICD10,
-              pageSize: 10,
+            data: dataICD10,
+            pageSize: 10,
           });
           tampungdiagnosaIcd10 = data.data.datas;
-      });
+        });
       }
       function loadKonsul() {
         medifirstService.get("emr/get-order-konsul?noregistrasi=" + $scope.dataSelected.noregistrasi).then(function (dat) {
@@ -4170,56 +4170,56 @@ define(["initialize", "Configuration"], function (initialize, config) {
         });
       };
 
-   $scope.cetakLangsungNewTes = function () {
-    // 1. Validasi Data
-    if (!$scope.dataSelected || !$scope.dataSelected.noregistrasi) {
-        if (window.messageContainer) {
+      $scope.cetakLangsungNewTes = function () {
+        // 1. Validasi Data
+        if (!$scope.dataSelected || !$scope.dataSelected.noregistrasi) {
+          if (window.messageContainer) {
             window.messageContainer.error("Nomor registrasi tidak tersedia!");
-        } else {
+          } else {
             alert("Nomor registrasi tidak tersedia!");
+          }
+          return;
         }
-        return;
-    }
 
-    // 2. Validasi Checkbox Dokumen
-    var dokumenall = ""; // Inisialisasi di awal (Best Practice)
-    
-    // Cek apakah treeview ada dan memiliki data
-    if ($scope.treeSourceDokumen && $scope.treeSourceDokumen._view) {
-        var checkedItems = $scope.treeSourceDokumen._view.filter(function(item) {
-             return item.checked;
-        });
+        // 2. Validasi Checkbox Dokumen
+        var dokumenall = ""; // Inisialisasi di awal (Best Practice)
 
-        if (checkedItems.length > 0) {
-            dokumenall = checkedItems.map(function(item) {
-                return item.code;
+        // Cek apakah treeview ada dan memiliki data
+        if ($scope.treeSourceDokumen && $scope.treeSourceDokumen._view) {
+          var checkedItems = $scope.treeSourceDokumen._view.filter(function (item) {
+            return item.checked;
+          });
+
+          if (checkedItems.length > 0) {
+            dokumenall = checkedItems.map(function (item) {
+              return item.code;
             }).join(",");
+          }
         }
-    }
 
-    // 3. Susun URL Download
-    // encodeURIComponent penting agar karakter spesial (misal: / atau spasi) tidak merusak URL
-    var previewUrl = config.baseApiBackend + "report/cetak-semua-inacbg-newtes-donwload" + 
-        "?noregistrasi=" + encodeURIComponent($scope.dataSelected.noregistrasi) +
-        "&norecpd=" + encodeURIComponent($scope.dataSelected.norec) +
-        "&dokumenall=" + encodeURIComponent(dokumenall) +
-        "&pdf=1";
+        // 3. Susun URL Download
+        // encodeURIComponent penting agar karakter spesial (misal: / atau spasi) tidak merusak URL
+        var previewUrl = config.baseApiBackend + "report/cetak-semua-inacbg-newtes-donwload" +
+          "?noregistrasi=" + encodeURIComponent($scope.dataSelected.noregistrasi) +
+          "&norecpd=" + encodeURIComponent($scope.dataSelected.norec) +
+          "&dokumenall=" + encodeURIComponent(dokumenall) +
+          "&pdf=1";
 
-    // 4. Eksekusi Download
-    // Cara ini paling aman untuk menghindari Pop-up Blocker modern
-    var link = document.createElement('a');
-    link.href = previewUrl;
-    link.target = '_blank'; // Buka di tab baru (opsional, jika ingin download di background hapus baris ini)
-    link.download = $scope.dataSelected.nosep + '.pdf'; // Memberi hint nama file
-    
-    document.body.appendChild(link);
-    link.click();
-    
-    // Bersihkan elemen link setelah diklik
-    setTimeout(function() {
-        document.body.removeChild(link);
-    }, 100);
-};
+        // 4. Eksekusi Download
+        // Cara ini paling aman untuk menghindari Pop-up Blocker modern
+        var link = document.createElement('a');
+        link.href = previewUrl;
+        link.target = '_blank'; // Buka di tab baru (opsional, jika ingin download di background hapus baris ini)
+        link.download = $scope.dataSelected.nosep + '.pdf'; // Memberi hint nama file
+
+        document.body.appendChild(link);
+        link.click();
+
+        // Bersihkan elemen link setelah diklik
+        setTimeout(function () {
+          document.body.removeChild(link);
+        }, 100);
+      };
 
 
 
@@ -4435,89 +4435,89 @@ define(["initialize", "Configuration"], function (initialize, config) {
           });
         });
         medifirstService.get("emr/get-diagnosapasienbynoreg?" + param).then(function (data) {
-            var dataICD10 = data.data.datas || [];
-            // var totalBiayaRS = 0;
+          var dataICD10 = data.data.datas || [];
+          // var totalBiayaRS = 0;
 
-            // // Ambil total dari biayars
-            // if (data.data.biayars && data.data.biayars.length > 0) {
-            //     totalBiayaRS = data.data.biayars[0].total;
-            // }
+          // // Ambil total dari biayars
+          // if (data.data.biayars && data.data.biayars.length > 0) {
+          //     totalBiayaRS = data.data.biayars[0].total;
+          // }
 
-            // // Masukkan total ke setiap item
-            // dataICD10.forEach(function (item) {
-            //     item.biayars = totalBiayaRS;
-            // });
+          // // Masukkan total ke setiap item
+          // dataICD10.forEach(function (item) {
+          //     item.biayars = totalBiayaRS;
+          // });
 
-            // // Simpan juga ke scope (kalau mau dipakai di luar tabel)
-            // $scope.totalBiayaRS = totalBiayaRS;
+          // // Simpan juga ke scope (kalau mau dipakai di luar tabel)
+          // $scope.totalBiayaRS = totalBiayaRS;
 
-            // Buat DataSource Kendo
-            $scope.dataSourceDiagnosaIcd10 = new kendo.data.DataSource({
-                data: dataICD10,
-                pageSize: 10,
-            });
-            tampungdiagnosaIcd10 = data.data.datas;
+          // Buat DataSource Kendo
+          $scope.dataSourceDiagnosaIcd10 = new kendo.data.DataSource({
+            data: dataICD10,
+            pageSize: 10,
+          });
+          tampungdiagnosaIcd10 = data.data.datas;
         });
-       medifirstService.get("emr/get-diagnosapasienbynoreg-rm?" + param2).then(function (data) {
-        const rawData = data.data?.datas || [];
+        medifirstService.get("emr/get-diagnosapasienbynoreg-rm?" + param2).then(function (data) {
+          const rawData = data.data?.datas || [];
 
-        // Group berdasarkan No Registrasi
-        const grouped = new Map();
-        rawData.forEach(item => {
-          if (!grouped.has(item.noregistrasi)) {
-            grouped.set(item.noregistrasi, {
-              noregistrasi: item.noregistrasi,
-              tglregistrasi: item.tglregistrasi,
-              namaruangan: item.namaruangan,
-              details: [],
-            });
-          }
-          grouped.get(item.noregistrasi).details.push(item);
+          // Group berdasarkan No Registrasi
+          const grouped = new Map();
+          rawData.forEach(item => {
+            if (!grouped.has(item.noregistrasi)) {
+              grouped.set(item.noregistrasi, {
+                noregistrasi: item.noregistrasi,
+                tglregistrasi: item.tglregistrasi,
+                namaruangan: item.namaruangan,
+                details: [],
+              });
+            }
+            grouped.get(item.noregistrasi).details.push(item);
+          });
+
+          $scope.dataGridHistoryDiagnosa = Array.from(grouped.values());
+          // console.log("Data history diagnosa:", $scope.dataGridHistoryDiagnosa);
+
+          // Update ke grid
+          const updateGridData = () => {
+            if ($scope.historyDiagnosaGrid?.dataSource) {
+              $scope.historyDiagnosaGrid.dataSource.data($scope.dataGridHistoryDiagnosa);
+            }
+          };
+
+          if ($scope.historyDiagnosaGrid) updateGridData();
+          else $timeout(updateGridData, 500);
         });
+        medifirstService.get("emr/get-diagnosapasienbynoregicd9-rm?" + param2).then(function (data) {
+          const rawData = data.data?.datas || [];
 
-        $scope.dataGridHistoryDiagnosa = Array.from(grouped.values());
-        // console.log("Data history diagnosa:", $scope.dataGridHistoryDiagnosa);
+          // Group berdasarkan No Registrasi
+          const grouped = new Map();
+          rawData.forEach(item => {
+            if (!grouped.has(item.noregistrasi)) {
+              grouped.set(item.noregistrasi, {
+                noregistrasi: item.noregistrasi,
+                tglregistrasi: item.tglregistrasi,
+                namaruangan: item.namaruangan,
+                details: [],
+              });
+            }
+            grouped.get(item.noregistrasi).details.push(item);
+          });
 
-        // Update ke grid
-        const updateGridData = () => {
-          if ($scope.historyDiagnosaGrid?.dataSource) {
-            $scope.historyDiagnosaGrid.dataSource.data($scope.dataGridHistoryDiagnosa);
-          }
-        };
+          $scope.dataGridHistoryDiagnosa9 = Array.from(grouped.values());
+          console.log("Data history diagnosa:", $scope.dataGridHistoryDiagnosa9);
 
-        if ($scope.historyDiagnosaGrid) updateGridData();
-        else $timeout(updateGridData, 500);
-      });
-      medifirstService.get("emr/get-diagnosapasienbynoregicd9-rm?" + param2).then(function (data) {
-        const rawData = data.data?.datas || [];
+          // Update ke grid
+          const updateGrid9Data = () => {
+            if ($scope.historyDiagnosa9Grid?.dataSource) {
+              $scope.historyDiagnosa9Grid.dataSource.data($scope.dataGridHistoryDiagnosa9);
+            }
+          };
 
-        // Group berdasarkan No Registrasi
-        const grouped = new Map();
-        rawData.forEach(item => {
-          if (!grouped.has(item.noregistrasi)) {
-            grouped.set(item.noregistrasi, {
-              noregistrasi: item.noregistrasi,
-              tglregistrasi: item.tglregistrasi,
-              namaruangan: item.namaruangan,
-              details: [],
-            });
-          }
-          grouped.get(item.noregistrasi).details.push(item);
+          if ($scope.historyDiagnosa9Grid) updateGrid9Data();
+          else $timeout(updateGrid9Data, 500);
         });
-
-        $scope.dataGridHistoryDiagnosa9 = Array.from(grouped.values());
-        console.log("Data history diagnosa:", $scope.dataGridHistoryDiagnosa9);
-
-        // Update ke grid
-        const updateGrid9Data = () => {
-          if ($scope.historyDiagnosa9Grid?.dataSource) {
-            $scope.historyDiagnosa9Grid.dataSource.data($scope.dataGridHistoryDiagnosa9);
-          }
-        };
-
-        if ($scope.historyDiagnosa9Grid) updateGrid9Data();
-        else $timeout(updateGrid9Data, 500);
-      });
 
 
         $scope.columnDiagnosaIcd9 = [
@@ -4620,7 +4620,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
             width: "200px",
           },
         ];
-       $scope.mainHistoryGridOptions = {
+        $scope.mainHistoryGridOptions = {
           dataSource: new kendo.data.DataSource({ data: [], pageSize: 10 }),
           pageable: true,
           sortable: true,
@@ -4640,7 +4640,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
             },
           ],
         };
-       $scope.mainHistoryGrid9Options = {
+        $scope.mainHistoryGrid9Options = {
           dataSource: new kendo.data.DataSource({ data: [], pageSize: 10 }),
           pageable: true,
           sortable: true,
@@ -4662,32 +4662,32 @@ define(["initialize", "Configuration"], function (initialize, config) {
         };
       }
 
-     $scope.detailHistoryGridOptions = function (dataItem) {
-      const details = (dataItem && dataItem.details) ? dataItem.details : [];
-      return {
-        dataSource: { data: details, pageSize: 5 },
-        columns: [
-          { field: "jenisdiagnosa", title: "Jenis Diagnosis", width: "150px" },
-          { field: "kddiagnosa", title: "Kode ICD 10", width: "120px" },
-          { field: "namadiagnosa", title: "Nama ICD 10", width: "300px" },
-          { field: "namalengkap", title: "Penginput", width: "180px" },
-        ],
-        noRecords: { template: "<div style='text-align:center;padding:10px;'>Tidak ada detail diagnosa</div>" },
+      $scope.detailHistoryGridOptions = function (dataItem) {
+        const details = (dataItem && dataItem.details) ? dataItem.details : [];
+        return {
+          dataSource: { data: details, pageSize: 5 },
+          columns: [
+            { field: "jenisdiagnosa", title: "Jenis Diagnosis", width: "150px" },
+            { field: "kddiagnosa", title: "Kode ICD 10", width: "120px" },
+            { field: "namadiagnosa", title: "Nama ICD 10", width: "300px" },
+            { field: "namalengkap", title: "Penginput", width: "180px" },
+          ],
+          noRecords: { template: "<div style='text-align:center;padding:10px;'>Tidak ada detail diagnosa</div>" },
+        };
       };
-    };
 
-     $scope.detailHistoryGrid9Options = function (dataItem) {
-      const details = (dataItem && dataItem.details) ? dataItem.details : [];
-      return {
-        dataSource: { data: details, pageSize: 5 },
-        columns: [
-          { field: "kddiagnosatindakan", title: "Kode ICD 10", width: "120px" },
-          { field: "namadiagnosatindakan", title: "Nama ICD 10", width: "300px" },
-          { field: "namalengkap", title: "Penginput", width: "180px" },
-        ],
-        noRecords: { template: "<div style='text-align:center;padding:10px;'>Tidak ada detail diagnosa</div>" },
+      $scope.detailHistoryGrid9Options = function (dataItem) {
+        const details = (dataItem && dataItem.details) ? dataItem.details : [];
+        return {
+          dataSource: { data: details, pageSize: 5 },
+          columns: [
+            { field: "kddiagnosatindakan", title: "Kode ICD 10", width: "120px" },
+            { field: "namadiagnosatindakan", title: "Nama ICD 10", width: "300px" },
+            { field: "namalengkap", title: "Penginput", width: "180px" },
+          ],
+          noRecords: { template: "<div style='text-align:center;padding:10px;'>Tidak ada detail diagnosa</div>" },
+        };
       };
-    };
 
 
       // FUNGSI UNTUK TOMBOL "GUNAKAN KUNJUNGAN INI"
@@ -4776,7 +4776,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           await Promise.all(promises);
 
           toastr.success(`${newItems.length} diagnosa ICD 9 berhasil disalin dari riwayat.`, "Sukses");
-          
+
           const currentPatientData = {
             noRegistrasi: $scope.item.noregistrasi,
             noCm: $scope.item.nocm
@@ -4815,14 +4815,14 @@ define(["initialize", "Configuration"], function (initialize, config) {
                 "Norec DiagnosaPasien_T",
                 e.data.data.norec,
                 "Input Diagnosis ICD 10 ( " +
-                  $scope.item.diagnosa.kdDiagnosa +
-                  "-" +
-                  $scope.item.diagnosa.namaDiagnosa +
-                  " )" +
-                  " No Registrasi " +
-                  $scope.item.noregistrasi +
-                  "/ " +
-                  $scope.item.noMr
+                $scope.item.diagnosa.kdDiagnosa +
+                "-" +
+                $scope.item.diagnosa.namaDiagnosa +
+                " )" +
+                " No Registrasi " +
+                $scope.item.noregistrasi +
+                "/ " +
+                $scope.item.noMr
               )
               .then(function (res) {
                 $scope.setdetail(set);
@@ -5727,7 +5727,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
 
       // END HAPUS SEP
 
-     $scope.SaveAlasan = async function () {
+      $scope.SaveAlasan = async function () {
         try {
           if (!$scope.item.alasan || $scope.item.alasan.trim() === "") {
             alert("Alasan berkas tidak layak tidak boleh kosong!");
@@ -5939,30 +5939,30 @@ define(["initialize", "Configuration"], function (initialize, config) {
         medifirstService
           .get(
             "tatarekening/daftar-pasien-pulang-papj-kirim?" +
-              "namaPasien=" +
-              tempNamaOrReg +
-              "&noReg=" +
-              tempNoReg +
-              "&instalasiId=" +
-              tempInstalasiId +
-              "&noRm=" +
-              tempNoRm +
-              "&noSep=" +
-              tempNoSEP +
-              "&jmlRows=" +
-              jmlRow +
-              "&ruangRI=" +
-              tempRuanganRIId +
-              "&ruangRJ=" +
-              tempRuanganRJId +
-              "&ruangRIg=" +
-              tempRuanganRigd +
-              "&ruangRM=" +
-              tempRuanganRm +
-              "&tglAwal=" +
-              tglAwal +
-              "&tglAkhir=" +
-              tglAkhir
+            "namaPasien=" +
+            tempNamaOrReg +
+            "&noReg=" +
+            tempNoReg +
+            "&instalasiId=" +
+            tempInstalasiId +
+            "&noRm=" +
+            tempNoRm +
+            "&noSep=" +
+            tempNoSEP +
+            "&jmlRows=" +
+            jmlRow +
+            "&ruangRI=" +
+            tempRuanganRIId +
+            "&ruangRJ=" +
+            tempRuanganRJId +
+            "&ruangRIg=" +
+            tempRuanganRigd +
+            "&ruangRM=" +
+            tempRuanganRm +
+            "&tglAwal=" +
+            tglAwal +
+            "&tglAkhir=" +
+            tglAkhir
           )
           .then(function (data) {
             $scope.showBtnBayar = false;
@@ -6003,20 +6003,20 @@ define(["initialize", "Configuration"], function (initialize, config) {
           });
 
         // ✅ hanya update cache kalau diminta
-          if (shouldUpdateCache) {
-            var chacePeriode = {
-              0: moment($scope.item.tglAwalKirim).format('YYYY-MM-DD'), // <-- UBAH DI SINI
-              1: moment($scope.item.tglAkhirKirim).format('YYYY-MM-DD'),
-              2: $scope.item.noRm,
-              3: $scope.item.instalasi,
-              4: $scope.item.ruanganripapj,
-              5: $scope.item.ruanganigdpapj,
-              6: $scope.item.ruanganrmpapj,
-              7: $scope.item.ruanganrjpapj,
-            };
-            var chacePeriodeJSON = JSON.stringify(chacePeriode); // Ubah objek jadi string
-            localStorage.setItem("BerkasKirimanDariRuangan", chacePeriodeJSON);
-          }
+        if (shouldUpdateCache) {
+          var chacePeriode = {
+            0: moment($scope.item.tglAwalKirim).format('YYYY-MM-DD'), // <-- UBAH DI SINI
+            1: moment($scope.item.tglAkhirKirim).format('YYYY-MM-DD'),
+            2: $scope.item.noRm,
+            3: $scope.item.instalasi,
+            4: $scope.item.ruanganripapj,
+            5: $scope.item.ruanganigdpapj,
+            6: $scope.item.ruanganrmpapj,
+            7: $scope.item.ruanganrjpapj,
+          };
+          var chacePeriodeJSON = JSON.stringify(chacePeriode); // Ubah objek jadi string
+          localStorage.setItem("BerkasKirimanDariRuangan", chacePeriodeJSON);
+        }
       }
 
       //--Verif---------------------------------------------
@@ -6326,31 +6326,31 @@ define(["initialize", "Configuration"], function (initialize, config) {
         medifirstService
           .get(
             "tatarekening/daftar-pasien-pulang-papj-verif?" +
-              "namaPasien=" +
-              tempNamaOrReg +
-              "&noReg=" +
-              tempNoReg +
-              "&instalasiId=" +
-              tempInstalasiId +
-              "&noRm=" +
-              tempNoRm +
-              "&noSep=" +
-              tempNoSEP +
-              "&jmlRows=" +
-              jmlRow +
-              // + "&temptglverif=" + temptglverif
-              "&ruangRI=" +
-              tempRuanganRIId +
-              "&ruangRJ=" +
-              tempRuanganRJId +
-              "&ruangRIg=" +
-              tempRuanganRigd +
-              "&ruangRM=" +
-              tempRuanganRm +
-              "&tglAwal=" +
-              tglAwal +
-              "&tglAkhir=" +
-              tglAkhir
+            "namaPasien=" +
+            tempNamaOrReg +
+            "&noReg=" +
+            tempNoReg +
+            "&instalasiId=" +
+            tempInstalasiId +
+            "&noRm=" +
+            tempNoRm +
+            "&noSep=" +
+            tempNoSEP +
+            "&jmlRows=" +
+            jmlRow +
+            // + "&temptglverif=" + temptglverif
+            "&ruangRI=" +
+            tempRuanganRIId +
+            "&ruangRJ=" +
+            tempRuanganRJId +
+            "&ruangRIg=" +
+            tempRuanganRigd +
+            "&ruangRM=" +
+            tempRuanganRm +
+            "&tglAwal=" +
+            tglAwal +
+            "&tglAkhir=" +
+            tglAkhir
           )
           .then(function (data) {
             $scope.showBtnBayar = false;
@@ -6390,21 +6390,21 @@ define(["initialize", "Configuration"], function (initialize, config) {
               },
             });
           });
-          // ✅ hanya update cache kalau diminta
-          if (shouldUpdateCache2) {
-            var chacePeriode = {
-              0: moment($scope.item.tglAwalPulangVerif).format('YYYY-MM-DD'), // <-- UBAH DI SINI
-              1: moment($scope.item.tglAkhirPulangVerif).format('YYYY-MM-DD'),
-              2: $scope.item.noRmVerif,
-              3: $scope.item.instalasiverif,
-              4: $scope.item.ruanganripapjverif,
-              5: $scope.item.ruanganigdpapjverif,
-              6: $scope.item.ruanganrmpapjverif,
-              7: $scope.item.ruanganrjpapjverif,
-            };
-            var chacePeriodeJSON = JSON.stringify(chacePeriode); // Ubah objek jadi string
-            localStorage.setItem("BerkasSudahVerif", chacePeriodeJSON);
-          }
+        // ✅ hanya update cache kalau diminta
+        if (shouldUpdateCache2) {
+          var chacePeriode = {
+            0: moment($scope.item.tglAwalPulangVerif).format('YYYY-MM-DD'), // <-- UBAH DI SINI
+            1: moment($scope.item.tglAkhirPulangVerif).format('YYYY-MM-DD'),
+            2: $scope.item.noRmVerif,
+            3: $scope.item.instalasiverif,
+            4: $scope.item.ruanganripapjverif,
+            5: $scope.item.ruanganigdpapjverif,
+            6: $scope.item.ruanganrmpapjverif,
+            7: $scope.item.ruanganrjpapjverif,
+          };
+          var chacePeriodeJSON = JSON.stringify(chacePeriode); // Ubah objek jadi string
+          localStorage.setItem("BerkasSudahVerif", chacePeriodeJSON);
+        }
       }
 
       //--KLAIM---------------------------------------------
@@ -6783,11 +6783,11 @@ define(["initialize", "Configuration"], function (initialize, config) {
           var instalasiId = "&instalasiId=" + $scope.item.instalasiklaim.id;
         }
 
-       var statusklaim = "";
+        var statusklaim = "";
         if ($scope.item.statusklaim && $scope.item.statusklaim.length > 0) {
-            // ambil value-nya lalu gabung dengan koma
-            var statusValues = $scope.item.statusklaim.map(x => x.value ).join(',');
-            statusklaim = "&statusGrouping=" + statusValues;
+          // ambil value-nya lalu gabung dengan koma
+          var statusValues = $scope.item.statusklaim.map(x => x.value).join(',');
+          statusklaim = "&statusGrouping=" + statusValues;
         }
 
         var ruanganId = "";
@@ -6862,15 +6862,15 @@ define(["initialize", "Configuration"], function (initialize, config) {
 
         medifirstService
           .get(
-            "tatarekening/daftar-pasien-pulang-papj-klaim?" 
-                          + "namaPasien=" + tempNamaOrReg 
-                          + "&tglAwal=" + tglAwal 
-                          + "&tglAkhir=" + tglAkhir 
-                          + "&noSep=" + tempNosep 
-                          + "&noReg=" + tempNoReg 
-                          + "&noRm=" + tempNoCM + instalasiId + ruanganId + statusklaim
-                          // + "&tglAwalKlaimBerkas=" + tglAwalKlaimBerkas 
-                          // + "&tglAkhirKlaimBerkas=" + tglAkhirKlaimBerkas 
+            "tatarekening/daftar-pasien-pulang-papj-klaim?"
+            + "namaPasien=" + tempNamaOrReg
+            + "&tglAwal=" + tglAwal
+            + "&tglAkhir=" + tglAkhir
+            + "&noSep=" + tempNosep
+            + "&noReg=" + tempNoReg
+            + "&noRm=" + tempNoCM + instalasiId + ruanganId + statusklaim
+            // + "&tglAwalKlaimBerkas=" + tglAwalKlaimBerkas 
+            // + "&tglAkhirKlaimBerkas=" + tglAkhirKlaimBerkas 
           )
           .then(function (data) {
             $scope.showBtnBayar = false;
@@ -6913,14 +6913,14 @@ define(["initialize", "Configuration"], function (initialize, config) {
           });
 
         if (shouldUpdateCache3) {
-            var chacePeriode = {
-              0: moment($scope.item.tanggalRegistrasiAwal).format('YYYY-MM-DD'), // <-- UBAH DI SINI
-              1: moment($scope.item.tanggalRegistrasiAkhir).format('YYYY-MM-DD'),
-              3: tempInstalasiIdArr,
-            };
-            var chacePeriodeJSON = JSON.stringify(chacePeriode); // Ubah objek jadi string
-            localStorage.setItem("BerkasSiapKlaim", chacePeriodeJSON);
-          }
+          var chacePeriode = {
+            0: moment($scope.item.tanggalRegistrasiAwal).format('YYYY-MM-DD'), // <-- UBAH DI SINI
+            1: moment($scope.item.tanggalRegistrasiAkhir).format('YYYY-MM-DD'),
+            3: tempInstalasiIdArr,
+          };
+          var chacePeriodeJSON = JSON.stringify(chacePeriode); // Ubah objek jadi string
+          localStorage.setItem("BerkasSiapKlaim", chacePeriodeJSON);
+        }
       }
       function LoadDataTidakLayak() {
         $scope.isRouteLoading = true;
@@ -7061,20 +7061,20 @@ define(["initialize", "Configuration"], function (initialize, config) {
         medifirstService
           .get(
             "tatarekening/daftar-pasien-pulang-papj-tidak-layak?" +
-              "namaPasien=" +
-              tempNamaOrReg +
-              "&tglAwal=" +
-              tglAwal +
-              "&tglAkhir=" +
-              tglAkhir +
-              "&noSep=" +
-              tempNosep +
-              "&noReg=" +
-              tempNoReg +
-              "&noRm=" +
-              tempNoRm +
-              instalasiId +
-              ruanganId
+            "namaPasien=" +
+            tempNamaOrReg +
+            "&tglAwal=" +
+            tglAwal +
+            "&tglAkhir=" +
+            tglAkhir +
+            "&noSep=" +
+            tempNosep +
+            "&noReg=" +
+            tempNoReg +
+            "&noRm=" +
+            tempNoRm +
+            instalasiId +
+            ruanganId
           )
           .then(function (data) {
             $scope.showBtnBayar = false;
@@ -7270,7 +7270,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
               e.data.data.norec,
               "Input Diagnosis ICD 9 ( " + $scope.item.diagnosaTindakan.kdDiagnosaTindakan + "-" + $scope.item.diagnosaTindakan.namaDiagnosaTindakan + " )" + " No Registrasi " + $scope.item.noregistrasi + "/ " + $scope.item.noMr
             )
-            .then(function (res) {});
+            .then(function (res) { });
           $scope.dataSelected.noregistrasi = $scope.item.noregistrasi_icd9;
           delete $scope.item.diagnosaTindakan;
           delete $scope.item.ketTindakan;
@@ -7439,7 +7439,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           noregistrasi: $scope.dataSelected.noregistrasi,
           file: file,
         };
-        medifirstService.postNonMessage("registrasi/post-file-papj", objSave).then(function (e) {});
+        medifirstService.postNonMessage("registrasi/post-file-papj", objSave).then(function (e) { });
       }
 
       $scope.deleteIcd9 = function () {
@@ -7461,7 +7461,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
               "",
               "Hapus Diagnosis ICD 9 ( " + $scope.dataIcd9Selected.kddiagnosatindakan + "-" + $scope.dataIcd9Selected.namadiagnosatindakan + " )" + " No Registrasi " + $scope.item.noregistrasi + "/ " + $scope.item.noMr
             )
-            .then(function (res) {});
+            .then(function (res) { });
           $scope.dataSelected.noregistrasi = $scope.dataIcd9Selected.noregistrasi;
           delete $scope.item.diagnosaTindakan;
           delete $scope.item.ketTindakan;
@@ -7489,7 +7489,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
               "",
               "Hapus Diagnosis ICD 10 ( " + $scope.dataIcd10Selected.kddiagnosa + "-" + $scope.dataIcd10Selected.namadiagnosa + " )" + " No Registrasi " + $scope.item.noregistrasi + "/ " + $scope.item.noMr
             )
-            .then(function (res) {});
+            .then(function (res) { });
           $scope.dataSelected.noregistrasi = $scope.dataIcd10Selected.noregistrasi;
           delete $scope.item.jenisDiagnosis;
           delete $scope.item.diagnosa;
@@ -7521,7 +7521,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
               "",
               "Set Primary Diagnosis ICD 10 ( " + $scope.dataIcd10Selected.kddiagnosa + "-" + $scope.dataIcd10Selected.namadiagnosa + " )" + " No Registrasi " + $scope.item.noregistrasi + "/ " + $scope.item.noMr
             )
-            .then(function (res) {});
+            .then(function (res) { });
           $scope.dataSelected.noregistrasi = $scope.dataIcd10Selected.noregistrasi;
           delete $scope.item.jenisDiagnosis;
           delete $scope.item.diagnosa;
@@ -7552,8 +7552,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
               "",
               "Set Primary Diagnosis ICD 10 ( " + ai.kddiagnosa + "-" + ai.namadiagnosa + " )" + " No Registrasi " + ai.noregistrasi
             )
-            .then(function (res) {});
-            $scope.setdetail(set);
+            .then(function (res) { });
+          $scope.setdetail(set);
         });
 
       }
@@ -8362,7 +8362,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           noregistrasi: $scope.item.noregistrasi,
           file: file,
         };
-        medifirstService.postNonMessage("registrasi/post-file-papj", objSave).then(function (e) {});
+        medifirstService.postNonMessage("registrasi/post-file-papj", objSave).then(function (e) { });
       }
 
       $scope.listStatusKlaim = [
@@ -8896,253 +8896,253 @@ define(["initialize", "Configuration"], function (initialize, config) {
 
       // Riwayat Registrasi --------------------------------------------------
       $scope.formatTanggaljam = function (tanggal) {
-          return moment(tanggal).format('DD-MMM-YYYY hh:mm:ss');
+        return moment(tanggal).format('DD-MMM-YYYY hh:mm:ss');
       }
 
       $scope.formatTanggal = function (tanggal) {
-          return moment(tanggal).format('DD-MMM-YYYY');
+        return moment(tanggal).format('DD-MMM-YYYY');
       }
-     $scope.formatTanggalClaim = function (tanggal) {
-          return moment(tanggal).format('YYYY-MM-DD');
+      $scope.formatTanggalClaim = function (tanggal) {
+        return moment(tanggal).format('YYYY-MM-DD');
       }
 
 
       $scope.columnRiwayatRegistrasi = {
-          toolbar: [
-              "excel",
+        toolbar: [
+          "excel",
 
-          ],
-          excel: {
-              fileName: "DaftarRiwayatRegistrasi.xlsx",
-              allPages: true,
+        ],
+        excel: {
+          fileName: "DaftarRiwayatRegistrasi.xlsx",
+          allPages: true,
+        },
+        excelExport: function (e) {
+          var sheet = e.workbook.sheets[0];
+          sheet.frozenRows = 2;
+          sheet.mergedCells = ["A1:K1"];
+          sheet.name = "Orders";
+
+          var myHeaders = [{
+            value: "Daftar Registrasi Pasien",
+            fontSize: 20,
+            textAlign: "center",
+            background: "#ffffff",
+            // color:"#ffffff"
+          }];
+
+          sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+        },
+        selectable: 'row',
+        pageable: true,
+        columns: [
+          {
+            "field": "newno",
+            "title": "No",
+            "width": "30px",
           },
-          excelExport: function (e) {
-              var sheet = e.workbook.sheets[0];
-              sheet.frozenRows = 2;
-              sheet.mergedCells = ["A1:K1"];
-              sheet.name = "Orders";
-
-              var myHeaders = [{
-                  value: "Daftar Registrasi Pasien",
-                  fontSize: 20,
-                  textAlign: "center",
-                  background: "#ffffff",
-                  // color:"#ffffff"
-              }];
-
-              sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+          {
+            "field": "tglregistrasi",
+            "title": "Tgl Registrasi",
+            "width": "80px",
+            "template": "<span class='style-left'>{{formatTanggaljam('#: tglregistrasi #')}}</span>"
           },
-          selectable: 'row',
-          pageable: true,
-          columns: [
-              {
-                  "field": "newno",
-                  "title": "No",
-                  "width": "30px",
-              },
-              {
-                  "field": "tglregistrasi",
-                  "title": "Tgl Registrasi",
-                  "width": "80px",
-                  "template": "<span class='style-left'>{{formatTanggaljam('#: tglregistrasi #')}}</span>"
-              },
-              {
-                  "field": "noregistrasi",
-                  "title": "No Registrasi",
-                  "width": "90px"
-              },
-              {
-                  "field": "namaruanganasal",
-                  "title": "Ruanganan Layanan Asal",
-                  "width": "150px",
-                  "template": "<span class='style-left'>#: namaruanganasal #</span>"
-              },
-              {
-                  "field": "namaruangan",
-                  "title": "Ruanganan Layanan",
-                  "width": "150px",
-                  "template": "<span class='style-left'>#: namaruangan #</span>"
-              },
-              {
-                  "field": "namarekanan",
-                  "title": "Kelompok Pasien",
-                  "width": "150px",
-                  "template": "<span class='style-left'>#: namarekanan #</span>"
-              },
-              {
-                  "field": "namadokter",
-                  "title": "Nama Dokter",
-                  "width": "150px",
-                  "template": "<span class='style-left'>#: namadokter #</span>"
-              },
-              {
-                  "field": "norujukan",
-                  "title": "No Rujukan",
-                  "width": "150px",
-                  "template": "<span class='style-left'>#: norujukan #</span>"
-              },
-              {
-                  "field": "nosuratskdp",
-                  "title": "No Surkon",
-                  "width": "150px",
-                  "template": "<span class='style-left'>#: nosuratskdp #</span>"
-              },
-              {
-                  "field": "tglpulang",
-                  "title": "Tgl Pulang",
-                  "width": "80px",
-                  "template": "<span class='style-left'>{{formatTanggal('#: tglpulang #')}}</span>"
-              },
-              {
-                  "field": "lamarawat",
-                  "title": "Lama Dirawat",
-                  "width": "80px"
-                  // "template": "<span class='style-left'>{{formatTanggal('#: tglpulang #')}}</span>"
-              },
-              {
-                  "field": "statuspulang",
-                  "title": "Status Pulang",
-                  "width": "100px"
-                  // "template": "<span class='style-left'>{{formatTanggal('#: tglpulang #')}}</span>"
-              },
-              {
-                  "field": "isdiagnosis",
-                  "title": "Diagnosis",
-                  "width": "300px",
-                  // "template": '# if( isdiagnosis==false) {# - # } else {# #= isdiagnosis # #} #'
-              },
-              {
-                  "field": "kodeDiagnosa",
-                  "title": "Coding ICD-10",
-                  "width": "300px",
-                  // "template": '# if( kodeDiagnosa==false) {# - # } else {# #= kodeDiagnosa # #} #'
-              },
-              {
-                  "field": "kodeicd9",
-                  "title": "Coding ICD-9",
-                  "width": "300px",
-                  // "template": '# if( isdiagnosis==false) {# - # } else {# #= isdiagnosis # #} #'
-              },
-              {
-                field: "biayars",
-                title: "Tarif RS",
-                width: "250px",
-                template: "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: biayars #', 'Rp. ')}}</span>",
-              },
-              {
-                  "field": "kesatuanpasien",
-                  "title": "Kesatuan Pasien",
-                  "width": "100px",
-                  "template": '# if( kesatuanpasien==false) {# - # } else {# #= kesatuanpasien # #} #'
-              },
-          ]
+          {
+            "field": "noregistrasi",
+            "title": "No Registrasi",
+            "width": "90px"
+          },
+          {
+            "field": "namaruanganasal",
+            "title": "Ruanganan Layanan Asal",
+            "width": "150px",
+            "template": "<span class='style-left'>#: namaruanganasal #</span>"
+          },
+          {
+            "field": "namaruangan",
+            "title": "Ruanganan Layanan",
+            "width": "150px",
+            "template": "<span class='style-left'>#: namaruangan #</span>"
+          },
+          {
+            "field": "namarekanan",
+            "title": "Kelompok Pasien",
+            "width": "150px",
+            "template": "<span class='style-left'>#: namarekanan #</span>"
+          },
+          {
+            "field": "namadokter",
+            "title": "Nama Dokter",
+            "width": "150px",
+            "template": "<span class='style-left'>#: namadokter #</span>"
+          },
+          {
+            "field": "norujukan",
+            "title": "No Rujukan",
+            "width": "150px",
+            "template": "<span class='style-left'>#: norujukan #</span>"
+          },
+          {
+            "field": "nosuratskdp",
+            "title": "No Surkon",
+            "width": "150px",
+            "template": "<span class='style-left'>#: nosuratskdp #</span>"
+          },
+          {
+            "field": "tglpulang",
+            "title": "Tgl Pulang",
+            "width": "80px",
+            "template": "<span class='style-left'>{{formatTanggal('#: tglpulang #')}}</span>"
+          },
+          {
+            "field": "lamarawat",
+            "title": "Lama Dirawat",
+            "width": "80px"
+            // "template": "<span class='style-left'>{{formatTanggal('#: tglpulang #')}}</span>"
+          },
+          {
+            "field": "statuspulang",
+            "title": "Status Pulang",
+            "width": "100px"
+            // "template": "<span class='style-left'>{{formatTanggal('#: tglpulang #')}}</span>"
+          },
+          {
+            "field": "isdiagnosis",
+            "title": "Diagnosis",
+            "width": "300px",
+            // "template": '# if( isdiagnosis==false) {# - # } else {# #= isdiagnosis # #} #'
+          },
+          {
+            "field": "kodeDiagnosa",
+            "title": "Coding ICD-10",
+            "width": "300px",
+            // "template": '# if( kodeDiagnosa==false) {# - # } else {# #= kodeDiagnosa # #} #'
+          },
+          {
+            "field": "kodeicd9",
+            "title": "Coding ICD-9",
+            "width": "300px",
+            // "template": '# if( isdiagnosis==false) {# - # } else {# #= isdiagnosis # #} #'
+          },
+          {
+            field: "biayars",
+            title: "Tarif RS",
+            width: "250px",
+            template: "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: biayars #', 'Rp. ')}}</span>",
+          },
+          {
+            "field": "kesatuanpasien",
+            "title": "Kesatuan Pasien",
+            "width": "100px",
+            "template": '# if( kesatuanpasien==false) {# - # } else {# #= kesatuanpasien # #} #'
+          },
+        ]
       };
 
       $scope.RiwayatRegistrasi = function (data) {
-          debugger;
-          if (data == undefined) {
-              messageContainer.error("Pilih data dulu!")
-          }
-          
-          $scope.itemD.noRM = data.noCm;
-          $scope.itemD.namaPasien = data.namaPasien;
-          $scope.itemD.tglLahir = moment(data.tgllahir).format('DD-MM-YYYY');
-          loadDataRiwayat();
-          $scope.popUpRiwayatRegistrasi.center().open();
-          var actions = $scope.popUpRiwayatRegistrasi.options.actions;
-          actions.splice(actions.indexOf("Close"), 1);
-          $scope.popUpRiwayatRegistrasi.setOptions({ actions: actions });
+        debugger;
+        if (data == undefined) {
+          messageContainer.error("Pilih data dulu!")
+        }
+
+        $scope.itemD.noRM = data.noCm;
+        $scope.itemD.namaPasien = data.namaPasien;
+        $scope.itemD.tglLahir = moment(data.tgllahir).format('DD-MM-YYYY');
+        loadDataRiwayat();
+        $scope.popUpRiwayatRegistrasi.center().open();
+        var actions = $scope.popUpRiwayatRegistrasi.options.actions;
+        actions.splice(actions.indexOf("Close"), 1);
+        $scope.popUpRiwayatRegistrasi.setOptions({ actions: actions });
       }
 
       $scope.TutupPopUp = function () {
-          $scope.itemD.noRM = undefined;
-          $scope.itemD.namaPasien = undefined;
-          $scope.itemD.tglLahir = undefined;
-          $scope.itemD.noRegistrasi = undefined;
-          $scope.itemD.JumlahRawat = undefined;
-          $scope.dataRiwayatRegistrasi = new kendo.data.DataSource({
-              data: []
-          });
-          $scope.popUpRiwayatRegistrasi.close();
+        $scope.itemD.noRM = undefined;
+        $scope.itemD.namaPasien = undefined;
+        $scope.itemD.tglLahir = undefined;
+        $scope.itemD.noRegistrasi = undefined;
+        $scope.itemD.JumlahRawat = undefined;
+        $scope.dataRiwayatRegistrasi = new kendo.data.DataSource({
+          data: []
+        });
+        $scope.popUpRiwayatRegistrasi.close();
       }
 
       function loadDataRiwayat() {
-          $scope.isRouteLoading = true;
-          var rm = ""
-          if ($scope.itemD.noRM != undefined) {
-              rm = "&norm=" + $scope.itemD.noRM
-          }
+        $scope.isRouteLoading = true;
+        var rm = ""
+        if ($scope.itemD.noRM != undefined) {
+          rm = "&norm=" + $scope.itemD.noRM
+        }
 
-          var pasien = ""
-          if ($scope.itemD.namaPasien != undefined) {
-              pasien = "&namaPasien=" + $scope.itemD.namaPasien
-          }
+        var pasien = ""
+        if ($scope.itemD.namaPasien != undefined) {
+          pasien = "&namaPasien=" + $scope.itemD.namaPasien
+        }
 
-          var tglLahirs = ""
-          if ($scope.itemD.tglLahir != undefined) {
-              tglLahirs = "tglLahir=" + moment($scope.itemD.tglLahir).format('YYYY-MM-DD HH:mm:ss');
-          }
+        var tglLahirs = ""
+        if ($scope.itemD.tglLahir != undefined) {
+          tglLahirs = "tglLahir=" + moment($scope.itemD.tglLahir).format('YYYY-MM-DD HH:mm:ss');
+        }
 
-          var noReg = ""
-          if ($scope.itemD.noRegistrasi != undefined) {
-              noReg = "&noReg=" + $scope.itemD.noRegistrasi;
-          }
+        var noReg = ""
+        if ($scope.itemD.noRegistrasi != undefined) {
+          noReg = "&noReg=" + $scope.itemD.noRegistrasi;
+        }
 
-          medifirstService.get("registrasi/daftar-riwayat-registrasi?" +
-              tglLahirs + rm + noReg + pasien)
-              .then(function (data) {
-                  debugger;
-                  $scope.isRouteLoading = false;
-                  var jumlahRawat = 0;
-                  var dRiwayatReg = data.data.daftar;
-                  for (var i = 0; i < dRiwayatReg.length; i++) {
-                      dRiwayatReg[i].no = i + 1
-                      if (dRiwayatReg[i].statusinap == 1) {
-                          jumlahRawat = jumlahRawat + 1;
-                          if (dRiwayatReg[i].tglpulang != undefined) {
-                              var umur = DateHelper.CountAge(new Date(dRiwayatReg[i].tglregistrasi), new Date(dRiwayatReg[i].tglpulang));
-                              var bln = umur.month,
-                                  thn = umur.year,
-                                  day = umur.day
-                              dRiwayatReg[i].lamarawat = day + " Hari";
-                          } else {
-                              var umur = DateHelper.CountAge(new Date(dRiwayatReg[i].tglregistrasi), new Date($scope.now));
-                              var bln = umur.month,
-                                  thn = umur.year,
-                                  day = umur.day
-                              dRiwayatReg[i].lamarawat = day + " Hari";
-                          }
-                      }
+        medifirstService.get("registrasi/daftar-riwayat-registrasi?" +
+          tglLahirs + rm + noReg + pasien)
+          .then(function (data) {
+            debugger;
+            $scope.isRouteLoading = false;
+            var jumlahRawat = 0;
+            var dRiwayatReg = data.data.daftar;
+            for (var i = 0; i < dRiwayatReg.length; i++) {
+              dRiwayatReg[i].no = i + 1
+              if (dRiwayatReg[i].statusinap == 1) {
+                jumlahRawat = jumlahRawat + 1;
+                if (dRiwayatReg[i].tglpulang != undefined) {
+                  var umur = DateHelper.CountAge(new Date(dRiwayatReg[i].tglregistrasi), new Date(dRiwayatReg[i].tglpulang));
+                  var bln = umur.month,
+                    thn = umur.year,
+                    day = umur.day
+                  dRiwayatReg[i].lamarawat = day + " Hari";
+                } else {
+                  var umur = DateHelper.CountAge(new Date(dRiwayatReg[i].tglregistrasi), new Date($scope.now));
+                  var bln = umur.month,
+                    thn = umur.year,
+                    day = umur.day
+                  dRiwayatReg[i].lamarawat = day + " Hari";
+                }
+              }
+            }
+            dRiwayatReg.sort((d1, d2) => new Date(d2.tglregistrasi).getTime() - new Date(d1.tglregistrasi).getTime());
+            for (var x = 0; x < dRiwayatReg.length; x++) {
+              dRiwayatReg[x].newno = x + 1
+            }
+
+            $scope.itemD.JumlahRawat = jumlahRawat;
+            $scope.dataRiwayatRegistrasi = new kendo.data.DataSource({
+              data: dRiwayatReg,
+              pageSize: 10,
+              total: dRiwayatReg.length,
+              serverPaging: false,
+              schema: {
+                model: {
+                  fields: {
                   }
-                  dRiwayatReg.sort((d1, d2) => new Date(d2.tglregistrasi).getTime() - new Date(d1.tglregistrasi).getTime());
-                  for (var x = 0; x < dRiwayatReg.length; x++) {
-                      dRiwayatReg[x].newno = x + 1
-                  }
-
-                  $scope.itemD.JumlahRawat = jumlahRawat;
-                  $scope.dataRiwayatRegistrasi = new kendo.data.DataSource({
-                      data: dRiwayatReg,
-                      pageSize: 10,
-                      total: dRiwayatReg.length,
-                      serverPaging: false,
-                      schema: {
-                          model: {
-                              fields: {
-                              }
-                          }
-                      }
-                  });
-              });
+                }
+              }
+            });
+          });
       }
 
       $scope.SearchEnterDetail = function () {
-          loadDataRiwayat();
+        loadDataRiwayat();
       }
       // END Riwayat Registrasi --------------------------------------------------
 
       //START KLAIM DIRAJALKAN
 
-       function LoadDataDirajalkan() {
+      function LoadDataDirajalkan() {
         $scope.isRouteLoading = true;
         var tglAwal = moment($scope.item.tanggalRegistrasiAwal).format("YYYY-MM-DD HH:mm");
         var tglAkhir = moment($scope.item.tanggalRegistrasiAkhir).format("YYYY-MM-DD HH:mm");
@@ -9281,20 +9281,20 @@ define(["initialize", "Configuration"], function (initialize, config) {
         medifirstService
           .get(
             "tatarekening/daftar-pasien-pulang-papj-dirajalkan?" +
-              "namaPasien=" +
-              tempNamaOrReg +
-              "&tglAwal=" +
-              tglAwal +
-              "&tglAkhir=" +
-              tglAkhir +
-              "&noSep=" +
-              tempNosep +
-              "&noReg=" +
-              tempNoReg +
-              "&noRm=" +
-              tempNoRm +
-              instalasiId +
-              ruanganId
+            "namaPasien=" +
+            tempNamaOrReg +
+            "&tglAwal=" +
+            tglAwal +
+            "&tglAkhir=" +
+            tglAkhir +
+            "&noSep=" +
+            tempNosep +
+            "&noReg=" +
+            tempNoReg +
+            "&noRm=" +
+            tempNoRm +
+            instalasiId +
+            ruanganId
           )
           .then(function (data) {
             $scope.showBtnBayar = false;
@@ -9494,7 +9494,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
         ],
       };
 
-       $scope.SaveAlasanKlaimDirajalkan = function (dataItem) {
+      $scope.SaveAlasanKlaimDirajalkan = function (dataItem) {
         if ($scope.item.alasan == undefined || $scope.item.alasan == null || $scope.item.alasan == "") {
           alert("Alasan Klaim Dirajalkan tidak boleh kosong!");
           return;
@@ -9550,7 +9550,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
 
 
       //START Pending
-       function LoadDataPending() {
+      function LoadDataPending() {
         $scope.isRouteLoading = true;
         var tglAwal = moment($scope.item.tanggalRegistrasiAwal).format("YYYY-MM-DD HH:mm");
         var tglAkhir = moment($scope.item.tanggalRegistrasiAkhir).format("YYYY-MM-DD HH:mm");
@@ -9689,20 +9689,20 @@ define(["initialize", "Configuration"], function (initialize, config) {
         medifirstService
           .get(
             "tatarekening/daftar-pasien-pulang-papj-pending?" +
-              "namaPasien=" +
-              tempNamaOrReg +
-              "&tglAwal=" +
-              tglAwal +
-              "&tglAkhir=" +
-              tglAkhir +
-              "&noSep=" +
-              tempNosep +
-              "&noReg=" +
-              tempNoReg +
-              "&noRm=" +
-              tempNoRm +
-              instalasiId +
-              ruanganId
+            "namaPasien=" +
+            tempNamaOrReg +
+            "&tglAwal=" +
+            tglAwal +
+            "&tglAkhir=" +
+            tglAkhir +
+            "&noSep=" +
+            tempNosep +
+            "&noReg=" +
+            tempNoReg +
+            "&noRm=" +
+            tempNoRm +
+            instalasiId +
+            ruanganId
           )
           .then(function (data) {
             $scope.showBtnBayar = false;
@@ -9752,7 +9752,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
         cacheHelper.set("Pending", chacePeriode);
       }
 
-       $scope.columnPasienKlaimPapjPending = {
+      $scope.columnPasienKlaimPapjPending = {
         selectable: "row",
         pageable: true,
         dataSource: $scope.dataPasienPending,
@@ -9891,7 +9891,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
         ],
       };
 
-       $scope.SaveAlasanPending = function (dataItem) {
+      $scope.SaveAlasanPending = function (dataItem) {
         if ($scope.item.alasan == undefined || $scope.item.alasan == null || $scope.item.alasan == "") {
           alert("Alasan Pending tidak boleh kosong!");
           return;
@@ -9950,1977 +9950,1977 @@ define(["initialize", "Configuration"], function (initialize, config) {
       //END Pending
 
       // START UBAH KAMAR-----------------------
-        $scope.ubahKamar = function (data) {
-          if (data == undefined) {
-            toastr.error("Pilih data dulu");
-            return;
-          }
-          $scope.listNoBed = [];
-          $scope.listKamar = [];
-
-          delete $scope.item.kamar;
-          delete $scope.item.nomorTempatTidur;
-          getKamar(data.objectruanganlastfk, data.objectkelasfk);
-
-          // $scope.item.kamar = {id:data.objectkamarfk,namakamar: data.namakamar  }
-          // $scope.item.nomorTempatTidur = {id:data.nobed,reportdisplay: data.namabed  }
-          $scope.popUpUbahKamar.center().open();
-        };
-        $scope.$watch("item.kamar", function (e) {
-          if (e === undefined) return;
-          var kamarId = $scope.item.kamar.id;
-          medifirstService.get("rawatinap/get-nobedbykamar?idKamar=" + kamarId).then(function (a) {
-            $scope.listNoBed = a.data.bed;
-          });
-        });
-        function getKamar(ruanganId, kelasId) {
-          if (ruanganId == undefined && kelasId == undefined) return;
-          var kelasIds = "idKelas=" + kelasId;
-          var ruanganIds = "&idRuangan=" + ruanganId;
-          medifirstService.get("rawatinap/get-kamarbyruangankelas?" + kelasIds + ruanganIds).then(function (b) {
-            $scope.listKamar = b.data.kamar;
-          });
+      $scope.ubahKamar = function (data) {
+        if (data == undefined) {
+          toastr.error("Pilih data dulu");
+          return;
         }
-        $scope.simpanKamar = function () {
-          var json = {
-            norec_pd: data.norec,
-            noregistrasi: data.noregistrasi,
-            ruanganlastfk: data.objectruanganlastfk,
-            objectkamarfk: $scope.item.kamar.id,
-            nobed: $scope.item.nomorTempatTidur.id,
-          };
-          medifirstService.post("registrasi/daftar-registrasi/update-kamar-pasien-pulang", json).then(function (b) {
-            delete $scope.item.kamar;
-            delete $scope.item.nomorTempatTidur;
+        $scope.listNoBed = [];
+        $scope.listKamar = [];
 
-            loadData();
-            $scope.popUpUbahKamar.close();
-          });
+        delete $scope.item.kamar;
+        delete $scope.item.nomorTempatTidur;
+        getKamar(data.objectruanganlastfk, data.objectkelasfk);
+
+        // $scope.item.kamar = {id:data.objectkamarfk,namakamar: data.namakamar  }
+        // $scope.item.nomorTempatTidur = {id:data.nobed,reportdisplay: data.namabed  }
+        $scope.popUpUbahKamar.center().open();
+      };
+      $scope.$watch("item.kamar", function (e) {
+        if (e === undefined) return;
+        var kamarId = $scope.item.kamar.id;
+        medifirstService.get("rawatinap/get-nobedbykamar?idKamar=" + kamarId).then(function (a) {
+          $scope.listNoBed = a.data.bed;
+        });
+      });
+      function getKamar(ruanganId, kelasId) {
+        if (ruanganId == undefined && kelasId == undefined) return;
+        var kelasIds = "idKelas=" + kelasId;
+        var ruanganIds = "&idRuangan=" + ruanganId;
+        medifirstService.get("rawatinap/get-kamarbyruangankelas?" + kelasIds + ruanganIds).then(function (b) {
+          $scope.listKamar = b.data.kamar;
+        });
+      }
+      $scope.simpanKamar = function () {
+        var json = {
+          norec_pd: data.norec,
+          noregistrasi: data.noregistrasi,
+          ruanganlastfk: data.objectruanganlastfk,
+          objectkamarfk: $scope.item.kamar.id,
+          nobed: $scope.item.nomorTempatTidur.id,
         };
-        $scope.tutup = function () {
+        medifirstService.post("registrasi/daftar-registrasi/update-kamar-pasien-pulang", json).then(function (b) {
           delete $scope.item.kamar;
           delete $scope.item.nomorTempatTidur;
+
+          loadData();
           $scope.popUpUbahKamar.close();
-        };
+        });
+      };
+      $scope.tutup = function () {
+        delete $scope.item.kamar;
+        delete $scope.item.nomorTempatTidur;
+        $scope.popUpUbahKamar.close();
+      };
       // END UBAH KAMAR-----------------------
 
       //START UBAH KELAS--------------------
-        $scope.ubahKelas = function (data) {
-          if (data == undefined) {
-            toastr.error("Pilih data dulu");
-            return;
-          }
-          $scope.selectedData = data;
-          $scope.listKelas = [
-            {id: 3, namakelas: "Kelas 1"},
-            {id: 2, namakelas: "Kelas 2"},
-            {id: 1, namakelas: "Kelas 3"}
-          ]
-          $scope.popUpUbahKelas.center().open();
-        };
+      $scope.ubahKelas = function (data) {
+        if (data == undefined) {
+          toastr.error("Pilih data dulu");
+          return;
+        }
+        $scope.selectedData = data;
+        $scope.listKelas = [
+          { id: 3, namakelas: "Kelas 1" },
+          { id: 2, namakelas: "Kelas 2" },
+          { id: 1, namakelas: "Kelas 3" }
+        ]
+        $scope.popUpUbahKelas.center().open();
+      };
 
-        $scope.simpanKelas = function () {
-          var json = {
-            noregistrasi: $scope.selectedData.noRegistrasi,
-            objectkelasditanggungfk: $scope.item.kelas.id
-          };
-          medifirstService.post("registrasi/ubah-kelas-ditanggung", json).then(function (b) {
-            delete $scope.item.kelas;
-            $scope.popUpUbahKelas.close();
-          });
+      $scope.simpanKelas = function () {
+        var json = {
+          noregistrasi: $scope.selectedData.noRegistrasi,
+          objectkelasditanggungfk: $scope.item.kelas.id
         };
-
-        $scope.tutupKelas = function () {
+        medifirstService.post("registrasi/ubah-kelas-ditanggung", json).then(function (b) {
           delete $scope.item.kelas;
           $scope.popUpUbahKelas.close();
-        };
+        });
+      };
+
+      $scope.tutupKelas = function () {
+        delete $scope.item.kelas;
+        $scope.popUpUbahKelas.close();
+      };
       //END UBAH KELAS--------------------
 
       //START EDIT PASIEN-------------------------
       $scope.EditPasien = function (data) {
-          if (data.noCm != undefined) {
+        if (data.noCm != undefined) {
 
-              cacheHelper.set('CacheRegisBayi', undefined);
-              $state.go('RegistrasiPasienBaru', {
-                  noRec: 0,
-                  idPasien: data.nocmfk
-              })
+          cacheHelper.set('CacheRegisBayi', undefined);
+          $state.go('RegistrasiPasienBaru', {
+            noRec: 0,
+            idPasien: data.nocmfk
+          })
 
 
-          } else {
-              messageContainer.error("Pilih data dulu!")
-          }
+        } else {
+          messageContainer.error("Pilih data dulu!")
+        }
       }
       //END EDIT PASIEN---------------------------
 
       // Belum Kirim
-        function LoadDataBelumKirim() {
-          // ambil bulan sekarang
-          let bulanIni = moment(); 
+      function LoadDataBelumKirim() {
+        // ambil bulan sekarang
+        let bulanIni = moment();
 
-          // tanggal awal = 6 bulan lalu, awal bulan
-          let tglAwalKemarin = bulanIni.clone().subtract(6, 'months').startOf('month').format('YYYY-MM-DD 00:00');
+        // tanggal awal = 6 bulan lalu, awal bulan
+        let tglAwalKemarin = bulanIni.clone().subtract(6, 'months').startOf('month').format('YYYY-MM-DD 00:00');
 
-          // tanggal akhir = 1 bulan lalu, akhir bulan
-          let tglAkhirKemarin = bulanIni.clone().subtract(1, 'months').endOf('month').format('YYYY-MM-DD 23:59');
+        // tanggal akhir = 1 bulan lalu, akhir bulan
+        let tglAkhirKemarin = bulanIni.clone().subtract(1, 'months').endOf('month').format('YYYY-MM-DD 23:59');
 
-          medifirstService.get(
-              "tatarekening/daftar-pasien-pulang-papj-kirim?" +
-              "tglAwal=" + tglAwalKemarin +
-              "&tglAkhir=" + tglAkhirKemarin
-          ).then(function (e) {
-                  if (e.data.length > 0) {
-                      let uniqueData = {};
-                      e.data.forEach(item => {
-                          if (!uniqueData[item.norec]) {
-                              uniqueData[item.norec] = item;
-                          }
-                      });
-                      let filtered = Object.values(uniqueData);
-
-                      let grouped = {};
-                      filtered.forEach(item => {
-                          let blnKey = moment(item.tanggalPulang).format('YYYY-MM');
-                          if (!grouped[blnKey]) {
-                              grouped[blnKey] = 0;
-                          }
-                          grouped[blnKey]++;
-                      });
-
-                      let dataTable = Object.keys(grouped).map((blnKey, index) => {
-                          return {
-                              no: index + 1,
-                              tanggalBelum: moment(blnKey, 'YYYY-MM').format('MMMM YYYY'),
-                              jumlahBelum: grouped[blnKey]
-                          };
-                      });
-
-                      $scope.sourceBerkasBelumKirim = new kendo.data.DataSource({
-                          data: dataTable,
-                          pageSize: 200,
-                          total: dataTable.length,
-                          serverPaging: false
-                      });
-
-                      $scope.judulBerkas = "Terdapat Elektronik Rekam Medis yang belum di Kirim :";
-                      $scope.judulBerkas2 = "Kirim";
-                      $scope.activeSource = 'kirim';
-
-                       $timeout(function () {
-                            if ($scope.winBerkas) {
-                                $scope.winBerkas.center().open();
-                            }
-                        });
-                  }
-              });
-          }
-
-
-          function LoadDataBelumVerif(){
-             let bulanIni = moment(); 
-
-              // tanggal awal = 6 bulan lalu, awal bulan
-              let tglAwalKemarin = bulanIni.clone().subtract(6, 'months').startOf('month').format('YYYY-MM-DD 00:00');
-
-              // tanggal akhir = 1 bulan lalu, akhir bulan
-              let tglAkhirKemarin = bulanIni.clone().subtract(1, 'months').endOf('month').format('YYYY-MM-DD 23:59');
-
-            medifirstService.get(
-                    "tatarekening/daftar-pasien-pulang-papj-verif?" +
-                    "tglAwal=" + tglAwalKemarin +
-                    "&tglAkhir=" + tglAkhirKemarin
-                ).then(function (e) {
-                    if (e.data.length > 0) {
-                        let uniqueData = {};
-                        e.data.forEach(item => {
-                            if (!uniqueData[item.norec]) {
-                                uniqueData[item.norec] = item;
-                            }
-                        });
-                        let filtered = Object.values(uniqueData);
-
-                        let grouped = {};
-                        filtered.forEach(item => {
-                            let blnKey = moment(item.tanggalPulang).format('YYYY-MM'); 
-                            if (!grouped[blnKey]) {
-                                grouped[blnKey] = 0;
-                            }
-                            grouped[blnKey]++;
-                        });
-
-                        let dataTable = Object.keys(grouped).map((blnKey, index) => {
-                            return {
-                                no: index + 1,
-                                tanggalBelum: moment(blnKey, 'YYYY-MM').format('MMMM YYYY'), 
-                                jumlahBelum: grouped[blnKey]
-                            };
-                        });
-
-                        $scope.sourceBerkasBelumVerif = new kendo.data.DataSource({
-                            data: dataTable,
-                            pageSize: 200,
-                            total: dataTable.length,
-                            serverPaging: false
-                        });
-
-                        $scope.judulBerkas = "Terdapat Elektronik Rekam Medis yang belum di Verifikasi :";
-                        $scope.activeSource = 'verif';
-                        $timeout(function () {
-                            if ($scope.winBerkas) {
-                                $scope.winBerkas.center().open();
-                            }
-                        });
-                    }
-                });
-          }
-
-          $scope.gridKlaimClosed = false;
-
-          function LoadDataBelumKlaim() {
-            // kalau popup sudah pernah di-close, jangan tampilkan lagi
-            if ($scope.gridKlaimClosed) {
-                return;
-            }
-
-            let bulanIni = moment(); 
-            let tglAwalKemarin = bulanIni.clone().subtract(6, 'months').startOf('month').format('YYYY-MM-DD 00:00');
-            let tglAkhirKemarin = bulanIni.clone().subtract(1, 'months').endOf('month').format('YYYY-MM-DD 23:59');
-
-            medifirstService.get(
-                "tatarekening/daftar-pasien-pulang-papj-klaim?" +
-                "tglAwal=" + tglAwalKemarin +
-                "&tglAkhir=" + tglAkhirKemarin +
-                "&statusGrouping=GROUPING,EDIT CLAIM"
-            ).then(function (e) {
-                if (e.data.length > 0) {
-                    // hilangkan data duplikat
-                    let uniqueData = {};
-                    e.data.forEach(item => {
-                        if (!uniqueData[item.norec]) {
-                            uniqueData[item.norec] = item;
-                        }
-                    });
-                    let filtered = Object.values(uniqueData);
-
-                    // group per bulan
-                    let grouped = {};
-                    filtered.forEach(item => {
-                        let blnKey = moment(item.tanggalPulang).format('YYYY-MM');
-                        if (!grouped[blnKey]) grouped[blnKey] = 0;
-                        grouped[blnKey]++;
-                    });
-
-                    // buat data untuk grid
-                    let dataTable = Object.keys(grouped).map((blnKey, index) => {
-                        return {
-                            no: index + 1,
-                            tanggalBelum: moment(blnKey, 'YYYY-MM').format('MMMM YYYY'),
-                            jumlahBelum: grouped[blnKey]
-                        };
-                    });
-
-                    $scope.sourceBerkasBelumKlaim = new kendo.data.DataSource({
-                        data: dataTable,
-                        pageSize: 200
-                    });
-
-                    $scope.judulBerkas = "Terdapat Elektronik Rekam Medis yang belum di Klaim :";
-                    $scope.judulBerkas2 = "Send Claim";
-                    $scope.activeSource = 'klaim';
-
-                    $timeout(function () {
-                        if ($scope.winBerkas) {
-                            $scope.winBerkas.center().open();
-                        }
-                    });
-                }
+        medifirstService.get(
+          "tatarekening/daftar-pasien-pulang-papj-kirim?" +
+          "tglAwal=" + tglAwalKemarin +
+          "&tglAkhir=" + tglAkhirKemarin
+        ).then(function (e) {
+          if (e.data.length > 0) {
+            let uniqueData = {};
+            e.data.forEach(item => {
+              if (!uniqueData[item.norec]) {
+                uniqueData[item.norec] = item;
+              }
             });
+            let filtered = Object.values(uniqueData);
+
+            let grouped = {};
+            filtered.forEach(item => {
+              let blnKey = moment(item.tanggalPulang).format('YYYY-MM');
+              if (!grouped[blnKey]) {
+                grouped[blnKey] = 0;
+              }
+              grouped[blnKey]++;
+            });
+
+            let dataTable = Object.keys(grouped).map((blnKey, index) => {
+              return {
+                no: index + 1,
+                tanggalBelum: moment(blnKey, 'YYYY-MM').format('MMMM YYYY'),
+                jumlahBelum: grouped[blnKey]
+              };
+            });
+
+            $scope.sourceBerkasBelumKirim = new kendo.data.DataSource({
+              data: dataTable,
+              pageSize: 200,
+              total: dataTable.length,
+              serverPaging: false
+            });
+
+            $scope.judulBerkas = "Terdapat Elektronik Rekam Medis yang belum di Kirim :";
+            $scope.judulBerkas2 = "Kirim";
+            $scope.activeSource = 'kirim';
+
+            $timeout(function () {
+              if ($scope.winBerkas) {
+                $scope.winBerkas.center().open();
+              }
+            });
+          }
+        });
+      }
+
+
+      function LoadDataBelumVerif() {
+        let bulanIni = moment();
+
+        // tanggal awal = 6 bulan lalu, awal bulan
+        let tglAwalKemarin = bulanIni.clone().subtract(6, 'months').startOf('month').format('YYYY-MM-DD 00:00');
+
+        // tanggal akhir = 1 bulan lalu, akhir bulan
+        let tglAkhirKemarin = bulanIni.clone().subtract(1, 'months').endOf('month').format('YYYY-MM-DD 23:59');
+
+        medifirstService.get(
+          "tatarekening/daftar-pasien-pulang-papj-verif?" +
+          "tglAwal=" + tglAwalKemarin +
+          "&tglAkhir=" + tglAkhirKemarin
+        ).then(function (e) {
+          if (e.data.length > 0) {
+            let uniqueData = {};
+            e.data.forEach(item => {
+              if (!uniqueData[item.norec]) {
+                uniqueData[item.norec] = item;
+              }
+            });
+            let filtered = Object.values(uniqueData);
+
+            let grouped = {};
+            filtered.forEach(item => {
+              let blnKey = moment(item.tanggalPulang).format('YYYY-MM');
+              if (!grouped[blnKey]) {
+                grouped[blnKey] = 0;
+              }
+              grouped[blnKey]++;
+            });
+
+            let dataTable = Object.keys(grouped).map((blnKey, index) => {
+              return {
+                no: index + 1,
+                tanggalBelum: moment(blnKey, 'YYYY-MM').format('MMMM YYYY'),
+                jumlahBelum: grouped[blnKey]
+              };
+            });
+
+            $scope.sourceBerkasBelumVerif = new kendo.data.DataSource({
+              data: dataTable,
+              pageSize: 200,
+              total: dataTable.length,
+              serverPaging: false
+            });
+
+            $scope.judulBerkas = "Terdapat Elektronik Rekam Medis yang belum di Verifikasi :";
+            $scope.activeSource = 'verif';
+            $timeout(function () {
+              if ($scope.winBerkas) {
+                $scope.winBerkas.center().open();
+              }
+            });
+          }
+        });
+      }
+
+      $scope.gridKlaimClosed = false;
+
+      function LoadDataBelumKlaim() {
+        // kalau popup sudah pernah di-close, jangan tampilkan lagi
+        if ($scope.gridKlaimClosed) {
+          return;
         }
 
-          $scope.closeWinBerkas = function () {
-              if ($scope.activeSource === 'klaim') {
-                  $scope.gridKlaimClosed = true; // klaim hanya muncul sekali per sesi
+        let bulanIni = moment();
+        let tglAwalKemarin = bulanIni.clone().subtract(6, 'months').startOf('month').format('YYYY-MM-DD 00:00');
+        let tglAkhirKemarin = bulanIni.clone().subtract(1, 'months').endOf('month').format('YYYY-MM-DD 23:59');
+
+        medifirstService.get(
+          "tatarekening/daftar-pasien-pulang-papj-klaim?" +
+          "tglAwal=" + tglAwalKemarin +
+          "&tglAkhir=" + tglAkhirKemarin +
+          "&statusGrouping=GROUPING,EDIT CLAIM"
+        ).then(function (e) {
+          if (e.data.length > 0) {
+            // hilangkan data duplikat
+            let uniqueData = {};
+            e.data.forEach(item => {
+              if (!uniqueData[item.norec]) {
+                uniqueData[item.norec] = item;
               }
+            });
+            let filtered = Object.values(uniqueData);
+
+            // group per bulan
+            let grouped = {};
+            filtered.forEach(item => {
+              let blnKey = moment(item.tanggalPulang).format('YYYY-MM');
+              if (!grouped[blnKey]) grouped[blnKey] = 0;
+              grouped[blnKey]++;
+            });
+
+            // buat data untuk grid
+            let dataTable = Object.keys(grouped).map((blnKey, index) => {
+              return {
+                no: index + 1,
+                tanggalBelum: moment(blnKey, 'YYYY-MM').format('MMMM YYYY'),
+                jumlahBelum: grouped[blnKey]
+              };
+            });
+
+            $scope.sourceBerkasBelumKlaim = new kendo.data.DataSource({
+              data: dataTable,
+              pageSize: 200
+            });
+
+            $scope.judulBerkas = "Terdapat Elektronik Rekam Medis yang belum di Klaim :";
+            $scope.judulBerkas2 = "Send Claim";
+            $scope.activeSource = 'klaim';
+
+            $timeout(function () {
               if ($scope.winBerkas) {
-                  $scope.winBerkas.close();
+                $scope.winBerkas.center().open();
               }
-          };
+            });
+          }
+        });
+      }
 
-          $scope.item = $scope.item || {};
-          $scope.item.statusklaim = $scope.item.statusklaim || [];
+      $scope.closeWinBerkas = function () {
+        if ($scope.activeSource === 'klaim') {
+          $scope.gridKlaimClosed = true; // klaim hanya muncul sekali per sesi
+        }
+        if ($scope.winBerkas) {
+          $scope.winBerkas.close();
+        }
+      };
 
-          $scope.listStatusKlaim = [
-            { id: 1, nama: "SEND CLAIM", value: "SEND CLAIM" },
-            { id: 2, nama: "BELUM CLAIM", value: "GROUPING,EDIT CLAIM,null" },
-          ];
+      $scope.item = $scope.item || {};
+      $scope.item.statusklaim = $scope.item.statusklaim || [];
+
+      $scope.listStatusKlaim = [
+        { id: 1, nama: "SEND CLAIM", value: "SEND CLAIM" },
+        { id: 2, nama: "BELUM CLAIM", value: "GROUPING,EDIT CLAIM,null" },
+      ];
 
       //End Belum Kirim
 
       //TABLE BERKAS BELUM 
-       $scope.berkasBelum = {
-                pageable: true,
-                scrollable: true,
-                columns: [
-                    {
-                        field: "no",
-                        title: "No",
-                        width: 40
-                    },
-                    {
-                        field: "tanggalBelum",
-                        title: "Bulan",
-                        width: 100
-                    },
-                    {
-                        field: "jumlahBelum",
-                        title: "Jumlah",
-                        width: 100
-                    }
-                ],
-            };
-        //END TABLE BERKAS BELUM
+      $scope.berkasBelum = {
+        pageable: true,
+        scrollable: true,
+        columns: [
+          {
+            field: "no",
+            title: "No",
+            width: 40
+          },
+          {
+            field: "tanggalBelum",
+            title: "Bulan",
+            width: 100
+          },
+          {
+            field: "jumlahBelum",
+            title: "Jumlah",
+            width: 100
+          }
+        ],
+      };
+      //END TABLE BERKAS BELUM
 
       //START IDRG
       //region IDRG
-          $scope.groupingSuccess = false;
-          $scope.finalIDRGSuccess = false;
+      $scope.groupingSuccess = false;
+      $scope.finalIDRGSuccess = false;
 
-          $scope.clickGroupingIDRG = async function () {
-              debugger;
-              if ($scope.item.data[0].nosep == "" || $scope.item.data[0].nosep == null || $scope.item.data[0].nosep == undefined) {
-                toastr.error("NOSEP PASIEN BELUM TERISI", "INACBG");
-                return;
-              }
+      $scope.clickGroupingIDRG = async function () {
+        debugger;
+        if ($scope.item.data[0].nosep == "" || $scope.item.data[0].nosep == null || $scope.item.data[0].nosep == undefined) {
+          toastr.error("NOSEP PASIEN BELUM TERISI", "INACBG");
+          return;
+        }
 
-              if (set.nokepesertaan == "") {
-                toastr.error("MINTA ADM SURUH ISI NO KEPESERTAAN PASIEN!!!!!!!", "INACBG");
-                return;
-              }
+        if (set.nokepesertaan == "") {
+          toastr.error("MINTA ADM SURUH ISI NO KEPESERTAAN PASIEN!!!!!!!", "INACBG");
+          return;
+        }
 
-              var discharge_status = 0;
-              if ($scope.item.data[0].objectstatuspulangfk == 1 || $scope.item.data[0].objectstatuspulangfk == 6 || $scope.item.data[0].objectstatuspulangfk == 13) {
-                discharge_status = 1;
-              } else if (
-                $scope.item.data[0].objectstatuspulangfk == 4 ||
-                $scope.item.data[0].objectstatuspulangfk == 5 ||
-                $scope.item.data[0].objectstatuspulangfk == 10 ||
-                $scope.item.data[0].objectstatuspulangfk == 11 ||
-                $scope.item.data[0].objectstatuspulangfk == 7 ||
-                $scope.item.data[0].objectstatuspulangfk == 16
-              ) {
-                discharge_status = 2;
-              } else if ($scope.item.data[0].objectstatuspulangfk == 2 || $scope.item.data[0].objectstatuspulangfk == 8 || $scope.item.data[0].objectstatuspulangfk == 3 || $scope.item.data[0].objectstatuspulangfk == 12) {
-                discharge_status = 3;
-              } else if ($scope.item.data[0].objectstatuspulangfk == 9 || $scope.item.data[0].objectstatuspulangfk == 18) {
-                discharge_status = 4;
-              } else {
-                discharge_status = 5;
-              }
-              var persalinanfix = "";
-              if ($scope.item.datapersalinan.length > 0) {
-                var datadelivery = [];
+        var discharge_status = 0;
+        if ($scope.item.data[0].objectstatuspulangfk == 1 || $scope.item.data[0].objectstatuspulangfk == 6 || $scope.item.data[0].objectstatuspulangfk == 13) {
+          discharge_status = 1;
+        } else if (
+          $scope.item.data[0].objectstatuspulangfk == 4 ||
+          $scope.item.data[0].objectstatuspulangfk == 5 ||
+          $scope.item.data[0].objectstatuspulangfk == 10 ||
+          $scope.item.data[0].objectstatuspulangfk == 11 ||
+          $scope.item.data[0].objectstatuspulangfk == 7 ||
+          $scope.item.data[0].objectstatuspulangfk == 16
+        ) {
+          discharge_status = 2;
+        } else if ($scope.item.data[0].objectstatuspulangfk == 2 || $scope.item.data[0].objectstatuspulangfk == 8 || $scope.item.data[0].objectstatuspulangfk == 3 || $scope.item.data[0].objectstatuspulangfk == 12) {
+          discharge_status = 3;
+        } else if ($scope.item.data[0].objectstatuspulangfk == 9 || $scope.item.data[0].objectstatuspulangfk == 18) {
+          discharge_status = 4;
+        } else {
+          discharge_status = 5;
+        }
+        var persalinanfix = "";
+        if ($scope.item.datapersalinan.length > 0) {
+          var datadelivery = [];
 
-                for (let i = 0; i < $scope.item.datapersalinandelivery.length; i++) {
-                  var delivery = {
-                    delivery_sequence: $scope.item.datapersalinandelivery[i].delivery_sequence,
-                    delivery_method: $scope.item.datapersalinandelivery[i].delivery_method,
-                    delivery_dttm: $scope.item.datapersalinandelivery[i].delivery_dttm,
-                    letak_janin: $scope.item.datapersalinandelivery[i].letak_janin,
-                    kondisi: $scope.item.datapersalinandelivery[i].kondisi,
-                    use_manual: $scope.item.datapersalinandelivery[i].use_manual,
-                    use_forcep: $scope.item.datapersalinandelivery[i].use_forcep,
-                    use_vacuum: $scope.item.datapersalinandelivery[i].use_vacuum,
-                    shk_spesimen_ambil: $scope.item.datapersalinandelivery[i].shk_spesimen_ambil,
-                    shk_spesimen_dttm: $scope.item.datapersalinandelivery[i].shk_spesimen_ambil,
-                    shk_lokasi: $scope.item.datapersalinandelivery[i].shk_lokasi,
-                  };
-                  datadelivery.push(delivery);
-                }
-                for (let i = 0; i < $scope.item.datapersalinan.length; i++) {
-                  var persalinanfix = {
-                    usia_kehamilan: $scope.item.datapersalinan[i].usiakehamilan,
-                    gravida: $scope.item.datapersalinan[i].gravida,
-                    partus: $scope.item.datapersalinan[i].partus,
-                    abortus: $scope.item.datapersalinan[i].abortus,
-                    onset_kontraksi: $scope.item.datapersalinan[i].onset_kontraksi,
-                    delivery: datadelivery,
-                  };
-                }
-              }
-              var apgar = "";
-              if ($scope.item.appearance != undefined) {
-                apgar = {
-                  menit_1: {
-                    appearance: $scope.item.appearance,
-                    pulse: $scope.item.pulse,
-                    grimace: $scope.item.grimace,
-                    activity: $scope.item.activity,
-                    respiration: $scope.item.respiration,
-                  },
-                  menit_5: {
-                    appearance: $scope.item.appearance2,
-                    pulse: $scope.item.pulse2,
-                    grimace: $scope.item.grimace2,
-                    activity: $scope.item.activity2,
-                    respiration: $scope.item.respiration2,
-                  },
-                };
-              }
-              var dializer = parseInt($scope.item.dializer);
-              if ($scope.item.dializer != undefined) {
-                debugger;
-                var objSave = {
-                  dializer: dializer,
-                  noregistrasifk: $scope.item.data[0].noregistrasifk,
-                };
-                medifirstService.post("bridging/inacbg/save-dializer", objSave).then(function (e) {
-                  // $scope.isRouteLoading = false;
-                  // $scope.setdetail(set)
-                  // window.history.back();
-                });
-              }
-              $scope.isRouteLoading = true;
-              if (set.tipe == "RJ") {
-                var dt1 = {};
-                var dt2 = [];
-                dt1 = {
-                  metadata: {
-                    method: "new_claim",
-                  },
-                  data: {
-                    nomor_kartu: set.nokepesertaan,
-                    nomor_sep: set.nosep,
-                    nomor_rm: $scope.item.data[0].nocm,
-                    nama_pasien: $scope.item.data[0].namapasien,
-                    tgl_lahir: $scope.item.data[0].tgllahir,
-                    gender: $scope.item.data[0].objectjeniskelaminfk,
-                    noregistrasifk: $scope.item.data[0].noregistrasifk,
-                  },
-                };
-                dt2.push(dt1);
-                var objData = {
-                  data: dt2,
-                  noregistrasifk: $scope.item.data[0].noregistrasifk,
-                };
-                dt1 = {
-                  metadata: {
-                    method: "set_claim_data",
-                    nomor_sep: set.nosep,
-                  },
-                  data: {
-                    nomor_sep: set.nosep, //"0901R001TEST0001",
-                    nomor_kartu: set.nokepesertaan, //"233333",
-                    tgl_masuk: $scope.item.data[0].tglregistrasi, //"2017-11-20 12:55:00",
-                    tgl_pulang: $scope.item.data[0].tglpulang, //"2017-12-01 09:55:00",
-                    cara_masuk: ($scope.cara_masuk = $scope.item.data[0].kodecaramasuk ? $scope.item.data[0].kodecaramasuk : "gp"),
-                    jenis_rawat: parseInt($scope.item.data[0].jenisrawat), //"1",
-                    kelas_rawat: "3", //"1",
-                    adl_sub_acute: "",
-                    adl_chronic: "",
-                    icu_indikator: "",
-                    icu_los: "",
-                    ventilator_hour: "",
-                    ventilator: {
-                      use_ind: "0",
-                      start_dttm: "",
-                      stop_dttm: "",
-                    },
-                    upgrade_class_ind: 0,
-                    upgrade_class_class: "Non Kelas",
-                    upgrade_class_los: "",
-                    add_payment_pct: "75",
-                    birth_weight: $scope.item.data[0].beratbadan,
-                    sistole: $scope.item.sistoleinacbg,
-                    diastole: $scope.item.diastoleinacbg,
-                    discharge_status: discharge_status,
-                    // diagnosa: $scope.item.dataDiagnosa10Inacbg,
-                    // procedure: $scope.item.dataDiagnosa9Inacbg,
-                    // diagnosa_inagrouper: $scope.item.dataDiagnosa10Inacbg, // $scope.item.dataDiagnosaInacbg10Inacbg,
-                    // procedure_inagrouper: $scope.item.dataDiagnosa9InacbgImport, //$scope.item.dataDiagnosaInacbg9Inacbg,
-                    tarif_rs: {
-                      prosedur_non_bedah: $scope.item.dataTarif.prosedur_non_bedah,
-                      prosedur_bedah: $scope.item.dataTarif.prosedur_bedah, //"20000000",
-                      konsultasi: $scope.item.dataTarif.konsultasi, //"300000",
-                      tenaga_ahli: $scope.item.dataTarif.tenaga_ahli, //"200000",
-                      keperawatan: $scope.item.dataTarif.keperawatan, // "80000",
-                      penunjang: $scope.item.dataTarif.penunjang, //"1000000",
-                      radiologi: $scope.item.dataTarif.radiologi, //"500000",
-                      laboratorium: $scope.item.dataTarif.laboratorium, //"600000",
-                      pelayanan_darah: $scope.item.dataTarif.pelayanan_darah, //"150000",
-                      rehabilitasi: $scope.item.dataTarif.rehabilitasi, //"100000",
-                      kamar: $scope.item.dataTarif.kamar, //"6000000",
-                      rawat_intensif: $scope.item.dataTarif.rawat_intensif, //"2500000",
-                      obat: $scope.item.dataTarif.obat, //"2000000",
-                      obat_kronis: $scope.item.dataTarif.obat_kronis,
-                      obat_kemoterapi: $scope.item.dataTarif.obat_kemoterapi,
-                      alkes: $scope.item.dataTarif.alkes, //"500000",
-                      bmhp: $scope.item.dataTarif.bmhp, //"400000",
-                      sewa_alat: $scope.item.dataTarif.sewa_alat, //"210000"
-                    },
-                    pemulasaraan_jenazah: 0,
-                    kantong_jenazah: 0,
-                    peti_jenazah: 0,
-                    plastik_erat: 0,
-                    desinfektan_jenazah: 0,
-                    mobil_jenazah: 0,
-                    desinfektan_mobil_jenazah: 0,
-                    covid19_status_cd: "0",
-                    nomor_kartu_t: $scope.item.data[0].noidentitas,
-                    episodes: null,
-                    covid19_cc_ind: "",
-                    tarif_poli_eks: 0,
-                    nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-                    kode_tarif: "BP",
-                    payor_id: $scope.item.data[0].kodejaminan, //"3",
-                    payor_cd: $scope.item.data[0].jaminan,
-                    cob_cd: "#",
-                    // "coder_nik": '123123123123' //"123123123123"
-                    coder_nik: $scope.dataLogin.noIdentitas,
-                    persalinan: persalinanfix,
-                    apgar: apgar,
-                    kantong_darah: $scope.item.kantongdarah,
-                    dializer_single_use: dializer,
-                  },
-                };
-                dt2.push(dt1);
-                var objData = {
-                  data: dt2,
-                  noregistrasifk: $scope.item.data[0].noregistrasifk
-                };
-                dt1 = {
-                  metadata: {
-                    method: "idrg_diagnosa_set",
-                    nomor_sep: set.nosep
-                  },
-                  data: {
-                    diagnosa: $scope.item.dataDiagnosa10Inacbg
-                  },
-                };
-                dt2.push(dt1);
-                var objData = {
-                  data: dt2,
-                  noregistrasifk: $scope.item.data[0].noregistrasifk,
-                };
-                dt1 = {
-                  metadata: {
-                    method: "idrg_procedure_set",
-                    nomor_sep: set.nosep
-                  },
-                  data: {
-                    procedure: $scope.item.dataDiagnosa9InacbgImport
-                  },
-                };
-                dt2.push(dt1);
-                var objData = {
-                  data: dt2,
-                  noregistrasifk: $scope.item.data[0].noregistrasifk,
-                };
-                medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
-                  responData = e.data.dataresponse;
-                  toastr.info(responData[0].dataresponse.metadata.message, "INACBG");
-                  var dt1 = {};
-                  var dt2 = [];
-                  dt1 = {
-                    metadata: {
-                      method: "grouper",
-                      stage: "1",
-                      grouper: "idrg"
-                    },
-                    data: {
-                      // "nomor_sep": dataSave[i].nomor_sep
-                      nomor_sep: set.nosep,
-                    },
-                  };
-                  dt2.push(dt1);
-                  var objData = {
-                    data: dt2,
-                    noregistrasifk: $scope.item.data[0].noregistrasifk,
-                  };
-                  var totaldijamin = "";
-                  var hakkelas = "";
-                  var biayanaikkelas = "0";
-                  medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
-                    $scope.isRouteLoading = false;
-                    responData = e.data.dataresponse;
-                    if (responData[0].dataresponse.metadata.code == 400) {
-                        var message = responData[0].dataresponse.metadata.message || "Terjadi kesalahan (400)";
-                        toastr.error(message, "Error");
-                        $scope.isRouteLoading = false;
-                        return; 
-                    }
-                    $scope.MdcNumber = responData[0].dataresponse.response_idrg.mdc_number;
-                    $scope.MdcDescription = responData[0].dataresponse.response_idrg.mdc_description;
-                    $scope.DrgCode = responData[0].dataresponse.response_idrg.drg_code;
-                    $scope.DrgDescription = responData[0].dataresponse.response_idrg.drg_description;
-
-                    if (responData[0].dataresponse.metadata.message == 'iDRG coding sudah final') {
-                        $scope.groupingSuccess = true;
-                    }
-
-                    var datasend = {
-                      noregistrasifk: $scope.item.data[0].noregistrasifk,
-                      status: "GROUPING IDRG",
-                    };
-                    if (responData[0].dataresponse.metadata.code == 200 || responData[0].dataresponse.metadata.code == "200") {
-                      medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-                        // Debug log response
-                        if (e && e.data && e.data.status == 201) {
-                          console.log("Update status GROUPING IDRG sukses", e.data);
-                        } else {
-                          console.error("Gagal update status GROUPING IDRG", e);
-                        }
-                      });
-                    }
-
-                    // jika berhasil 
-                    $scope.groupingSuccess = true;
-
-                    $scope.isRouteLoading = false;
-                    $scope.setdetail(set);
-                  });
-                });
-              } else {
-                // toastr.error('Grouping Rawat Inap Memakai Menu Klaim InacbgV2', 'INACBG');
-                // return;
-                var dt1 = {};
-                var dt2 = [];
-                dt1 = {
-                  metadata: {
-                    method: "new_claim",
-                  },
-                  data: {
-                    nomor_kartu: set.nokepesertaan,
-                    nomor_sep: set.nosep,
-                    nomor_rm: $scope.item.data[0].nocm,
-                    nama_pasien: $scope.item.data[0].namapasien,
-                    tgl_lahir: $scope.item.data[0].tgllahir,
-                    gender: $scope.item.data[0].objectjeniskelaminfk,
-                  },
-                };
-                dt2.push(dt1);
-                var objData = {
-                  data: dt2,
-                  noregistrasifk: $scope.item.data[0].noregistrasifk,
-                };
-                debugger;
-                dt1 = {
-                  metadata: {
-                    method: "set_claim_data",
-                    nomor_sep: set.nosep,
-                  },
-                  data: {
-                    nomor_sep: set.nosep, //"0901R001TEST0001",
-                    nomor_kartu: set.nokepesertaan, //"233333",
-                    tgl_masuk: $scope.item.data[0].tglregistrasi, //"2017-11-20 12:55:00",
-                    tgl_pulang: $scope.item.data[0].tglpulang, //"2017-12-01 09:55:00",
-                    cara_masuk: ($scope.cara_masuk = $scope.item.data[0].kodecaramasuk ? $scope.item.data[0].kodecaramasuk : "gp"),
-                    jenis_rawat: parseInt($scope.item.data[0].jenisrawat), //"1",
-                    kelas_rawat: $scope.item.data[0].nokelasdijamin,
-                    adl_sub_acute: "",
-                    adl_chronic: "",
-                    icu_indikator: $scope.item.datanaikkelas[0].statusrawatintensiv,
-                    icu_los: $scope.item.datanaikkelas[0].lamarawatintensiv,
-                    ventilator_hour: $scope.item.data[0].jmljam,
-                    ventilator: {
-                      use_ind: $scope.item.useind,
-                      start_dttm: $scope.item.startDttm,
-                      stop_dttm: $scope.item.stoptDttm,
-                    },
-                    //polri tidak ada naik kelas
-                    upgrade_class_ind: $scope.item.datanaikkelas[0].statusnaikkelas,
-                    upgrade_class_class: $scope.item.datanaikkelas[0].kelastertinggi,
-                    upgrade_class_los: $scope.item.datanaikkelas[0].lamarawatnaikkelas,
-                    // "upgrade_class_payor": $scope.target_upgrade_class_payor,
-                    // upgrade_class_ind: "0",
-                    birth_weight: $scope.item.data[0].beratbadan,
-                    sistole: $scope.item.sistoleinacbg,
-                    diastole: $scope.item.diastoleinacbg,
-                    discharge_status: discharge_status,
-                    // diagnosa: $scope.item.dataDiagnosa10Inacbg,
-                    // procedure: $scope.item.dataDiagnosa9Inacbg,
-                    // diagnosa_inagrouper: $scope.item.dataDiagnosa10Inacbg, // $scope.item.dataDiagnosaInacbg10Inacbg,
-                    // procedure_inagrouper: $scope.item.dataDiagnosa9InacbgImport, //$scope.item.dataDiagnosaInacbg9Inacbg,
-                    tarif_rs: {
-                      prosedur_non_bedah: $scope.item.dataTarif.prosedur_non_bedah,
-                      prosedur_bedah: $scope.item.dataTarif.prosedur_bedah, //"20000000",
-                      konsultasi: $scope.item.dataTarif.konsultasi, //"300000",
-                      tenaga_ahli: $scope.item.dataTarif.tenaga_ahli, //"200000",
-                      keperawatan: $scope.item.dataTarif.keperawatan, // "80000",
-                      penunjang: $scope.item.dataTarif.penunjang, //"1000000",
-                      radiologi: $scope.item.dataTarif.radiologi, //"500000",
-                      laboratorium: $scope.item.dataTarif.laboratorium, //"600000",
-                      pelayanan_darah: $scope.item.dataTarif.pelayanan_darah, //"150000",
-                      rehabilitasi: $scope.item.dataTarif.rehabilitasi, //"100000",
-                      kamar: $scope.item.dataTarif.kamar, //"6000000",
-                      rawat_intensif: $scope.item.dataTarif.rawat_intensif, //"2500000",
-                      obat: $scope.item.dataTarif.obat, //"2000000",
-                      obat_kronis: $scope.item.dataTarif.obat_kronis,
-                      obat_kemoterapi: $scope.item.dataTarif.obat_kemoterapi,
-                      alkes: $scope.item.dataTarif.alkes, //"500000",
-                      bmhp: $scope.item.dataTarif.bmhp, //"400000",
-                      sewa_alat: $scope.item.dataTarif.sewa_alat, //"210000"
-                    },
-                    pemulasaraan_jenazah: 0,
-                    kantong_jenazah: 0,
-                    peti_jenazah: 0,
-                    plastik_erat: 0,
-                    desinfektan_jenazah: 0,
-                    mobil_jenazah: 0,
-                    desinfektan_mobil_jenazah: 0,
-                    covid19_status_cd: "0",
-                    nomor_kartu_t: $scope.item.data[0].noidentitas,
-                    episodes: null,
-                    covid19_cc_ind: "",
-                    tarif_poli_eks: "",
-                    nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-                    kode_tarif: "BP",
-                    payor_id: $scope.item.data[0].kodejaminan, //"3",
-                    payor_cd: $scope.item.data[0].jaminan,
-                    cob_cd: "#",
-                    // "coder_nik": '123123123123' //"123123123123"
-                    coder_nik: $scope.dataLogin.noIdentitas,
-                    persalinan: persalinanfix,
-                    apgar: apgar,
-                    kantong_darah: $scope.item.kantongdarah,
-                    dializer_single_use: dializer,
-                  },
-                };
-                dt2.push(dt1);
-                var objData = {
-                  data: dt2,
-                  noregistrasifk: $scope.item.data[0].noregistrasifk
-                };
-                dt1 = {
-                  metadata: {
-                    method: "idrg_diagnosa_set",
-                    nomor_sep: set.nosep
-                  },
-                  data: {
-                    diagnosa: $scope.item.dataDiagnosa10Inacbg
-                  },
-                };
-                dt2.push(dt1);
-                var objData = {
-                  data: dt2,
-                };
-                dt1 = {
-                  metadata: {
-                    method: "idrg_procedure_set",
-                    nomor_sep: set.nosep
-                  },
-                  data: {
-                    procedure: $scope.item.dataDiagnosa9InacbgImport
-                  },
-                };
-                dt2.push(dt1);
-                var objData = {
-                  data: dt2,
-                  noregistrasifk: $scope.item.data[0].noregistrasifk,
-                };
-                medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
-                  var dt1 = {};
-                  var dt2 = [];
-                  dt1 = {
-                    metadata: {
-                      method: "grouper",
-                      stage: "1",
-                      grouper: "idrg"
-                    },
-                    data: {
-                      // "nomor_sep": dataSave[i].nomor_sep
-                      nomor_sep: set.nosep,
-                    },
-                  };
-                  dt2.push(dt1);
-                  var objData = {
-                    data: dt2,
-                    noregistrasifk: $scope.item.data[0].noregistrasifk,
-                  };
-                  medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
-                    responData = e.data.dataresponse;
-                    if (responData[0].dataresponse.metadata.code == 400) {
-                        var message = responData[0].dataresponse.metadata.message || "Terjadi kesalahan (400)";
-                        toastr.error(message, "Error");
-                        $scope.isRouteLoading = false;
-                        return; 
-                    }
-                    $scope.MdcNumber = responData[0].dataresponse.response_idrg.mdc_number;
-                    $scope.MdcDescription = responData[0].dataresponse.response_idrg.mdc_description;
-                    $scope.DrgCode = responData[0].dataresponse.response_idrg.drg_code;
-                    $scope.DrgDescription = responData[0].dataresponse.response_idrg.drg_description;
-
-                    if (responData[0].dataresponse.metadata.message == 'iDRG coding sudah final') {
-                        $scope.groupingSuccess = true;
-                    }
-
-                    var datasend = {
-                      noregistrasifk: $scope.item.data[0].noregistrasifk,
-                      status: "GROUPING IDRG",
-                    };
-                    if (responData[0].dataresponse.metadata.code == 200 || responData[0].dataresponse.metadata.code == "200") {
-                      medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-                        // Debug log response
-                        if (e && e.data && e.data.status == 201) {
-                          console.log("Update status GROUPING IDRG sukses", e.data);
-                        } else {
-                          console.error("Gagal update status GROUPING IDRG", e);
-                        }
-                      });
-                    }
-
-                    $scope.groupingSuccess = true;
-                    $scope.isRouteLoading = false;
-                    $scope.setdetail(set);
-                  });
-                });
-              }
-          };
-
-          $scope.clickFinalIDRG = function () {
-              var dt1 = {};
-              var dt2 = [];
-              dt1 = {
-                metadata: {
-                  method: "idrg_grouper_final",
-                },
-                data: {
-                  nomor_sep: set.nosep,
-                },
-              };
-              dt2.push(dt1);
-
-              var objData = {
-                data: dt2,
-                noregistrasifk: $scope.item.data[0].noregistrasifk
-              };
-              medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
-                // response simpan ke database
-                responData = e.data.dataresponse;
-                var datasend = {
-                  noregistrasifk: $scope.item.data[0].noregistrasifk,
-                  status: "FINAL IDRG",
-                };
-                if (responData[0].dataresponse.metadata.code == "200") {
-                  medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-                    //ini untuk proposional kan utang per tindakan
-                  });
-
-                  $scope.finalIDRGSuccess = true;
-                  $scope.reeditSuccess = false;
-                  $scope.listDiagnosa10Inacbg = [];
-                  $scope.item.diagnosastring = "";
-                }
-                toastr.info(responData[0].dataresponse.metadata.message, "FINAL IDRG");
-              });
-              $scope.finalIDRGSuccess = true;
-              $scope.reeditSuccess = false;
-              // Paksa Angular update view
-                $scope.$applyAsync();
-          };
-
-          $scope.clickImportToINACBG = function () {
-              var dt1 = {
-                  metadata: { method: "idrg_to_inacbg_import" },
-                  data: { nomor_sep: set.nosep },
-              };
-
-              var objData = { 
-                data: [dt1],
-                noregistrasifk: $scope.item.data[0].noregistrasifk,
-               };
-
-              medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
-                  .then(function (e) {
-                      responData = e.data.dataresponse;
-
-                      var datasend = {
-                        noregistrasifk: $scope.item.data[0].noregistrasifk,
-                        status: "IMPORT TO INACBG",
-                      };
-                      medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-                        });
-                      if (responData[0].dataresponse.metadata.code == "200") {
-                          toastr.info(responData[0].dataresponse.metadata.message, "IMPORT To INACBG");
-
-                      } else {
-                          toastr.error(responData[0].dataresponse.metadata.message, "IMPORT To INACBG Belum Berhasil");
-                      }
-
-                      $scope.getDiagnosaInacbg();
-                      $scope.getProcedureInacbg();
-                  });
-                  $scope.ImportSuccess = true;
-          };
- 
-          $scope.reeditClaimIdrg = async function () { 
-              if (window.confirm('Yakin edit ulang idrg ?')) {
-                  try {
-                      const r = await medifirstService.post(
-                          "bridging/inacbg/save-bridging-inacbg", {
-                              data: [{
-                                  metadata: { method: "idrg_grouper_reedit" },
-                                  data: { nomor_sep: set.nosep }
-                              }],
-                              noregistrasifk: $scope.item.data[0].noregistrasifk
-                          }
-                      );
-
-                      // Update state
-                      $scope.reeditSuccess = true;
-                      $scope.finalIDRGSuccess = false;
-
-                      // Paksa Angular update view
-                      $scope.$applyAsync();
-
-                      var datasend = {
-                        noregistrasifk: $scope.item.data[0].noregistrasifk,
-                        status: "EDIT IDRG",
-                      };
-                      medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-                      });
-
-                      console.log("EDIT", $scope.reeditSuccess);
-                      console.log("FINAL IDRG", $scope.finalIDRGSuccess);
-
-                      toastr.success('Edit ulang IDRG berhasil, silakan lakukan grouping kembali.', 'INACBG');
-
-                  } catch (error) {
-                      toastr.error('Gagal re-edit claim IDRG!', 'INACBG');
-                      console.error(error);
-                  }
-              }
-          };
-
-          // Inisialisasi objek item
-          $scope.item = {
-            diagnosa10: null,
-            diagnosastring: "",
-            diagnosa9: null,
-            procedurestring: ""
-          };
-
-          $scope.getDiagnosaInacbg = function () {
-            var dt1 = {
-              metadata: { method: "inacbg_diagnosa_get" },
-              data: { nomor_sep: set.nosep },
+          for (let i = 0; i < $scope.item.datapersalinandelivery.length; i++) {
+            var delivery = {
+              delivery_sequence: $scope.item.datapersalinandelivery[i].delivery_sequence,
+              delivery_method: $scope.item.datapersalinandelivery[i].delivery_method,
+              delivery_dttm: $scope.item.datapersalinandelivery[i].delivery_dttm,
+              letak_janin: $scope.item.datapersalinandelivery[i].letak_janin,
+              kondisi: $scope.item.datapersalinandelivery[i].kondisi,
+              use_manual: $scope.item.datapersalinandelivery[i].use_manual,
+              use_forcep: $scope.item.datapersalinandelivery[i].use_forcep,
+              use_vacuum: $scope.item.datapersalinandelivery[i].use_vacuum,
+              shk_spesimen_ambil: $scope.item.datapersalinandelivery[i].shk_spesimen_ambil,
+              shk_spesimen_dttm: $scope.item.datapersalinandelivery[i].shk_spesimen_ambil,
+              shk_lokasi: $scope.item.datapersalinandelivery[i].shk_lokasi,
             };
-
-            var objData = { 
-              data: [dt1],
-              noregistrasifk: $scope.item.data[0].noregistrasifk,
-
-             };
-
-            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
-              .then(function (res) {
-                let responData = res.data.dataresponse;
-
-                // ambil expanded array langsung
-                let expanded = responData[0].dataresponse.data?.expanded || [];
-                $scope.listDiagnosa10Inacbg = Array.isArray(expanded) ? expanded : [];
-
-                // simpan string juga kalau butuh
-                $scope.item.diagnosastring = responData[0].dataresponse.data?.string || "";
-                $scope.$applyAsync();
-              });
-          };
-
-          // SIMPAN ICD-10
-          $scope.saveICD10inacbg = function () {
-            if (!$scope.item.diagnosa10) {
-              toastr.error("Diagnosa harus diisi!");
-              return;
-            }
-
-            if (!$scope.item.diagnosa10.kdDiagnosa) {
-              toastr.error("Harap pilih Diagnosa dengan benar!");
-              return;
-            }
-
-            let kode = $scope.item.diagnosa10.kdDiagnosa;
-
-            // cek duplikat di list
-            let exists = $scope.listDiagnosa10Inacbg.some(d => d.code === kode);
-            if (!exists) {
-              // kalau belum ada, masukkan ke list
-              $scope.listDiagnosa10Inacbg.push({
-                code: kode,
-                display: $scope.item.diagnosa10.namaDiagnosa,
-                metadata: { code: "200", message: "Ok" }
-              });
-            }
-
-            // rakit ulang diagnosastring dari seluruh isi list
-            $scope.item.diagnosastring = $scope.listDiagnosa10Inacbg
-              .map(d => d.code)
-              .join("#");
-
-            // kirim ke server dengan semua diagnosa
-            medifirstService.post("bridging/inacbg/save-bridging-inacbg", {
-              data: [
-                {
-                  metadata: {
-                    method: "inacbg_diagnosa_set",
-                    nomor_sep: set.nosep
-                  },
-                  data: {
-                    diagnosa: $scope.item.diagnosastring
-                  }
-                }
-              ],
-              noregistrasifk: $scope.item.data[0].noregistrasifk
-            }).then(res => {
-              const meta = res.dataresponse[0].dataresponse.metadata;
-              if (meta.code == 200) {
-                toastr.success("Semua diagnosa tersimpan!");
-                $scope.$applyAsync();
-              } else {
-                toastr.error(meta.message);
-              }
-            });
-
-            // reset combobox
-            $scope.item.diagnosa10 = null;
-          };
-
-          // buka modal edit
-          $scope.editICD10 = function (list) {
-            $scope.popupEditDiagnosa.center().open();
-            $scope.itemBeingEdited = list; // simpan item yg diedit
-            $scope.editItem = null;        // reset combo box
-          };
-
-          // simpan hasil edit
-          $scope.updateDiagnosa = async function () {
-            if (!$scope.editItem || !$scope.editItem.kdDiagnosa) {
-              toastr.error("Harap pilih diagnosa yang valid!");
-              return;
-            }
-
-            // update item di list
-            $scope.itemBeingEdited.code = $scope.editItem.kdDiagnosa;
-            $scope.itemBeingEdited.display = $scope.editItem.namaDiagnosa;
-            $scope.itemBeingEdited.metadata = { code: "200", message: "Ok" };
-
-            $scope.popupEditDiagnosa.close();
-
-            // kirim ulang semua diagnosa
-            await $scope.saveAllDiagnosa();
-          };
-
-          // hapus diagnosa
-          $scope.hapusICD10Inacbg = async function (item) {
-            $scope.listDiagnosa10Inacbg = $scope.listDiagnosa10Inacbg.filter(d => d.code !== item.code);
-            await $scope.saveAllDiagnosa();
-          };
-
-          // fungsi utama simpan semua diagnosa
-          $scope.saveAllDiagnosa = async function () {
-            let diagnosaString = $scope.listDiagnosa10Inacbg
-              .map(d => d.code)
-              .filter(c => c && c.toLowerCase() !== "undefined")
-              .join("#");
-
-            try {
-              const res = await medifirstService.post("bridging/inacbg/save-bridging-inacbg", {
-                data: [{
-                  metadata: {
-                    method: "inacbg_diagnosa_set",
-                    nomor_sep: set.nosep
-                  },
-                  data: { diagnosa: diagnosaString }
-                }],
-                noregistrasifk: $scope.item.data[0].noregistrasifk
-              });
-
-              const meta = res.data.dataresponse[0].dataresponse.metadata;
-              if (meta.code == 200) {
-                toastr.success("Diagnosa berhasil diperbarui");
-                $scope.getDiagnosaInacbg();
-              } else {
-                toastr.error(meta.message || "Gagal update diagnosa");
-              }
-            } catch (err) {
-              toastr.error("Error simpan diagnosa");
-              console.error(err);
-            }
-          };
-
-          $scope.getProcedureInacbg = function () {
-              var dt1 = {
-                  metadata: { method: "inacbg_procedure_get" },
-                  data: { nomor_sep: set.nosep },
-              };
-
-              var objData = { 
-                data: [dt1],
-                noregistrasifk: $scope.item.data[0].noregistrasifk
-               };
-
-            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
-              .then(function (res) {
-                let responData = res.data.dataresponse;
-
-                // ambil expanded array langsung
-                let expanded = responData[0].dataresponse.data?.expanded || [];
-                $scope.listProcedureInacbg = Array.isArray(expanded) ? expanded : [];
-
-                // simpan string juga kalau butuh
-                $scope.item.procedurestring = responData[0].dataresponse.data?.string || "";
-                $scope.$applyAsync();
-              });
-          };
-
-        // SIMPAN ICD-9
-          $scope.listProcedureInacbg = $scope.listProcedureInacbg || [];
-
-          $scope.saveICD9Inacbg = function () {
-              if (!$scope.item.diagnosa9) {
-                toastr.error("Diagnosa harus diisi!");
-                return;
-              }
-
-              // ambil kode & nama dari combo-box response
-              let kode = $scope.item.diagnosa9.kddiagnosatindakan;
-              let nama = $scope.item.diagnosa9.namaDiagnosaTindakan;
-
-              if (!kode) {
-                toastr.error("Harap pilih Diagnosa dengan benar!");
-                return;
-              }
-
-              // cek duplikat
-              let exists = $scope.listProcedureInacbg.some(d => d.code === kode);
-              if (!exists) {
-                $scope.listProcedureInacbg.push({
-                  code: kode,
-                  display: nama,
-                  metadata: { code: "200", message: "Ok" }
-                });
-              }
-
-              // rakit ulang procedurestring
-              $scope.item.procedurestring = $scope.listProcedureInacbg
-                .map(d => d.code)
-                .join("#");
-
-              // kirim ke server
-              medifirstService.post("bridging/inacbg/save-bridging-inacbg", {
-                data: [
-                  {
-                    metadata: {
-                      method: "inacbg_procedure_set",
-                      nomor_sep: set.nosep
-                    },
-                    data: {
-                      procedure: $scope.item.procedurestring
-                    }
-                  }
-                ],
-                noregistrasifk: $scope.item.data[0].noregistrasifk
-              }).then(res => {
-                const meta = res.dataresponse[0].dataresponse.metadata;
-                if (meta.code == 200) {
-                  toastr.success("Semua procedure tersimpan!");
-                  $scope.$applyAsync();
-                } else {
-                  toastr.error(meta.message);
-                }
-              });
-
-              // reset combobox
-              $scope.item.diagnosa9 = null;
+            datadelivery.push(delivery);
+          }
+          for (let i = 0; i < $scope.item.datapersalinan.length; i++) {
+            var persalinanfix = {
+              usia_kehamilan: $scope.item.datapersalinan[i].usiakehamilan,
+              gravida: $scope.item.datapersalinan[i].gravida,
+              partus: $scope.item.datapersalinan[i].partus,
+              abortus: $scope.item.datapersalinan[i].abortus,
+              onset_kontraksi: $scope.item.datapersalinan[i].onset_kontraksi,
+              delivery: datadelivery,
             };
-
-            // buka modal edit diagnosa 9
-            $scope.editICD9 = function (list) {
-              $scope.popupEditDiagnosa9.center().open();
-              $scope.itemBeingEdited9 = list; // simpan item yg diedit
-              $scope.editItem9 = null;        // reset combo box
-            };
-
-            // simpan hasil edit diagnosa 9
-            $scope.updateDiagnosa9 = async function () {
-              console.log("editItem9 >>>", $scope.editItem9);
-
-              if (!$scope.editItem9 || !$scope.editItem9.kddiagnosatindakan) {
-                toastr.error("Harap pilih diagnosa ICD_9 yang valid!");
-                return;
-              }
-
-              $scope.itemBeingEdited9.code = $scope.editItem9.kddiagnosatindakan;
-              $scope.itemBeingEdited9.display = $scope.editItem9.namaDiagnosaTindakan;
-              $scope.itemBeingEdited9.metadata = { code: "200", message: "Ok" };
-
-              $scope.popupEditDiagnosa9.close();
-
-              await $scope.saveAllDiagnosa9();
-            };
-
-            // hapus diagnosa 9
-            $scope.hapusICD9Inacbg = async function (item) {
-              $scope.listProcedureInacbg = $scope.listProcedureInacbg.filter(d => d.code !== item.code);
-              await $scope.saveAllDiagnosa9();
-            };
-
-            // fungsi utama simpan semua diagnosa 9
-            $scope.saveAllDiagnosa9 = async function () {
-            let procedureString = $scope.listProcedureInacbg
-              .map(d => d.code)
-              .filter(c => c && c.toLowerCase() !== "undefined")
-              .join("#");
-
-            try {
-              const res = await medifirstService.post("bridging/inacbg/save-bridging-inacbg", {
-                data: [{
-                  metadata: {
-                    method: "inacbg_procedure_set",
-                    nomor_sep: set.nosep
-                  },
-                  data: { procedure: procedureString }   // <== HARUS procedure, bukan diagnosa
-                }],
-                noregistrasifk: $scope.item.data[0].noregistrasifk
-              });
-
-              const meta = res.data.dataresponse[0].dataresponse.metadata;
-              if (meta.code == 200) {
-                toastr.success("Procedure ICD-9 berhasil diperbarui");
-                $scope.getProcedureInacbg(); // ganti sesuai function refresh list ICD-9
-              } else {
-                toastr.error(meta.message || "Gagal update procedure");
-              }
-            } catch (err) {
-              toastr.error("Error simpan procedure");
-              console.error(err);
-            }
+          }
+        }
+        var apgar = "";
+        if ($scope.item.appearance != undefined) {
+          apgar = {
+            menit_1: {
+              appearance: $scope.item.appearance,
+              pulse: $scope.item.pulse,
+              grimace: $scope.item.grimace,
+              activity: $scope.item.activity,
+              respiration: $scope.item.respiration,
+            },
+            menit_5: {
+              appearance: $scope.item.appearance2,
+              pulse: $scope.item.pulse2,
+              grimace: $scope.item.grimace2,
+              activity: $scope.item.activity2,
+              respiration: $scope.item.respiration2,
+            },
           };
-
-          $scope.isFinalInacbg = false;
-
-          $scope.clickFinalInacbg = function () {
-            var dt1 = {
-              metadata: { method: "inacbg_grouper_final" },
-              data: { nomor_sep: set.nosep }
-            };
-            var objData = { 
-              data: [dt1],
-              noregistrasifk: $scope.item.data[0].noregistrasifk
-             };
-
-            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
-              responData = e.data.dataresponse;
-              var datasend = {
-                noregistrasifk: $scope.item.data[0].noregistrasifk,
-                status: "FINAL INACBG",
-              };
-              medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-              });
-              toastr.info(responData[0].dataresponse.metadata.message, "INACBG");
-
-              $scope.isFinalInacbg = true;
-            });
+        }
+        var dializer = parseInt($scope.item.dializer);
+        if ($scope.item.dializer != undefined) {
+          debugger;
+          var objSave = {
+            dializer: dializer,
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
           };
-
-          $scope.clickEditInacbg = function () {
-            var dt1 = {
-              metadata: { method: "inacbg_grouper_reedit" },
-              data: { nomor_sep: set.nosep }
-            };
-            var objData = { 
-              data: [dt1],
-              noregistrasifk: $scope.item.data[0].noregistrasifk,
-             };
-
-            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
-              responData = e.data.dataresponse;
-              var datasend = {
-                noregistrasifk: $scope.item.data[0].noregistrasifk,
-                status: "EDIT INACBG",
-              };
-              medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-              });
-              toastr.info(responData[0].dataresponse.metadata.message, "INACBG");
-
-              $scope.isFinalInacbg = false;
-            });
-          };
-
-          $scope.myVar = parseInt(localStorage.getItem('myVar')) || 0;
-
-          // Simpan index tab aktif setiap kali berubah
-          $scope.$watch('myVar', function(newVal) {
-            localStorage.setItem('myVar', newVal);
+          medifirstService.post("bridging/inacbg/save-dializer", objSave).then(function (e) {
+            // $scope.isRouteLoading = false;
+            // $scope.setdetail(set)
+            // window.history.back();
           });
-
-
-          // Fungsi untuk ambil status bridging dari backend dan update semua variabel tombol
-          $scope.getStatusBridgingInacbg = function() {
-            if (!$scope.item || !$scope.item.data || !$scope.item.data[0] || !$scope.item.data[0].noregistrasifk) return;
-            medifirstService.get("bridging/inacbg/get-status-bridging-inacbg?noregistrasifk=" + $scope.item.data[0].noregistrasifk)
-              .then(function(res) {
-                var data = res.data;
-                // Reset semua status
-                $scope.groupingSuccess = false;
-                $scope.finalIDRGSuccess = false;
-                $scope.isFinalInacbg = false;
-                $scope.GroupingInacbgSuccess = false;
-                $scope.isClaimFinal = false;
-                $scope.reeditSuccess = false;
-                $scope.ImportSuccess = false;
-                $scope.tabelTopup = false;
-                $scope.showGrouping = true;
-                if (data && data.length > 0) {
-                  // Loop semua status yang dikirim backend
-                  data.forEach(function(s) {
-                    switch ((s.status || "").toUpperCase()) {
-                      case "GROUPING IDRG":
-                        $scope.groupingSuccess = true;
-                        break;
-                      case "FINAL IDRG":
-                        $scope.finalIDRGSuccess = true;
-                        break;
-                      case "EDIT IDRG":
-                        $scope.reeditSuccess = true;
-                        $scope.finalIDRGSuccess = false;
-                        break;
-                      case "IMPORT TO INACBG":
-                        $scope.finalIDRGSuccess = true; 
-                        $scope.ImportSuccess = true;
-                        $scope.reeditSuccess = false;  
-                        $scope.GroupingInacbgSuccess = false;
-                        $scope.isFinalInacbg = false;
-                        $scope.isClaimFinal = false;
-                        break;
-                     case "GROUPING INACBG":
-                      if ($scope.hasCmgOption) {
-                          $scope.tabelTopup = true;
-                          $scope.showGrouping = false;
-                      }
-                        $scope.finalIDRGSuccess = true; 
-                        $scope.ImportSuccess = true;
-                        $scope.GroupingInacbgSuccess = true;
-                        $scope.isFinalInacbg = false;
-                        break;
-                     case "FINAL INACBG":
-                        $scope.finalIDRGSuccess = true;
-                        $scope.ImportSuccess = true;
-                        $scope.GroupingInacbgSuccess = true;
-                        $scope.isFinalInacbg = true;
-                        $scope.reeditSuccess = false;
-                        $scope.isClaimFinal = false;
-                        break;
-                     case "EDIT INACBG":
-                        $scope.finalIDRGSuccess = true;
-                        $scope.ImportSuccess = true;
-                        $scope.GroupingInacbgSuccess = true; 
-                        $scope.isFinalInacbg = false;
-                        break;
-                      case "FINAL CLAIM":
-                        $scope.isClaimFinal = true;
-                        break;
-                      case "TOPUP":
-                        $scope.tabelTopup = true;
-                        break;
-                      case "SEND CLAIM":
-                        $scope.finalIDRGSuccess = true;
-                        $scope.GroupingInacbgSuccess = true;
-                        $scope.isFinalInacbg = true;
-                        $scope.isClaimFinal = true;
-                        $scope.tabelTopup = false;
-                        break;
-                      default:
-                        // status lain, bisa ditambah jika ada
-                        break;
-                    }
-                  });
-                }
-                $scope.$applyAsync();
-              });
+        }
+        $scope.isRouteLoading = true;
+        if (set.tipe == "RJ") {
+          var dt1 = {};
+          var dt2 = [];
+          dt1 = {
+            metadata: {
+              method: "new_claim",
+            },
+            data: {
+              nomor_kartu: set.nokepesertaan,
+              nomor_sep: set.nosep,
+              nomor_rm: $scope.item.data[0].nocm,
+              nama_pasien: $scope.item.data[0].namapasien,
+              tgl_lahir: $scope.item.data[0].tgllahir,
+              gender: $scope.item.data[0].objectjeniskelaminfk,
+              noregistrasifk: $scope.item.data[0].noregistrasifk,
+            },
           };
-
-          // $scope.onTabChanges = function(tabIndex) {
-          //   // Jika tab Klaim IDRG dibuka, update status tombol dari backend
-          //   if (tabIndex === 9) {
-          //     $scope.getStatusBridgingInacbg();
-          //   }
-          // };
-
-          $scope.clickGroupingINACBG = async function () {
-            var dt1 = {
-              metadata: {
-                method: "grouper",
-                stage: "1",
-                grouper: "inacbg",
+          dt2.push(dt1);
+          var objData = {
+            data: dt2,
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
+          };
+          dt1 = {
+            metadata: {
+              method: "set_claim_data",
+              nomor_sep: set.nosep,
+            },
+            data: {
+              nomor_sep: set.nosep, //"0901R001TEST0001",
+              nomor_kartu: set.nokepesertaan, //"233333",
+              tgl_masuk: $scope.item.data[0].tglregistrasi, //"2017-11-20 12:55:00",
+              tgl_pulang: $scope.item.data[0].tglpulang, //"2017-12-01 09:55:00",
+              cara_masuk: ($scope.cara_masuk = $scope.item.data[0].kodecaramasuk ? $scope.item.data[0].kodecaramasuk : "gp"),
+              jenis_rawat: parseInt($scope.item.data[0].jenisrawat), //"1",
+              kelas_rawat: "3", //"1",
+              adl_sub_acute: "",
+              adl_chronic: "",
+              icu_indikator: "",
+              icu_los: "",
+              ventilator_hour: "",
+              ventilator: {
+                use_ind: "0",
+                start_dttm: "",
+                stop_dttm: "",
               },
-              data: { nomor_sep: set.nosep },
-            };
-
-            var objData = {
-              data: [dt1],
-              noregistrasifk: $scope.item.data[0].noregistrasifk
-            };
-
-            try {
-              let e = await medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData);
-              let responData = e.data.dataresponse;
-
-              toastr.info(responData[0].dataresponse.metadata.message, "GROUPING INACBG");
-
-              let totaldijamin = responData[0].dataresponse.response_inacbg.tariff;
-              let biayanaikkelas = "0";
-
-              if ($scope.item.datanaikkelas[0].statusnaikkelas != "0") {
-                biayanaikkelas = responData[0].dataresponse.response_inacbg.add_payment_amt;
-                if (biayanaikkelas < 0) biayanaikkelas = 0;
-              }
-
-              $scope.cbgcode = responData[0].dataresponse.response_inacbg.cbg.code;
-              $scope.cbgdescription = responData[0].dataresponse.response_inacbg.cbg.description;
-              $scope.totalInacbg = $scope.formatRupiah(totaldijamin, "Rp. ");
-              $scope.totalTarifNaikKelas = $scope.formatRupiah(biayanaikkelas, "Rp. ");
-
-              // Simpan proposi
-              var dataproposi = {
-                noregistrasifk: $scope.item.data[0].noregistrasifk,
-                totalDijamin: totaldijamin,
-                biayaNaikkelas: biayanaikkelas,
-                cbgcode: $scope.cbgcode,
-                cbgdescription: $scope.cbgdescription,
-              };
-
-              await medifirstService.post("bridging/inacbg/save-proposi-bridging-inacbg", dataproposi);
-
-              // Update status grouping
-              await medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", {
-                noregistrasifk: $scope.item.data[0].noregistrasifk,
-                status: "GROUPING INACBG"
-              });
-
-              // Cek apakah ada CMG option
-              var cmgOptions = responData[0]?.dataresponse?.special_cmg_option || [];
-              $scope.hasCmgOption = cmgOptions.length > 0;
-
-              if (cmgOptions.length > 0) {
-                  toastr.info("Terdeteksi Top-up CMG Options");
-
-                  var spesialDrugx = [];
-                  var specialProcedurex = [];
-                  var specialProsthesisx = [];
-                  var specialInvestigationx = [];
-
-                  $scope.tabelTopup = true;
-                  $scope.showGrouping = false;
-
-                  for (let i = 0; i < cmgOptions.length; i++) {
-                      const element = cmgOptions[i];
-                      if (element.type == "Special Drug") {
-                          spesialDrugx.push(element);
-                          $scope.specialDrug = true;
-                      }
-                      if (element.type == "Special Procedure") {
-                          specialProcedurex.push(element);
-                          $scope.specialProcedure = true;
-                      }
-                      if (element.type == "Special Prosthesis") {
-                          specialProsthesisx.push(element);
-                          $scope.specialProsthesis = true;
-                      }
-                      if (element.type == "Special Investigation") {
-                          specialInvestigationx.push(element);
-                          $scope.specialInvestigation = true;
-                      }
-                  }
-
-                  $scope.listspecialdrug = spesialDrugx;
-                  $scope.listspecialprocedure = specialProcedurex;
-                  $scope.listspecialprosthesis = specialProsthesisx;
-                  $scope.listspecialinvestigation = specialInvestigationx;
-              }
-
-
-              $scope.GroupingInacbgSuccess = true;
-              $scope.isFinalInacbg = false;
-
-               $scope.getStatusBridgingInacbg();
-
-            } catch (error) {
-              console.error(error);
-              toastr.error("Gagal grouping INACBG");
-            }
+              upgrade_class_ind: 0,
+              upgrade_class_class: "Non Kelas",
+              upgrade_class_los: "",
+              add_payment_pct: "75",
+              birth_weight: $scope.item.data[0].beratbadan,
+              sistole: $scope.item.sistoleinacbg,
+              diastole: $scope.item.diastoleinacbg,
+              discharge_status: discharge_status,
+              // diagnosa: $scope.item.dataDiagnosa10Inacbg,
+              // procedure: $scope.item.dataDiagnosa9Inacbg,
+              // diagnosa_inagrouper: $scope.item.dataDiagnosa10Inacbg, // $scope.item.dataDiagnosaInacbg10Inacbg,
+              // procedure_inagrouper: $scope.item.dataDiagnosa9InacbgImport, //$scope.item.dataDiagnosaInacbg9Inacbg,
+              tarif_rs: {
+                prosedur_non_bedah: $scope.item.dataTarif.prosedur_non_bedah,
+                prosedur_bedah: $scope.item.dataTarif.prosedur_bedah, //"20000000",
+                konsultasi: $scope.item.dataTarif.konsultasi, //"300000",
+                tenaga_ahli: $scope.item.dataTarif.tenaga_ahli, //"200000",
+                keperawatan: $scope.item.dataTarif.keperawatan, // "80000",
+                penunjang: $scope.item.dataTarif.penunjang, //"1000000",
+                radiologi: $scope.item.dataTarif.radiologi, //"500000",
+                laboratorium: $scope.item.dataTarif.laboratorium, //"600000",
+                pelayanan_darah: $scope.item.dataTarif.pelayanan_darah, //"150000",
+                rehabilitasi: $scope.item.dataTarif.rehabilitasi, //"100000",
+                kamar: $scope.item.dataTarif.kamar, //"6000000",
+                rawat_intensif: $scope.item.dataTarif.rawat_intensif, //"2500000",
+                obat: $scope.item.dataTarif.obat, //"2000000",
+                obat_kronis: $scope.item.dataTarif.obat_kronis,
+                obat_kemoterapi: $scope.item.dataTarif.obat_kemoterapi,
+                alkes: $scope.item.dataTarif.alkes, //"500000",
+                bmhp: $scope.item.dataTarif.bmhp, //"400000",
+                sewa_alat: $scope.item.dataTarif.sewa_alat, //"210000"
+              },
+              pemulasaraan_jenazah: 0,
+              kantong_jenazah: 0,
+              peti_jenazah: 0,
+              plastik_erat: 0,
+              desinfektan_jenazah: 0,
+              mobil_jenazah: 0,
+              desinfektan_mobil_jenazah: 0,
+              covid19_status_cd: "0",
+              nomor_kartu_t: $scope.item.data[0].noidentitas,
+              episodes: null,
+              covid19_cc_ind: "",
+              tarif_poli_eks: 0,
+              nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
+              kode_tarif: "CP",
+              payor_id: $scope.item.data[0].kodejaminan, //"3",
+              payor_cd: $scope.item.data[0].jaminan,
+              cob_cd: "#",
+              // "coder_nik": '123123123123' //"123123123123"
+              coder_nik: $scope.dataLogin.noIdentitas,
+              persalinan: persalinanfix,
+              apgar: apgar,
+              kantong_darah: $scope.item.kantongdarah,
+              dializer_single_use: dializer,
+            },
           };
-
-          //VALIDCODE
-          medifirstService.getPart("emr/get-combo-icd10-idrg", true, true, 10)
-          .then(function(data) {
-              $scope.sourceDiagnosisPrimeridrg = data;
-          });
-
-          medifirstService.getPart("emr/get-combo-icd9-idrg", true, true, 10)
-          .then(function(data) {
-              $scope.sourceDiagnosis9idrg = data;
-          });
-
-          $scope.onDiagnosisChange = function (e) {
-              var widget = e.sender;
-              
-              var dataItem = widget.dataItem();
-
-              if (dataItem && dataItem.validcode === 0) {
-                  toastr.warning("Diagnosa ini tidak Valid untuk Grouping");
-
-                  widget.value(null);
-              }
+          dt2.push(dt1);
+          var objData = {
+            data: dt2,
+            noregistrasifk: $scope.item.data[0].noregistrasifk
           };
-
-          $scope.isItemDisabled = function (dataItem) {
-              return dataItem.validcode === 0;
+          dt1 = {
+            metadata: {
+              method: "idrg_diagnosa_set",
+              nomor_sep: set.nosep
+            },
+            data: {
+              diagnosa: $scope.item.dataDiagnosa10Inacbg
+            },
           };
-          //END VALIDCODE
-
-
-          $scope.simpanDiagnosaTargetIDRG = function () {
-            debugger;
-            if ($scope.item.diagnosisPrimer == undefined) {
-              alert("Pilih Kode Diagnosa dan Nama Diagnosa terlebih dahulu!!");
-              return;
-            }
-            // if ($scope.dataSelectedDiagnosa == undefined) {
-            //   alert("Silahkan Klik Ruangan Di List Diagnosa!!");
-            //   return;
-            // }
-            // var norecDiagnosaPasien = "";
-            // if ($scope.dataSelectedDiagnosa.norec_diagnosapasien != undefined) {
-            //   norecDiagnosaPasien = $scope.dataSelectedDiagnosa.norec_diagnosapasien;
-            // }
-            $scope.now = new Date();
-            var detaildiagnosapasien = {
-              // norec_dp: norecDiagnosaPasien,
-              noregistrasifk: $scope.item.data[0].noregistrasi,
-              tglregistrasi: $scope.item.data[0].tglregistrasi,
-              objectdiagnosafk: $scope.item.diagnosisPrimer.id,
-              tglinputdiagnosa: moment($scope.now).format("YYYY-MM-DD hh:mm:ss"),
-              keterangan: "-",
-            };
-            var objSave = {
-              detaildiagnosapasien: detaildiagnosapasien,
-            };
-            debugger;
-            medifirstService.post("registrasi/save-diagnosa-pasien-target-idrg", objSave).then(function (e) {
-              $scope.now = new Date();
-              var detaildiagnosapasien = {
-                // norec_dp: "",
-                noregistrasifk: $scope.item.data[0].noregistrasi,
-                code: $scope.item.diagnosisPrimer.kdDiagnosa,
-                description: $scope.item.diagnosisPrimer.namaDiagnosa,
-                jenisdiagnosaidrgfk: "10",
-              };
-              var objSave = {
-                detaildiagnosapasien: detaildiagnosapasien,
-              };
-              debugger;
-              let text = $scope.item.diagnosisPrimer.kdDiagnosa;
-              let result = text.match(/O82/);
-              if (result != null) {
-                $scope.showpersalinan = true;
-              }
-              let text2 = $scope.item.diagnosisPrimer.kdDiagnosa;
-              let result2 = text2.match(/99/);
-              if (result2 != null) {
-                $scope.showpersalinan = true;
-                $scope.showkantongdarah = true;
-              }
-              medifirstService.post("registrasi/save-diagnosa-idrg", objSave).then(function (e) {
-                delete $scope.item.diagnosisPrimer;
-                $scope.dataSelectedDiagnosa = {};
-                $scope.isRouteLoading = false;
-                $scope.setdetail(set);
-              });
-              delete $scope.item.diagnosisPrimer;
-              $scope.dataSelectedDiagnosa = {};
-              $scope.isRouteLoading = false;
-              $scope.setdetail(set);
-            });
+          dt2.push(dt1);
+          var objData = {
+            data: dt2,
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
           };
-
-          $scope.clickHapusICD10IDRG = function (ai) {
-            debugger;
-            var diagnosa = {
-              norec_dp: ai.norec_diagnosapasien,
-              noregistrasi: ai.noregistrasi,
-            };
-            var objDelete = {
-              diagnosa: diagnosa,
-            };
-            medifirstService.post("registrasi/daftar-antrian-pasien/delete-diagnosa-pasien-target-idrg", objDelete).then(function (e) {
-              delete $scope.item.diagnosisPrimer;
-              $scope.dataSelectedDiagnosa = {};
-              $scope.setdetail(set);
-            });
+          dt1 = {
+            metadata: {
+              method: "idrg_procedure_set",
+              nomor_sep: set.nosep
+            },
+            data: {
+              procedure: $scope.item.dataDiagnosa9InacbgImport
+            },
           };
-
-          $scope.clickEditICD10IDRG = function(ai) {
-              debugger;
-              $scope.dataSelectedDiagnosa = ai;
-              console.log("Data yang dipilih untuk diedit:", $scope.dataSelectedDiagnosa);
-              $scope.popupEditDiagnosaIdrg.open().center();
+          dt2.push(dt1);
+          var objData = {
+            data: dt2,
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
           };
-
-
-          $scope.updateDiagnosaIdrg = function() {
-            console.log("Data yang diedit:", $scope.editItem10Idrg);
-
-            if (!$scope.editItem10Idrg || !$scope.editItem10Idrg.id) {
-                toastr.warning("Pilih diagnosa baru terlebih dahulu!");
-                return;
-            }
-
-            var detaildiagnosapasien = {
-                norec: $scope.dataSelectedDiagnosa.norec_detaildpasien,
-                noregistrasifk: $scope.dataSelectedDiagnosa.noregistrasifk,
-                tglregistrasi: $scope.dataSelectedDiagnosa.tglregistrasi,
-                objectdiagnosafk: $scope.editItem10Idrg.id,
-                keterangan: $scope.editItem10Idrg.keterangan || "-",
-            };
-
-            var objSave = {
-                userData: $scope.dataLogin,
-                detaildiagnosapasien: detaildiagnosapasien,
-            };
-
-            medifirstService.post("registrasi/update-diagnosa-pasien-target-idrg", objSave)
-                .then(function(e) {
-                    toastr.success("Diagnosa berhasil diperbarui");
-
-                    $scope.popupEditDiagnosaIdrg.close();
-                    $scope.editItem10Idrg = null;
-                    $scope.dataSelectedDiagnosa = {};
-                    $scope.setdetail(set);
-                })
-                .catch(function(err) {
-                    toastr.error("Gagal memperbarui diagnosa");
-                    console.error(err);
-                });
-        };
-
-          $scope.clickEditICD9IDRG = function (ai) {
-              $scope.dataSelectedDiagnosa9 = ai;
-              console.log("Data yang dipilih untuk diedit:", $scope.dataSelectedDiagnosa9);
-              $scope.editItem9Idrg = null;
-              $scope.editJumlahDiagnosa9 = ai.jumlah || 1;
-              $scope.popupEditDiagnosa9Idrg.open().center();
-          };
-
-          $scope.updateDiagnosa9Idrg = function () {
-              if (!$scope.editItem9Idrg) {
-                  toastr.warning("Pilih diagnosa tindakan baru terlebih dahulu!");
-                  return;
-              }
-              if (!$scope.editJumlahDiagnosa9 || $scope.editJumlahDiagnosa9 < 1) {
-                  toastr.warning("Jumlah harus minimal 1!");
-                  return;
-              }
-
-              var detaildiagnosatindakanpasien = {
-                  norec_dp: $scope.dataSelectedDiagnosa9.norec_detaildpasien,
-                  noregistrasifk: $scope.dataSelectedDiagnosa9.noregistrasifk,
-                  tglpendaftaran: $scope.dataSelectedDiagnosa9.tglpendaftaran,
-                  objectdiagnosatindakanfk: $scope.editItem9Idrg.id,
-                  keterangantindakan: $scope.dataSelectedDiagnosa9.keterangantindakan || "-",
-                  jumlah: $scope.editJumlahDiagnosa9,
-              };
-
-              var objSave = {
-                  userData: $scope.dataLogin,
-                  detaildiagnosatindakanpasien: detaildiagnosatindakanpasien,
-              };
-
-              medifirstService.post("registrasi/update-diagnosa-tindakan-pasien-target-idrg", objSave)
-                  .then(function (res) {
-                      toastr.success("Diagnosa tindakan berhasil diperbarui");
-                      $scope.popupEditDiagnosa9Idrg.close();
-                      $scope.setdetail(set); // reload data tabel
-                  })
-                  .catch(function (err) {
-                      toastr.error("Gagal memperbarui diagnosa tindakan");
-                      console.error(err);
-                  });
-          };
-
-
-          $scope.simpanDiagnosaTindakanTargetIdrg = function () {
-            if ($scope.item.diagnosisPrimer1 == undefined) {
-              alert("Pilih Kode Diagnosa dan Nama Diagnosa terlebih dahulu!!");
-              return;
-            }
-            // if ($scope.item.namaRuangan1.objectruanganfk == undefined) {
-            //     alert("Pilih Nama Ruangan ulang!!")
-            //     return
-            // }
-            // if ($scope.dataSelected1 == undefined) {
-            //     alert("Silahkan Klik Ruangan Di List Diagnosa!!")
-            //     return
-            // }
-            var norecDiagnosaTindakanPasien = "";
-            if ($scope.dataSelected1 != undefined) {
-              norecDiagnosaTindakanPasien = $scope.dataSelected1.norec_diagnosapasien;
-            }
-            var keteranganTindakan = "-";
-            if ($scope.item.keteranganTindakan != undefined) {
-              keteranganTindakan = $scope.item.keteranganTindakan;
-            }
-            var norec_apd;
-            debugger;
-            $scope.now = new Date();
-            var detaildiagnosatindakanpasien = {
-              norec_dp: norecDiagnosaTindakanPasien,
-              noregistrasifk: $scope.item.data[0].noregistrasi,
-              tglpendaftaran: $scope.item.data[0].tglregistrasi,
-              objectdiagnosatindakanfk: $scope.item.diagnosisPrimer1.id,
-              keterangantindakan: keteranganTindakan,
-              jumlah: $scope.item.jumlah,
-            };
-            var objSave = {
-              detaildiagnosatindakanpasien: detaildiagnosatindakanpasien,
-            };
-
-            medifirstService.post("registrasi/save-diagnosa-tindakan-pasien-target-idrg", objSave).then(function (e) {
-              $scope.isRouteLoading = false;
-              $scope.setdetail(set);
-              var detaildiagnosapasien = {
-                norec_dp: "",
-                noregistrasifk: $scope.item.data[0].noregistrasi,
-                code: $scope.item.diagnosisPrimer1.kdDiagnosaTindakan,
-                description: $scope.item.diagnosisPrimer1.namaDiagnosaTindakan,
-                jenisdiagnosaidrgfk: "9",
-                jumlah: $scope.item.jumlah,
-              };
-              var objSave = {
-                detaildiagnosapasien: detaildiagnosapasien,
-              };
-              debugger;
-              delete $scope.item.diagnosisPrimer1;
-              medifirstService.post("registrasi/save-diagnosa-idrg9", objSave).then(function (e) {
-                delete $scope.item.diagnosisPrimer1;
-                $scope.dataSelectedDiagnosa = {};
-                $scope.isRouteLoading = false;
-                $scope.setdetail(set);
-              });
-            });
-          };
-
-          $scope.SendClaimKolektif = function () {
-            $scope.popupSendClaim.center().open();
-           }
-
-          $scope.FinalInacbgKolektif = function () {
-             $scope.popupFinalInacbg.center().open();
-           }
-
-          $scope.clickFinalInacbgKolektif = function () {
-            medifirstService.get("bridging/inacbg/get-status-bridging-inacbg-grouping-all")
-              .then(function (res) {
-                var list = res.data; // list SEP yang masih GROUPING
-
-                if (!list || list.length === 0) {
-                  toastr.warning("Tidak ada data yang perlu difinalkan.", "INACBG");
-                  return;
-                }
-                // return;
-
-                // Mulai proses kolektif
-                let index = 0;
-
-                function prosesNext() {
-                  if (index >= list.length) {
-                    toastr.success("Final INACBG Kolektif selesai.", "INACBG");
-                    return;
-                  }
-
-                  let row = list[index];
-
-                  var dt1 = {
-                    metadata: { method: "inacbg_grouper_final" },
-                    data: { nomor_sep: row.nosep }
-                  };
-
-                  var objData = { 
-                    data: [dt1],
-                    noregistrasifk: row.noregistrasifk
-                  };
-
-                  medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
-                    .then(function (e) {
-                      let respon = e.data.dataresponse;
-
-                      var update = {
-                        noregistrasifk: row.noregistrasifk,
-                        status: "FINAL INACBG"
-                      };
-
-                      medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", update);
-
-                      toastr.info("FINAL: " + row.nosep, "INACBG");
-                      index++;
-                      prosesNext(); // lanjut ke SEP berikutnya
-                    });
-                }
-
-                prosesNext();
-              });
-          };
-
-          $scope.GroupingInacbgKolektif = function () {
-             $scope.popupFinalInacbg.center().open();
-           }
-
-          $scope.clickGroupingInacbgKolektif = function () {
-            medifirstService.get("bridging/inacbg/get-status-bridging-inacbg-import-all")
-              .then(function (res) {
-                var list = res.data; // list SEP yang masih IMPORT
-
-                if (!list || list.length === 0) {
-                  toastr.warning("Tidak ada data yang perlu di GROUPING INACBG.");
-                  return;
-                }
-                // return;
-
-                // Mulai proses kolektif
-                let index = 0;
-
-                function prosesNext() {
-                  if (index >= list.length) {
-                    toastr.success("GROUPING INACBG Kolektif selesai.", "INACBG");
-                    return;
-                  }
-
-                  let row = list[index];
-
-                  var dt1 = {
-                    metadata: { method: "inacbg_grouper_final" },
-                    data: { nomor_sep: row.nosep }
-                  };
-
-                  var objData = { 
-                    data: [dt1],
-                    noregistrasifk: row.noregistrasifk
-                  };
-
-                  medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
-                    .then(function (e) {
-                      let respon = e.data.dataresponse;
-
-                      var update = {
-                        noregistrasifk: row.noregistrasifk,
-                        status: "FINAL INACBG"
-                      };
-
-                      medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", update);
-
-                      toastr.info("FINAL: " + row.nosep, "INACBG");
-                      index++;
-                      prosesNext(); // lanjut ke SEP berikutnya
-                    });
-                }
-
-                prosesNext();
-              });
-          };
-
-
-          $scope.clickSendClaimKolektif = function () {
+          medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+            responData = e.data.dataresponse;
+            toastr.info(responData[0].dataresponse.metadata.message, "INACBG");
             var dt1 = {};
             var dt2 = [];
             dt1 = {
               metadata: {
-                method: "send_claim",
+                method: "grouper",
+                stage: "1",
+                grouper: "idrg"
               },
               data: {
-                start_dt: $scope.formatTanggalClaim($scope.item.tglAwalclaim),
-                stop_dt: $scope.formatTanggalClaim($scope.item.tglAkhirclaim),
-                jenis_rawat: $scope.item.jenisrawat.value || 3,
-                date_type: $scope.item.datetype.value || 1,
+                // "nomor_sep": dataSave[i].nomor_sep
+                nomor_sep: set.nosep,
               },
             };
             dt2.push(dt1);
-
             var objData = {
               data: dt2,
+              noregistrasifk: $scope.item.data[0].noregistrasifk,
+            };
+            var totaldijamin = "";
+            var hakkelas = "";
+            var biayanaikkelas = "0";
+            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+              $scope.isRouteLoading = false;
+              responData = e.data.dataresponse;
+              if (responData[0].dataresponse.metadata.code == 400) {
+                var message = responData[0].dataresponse.metadata.message || "Terjadi kesalahan (400)";
+                toastr.error(message, "Error");
+                $scope.isRouteLoading = false;
+                return;
+              }
+              $scope.MdcNumber = responData[0].dataresponse.response_idrg.mdc_number;
+              $scope.MdcDescription = responData[0].dataresponse.response_idrg.mdc_description;
+              $scope.DrgCode = responData[0].dataresponse.response_idrg.drg_code;
+              $scope.DrgDescription = responData[0].dataresponse.response_idrg.drg_description;
+
+              if (responData[0].dataresponse.metadata.message == 'iDRG coding sudah final') {
+                $scope.groupingSuccess = true;
+              }
+
+              var datasend = {
+                noregistrasifk: $scope.item.data[0].noregistrasifk,
+                status: "GROUPING IDRG",
+              };
+              if (responData[0].dataresponse.metadata.code == 200 || responData[0].dataresponse.metadata.code == "200") {
+                medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
+                  // Debug log response
+                  if (e && e.data && e.data.status == 201) {
+                    console.log("Update status GROUPING IDRG sukses", e.data);
+                  } else {
+                    console.error("Gagal update status GROUPING IDRG", e);
+                  }
+                });
+              }
+
+              // jika berhasil 
+              $scope.groupingSuccess = true;
+
+              $scope.isRouteLoading = false;
+              $scope.setdetail(set);
+            });
+          });
+        } else {
+          // toastr.error('Grouping Rawat Inap Memakai Menu Klaim InacbgV2', 'INACBG');
+          // return;
+          var dt1 = {};
+          var dt2 = [];
+          dt1 = {
+            metadata: {
+              method: "new_claim",
+            },
+            data: {
+              nomor_kartu: set.nokepesertaan,
+              nomor_sep: set.nosep,
+              nomor_rm: $scope.item.data[0].nocm,
+              nama_pasien: $scope.item.data[0].namapasien,
+              tgl_lahir: $scope.item.data[0].tgllahir,
+              gender: $scope.item.data[0].objectjeniskelaminfk,
+            },
+          };
+          dt2.push(dt1);
+          var objData = {
+            data: dt2,
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
+          };
+          debugger;
+          dt1 = {
+            metadata: {
+              method: "set_claim_data",
+              nomor_sep: set.nosep,
+            },
+            data: {
+              nomor_sep: set.nosep, //"0901R001TEST0001",
+              nomor_kartu: set.nokepesertaan, //"233333",
+              tgl_masuk: $scope.item.data[0].tglregistrasi, //"2017-11-20 12:55:00",
+              tgl_pulang: $scope.item.data[0].tglpulang, //"2017-12-01 09:55:00",
+              cara_masuk: ($scope.cara_masuk = $scope.item.data[0].kodecaramasuk ? $scope.item.data[0].kodecaramasuk : "gp"),
+              jenis_rawat: parseInt($scope.item.data[0].jenisrawat), //"1",
+              kelas_rawat: $scope.item.data[0].nokelasdijamin,
+              adl_sub_acute: "",
+              adl_chronic: "",
+              icu_indikator: $scope.item.datanaikkelas[0].statusrawatintensiv,
+              icu_los: $scope.item.datanaikkelas[0].lamarawatintensiv,
+              ventilator_hour: $scope.item.data[0].jmljam,
+              ventilator: {
+                use_ind: $scope.item.useind,
+                start_dttm: $scope.item.startDttm,
+                stop_dttm: $scope.item.stoptDttm,
+              },
+              //polri tidak ada naik kelas
+              upgrade_class_ind: $scope.item.datanaikkelas[0].statusnaikkelas,
+              upgrade_class_class: $scope.item.datanaikkelas[0].kelastertinggi,
+              upgrade_class_los: $scope.item.datanaikkelas[0].lamarawatnaikkelas,
+              // "upgrade_class_payor": $scope.target_upgrade_class_payor,
+              // upgrade_class_ind: "0",
+              birth_weight: $scope.item.data[0].beratbadan,
+              sistole: $scope.item.sistoleinacbg,
+              diastole: $scope.item.diastoleinacbg,
+              discharge_status: discharge_status,
+              // diagnosa: $scope.item.dataDiagnosa10Inacbg,
+              // procedure: $scope.item.dataDiagnosa9Inacbg,
+              // diagnosa_inagrouper: $scope.item.dataDiagnosa10Inacbg, // $scope.item.dataDiagnosaInacbg10Inacbg,
+              // procedure_inagrouper: $scope.item.dataDiagnosa9InacbgImport, //$scope.item.dataDiagnosaInacbg9Inacbg,
+              tarif_rs: {
+                prosedur_non_bedah: $scope.item.dataTarif.prosedur_non_bedah,
+                prosedur_bedah: $scope.item.dataTarif.prosedur_bedah, //"20000000",
+                konsultasi: $scope.item.dataTarif.konsultasi, //"300000",
+                tenaga_ahli: $scope.item.dataTarif.tenaga_ahli, //"200000",
+                keperawatan: $scope.item.dataTarif.keperawatan, // "80000",
+                penunjang: $scope.item.dataTarif.penunjang, //"1000000",
+                radiologi: $scope.item.dataTarif.radiologi, //"500000",
+                laboratorium: $scope.item.dataTarif.laboratorium, //"600000",
+                pelayanan_darah: $scope.item.dataTarif.pelayanan_darah, //"150000",
+                rehabilitasi: $scope.item.dataTarif.rehabilitasi, //"100000",
+                kamar: $scope.item.dataTarif.kamar, //"6000000",
+                rawat_intensif: $scope.item.dataTarif.rawat_intensif, //"2500000",
+                obat: $scope.item.dataTarif.obat, //"2000000",
+                obat_kronis: $scope.item.dataTarif.obat_kronis,
+                obat_kemoterapi: $scope.item.dataTarif.obat_kemoterapi,
+                alkes: $scope.item.dataTarif.alkes, //"500000",
+                bmhp: $scope.item.dataTarif.bmhp, //"400000",
+                sewa_alat: $scope.item.dataTarif.sewa_alat, //"210000"
+              },
+              pemulasaraan_jenazah: 0,
+              kantong_jenazah: 0,
+              peti_jenazah: 0,
+              plastik_erat: 0,
+              desinfektan_jenazah: 0,
+              mobil_jenazah: 0,
+              desinfektan_mobil_jenazah: 0,
+              covid19_status_cd: "0",
+              nomor_kartu_t: $scope.item.data[0].noidentitas,
+              episodes: null,
+              covid19_cc_ind: "",
+              tarif_poli_eks: "",
+              nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
+              kode_tarif: "CP",
+              payor_id: $scope.item.data[0].kodejaminan, //"3",
+              payor_cd: $scope.item.data[0].jaminan,
+              cob_cd: "#",
+              // "coder_nik": '123123123123' //"123123123123"
+              coder_nik: $scope.dataLogin.noIdentitas,
+              persalinan: persalinanfix,
+              apgar: apgar,
+              kantong_darah: $scope.item.kantongdarah,
+              dializer_single_use: dializer,
+            },
+          };
+          dt2.push(dt1);
+          var objData = {
+            data: dt2,
+            noregistrasifk: $scope.item.data[0].noregistrasifk
+          };
+          dt1 = {
+            metadata: {
+              method: "idrg_diagnosa_set",
+              nomor_sep: set.nosep
+            },
+            data: {
+              diagnosa: $scope.item.dataDiagnosa10Inacbg
+            },
+          };
+          dt2.push(dt1);
+          var objData = {
+            data: dt2,
+          };
+          dt1 = {
+            metadata: {
+              method: "idrg_procedure_set",
+              nomor_sep: set.nosep
+            },
+            data: {
+              procedure: $scope.item.dataDiagnosa9InacbgImport
+            },
+          };
+          dt2.push(dt1);
+          var objData = {
+            data: dt2,
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
+          };
+          medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+            var dt1 = {};
+            var dt2 = [];
+            dt1 = {
+              metadata: {
+                method: "grouper",
+                stage: "1",
+                grouper: "idrg"
+              },
+              data: {
+                // "nomor_sep": dataSave[i].nomor_sep
+                nomor_sep: set.nosep,
+              },
+            };
+            dt2.push(dt1);
+            var objData = {
+              data: dt2,
+              noregistrasifk: $scope.item.data[0].noregistrasifk,
             };
             medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
-            var responData = e.data.dataresponse;
+              responData = e.data.dataresponse;
+              if (responData[0].dataresponse.metadata.code == 400) {
+                var message = responData[0].dataresponse.metadata.message || "Terjadi kesalahan (400)";
+                toastr.error(message, "Error");
+                $scope.isRouteLoading = false;
+                return;
+              }
+              $scope.MdcNumber = responData[0].dataresponse.response_idrg.mdc_number;
+              $scope.MdcDescription = responData[0].dataresponse.response_idrg.mdc_description;
+              $scope.DrgCode = responData[0].dataresponse.response_idrg.drg_code;
+              $scope.DrgDescription = responData[0].dataresponse.response_idrg.drg_description;
 
+              if (responData[0].dataresponse.metadata.message == 'iDRG coding sudah final') {
+                $scope.groupingSuccess = true;
+              }
+
+              var datasend = {
+                noregistrasifk: $scope.item.data[0].noregistrasifk,
+                status: "GROUPING IDRG",
+              };
+              if (responData[0].dataresponse.metadata.code == 200 || responData[0].dataresponse.metadata.code == "200") {
+                medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
+                  // Debug log response
+                  if (e && e.data && e.data.status == 201) {
+                    console.log("Update status GROUPING IDRG sukses", e.data);
+                  } else {
+                    console.error("Gagal update status GROUPING IDRG", e);
+                  }
+                });
+              }
+
+              $scope.groupingSuccess = true;
+              $scope.isRouteLoading = false;
+              $scope.setdetail(set);
+            });
+          });
+        }
+      };
+
+      $scope.clickFinalIDRG = function () {
+        var dt1 = {};
+        var dt2 = [];
+        dt1 = {
+          metadata: {
+            method: "idrg_grouper_final",
+          },
+          data: {
+            nomor_sep: set.nosep,
+          },
+        };
+        dt2.push(dt1);
+
+        var objData = {
+          data: dt2,
+          noregistrasifk: $scope.item.data[0].noregistrasifk
+        };
+        medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+          // response simpan ke database
+          responData = e.data.dataresponse;
+          var datasend = {
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
+            status: "FINAL IDRG",
+          };
+          if (responData[0].dataresponse.metadata.code == "200") {
+            medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
+              //ini untuk proposional kan utang per tindakan
+            });
+
+            $scope.finalIDRGSuccess = true;
+            $scope.reeditSuccess = false;
+            $scope.listDiagnosa10Inacbg = [];
+            $scope.item.diagnosastring = "";
+          }
+          toastr.info(responData[0].dataresponse.metadata.message, "FINAL IDRG");
+        });
+        $scope.finalIDRGSuccess = true;
+        $scope.reeditSuccess = false;
+        // Paksa Angular update view
+        $scope.$applyAsync();
+      };
+
+      $scope.clickImportToINACBG = function () {
+        var dt1 = {
+          metadata: { method: "idrg_to_inacbg_import" },
+          data: { nomor_sep: set.nosep },
+        };
+
+        var objData = {
+          data: [dt1],
+          noregistrasifk: $scope.item.data[0].noregistrasifk,
+        };
+
+        medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
+          .then(function (e) {
+            responData = e.data.dataresponse;
+
+            var datasend = {
+              noregistrasifk: $scope.item.data[0].noregistrasifk,
+              status: "IMPORT TO INACBG",
+            };
+            medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
+            });
             if (responData[0].dataresponse.metadata.code == "200") {
-              var listSep = responData[0].dataresponse.response.data;
+              toastr.info(responData[0].dataresponse.metadata.message, "IMPORT To INACBG");
 
-              angular.forEach(listSep, function (item) {
-                var datasend = {
-                  nosep: item.nomor_sep,
-                  status: "SEND CLAIM",
-                };
-
-                medifirstService
-                  .post("bridging/inacbg/update-status-bridging-inacbg2", datasend)
-                  .then(function (res) {
-                    // optional logging
-                  });
-              });
-
-              toastr.info(
-                responData[0].dataresponse.metadata.message,
-                "INACBG"
-              );
+            } else {
+              toastr.error(responData[0].dataresponse.metadata.message, "IMPORT To INACBG Belum Berhasil");
             }
+
+            $scope.getDiagnosaInacbg();
+            $scope.getProcedureInacbg();
+          });
+        $scope.ImportSuccess = true;
+      };
+
+      $scope.reeditClaimIdrg = async function () {
+        if (window.confirm('Yakin edit ulang idrg ?')) {
+          try {
+            const r = await medifirstService.post(
+              "bridging/inacbg/save-bridging-inacbg", {
+              data: [{
+                metadata: { method: "idrg_grouper_reedit" },
+                data: { nomor_sep: set.nosep }
+              }],
+              noregistrasifk: $scope.item.data[0].noregistrasifk
+            }
+            );
+
+            // Update state
+            $scope.reeditSuccess = true;
+            $scope.finalIDRGSuccess = false;
+
+            // Paksa Angular update view
+            $scope.$applyAsync();
+
+            var datasend = {
+              noregistrasifk: $scope.item.data[0].noregistrasifk,
+              status: "EDIT IDRG",
+            };
+            medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
+            });
+
+            console.log("EDIT", $scope.reeditSuccess);
+            console.log("FINAL IDRG", $scope.finalIDRGSuccess);
+
+            toastr.success('Edit ulang IDRG berhasil, silakan lakukan grouping kembali.', 'INACBG');
+
+          } catch (error) {
+            toastr.error('Gagal re-edit claim IDRG!', 'INACBG');
+            console.error(error);
+          }
+        }
+      };
+
+      // Inisialisasi objek item
+      $scope.item = {
+        diagnosa10: null,
+        diagnosastring: "",
+        diagnosa9: null,
+        procedurestring: ""
+      };
+
+      $scope.getDiagnosaInacbg = function () {
+        var dt1 = {
+          metadata: { method: "inacbg_diagnosa_get" },
+          data: { nomor_sep: set.nosep },
+        };
+
+        var objData = {
+          data: [dt1],
+          noregistrasifk: $scope.item.data[0].noregistrasifk,
+
+        };
+
+        medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
+          .then(function (res) {
+            let responData = res.data.dataresponse;
+
+            // ambil expanded array langsung
+            let expanded = responData[0].dataresponse.data?.expanded || [];
+            $scope.listDiagnosa10Inacbg = Array.isArray(expanded) ? expanded : [];
+
+            // simpan string juga kalau butuh
+            $scope.item.diagnosastring = responData[0].dataresponse.data?.string || "";
+            $scope.$applyAsync();
+          });
+      };
+
+      // SIMPAN ICD-10
+      $scope.saveICD10inacbg = function () {
+        if (!$scope.item.diagnosa10) {
+          toastr.error("Diagnosa harus diisi!");
+          return;
+        }
+
+        if (!$scope.item.diagnosa10.kdDiagnosa) {
+          toastr.error("Harap pilih Diagnosa dengan benar!");
+          return;
+        }
+
+        let kode = $scope.item.diagnosa10.kdDiagnosa;
+
+        // cek duplikat di list
+        let exists = $scope.listDiagnosa10Inacbg.some(d => d.code === kode);
+        if (!exists) {
+          // kalau belum ada, masukkan ke list
+          $scope.listDiagnosa10Inacbg.push({
+            code: kode,
+            display: $scope.item.diagnosa10.namaDiagnosa,
+            metadata: { code: "200", message: "Ok" }
+          });
+        }
+
+        // rakit ulang diagnosastring dari seluruh isi list
+        $scope.item.diagnosastring = $scope.listDiagnosa10Inacbg
+          .map(d => d.code)
+          .join("#");
+
+        // kirim ke server dengan semua diagnosa
+        medifirstService.post("bridging/inacbg/save-bridging-inacbg", {
+          data: [
+            {
+              metadata: {
+                method: "inacbg_diagnosa_set",
+                nomor_sep: set.nosep
+              },
+              data: {
+                diagnosa: $scope.item.diagnosastring
+              }
+            }
+          ],
+          noregistrasifk: $scope.item.data[0].noregistrasifk
+        }).then(res => {
+          const meta = res.dataresponse[0].dataresponse.metadata;
+          if (meta.code == 200) {
+            toastr.success("Semua diagnosa tersimpan!");
+            $scope.$applyAsync();
+          } else {
+            toastr.error(meta.message);
+          }
+        });
+
+        // reset combobox
+        $scope.item.diagnosa10 = null;
+      };
+
+      // buka modal edit
+      $scope.editICD10 = function (list) {
+        $scope.popupEditDiagnosa.center().open();
+        $scope.itemBeingEdited = list; // simpan item yg diedit
+        $scope.editItem = null;        // reset combo box
+      };
+
+      // simpan hasil edit
+      $scope.updateDiagnosa = async function () {
+        if (!$scope.editItem || !$scope.editItem.kdDiagnosa) {
+          toastr.error("Harap pilih diagnosa yang valid!");
+          return;
+        }
+
+        // update item di list
+        $scope.itemBeingEdited.code = $scope.editItem.kdDiagnosa;
+        $scope.itemBeingEdited.display = $scope.editItem.namaDiagnosa;
+        $scope.itemBeingEdited.metadata = { code: "200", message: "Ok" };
+
+        $scope.popupEditDiagnosa.close();
+
+        // kirim ulang semua diagnosa
+        await $scope.saveAllDiagnosa();
+      };
+
+      // hapus diagnosa
+      $scope.hapusICD10Inacbg = async function (item) {
+        $scope.listDiagnosa10Inacbg = $scope.listDiagnosa10Inacbg.filter(d => d.code !== item.code);
+        await $scope.saveAllDiagnosa();
+      };
+
+      // fungsi utama simpan semua diagnosa
+      $scope.saveAllDiagnosa = async function () {
+        let diagnosaString = $scope.listDiagnosa10Inacbg
+          .map(d => d.code)
+          .filter(c => c && c.toLowerCase() !== "undefined")
+          .join("#");
+
+        try {
+          const res = await medifirstService.post("bridging/inacbg/save-bridging-inacbg", {
+            data: [{
+              metadata: {
+                method: "inacbg_diagnosa_set",
+                nomor_sep: set.nosep
+              },
+              data: { diagnosa: diagnosaString }
+            }],
+            noregistrasifk: $scope.item.data[0].noregistrasifk
           });
 
+          const meta = res.data.dataresponse[0].dataresponse.metadata;
+          if (meta.code == 200) {
+            toastr.success("Diagnosa berhasil diperbarui");
+            $scope.getDiagnosaInacbg();
+          } else {
+            toastr.error(meta.message || "Gagal update diagnosa");
+          }
+        } catch (err) {
+          toastr.error("Error simpan diagnosa");
+          console.error(err);
+        }
+      };
+
+      $scope.getProcedureInacbg = function () {
+        var dt1 = {
+          metadata: { method: "inacbg_procedure_get" },
+          data: { nomor_sep: set.nosep },
+        };
+
+        var objData = {
+          data: [dt1],
+          noregistrasifk: $scope.item.data[0].noregistrasifk
+        };
+
+        medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
+          .then(function (res) {
+            let responData = res.data.dataresponse;
+
+            // ambil expanded array langsung
+            let expanded = responData[0].dataresponse.data?.expanded || [];
+            $scope.listProcedureInacbg = Array.isArray(expanded) ? expanded : [];
+
+            // simpan string juga kalau butuh
+            $scope.item.procedurestring = responData[0].dataresponse.data?.string || "";
+            $scope.$applyAsync();
+          });
+      };
+
+      // SIMPAN ICD-9
+      $scope.listProcedureInacbg = $scope.listProcedureInacbg || [];
+
+      $scope.saveICD9Inacbg = function () {
+        if (!$scope.item.diagnosa9) {
+          toastr.error("Diagnosa harus diisi!");
+          return;
+        }
+
+        // ambil kode & nama dari combo-box response
+        let kode = $scope.item.diagnosa9.kddiagnosatindakan;
+        let nama = $scope.item.diagnosa9.namaDiagnosaTindakan;
+
+        if (!kode) {
+          toastr.error("Harap pilih Diagnosa dengan benar!");
+          return;
+        }
+
+        // cek duplikat
+        let exists = $scope.listProcedureInacbg.some(d => d.code === kode);
+        if (!exists) {
+          $scope.listProcedureInacbg.push({
+            code: kode,
+            display: nama,
+            metadata: { code: "200", message: "Ok" }
+          });
+        }
+
+        // rakit ulang procedurestring
+        $scope.item.procedurestring = $scope.listProcedureInacbg
+          .map(d => d.code)
+          .join("#");
+
+        // kirim ke server
+        medifirstService.post("bridging/inacbg/save-bridging-inacbg", {
+          data: [
+            {
+              metadata: {
+                method: "inacbg_procedure_set",
+                nomor_sep: set.nosep
+              },
+              data: {
+                procedure: $scope.item.procedurestring
+              }
+            }
+          ],
+          noregistrasifk: $scope.item.data[0].noregistrasifk
+        }).then(res => {
+          const meta = res.dataresponse[0].dataresponse.metadata;
+          if (meta.code == 200) {
+            toastr.success("Semua procedure tersimpan!");
+            $scope.$applyAsync();
+          } else {
+            toastr.error(meta.message);
+          }
+        });
+
+        // reset combobox
+        $scope.item.diagnosa9 = null;
+      };
+
+      // buka modal edit diagnosa 9
+      $scope.editICD9 = function (list) {
+        $scope.popupEditDiagnosa9.center().open();
+        $scope.itemBeingEdited9 = list; // simpan item yg diedit
+        $scope.editItem9 = null;        // reset combo box
+      };
+
+      // simpan hasil edit diagnosa 9
+      $scope.updateDiagnosa9 = async function () {
+        console.log("editItem9 >>>", $scope.editItem9);
+
+        if (!$scope.editItem9 || !$scope.editItem9.kddiagnosatindakan) {
+          toastr.error("Harap pilih diagnosa ICD_9 yang valid!");
+          return;
+        }
+
+        $scope.itemBeingEdited9.code = $scope.editItem9.kddiagnosatindakan;
+        $scope.itemBeingEdited9.display = $scope.editItem9.namaDiagnosaTindakan;
+        $scope.itemBeingEdited9.metadata = { code: "200", message: "Ok" };
+
+        $scope.popupEditDiagnosa9.close();
+
+        await $scope.saveAllDiagnosa9();
+      };
+
+      // hapus diagnosa 9
+      $scope.hapusICD9Inacbg = async function (item) {
+        $scope.listProcedureInacbg = $scope.listProcedureInacbg.filter(d => d.code !== item.code);
+        await $scope.saveAllDiagnosa9();
+      };
+
+      // fungsi utama simpan semua diagnosa 9
+      $scope.saveAllDiagnosa9 = async function () {
+        let procedureString = $scope.listProcedureInacbg
+          .map(d => d.code)
+          .filter(c => c && c.toLowerCase() !== "undefined")
+          .join("#");
+
+        try {
+          const res = await medifirstService.post("bridging/inacbg/save-bridging-inacbg", {
+            data: [{
+              metadata: {
+                method: "inacbg_procedure_set",
+                nomor_sep: set.nosep
+              },
+              data: { procedure: procedureString }   // <== HARUS procedure, bukan diagnosa
+            }],
+            noregistrasifk: $scope.item.data[0].noregistrasifk
+          });
+
+          const meta = res.data.dataresponse[0].dataresponse.metadata;
+          if (meta.code == 200) {
+            toastr.success("Procedure ICD-9 berhasil diperbarui");
+            $scope.getProcedureInacbg(); // ganti sesuai function refresh list ICD-9
+          } else {
+            toastr.error(meta.message || "Gagal update procedure");
+          }
+        } catch (err) {
+          toastr.error("Error simpan procedure");
+          console.error(err);
+        }
+      };
+
+      $scope.isFinalInacbg = false;
+
+      $scope.clickFinalInacbg = function () {
+        var dt1 = {
+          metadata: { method: "inacbg_grouper_final" },
+          data: { nomor_sep: set.nosep }
+        };
+        var objData = {
+          data: [dt1],
+          noregistrasifk: $scope.item.data[0].noregistrasifk
+        };
+
+        medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+          responData = e.data.dataresponse;
+          var datasend = {
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
+            status: "FINAL INACBG",
+          };
+          medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
+          });
+          toastr.info(responData[0].dataresponse.metadata.message, "INACBG");
+
+          $scope.isFinalInacbg = true;
+        });
+      };
+
+      $scope.clickEditInacbg = function () {
+        var dt1 = {
+          metadata: { method: "inacbg_grouper_reedit" },
+          data: { nomor_sep: set.nosep }
+        };
+        var objData = {
+          data: [dt1],
+          noregistrasifk: $scope.item.data[0].noregistrasifk,
+        };
+
+        medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+          responData = e.data.dataresponse;
+          var datasend = {
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
+            status: "EDIT INACBG",
+          };
+          medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
+          });
+          toastr.info(responData[0].dataresponse.metadata.message, "INACBG");
+
+          $scope.isFinalInacbg = false;
+        });
+      };
+
+      $scope.myVar = parseInt(localStorage.getItem('myVar')) || 0;
+
+      // Simpan index tab aktif setiap kali berubah
+      $scope.$watch('myVar', function (newVal) {
+        localStorage.setItem('myVar', newVal);
+      });
+
+
+      // Fungsi untuk ambil status bridging dari backend dan update semua variabel tombol
+      $scope.getStatusBridgingInacbg = function () {
+        if (!$scope.item || !$scope.item.data || !$scope.item.data[0] || !$scope.item.data[0].noregistrasifk) return;
+        medifirstService.get("bridging/inacbg/get-status-bridging-inacbg?noregistrasifk=" + $scope.item.data[0].noregistrasifk)
+          .then(function (res) {
+            var data = res.data;
+            // Reset semua status
+            $scope.groupingSuccess = false;
+            $scope.finalIDRGSuccess = false;
+            $scope.isFinalInacbg = false;
+            $scope.GroupingInacbgSuccess = false;
+            $scope.isClaimFinal = false;
+            $scope.reeditSuccess = false;
+            $scope.ImportSuccess = false;
+            $scope.tabelTopup = false;
+            $scope.showGrouping = true;
+            if (data && data.length > 0) {
+              // Loop semua status yang dikirim backend
+              data.forEach(function (s) {
+                switch ((s.status || "").toUpperCase()) {
+                  case "GROUPING IDRG":
+                    $scope.groupingSuccess = true;
+                    break;
+                  case "FINAL IDRG":
+                    $scope.finalIDRGSuccess = true;
+                    break;
+                  case "EDIT IDRG":
+                    $scope.reeditSuccess = true;
+                    $scope.finalIDRGSuccess = false;
+                    break;
+                  case "IMPORT TO INACBG":
+                    $scope.finalIDRGSuccess = true;
+                    $scope.ImportSuccess = true;
+                    $scope.reeditSuccess = false;
+                    $scope.GroupingInacbgSuccess = false;
+                    $scope.isFinalInacbg = false;
+                    $scope.isClaimFinal = false;
+                    break;
+                  case "GROUPING INACBG":
+                    if ($scope.hasCmgOption) {
+                      $scope.tabelTopup = true;
+                      $scope.showGrouping = false;
+                    }
+                    $scope.finalIDRGSuccess = true;
+                    $scope.ImportSuccess = true;
+                    $scope.GroupingInacbgSuccess = true;
+                    $scope.isFinalInacbg = false;
+                    break;
+                  case "FINAL INACBG":
+                    $scope.finalIDRGSuccess = true;
+                    $scope.ImportSuccess = true;
+                    $scope.GroupingInacbgSuccess = true;
+                    $scope.isFinalInacbg = true;
+                    $scope.reeditSuccess = false;
+                    $scope.isClaimFinal = false;
+                    break;
+                  case "EDIT INACBG":
+                    $scope.finalIDRGSuccess = true;
+                    $scope.ImportSuccess = true;
+                    $scope.GroupingInacbgSuccess = true;
+                    $scope.isFinalInacbg = false;
+                    break;
+                  case "FINAL CLAIM":
+                    $scope.isClaimFinal = true;
+                    break;
+                  case "TOPUP":
+                    $scope.tabelTopup = true;
+                    break;
+                  case "SEND CLAIM":
+                    $scope.finalIDRGSuccess = true;
+                    $scope.GroupingInacbgSuccess = true;
+                    $scope.isFinalInacbg = true;
+                    $scope.isClaimFinal = true;
+                    $scope.tabelTopup = false;
+                    break;
+                  default:
+                    // status lain, bisa ditambah jika ada
+                    break;
+                }
+              });
+            }
+            $scope.$applyAsync();
+          });
+      };
+
+      // $scope.onTabChanges = function(tabIndex) {
+      //   // Jika tab Klaim IDRG dibuka, update status tombol dari backend
+      //   if (tabIndex === 9) {
+      //     $scope.getStatusBridgingInacbg();
+      //   }
+      // };
+
+      $scope.clickGroupingINACBG = async function () {
+        var dt1 = {
+          metadata: {
+            method: "grouper",
+            stage: "1",
+            grouper: "inacbg",
+          },
+          data: { nomor_sep: set.nosep },
+        };
+
+        var objData = {
+          data: [dt1],
+          noregistrasifk: $scope.item.data[0].noregistrasifk
+        };
+
+        try {
+          let e = await medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData);
+          let responData = e.data.dataresponse;
+
+          toastr.info(responData[0].dataresponse.metadata.message, "GROUPING INACBG");
+
+          let totaldijamin = responData[0].dataresponse.response_inacbg.tariff;
+          let biayanaikkelas = "0";
+
+          if ($scope.item.datanaikkelas[0].statusnaikkelas != "0") {
+            biayanaikkelas = responData[0].dataresponse.response_inacbg.add_payment_amt;
+            if (biayanaikkelas < 0) biayanaikkelas = 0;
+          }
+
+          $scope.cbgcode = responData[0].dataresponse.response_inacbg.cbg.code;
+          $scope.cbgdescription = responData[0].dataresponse.response_inacbg.cbg.description;
+          $scope.totalInacbg = $scope.formatRupiah(totaldijamin, "Rp. ");
+          $scope.totalTarifNaikKelas = $scope.formatRupiah(biayanaikkelas, "Rp. ");
+
+          // Simpan proposi
+          var dataproposi = {
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
+            totalDijamin: totaldijamin,
+            biayaNaikkelas: biayanaikkelas,
+            cbgcode: $scope.cbgcode,
+            cbgdescription: $scope.cbgdescription,
           };
 
-          $scope.listjenisrawat = [
-              { text: "Ranap", value: 1 },
-              { text: "Rajal", value: 2 },
-              { text: "Ranap & Rajal", value: 3 },
-          ];
+          await medifirstService.post("bridging/inacbg/save-proposi-bridging-inacbg", dataproposi);
 
-          $scope.listdatetype = [
-              { text: "Tanggal Pulang", value: 1 },
-              { text: "Tanggal Grouping", value: 2 },
-          ];
-      
+          // Update status grouping
+          await medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", {
+            noregistrasifk: $scope.item.data[0].noregistrasifk,
+            status: "GROUPING INACBG"
+          });
+
+          // Cek apakah ada CMG option
+          var cmgOptions = responData[0]?.dataresponse?.special_cmg_option || [];
+          $scope.hasCmgOption = cmgOptions.length > 0;
+
+          if (cmgOptions.length > 0) {
+            toastr.info("Terdeteksi Top-up CMG Options");
+
+            var spesialDrugx = [];
+            var specialProcedurex = [];
+            var specialProsthesisx = [];
+            var specialInvestigationx = [];
+
+            $scope.tabelTopup = true;
+            $scope.showGrouping = false;
+
+            for (let i = 0; i < cmgOptions.length; i++) {
+              const element = cmgOptions[i];
+              if (element.type == "Special Drug") {
+                spesialDrugx.push(element);
+                $scope.specialDrug = true;
+              }
+              if (element.type == "Special Procedure") {
+                specialProcedurex.push(element);
+                $scope.specialProcedure = true;
+              }
+              if (element.type == "Special Prosthesis") {
+                specialProsthesisx.push(element);
+                $scope.specialProsthesis = true;
+              }
+              if (element.type == "Special Investigation") {
+                specialInvestigationx.push(element);
+                $scope.specialInvestigation = true;
+              }
+            }
+
+            $scope.listspecialdrug = spesialDrugx;
+            $scope.listspecialprocedure = specialProcedurex;
+            $scope.listspecialprosthesis = specialProsthesisx;
+            $scope.listspecialinvestigation = specialInvestigationx;
+          }
+
+
+          $scope.GroupingInacbgSuccess = true;
+          $scope.isFinalInacbg = false;
+
+          $scope.getStatusBridgingInacbg();
+
+        } catch (error) {
+          console.error(error);
+          toastr.error("Gagal grouping INACBG");
+        }
+      };
+
+      //VALIDCODE
+      medifirstService.getPart("emr/get-combo-icd10-idrg", true, true, 10)
+        .then(function (data) {
+          $scope.sourceDiagnosisPrimeridrg = data;
+        });
+
+      medifirstService.getPart("emr/get-combo-icd9-idrg", true, true, 10)
+        .then(function (data) {
+          $scope.sourceDiagnosis9idrg = data;
+        });
+
+      $scope.onDiagnosisChange = function (e) {
+        var widget = e.sender;
+
+        var dataItem = widget.dataItem();
+
+        if (dataItem && dataItem.validcode === 0) {
+          toastr.warning("Diagnosa ini tidak Valid untuk Grouping");
+
+          widget.value(null);
+        }
+      };
+
+      $scope.isItemDisabled = function (dataItem) {
+        return dataItem.validcode === 0;
+      };
+      //END VALIDCODE
+
+
+      $scope.simpanDiagnosaTargetIDRG = function () {
+        debugger;
+        if ($scope.item.diagnosisPrimer == undefined) {
+          alert("Pilih Kode Diagnosa dan Nama Diagnosa terlebih dahulu!!");
+          return;
+        }
+        // if ($scope.dataSelectedDiagnosa == undefined) {
+        //   alert("Silahkan Klik Ruangan Di List Diagnosa!!");
+        //   return;
+        // }
+        // var norecDiagnosaPasien = "";
+        // if ($scope.dataSelectedDiagnosa.norec_diagnosapasien != undefined) {
+        //   norecDiagnosaPasien = $scope.dataSelectedDiagnosa.norec_diagnosapasien;
+        // }
+        $scope.now = new Date();
+        var detaildiagnosapasien = {
+          // norec_dp: norecDiagnosaPasien,
+          noregistrasifk: $scope.item.data[0].noregistrasi,
+          tglregistrasi: $scope.item.data[0].tglregistrasi,
+          objectdiagnosafk: $scope.item.diagnosisPrimer.id,
+          tglinputdiagnosa: moment($scope.now).format("YYYY-MM-DD hh:mm:ss"),
+          keterangan: "-",
+        };
+        var objSave = {
+          detaildiagnosapasien: detaildiagnosapasien,
+        };
+        debugger;
+        medifirstService.post("registrasi/save-diagnosa-pasien-target-idrg", objSave).then(function (e) {
+          $scope.now = new Date();
+          var detaildiagnosapasien = {
+            // norec_dp: "",
+            noregistrasifk: $scope.item.data[0].noregistrasi,
+            code: $scope.item.diagnosisPrimer.kdDiagnosa,
+            description: $scope.item.diagnosisPrimer.namaDiagnosa,
+            jenisdiagnosaidrgfk: "10",
+          };
+          var objSave = {
+            detaildiagnosapasien: detaildiagnosapasien,
+          };
+          debugger;
+          let text = $scope.item.diagnosisPrimer.kdDiagnosa;
+          let result = text.match(/O82/);
+          if (result != null) {
+            $scope.showpersalinan = true;
+          }
+          let text2 = $scope.item.diagnosisPrimer.kdDiagnosa;
+          let result2 = text2.match(/99/);
+          if (result2 != null) {
+            $scope.showpersalinan = true;
+            $scope.showkantongdarah = true;
+          }
+          medifirstService.post("registrasi/save-diagnosa-idrg", objSave).then(function (e) {
+            delete $scope.item.diagnosisPrimer;
+            $scope.dataSelectedDiagnosa = {};
+            $scope.isRouteLoading = false;
+            $scope.setdetail(set);
+          });
+          delete $scope.item.diagnosisPrimer;
+          $scope.dataSelectedDiagnosa = {};
+          $scope.isRouteLoading = false;
+          $scope.setdetail(set);
+        });
+      };
+
+      $scope.clickHapusICD10IDRG = function (ai) {
+        debugger;
+        var diagnosa = {
+          norec_dp: ai.norec_diagnosapasien,
+          noregistrasi: ai.noregistrasi,
+        };
+        var objDelete = {
+          diagnosa: diagnosa,
+        };
+        medifirstService.post("registrasi/daftar-antrian-pasien/delete-diagnosa-pasien-target-idrg", objDelete).then(function (e) {
+          delete $scope.item.diagnosisPrimer;
+          $scope.dataSelectedDiagnosa = {};
+          $scope.setdetail(set);
+        });
+      };
+
+      $scope.clickEditICD10IDRG = function (ai) {
+        debugger;
+        $scope.dataSelectedDiagnosa = ai;
+        console.log("Data yang dipilih untuk diedit:", $scope.dataSelectedDiagnosa);
+        $scope.popupEditDiagnosaIdrg.open().center();
+      };
+
+
+      $scope.updateDiagnosaIdrg = function () {
+        console.log("Data yang diedit:", $scope.editItem10Idrg);
+
+        if (!$scope.editItem10Idrg || !$scope.editItem10Idrg.id) {
+          toastr.warning("Pilih diagnosa baru terlebih dahulu!");
+          return;
+        }
+
+        var detaildiagnosapasien = {
+          norec: $scope.dataSelectedDiagnosa.norec_detaildpasien,
+          noregistrasifk: $scope.dataSelectedDiagnosa.noregistrasifk,
+          tglregistrasi: $scope.dataSelectedDiagnosa.tglregistrasi,
+          objectdiagnosafk: $scope.editItem10Idrg.id,
+          keterangan: $scope.editItem10Idrg.keterangan || "-",
+        };
+
+        var objSave = {
+          userData: $scope.dataLogin,
+          detaildiagnosapasien: detaildiagnosapasien,
+        };
+
+        medifirstService.post("registrasi/update-diagnosa-pasien-target-idrg", objSave)
+          .then(function (e) {
+            toastr.success("Diagnosa berhasil diperbarui");
+
+            $scope.popupEditDiagnosaIdrg.close();
+            $scope.editItem10Idrg = null;
+            $scope.dataSelectedDiagnosa = {};
+            $scope.setdetail(set);
+          })
+          .catch(function (err) {
+            toastr.error("Gagal memperbarui diagnosa");
+            console.error(err);
+          });
+      };
+
+      $scope.clickEditICD9IDRG = function (ai) {
+        $scope.dataSelectedDiagnosa9 = ai;
+        console.log("Data yang dipilih untuk diedit:", $scope.dataSelectedDiagnosa9);
+        $scope.editItem9Idrg = null;
+        $scope.editJumlahDiagnosa9 = ai.jumlah || 1;
+        $scope.popupEditDiagnosa9Idrg.open().center();
+      };
+
+      $scope.updateDiagnosa9Idrg = function () {
+        if (!$scope.editItem9Idrg) {
+          toastr.warning("Pilih diagnosa tindakan baru terlebih dahulu!");
+          return;
+        }
+        if (!$scope.editJumlahDiagnosa9 || $scope.editJumlahDiagnosa9 < 1) {
+          toastr.warning("Jumlah harus minimal 1!");
+          return;
+        }
+
+        var detaildiagnosatindakanpasien = {
+          norec_dp: $scope.dataSelectedDiagnosa9.norec_detaildpasien,
+          noregistrasifk: $scope.dataSelectedDiagnosa9.noregistrasifk,
+          tglpendaftaran: $scope.dataSelectedDiagnosa9.tglpendaftaran,
+          objectdiagnosatindakanfk: $scope.editItem9Idrg.id,
+          keterangantindakan: $scope.dataSelectedDiagnosa9.keterangantindakan || "-",
+          jumlah: $scope.editJumlahDiagnosa9,
+        };
+
+        var objSave = {
+          userData: $scope.dataLogin,
+          detaildiagnosatindakanpasien: detaildiagnosatindakanpasien,
+        };
+
+        medifirstService.post("registrasi/update-diagnosa-tindakan-pasien-target-idrg", objSave)
+          .then(function (res) {
+            toastr.success("Diagnosa tindakan berhasil diperbarui");
+            $scope.popupEditDiagnosa9Idrg.close();
+            $scope.setdetail(set); // reload data tabel
+          })
+          .catch(function (err) {
+            toastr.error("Gagal memperbarui diagnosa tindakan");
+            console.error(err);
+          });
+      };
+
+
+      $scope.simpanDiagnosaTindakanTargetIdrg = function () {
+        if ($scope.item.diagnosisPrimer1 == undefined) {
+          alert("Pilih Kode Diagnosa dan Nama Diagnosa terlebih dahulu!!");
+          return;
+        }
+        // if ($scope.item.namaRuangan1.objectruanganfk == undefined) {
+        //     alert("Pilih Nama Ruangan ulang!!")
+        //     return
+        // }
+        // if ($scope.dataSelected1 == undefined) {
+        //     alert("Silahkan Klik Ruangan Di List Diagnosa!!")
+        //     return
+        // }
+        var norecDiagnosaTindakanPasien = "";
+        if ($scope.dataSelected1 != undefined) {
+          norecDiagnosaTindakanPasien = $scope.dataSelected1.norec_diagnosapasien;
+        }
+        var keteranganTindakan = "-";
+        if ($scope.item.keteranganTindakan != undefined) {
+          keteranganTindakan = $scope.item.keteranganTindakan;
+        }
+        var norec_apd;
+        debugger;
+        $scope.now = new Date();
+        var detaildiagnosatindakanpasien = {
+          norec_dp: norecDiagnosaTindakanPasien,
+          noregistrasifk: $scope.item.data[0].noregistrasi,
+          tglpendaftaran: $scope.item.data[0].tglregistrasi,
+          objectdiagnosatindakanfk: $scope.item.diagnosisPrimer1.id,
+          keterangantindakan: keteranganTindakan,
+          jumlah: $scope.item.jumlah,
+        };
+        var objSave = {
+          detaildiagnosatindakanpasien: detaildiagnosatindakanpasien,
+        };
+
+        medifirstService.post("registrasi/save-diagnosa-tindakan-pasien-target-idrg", objSave).then(function (e) {
+          $scope.isRouteLoading = false;
+          $scope.setdetail(set);
+          var detaildiagnosapasien = {
+            norec_dp: "",
+            noregistrasifk: $scope.item.data[0].noregistrasi,
+            code: $scope.item.diagnosisPrimer1.kdDiagnosaTindakan,
+            description: $scope.item.diagnosisPrimer1.namaDiagnosaTindakan,
+            jenisdiagnosaidrgfk: "9",
+            jumlah: $scope.item.jumlah,
+          };
+          var objSave = {
+            detaildiagnosapasien: detaildiagnosapasien,
+          };
+          debugger;
+          delete $scope.item.diagnosisPrimer1;
+          medifirstService.post("registrasi/save-diagnosa-idrg9", objSave).then(function (e) {
+            delete $scope.item.diagnosisPrimer1;
+            $scope.dataSelectedDiagnosa = {};
+            $scope.isRouteLoading = false;
+            $scope.setdetail(set);
+          });
+        });
+      };
+
+      $scope.SendClaimKolektif = function () {
+        $scope.popupSendClaim.center().open();
+      }
+
+      $scope.FinalInacbgKolektif = function () {
+        $scope.popupFinalInacbg.center().open();
+      }
+
+      $scope.clickFinalInacbgKolektif = function () {
+        medifirstService.get("bridging/inacbg/get-status-bridging-inacbg-grouping-all")
+          .then(function (res) {
+            var list = res.data; // list SEP yang masih GROUPING
+
+            if (!list || list.length === 0) {
+              toastr.warning("Tidak ada data yang perlu difinalkan.", "INACBG");
+              return;
+            }
+            // return;
+
+            // Mulai proses kolektif
+            let index = 0;
+
+            function prosesNext() {
+              if (index >= list.length) {
+                toastr.success("Final INACBG Kolektif selesai.", "INACBG");
+                return;
+              }
+
+              let row = list[index];
+
+              var dt1 = {
+                metadata: { method: "inacbg_grouper_final" },
+                data: { nomor_sep: row.nosep }
+              };
+
+              var objData = {
+                data: [dt1],
+                noregistrasifk: row.noregistrasifk
+              };
+
+              medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
+                .then(function (e) {
+                  let respon = e.data.dataresponse;
+
+                  var update = {
+                    noregistrasifk: row.noregistrasifk,
+                    status: "FINAL INACBG"
+                  };
+
+                  medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", update);
+
+                  toastr.info("FINAL: " + row.nosep, "INACBG");
+                  index++;
+                  prosesNext(); // lanjut ke SEP berikutnya
+                });
+            }
+
+            prosesNext();
+          });
+      };
+
+      $scope.GroupingInacbgKolektif = function () {
+        $scope.popupFinalInacbg.center().open();
+      }
+
+      $scope.clickGroupingInacbgKolektif = function () {
+        medifirstService.get("bridging/inacbg/get-status-bridging-inacbg-import-all")
+          .then(function (res) {
+            var list = res.data; // list SEP yang masih IMPORT
+
+            if (!list || list.length === 0) {
+              toastr.warning("Tidak ada data yang perlu di GROUPING INACBG.");
+              return;
+            }
+            // return;
+
+            // Mulai proses kolektif
+            let index = 0;
+
+            function prosesNext() {
+              if (index >= list.length) {
+                toastr.success("GROUPING INACBG Kolektif selesai.", "INACBG");
+                return;
+              }
+
+              let row = list[index];
+
+              var dt1 = {
+                metadata: { method: "inacbg_grouper_final" },
+                data: { nomor_sep: row.nosep }
+              };
+
+              var objData = {
+                data: [dt1],
+                noregistrasifk: row.noregistrasifk
+              };
+
+              medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData)
+                .then(function (e) {
+                  let respon = e.data.dataresponse;
+
+                  var update = {
+                    noregistrasifk: row.noregistrasifk,
+                    status: "FINAL INACBG"
+                  };
+
+                  medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", update);
+
+                  toastr.info("FINAL: " + row.nosep, "INACBG");
+                  index++;
+                  prosesNext(); // lanjut ke SEP berikutnya
+                });
+            }
+
+            prosesNext();
+          });
+      };
+
+
+      $scope.clickSendClaimKolektif = function () {
+        var dt1 = {};
+        var dt2 = [];
+        dt1 = {
+          metadata: {
+            method: "send_claim",
+          },
+          data: {
+            start_dt: $scope.formatTanggalClaim($scope.item.tglAwalclaim),
+            stop_dt: $scope.formatTanggalClaim($scope.item.tglAkhirclaim),
+            jenis_rawat: $scope.item.jenisrawat.value || 3,
+            date_type: $scope.item.datetype.value || 1,
+          },
+        };
+        dt2.push(dt1);
+
+        var objData = {
+          data: dt2,
+        };
+        medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+          var responData = e.data.dataresponse;
+
+          if (responData[0].dataresponse.metadata.code == "200") {
+            var listSep = responData[0].dataresponse.response.data;
+
+            angular.forEach(listSep, function (item) {
+              var datasend = {
+                nosep: item.nomor_sep,
+                status: "SEND CLAIM",
+              };
+
+              medifirstService
+                .post("bridging/inacbg/update-status-bridging-inacbg2", datasend)
+                .then(function (res) {
+                  // optional logging
+                });
+            });
+
+            toastr.info(
+              responData[0].dataresponse.metadata.message,
+              "INACBG"
+            );
+          }
+        });
+
+      };
+
+      $scope.listjenisrawat = [
+        { text: "Ranap", value: 1 },
+        { text: "Rajal", value: 2 },
+        { text: "Ranap & Rajal", value: 3 },
+      ];
+
+      $scope.listdatetype = [
+        { text: "Tanggal Pulang", value: 1 },
+        { text: "Tanggal Grouping", value: 2 },
+      ];
+
       //end region IDRG
       //END IDRG
 
       //CEK PASIEN DAFTAR BULAN INI 
-          function cekPsnDaftarThisMonth(dataItem) {
-              // Panggil service untuk mendapatkan riwayat pendaftaran bulan ini
-              medifirstService.get('registrasi/get-pasien-pernah-daftar/' + dataItem.noCm).then(function (e) {
-                  // Cek jika pasien punya riwayat pendaftaran (jumlah > 0)
-                  if (e.data.pernahDaftar && e.data.jml > 0) {
-                      
-                      // 1. Tampilkan notifikasi jumlah kunjungan
-                      var jml = e.data.jml + 1; // Kunjungan saat ini adalah jumlah sebelumnya + 1
-                      toastr.info('Kunjungan ke- ' + jml + ' di bulan yang sama!', 'Peringatan', {
-                          "closeButton": true,
-                          "positionClass": "toast-top-right",
-                          "timeOut": "5000" // Sebaiknya berikan timeout agar tidak menutupi layar
-                      });
+      function cekPsnDaftarThisMonth(dataItem) {
+        // Panggil service untuk mendapatkan riwayat pendaftaran bulan ini
+        medifirstService.get('registrasi/get-pasien-pernah-daftar/' + dataItem.noCm).then(function (e) {
+          // Cek jika pasien punya riwayat pendaftaran (jumlah > 0)
+          if (e.data.pernahDaftar && e.data.jml > 0) {
 
-                      // 2. Cek apakah ruangan pendaftaran terakhir sama dengan yang sekarang
-                      // PERBAIKAN: Gunakan e.data.ruanganTerakhir, bukan e.data.namaruangan
-                      if (dataItem.namaRuangan == e.data.ruanganTerakhir) {
-                          
-                          // PERBAIKAN: Gunakan properti yang benar di dalam pesan toastr
-                          var pesan = 'Pasien ini sudah terdaftar di ruangan ' + e.data.ruanganTerakhir + 
-                                      ' pada ' + e.data.selisihHari + ' hari yang lalu!';
+            // 1. Tampilkan notifikasi jumlah kunjungan
+            var jml = e.data.jml + 1; // Kunjungan saat ini adalah jumlah sebelumnya + 1
+            toastr.info('Kunjungan ke- ' + jml + ' di bulan yang sama!', 'Peringatan', {
+              "closeButton": true,
+              "positionClass": "toast-top-right",
+              "timeOut": "5000" // Sebaiknya berikan timeout agar tidak menutupi layar
+            });
 
-                          toastr.warning(pesan, 'Peringatan Ruangan Sama', {
-                              "closeButton": true,
-                              "positionClass": "toast-top-right",
-                              "timeOut": "5000",
-                          });
-                      }
-                  }
+            // 2. Cek apakah ruangan pendaftaran terakhir sama dengan yang sekarang
+            // PERBAIKAN: Gunakan e.data.ruanganTerakhir, bukan e.data.namaruangan
+            if (dataItem.namaRuangan == e.data.ruanganTerakhir) {
+
+              // PERBAIKAN: Gunakan properti yang benar di dalam pesan toastr
+              var pesan = 'Pasien ini sudah terdaftar di ruangan ' + e.data.ruanganTerakhir +
+                ' pada ' + e.data.selisihHari + ' hari yang lalu!';
+
+              toastr.warning(pesan, 'Peringatan Ruangan Sama', {
+                "closeButton": true,
+                "positionClass": "toast-top-right",
+                "timeOut": "5000",
               });
+            }
           }
-        //END PASIEN DAFTAR BULAN INI
+        });
+      }
+      //END PASIEN DAFTAR BULAN INI
     }, //BATAS SUCI
   ]);
 });
