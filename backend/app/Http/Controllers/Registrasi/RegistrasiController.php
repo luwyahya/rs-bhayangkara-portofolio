@@ -26930,4 +26930,19 @@ GROUP BY y.KET
             return $this->setStatusCode(500)->respond([], "Gagal update diagnosa: " . $e->getMessage());
         }
     }
+
+    public function getDataComboJenisDokumen(Request $request)
+    {
+        $jenisdokumen = \DB::table('jenisdokumen_m as jk')
+            ->select('jk.id', 'jk.jenisdokumen', 'jk.reportdisplay')
+            ->where('jk.namaexternal', 'INACBG')
+            ->get();
+
+        $result = array(
+            'jenisdokumen' => $jenisdokumen,
+            'message' => 'key',
+        );
+
+        return $this->respond($result);
+    }
 }

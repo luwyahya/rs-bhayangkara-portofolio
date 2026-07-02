@@ -6615,7 +6615,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
                 $spri = DB::select(DB::raw("
                     select epd.emrdfk, epd.value, ep.namaruangan from emrpasiend_t as epd join
                     emrpasien_t as ep on ep.noemr = epd.emrpasienfk 
-                    where ep.noregistrasifk = '$noregistrasi' and ep.emrfk = 2022 AND and epd.emrfk = 2022 ep.noemr = (
+                    where ep.noregistrasifk = '$noregistrasi' and ep.emrfk = 2022 AND epd.emrfk = 2022 AND ep.noemr = (
                     SELECT ep_inner.noemr
                     FROM emrpasien_t AS ep_inner
                     WHERE ep_inner.noregistrasifk = '$noregistrasi' 
@@ -8997,8 +8997,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
 
         //----------------------------------------------------------------
         $dataReport = array(
-            'namaprofile' => "RS TK. II BHAYANGKARA SARTIKA ASIH",
-            'alamat' => "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256",
+            'namaprofile' => "RS Bhayangkara TK.IV CIANJUR",
+            'alamat' => "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211",
             'datakemenkes' => $dataPasienKemenkes,
             'dataicd10' => $dataIcd10Pasien,
             'dataicd9' => $dataIcd9Pasien,
@@ -9011,7 +9011,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
             'validSep' => $validSep,
             'tglSep' => $responseSEP['response']['tglSep'] ?? null,
             'qrsep' => $qrCodePSep2,
-            'namaprofile' => "RS TK. II BHAYANGKARA SARTIKA ASIH",
+            'namaprofile' => "RS Bhayangkara TK.IV CIANJUR",
             'nocm' => $dataPasien[0]->nocm,
             'umurrad' => $umurrad,
             'idorder' => $idorder,
@@ -9247,83 +9247,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         // use PDF;
         // use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
         // use Illuminate\Support\Facades\Storage;
-
-        $merger = new PDFMerger(app('files'));
-        $tempFiles = []; // Untuk melacak file sementara agar bisa dihapus nanti
-
-        // 1. GENERATE PDF DARI LAPORAN TEKS (HTML)
-        // Pastikan Anda membuat file view baru (misal: 'report.rad.cetaknewtes_html') 
-        // yang HANYA berisi HTML Resume Medis, Laporan Operasi, dll.
-        // HAPUS script PDF.js dan Javascript dari view tersebut agar tidak error.
-
-        // Cek apakah ada data laporan teks yang perlu dicetak
-        if ($xcetakresumemedis || $xcetaklaporanoperasi || $xcetaktriase || $xcetakspri) {
-
-            // --- TAMBAHKAN BARIS INI ---
-            $pageWidth = '100%'; // Atur lebar tabel agar pas di PDF
-            // ---------------------------
-
-            // Pastikan variabel lain juga sudah ada isinya ($dokumenallArray, $dataReport)
-            $pdfHtml = PDF::loadView('report.rad.cetaknewtes_donwload', compact('dokumenallArray', 'pageWidth', 'dataReport'))
-                ->setPaper('a4', 'portrait');
-
-            $pathHtml = storage_path('app/public/temp_report_' . $noregistrasi . '.pdf');
-            $pdfHtml->save($pathHtml);
-
-            $merger->addPDF($pathHtml, 'all');
-            $tempFiles[] = $pathHtml;
-        }
-
-        // 2. PROSES FILE BASE64 (SEP, LAB, RADIOLOGI, DLL)
-        // Variabel $documents berisi array base64 yang sudah Anda kumpulkan di atas
-        foreach ($documents as $key => $docItems) {
-            // Karena struktur $documents Anda kadang array kadang string, kita normalisasi
-            if (!is_array($docItems)) {
-                $docItems = [$docItems];
-            }
-
-            foreach ($docItems as $index => $base64String) {
-                if (empty($base64String)) continue;
-
-                // Bersihkan header base64 jika ada (data:application/pdf;base64,)
-                if (strpos($base64String, ',') !== false) {
-                    $base64String = explode(',', $base64String)[1];
-                }
-
-                // Decode menjadi binary PDF
-                $pdfContent = base64_decode($base64String);
-
-                // Cek apakah decoding berhasil
-                if ($pdfContent === false) continue;
-
-                // Simpan sebagai file sementara
-                $fileName = 'temp_' . $key . '_' . $index . '_' . $noregistrasi . '.pdf';
-                $filePath = storage_path('app/public/' . $fileName);
-
-                file_put_contents($filePath, $pdfContent);
-
-                // Masukkan ke antrian Merger
-                $merger->addPDF($filePath, 'all');
-                $tempFiles[] = $filePath;
-            }
-        }
-
-        // 3. GABUNGKAN DAN DOWNLOAD
-        $merger->merge();
-
-        // Simpan file hasil gabungan
-        $finalFileName = 'Rekam_Medis_Lengkap_' . $noregistrasi . '.pdf';
-        $finalPath = storage_path('app/public/' . $finalFileName);
-        $merger->save($finalPath);
-
-        // 4. HAPUS FILE SEMENTARA (CLEANUP)
-        foreach ($tempFiles as $file) {
-            if (file_exists($file)) {
-                unlink($file);
-            }
-        }
-
-        // 5. RETURN DOWNLOAD KE BROWSER
-        return response()->download($finalPath)->deleteFileAfterSend(true);
+        $pageWidth = '100%';
+        // PURE Sartika Asih approach for rendering, but using the original Bhayangkara view
+        return view('report.rad.cetaknewtes_donwload', compact('documents', 'dokumenallArray', 'pageWidth', 'dataReport'));
     }
 }

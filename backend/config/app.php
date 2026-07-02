@@ -160,6 +160,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Barryvdh\Cors\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
         //doc https://packagist.org/packages/jenssegers/date
         Riskihajar\Terbilang\TerbilangServiceProvider::class,

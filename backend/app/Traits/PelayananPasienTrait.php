@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Master\Pasien;
 use App\Transaksi\PasienDaftar;
+use App\Transaksi\StrukPelayanan;
 use App\Master\SettingDataFixed;
 use App\Master\Rekanan;
 use App\Master\Produk;
@@ -17,8 +18,7 @@ trait PelayananPasienTrait
     protected function getProdukIdDeposit()
     {
         $set = SettingDataFixed::where('namafield', 'idProdukDeposit')->first();
-        $this->id = ($set) ? (int)$set->nilaifield : null;
-        return $this->id;
+        return ($set) ? (int)$set->nilaifield : null;
     }
 
     protected function getPelayananPasienByNoRegistrasi($noRegistrasi)
@@ -54,7 +54,7 @@ trait PelayananPasienTrait
     {
         $produkIdDeposit = $this->getProdukIdDeposit();
         $deposit = 0;
-        $pasienDaftar  = PasienDaftar::has('pelayanan_pasien')->where('noregistrasi', $noregistrasi)->first();
+        $pasienDaftar  = PasienDaftar::where('noregistrasi', $noregistrasi)->first();
         if ($pasienDaftar) {
             $depositList = $pasienDaftar->pelayanan_pasien()->where('nilainormal', '-1')->whereNull('strukfk')->get();
             foreach ($depositList as $item) {
@@ -377,7 +377,7 @@ trait PelayananPasienTrait
     protected function getUserKeyVclaim()
     {
         // $set = "6d7be2953648b39c1ff338f6d77f55eb";
-        return $set;
+        // return $set;
     }
     protected function getUserKeyVclaimV2()
     {
@@ -424,5 +424,15 @@ trait PelayananPasienTrait
         // $set = SettingDataFixed::where('namafield', 'passwordConsumerBPJS')->first(); //PasswordConsumerBPJSHarkit
         $set = 'ueyX84m1MZdSESlc3Ky3YRJ6eah3tjjA';
         return $set;
+    }
+
+    protected function getLaststruk($noregistrasifk)
+    {
+        $deposit = 0;
+        $pasienDaftar  = StrukPelayanan::where('noregistrasifk', $noregistrasifk)->where('statusenabled', true)->orderBy('tglstruk', 'desc')->first();
+        if ($pasienDaftar) {
+            $deposit = (float)$pasienDaftar['totalharusdibayar'];
+        }
+        return $deposit;
     }
 }
