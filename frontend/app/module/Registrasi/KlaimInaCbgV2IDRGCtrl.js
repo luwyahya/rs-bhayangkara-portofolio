@@ -4205,20 +4205,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
           "&dokumenall=" + encodeURIComponent(dokumenall) +
           "&pdf=1";
 
-        // 4. Eksekusi Download
-        // Cara ini paling aman untuk menghindari Pop-up Blocker modern
-        var link = document.createElement('a');
-        link.href = previewUrl;
-        link.target = '_blank'; // Buka di tab baru (opsional, jika ingin download di background hapus baris ini)
-        link.download = $scope.dataSelected.nosep + '.pdf'; // Memberi hint nama file
-
-        document.body.appendChild(link);
-        link.click();
-
-        // Bersihkan elemen link setelah diklik
-        setTimeout(function () {
-          document.body.removeChild(link);
-        }, 100);
+        // 4. Buka di tab baru agar browser bisa merender HTML dan mengeksekusi pdf.js
+        window.open(previewUrl, '_blank');
       };
 
 
