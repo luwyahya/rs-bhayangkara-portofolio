@@ -123,17 +123,13 @@
                 <label c-label item="item" required>Jenis Kelamin</label>
             </div>
             <div class="grid_2">
-                <input kendo-combo-box k-ng-model="item.jenisKelamin" k-data-text-field="'jeniskelamin'"
-                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisKelamin"
-                    disabled />
+                <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.jenisKelamin" disabled />
             </div>
             <div class="grid_2" style="margin-top: 0.8%;">
                 <label c-label item="item" required>Nama Penjamin</label>
             </div>
             <div class="grid_2">
-                <input kendo-combo-box k-ng-model="item.penjamin" k-data-text-field="'namarekanan'"
-                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listPenjamin"
-                    disabled />
+                <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.penjamin" disabled />
             </div>
             <div class="grid_2" style="margin-top: 0.8%;">
                 <label c-label item="item" required>Nomor Telp Pasien</label>
@@ -147,9 +143,7 @@
                 <label c-label item="item" required>Poliklinik</label>
             </div>
             <div class="grid_2">
-                <input kendo-combo-box k-ng-model="item.poliklinik" k-data-text-field="'namaruangan'"
-                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan"
-                    disabled />
+                <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.poliklinik" disabled />
             </div>
         </div>
         <div class="grid_12">
@@ -157,7 +151,8 @@
                 <label c-label item="item" required>Tanggal dan Waktu Masuk</label>
             </div>
             <div class="grid_2">
-                <input style="width: 100%" k-ng-model="item.tglMasuk" kendo-datetimepicker k-max="now" placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                <input style="width: 100%" k-ng-model="item.tglMasuk" kendo-datetimepicker k-max="now"
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
             </div>
             <div class="grid_4"></div>
             <div class="grid_2" style="margin-top: 0.8%;">
@@ -326,9 +321,8 @@
                 <label c-label item="item" required>Diagnosa Dokter</label>
             </div>
             <div class="grid_10">
-                <textarea required class="k-textbox"
-                    style="height: 76px; width: 100%; resize: none; margin-top: 5px"
-                ng-model="item.diagnosaDokter"></textarea>
+                <textarea required class="k-textbox" style="height: 76px; width: 100%; resize: none; margin-top: 5px"
+                    ng-model="item.diagnosaDokter"></textarea>
             </div>
         </div>
         <div class="grid_12" style="margin-top: 1%;">
@@ -349,8 +343,7 @@
                                         <label c-label>Kode Diagnosis</label>
                                         <input style="width: 100%;" kendo-combo-box k-ng-model="item.diagnosa"
                                             k-data-text-field="'kodeNama'" k-data-value-field="'id '"
-                                            k-filter="'contains '" k-auto-bind="false"
-                                            k-data-source="listDiagnosa" />
+                                            k-filter="'contains '" k-auto-bind="false" k-data-source="listDiagnosa" />
                                     </div>
                                     <div class="grid_3">
                                         <div class="grid_12" ng-show="nama">
@@ -413,16 +406,14 @@
                                 <div class="grid_12" style="margin-top: 10px">
                                     <div class="grid_4">
                                         <label c-label> Tindakan</label>
-                                        <input style="width: 100%;" kendo-combo-box
-                                            k-ng-model="item.diagnosaTindakan"
+                                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.diagnosaTindakan"
                                             k-data-text-field="'kodeNama'" k-data-value-field="'id '"
                                             k-filter="'contains '" k-auto-bind="false"
                                             k-data-source="listDiagnosaTindakan" />
                                     </div>
-                                    <div class="grid_8"  ng-show="nama">
+                                    <div class="grid_8" ng-show="nama">
                                         <label c-label>Nama Tindakan</label>
-                                        <input style="width: 100%;" kendo-combo-box
-                                            k-ng-model="item.diagnosaTindakan"
+                                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.diagnosaTindakan"
                                             k-data-text-field="'namaDiagnosaTindakan'" k-data-value-field="'id '"
                                             k-filter="'contains '" k-auto-bind="false"
                                             k-data-source="listDiagnosaTindakan" k-on-change="isiKodeDiagnosa()" />
@@ -439,30 +430,34 @@
                                 <div class="grid_12">
                                     <div class="grid_6"></div>
                                     <div class="grid_6">
-                                            <div class="grid_3">
-                                                    <button class="btnTemplate1" ng-click="saveIcd9()"><i class="fa fa-save"></i>Tambah</button>
-                                                <!-- <button class="c-button success" ng-click="saveIcd10()">
+                                        <div class="grid_3">
+                                            <button class="btnTemplate1" ng-click="saveIcd9()"><i
+                                                    class="fa fa-save"></i>Tambah</button>
+                                            <!-- <button class="c-button success" ng-click="saveIcd10()">
                                                     <span style="font-size:10!important">Tambah</span>
                                                 </button> -->
-                                            </div>
-                                            <div class="grid_3">
-                                                    <button class="btnTemplate1 cancel" ng-click="deleteIcd9()"><i class="fa fa-trash"></i>Hapus</button>
-                                                <!-- <button class="c-button cancel" ng-click="deleteIcd10()">
+                                        </div>
+                                        <div class="grid_3">
+                                            <button class="btnTemplate1 cancel" ng-click="deleteIcd9()"><i
+                                                    class="fa fa-trash"></i>Hapus</button>
+                                            <!-- <button class="c-button cancel" ng-click="deleteIcd10()">
                                                     <span style="font-size:10!important">Hapus</span>
                                                 </button> -->
-                                            </div>
-                                            <div class="grid_3">
-                                                    <button class="btnTemplate1" ng-click="batal()"><i class="fa fa-refresh"></i>Batal</button>
-                                                <!-- <button class="c-button" ng-click="batal()">
+                                        </div>
+                                        <div class="grid_3">
+                                            <button class="btnTemplate1" ng-click="batal()"><i
+                                                    class="fa fa-refresh"></i>Batal</button>
+                                            <!-- <button class="c-button" ng-click="batal()">
                                                     <span style="font-size:10!important">Batal</span>
                                                 </button> -->
-                                            </div>
-                                            <div class="grid_3">
-                                                    <button class="btnTemplate1"  is-back><i class="fa fa-arrow-left"></i>Kembali</button>
-                                                <!-- <button class="c-button" is-back>
+                                        </div>
+                                        <div class="grid_3">
+                                            <button class="btnTemplate1" is-back><i
+                                                    class="fa fa-arrow-left"></i>Kembali</button>
+                                            <!-- <button class="c-button" is-back>
                                                     <span style="font-size:10!important">Kembali</span>
                                                 </button> -->
-                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="clear"></div>
@@ -475,8 +470,8 @@
                                 <!-- grid diagnosis -->
                                 <div class="grid_12">
                                     <div kendo-grid k-data-source="dataSourceDiagnosaIcd9" k-selectable="'row'"
-                                        k-pageable="'true'" k-columns="columnDiagnosaIcd9"
-                                        k-ng-model="dataIcd9Selected" ng-click="klikIcd9(dataIcd9Selected)">
+                                        k-pageable="'true'" k-columns="columnDiagnosaIcd9" k-ng-model="dataIcd9Selected"
+                                        ng-click="klikIcd9(dataIcd9Selected)">
                                     </div>
                                 </div>
                                 <div class="clear"></div>
@@ -624,9 +619,8 @@
                     <label c-label item="item" required>Tanggal</label>
                 </div>
                 <div class="grid_4" ng-show="kontrol">
-                    <input style="width: 100%" k-ng-model="item.tglKontrol" kendo-datepicker
-                        placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd"
-                        ng-disabled="tgl" />
+                    <input style="width: 100%" k-ng-model="item.tglKontrol" kendo-datepicker placeholer="yyyy-MM-dd"
+                        k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" ng-disabled="tgl" />
                 </div>
             </div>
             <div class="grid_12">
@@ -665,8 +659,8 @@
                 </div>
                 <div class="grid_4">
                     <input kendo-combo-box k-ng-model="item.dpjp" k-data-text-field=" 'namalengkap' "
-                        k-data-value-field=" 'id' " k-filter="'contains'" k-auto-bind="false"
-                        k-data-source="listDokter" ng-disabled="!isAdmin"/>
+                        k-data-value-field=" 'id' " k-filter="'contains'" k-auto-bind="false" k-data-source="listDokter"
+                        ng-disabled="!isAdmin" />
                 </div>
             </div>
             <div class="grid_12">
@@ -674,7 +668,8 @@
                     <label c-label item="item" required>Tanggal Terakhir Di Cetak</label>
                 </div>
                 <div class="grid_2">
-                    <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.tglCetak" disabled/>
+                    <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.tglCetak"
+                        disabled />
                 </div>
             </div>
             <div class="grid_12">
@@ -760,8 +755,9 @@
                     <div class="clear"></div>
                     <div class="grid_8">
                         <input style="width: 100%;" kendo-combo-box k-ng-model="item.hubungankeluarga"
-                            k-data-text-field="'hubungankeluargakematian'" k-data-value-field="'hubungankeluargakematianfk'" k-filter="'contains'"
-                            k-auto-bind="false" k-data-source="listhubungankeluargakematian" />
+                            k-data-text-field="'hubungankeluargakematian'"
+                            k-data-value-field="'hubungankeluargakematianfk'" k-filter="'contains'" k-auto-bind="false"
+                            k-data-source="listhubungankeluargakematian" />
                     </div>
                 </div>
                 <!-- <div class="grid_12">

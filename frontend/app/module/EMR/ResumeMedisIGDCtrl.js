@@ -121,15 +121,15 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 kematian()
             }
             let pegawai = JSON.parse(localStorage.getItem('pegawai'));
-            $scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
-            $scope.item.jenisKelamin = {id:$scope.cc.objectjeniskelaminfk, jeniskelamin: $scope.cc.jeniskelamin}
+            $scope.item.poliklinik = $scope.cc.namaruangan
+            $scope.item.jenisKelamin = $scope.cc.jeniskelamin
             $scope.item.noRm = $scope.cc.nocm
             $scope.item.namaPasien = $scope.cc.namapasien
             $scope.item.ttdPasien = $scope.cc.namapasien
             $scope.item.nik = $scope.cc.noidentitas
             $scope.item.tglLahir = $scope.cc.tgllahir
             $scope.item.tempatLahir = $scope.cc.tempatlahir
-            $scope.item.penjamin = {id:$scope.cc.objectrekananfk, namarekanan: $scope.cc.namarekanan}
+            $scope.item.penjamin = $scope.cc.namarekanan
             $scope.item.noTelpPenjamin = $scope.cc.notelepon
             $scope.item.dpjp = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
             if (medifirstService.getKelompokUser() == 'admin' || medifirstService.getKelompokUser() == 'operator') {
