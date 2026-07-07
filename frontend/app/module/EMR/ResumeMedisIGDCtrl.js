@@ -81,7 +81,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         32: $scope.header.noidentitas,
                         33: $scope.header.objectjeniskelaminfk,
                         34: $scope.header.tempatlahir,
-                        35: $scope.header.notelepon
+                        35: $scope.header.notelepon,
+                        36: $scope.header.tglpulang
                     } 
                     cacheHelper.set('cacheRMelektronik', arrStr); 
                     LoadCacheHelper();
@@ -117,6 +118,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 $scope.cc.objectjeniskelaminfk = chacePeriode[33]
                 $scope.cc.tempatlahir = chacePeriode[34]
                 $scope.cc.notelepon = chacePeriode[35]
+                $scope.cc.tglpulang = chacePeriode[36]
                 init()
                 kematian()
             }
