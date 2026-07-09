@@ -4206,7 +4206,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
           "&pdf=1";
 
         // 4. Eksekusi Download
-        // Buka di tab baru, parameter pdf=1 akan memicu window.print() otomatis di halaman blade
+        // Buka di tab baru agar proses render PDF yang berat tidak membuat aplikasi utama (AngularJS) hang/error.
+        // Tab akan otomatis tertutup sendiri setelah download selesai.
         window.open(previewUrl, '_blank');
       };
 
