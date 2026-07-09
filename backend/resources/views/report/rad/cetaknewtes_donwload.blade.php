@@ -13,6 +13,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
     <meta charset="UTF-8">
     <title><?php echo $dataReport['nosepaaa']; ?></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
         
@@ -34,9 +35,20 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
             await renderAllDocuments();
             <?php if(request('pdf') == 1): ?>
                 document.querySelector('.print-button').style.display = 'none';
-                setTimeout(function() {
-                    window.print();
-                }, 500);
+                
+                var element = document.body;
+                var opt = {
+                  margin:       0.2,
+                  filename:     '<?php echo isset($dataReport['nosepaaa']) && $dataReport['nosepaaa'] != '' ? $dataReport['nosepaaa'] : 'Dokumen_Medis'; ?>.pdf',
+                  image:        { type: 'jpeg', quality: 0.98 },
+                  html2canvas:  { scale: 2, useCORS: true },
+                  jsPDF:        { unit: 'in', format: 'a3', orientation: 'portrait' }
+                };
+
+                html2pdf().set(opt).from(element).save().then(function() {
+                    // Tutup tab secara otomatis setelah download ter-trigger
+                    setTimeout(function() { window.close(); }, 500);
+                });
             <?php endif; ?>
         }
         
