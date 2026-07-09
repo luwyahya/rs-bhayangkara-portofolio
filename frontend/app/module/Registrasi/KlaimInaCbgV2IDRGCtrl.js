@@ -4205,7 +4205,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
           "&dokumenall=" + encodeURIComponent(dokumenall) +
           "&pdf=1";
 
-        // 4. Buka di tab baru agar browser bisa merender HTML dan mengeksekusi pdf.js
+        // 4. Eksekusi Download
+        // Buka di tab baru, parameter pdf=1 akan memicu window.print() otomatis di halaman blade
         window.open(previewUrl, '_blank');
       };
 

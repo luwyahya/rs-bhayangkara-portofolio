@@ -16,7 +16,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
         
-        async function printDocument() {
+        async function renderAllDocuments() {
             const documents = <?= json_encode($documents ?? []) ?>;
             const renderPromises = Object.entries(documents).map(async ([docType, base64String]) => {
                 if (base64String) {
@@ -24,7 +24,20 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                 }
             });
             await Promise.all(renderPromises);
+        }
+
+        function printDocument() {
             window.print();
+        }
+        
+        window.onload = async function() {
+            await renderAllDocuments();
+            <?php if(request('pdf') == 1): ?>
+                document.querySelector('.print-button').style.display = 'none';
+                setTimeout(function() {
+                    window.print();
+                }, 500);
+            <?php endif; ?>
         }
         
         async function renderPDF(base64, docType, isSpecialDoc = false) {

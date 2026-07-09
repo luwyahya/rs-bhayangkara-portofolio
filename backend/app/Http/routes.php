@@ -1908,6 +1908,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
         });
 
 
+        Route::get('report/cetak-semua-inacbg-newtes', 'Report\ReportController@TescetakSemuaInaCbg');
         Route::get('report/cetak-semua-inacbg-newtes-donwload', 'Report\ReportController@TescetakSemuaInaCbgDonwload');
         Route::get('report/cetak-ekspertise', 'Report\ReportController@cetakEkspertise');
         Route::get('report/cetak-ekspertise-kemkes', 'Report\ReportController@cetakEkspertiseKemkes');
