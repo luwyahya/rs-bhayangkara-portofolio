@@ -11257,7 +11257,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
       // Fungsi untuk ambil status bridging dari backend dan update semua variabel tombol
       $scope.getStatusBridgingInacbg = function () {
         if (!$scope.item || !$scope.item.data || !$scope.item.data[0] || !$scope.item.data[0].noregistrasifk) return;
-        medifirstService.get("bridging/inacbg/get-status-bridging-inacbg?noregistrasifk=" + $scope.item.data[0].noregistrasifk)
+        var cacheBuster = new Date().getTime();
+        medifirstService.get("bridging/inacbg/get-status-bridging-inacbg?noregistrasifk=" + $scope.item.data[0].noregistrasifk + "&t=" + cacheBuster)
           .then(function (res) {
             var data = res.data;
             console.log("Status from get-status-bridging-inacbg:", data);

@@ -3210,11 +3210,17 @@ class InaCbgController   extends ApiController
         DB::beginTransaction();
         try {
 
-            $hg = HasilGrouping::where('noregistrasifk', $request['noregistrasifk'])
-                ->update([
-                    // 'status' => "SEND CLAIM"
-                    'status' => $request['status']
-                ]);
+            $hg = HasilGrouping::where('noregistrasifk', $request['noregistrasifk'])->first();
+            if ($hg) {
+                $hg->status = $request['status'];
+                $hg->save();
+            } else {
+                $hg = new HasilGrouping();
+                $hg->norec = $hg->generateNewId();
+                $hg->noregistrasifk = $request['noregistrasifk'];
+                $hg->status = $request['status'];
+                $hg->save();
+            }
 
             $transStatus = 'true';
             $transMessage = "Simpan Catatan Klaim Berhasil...! ";
