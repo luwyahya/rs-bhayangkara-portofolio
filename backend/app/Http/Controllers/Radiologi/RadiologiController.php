@@ -6269,13 +6269,18 @@ class RadiologiController extends ApiController
         //            $data = $data->where('so.tglpelayananakhir','>=', $tgltgltgl);
         //        }
 
-        if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-            $data = $data->where('so.tglpelayananakhir', '>=', $request['tglAwal']);
+        if (!isset($request['isNotVerif'])) {
+
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('so.tglpelayananakhir', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $tgl = $request['tglAkhir'];
+                $data = $data->where('so.tglpelayananakhir', '<=', $tgl);
+            }
+
         }
-        if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-            $tgl = $request['tglAkhir'];
-            $data = $data->where('so.tglpelayananakhir', '<=', $tgl);
-        }
+
         if (isset($request['tglAwalOperasi']) && $request['tglAwalOperasi'] != "" && $request['tglAwalOperasi'] != "undefined") {
             $data = $data->where('so.tglpelayananakhir', '>=', $request['tglAwalOperasi']);
         }
