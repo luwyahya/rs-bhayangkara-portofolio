@@ -10532,7 +10532,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
             var totaldijamin = "";
             var hakkelas = "";
             var biayanaikkelas = "0";
-            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(async function (e) {
               $scope.isRouteLoading = false;
               responData = e.data.dataresponse;
               if (responData[0].dataresponse.metadata.code == 400) {
@@ -10555,21 +10555,24 @@ define(["initialize", "Configuration"], function (initialize, config) {
                 status: "GROUPING IDRG",
               };
               if (responData[0].dataresponse.metadata.code == 200 || responData[0].dataresponse.metadata.code == "200") {
-                medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-                  // Debug log response
-                  if (e && e.data && e.data.status == 201) {
-                    console.log("Update status GROUPING IDRG sukses", e.data);
+                try {
+                  let updateRes = await medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend);
+                  if (updateRes && updateRes.data && updateRes.data.status == 201) {
+                    console.log("Update status GROUPING IDRG sukses", updateRes.data);
                   } else {
-                    console.error("Gagal update status GROUPING IDRG", e);
+                    console.error("Gagal update status GROUPING IDRG", updateRes);
                   }
-                });
+                } catch(err) {
+                  console.error("Error update status GROUPING IDRG", err);
+                }
               }
 
               // jika berhasil 
-              $scope.groupingSuccess = true;
-
-              $scope.isRouteLoading = false;
-              $scope.setdetail(set);
+              $scope.$applyAsync(function () {
+                $scope.groupingSuccess = true;
+                $scope.isRouteLoading = false;
+                $scope.setdetail(set);
+              });
             });
           });
         } else {
@@ -10730,7 +10733,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
               data: dt2,
               noregistrasifk: $scope.item.data[0].noregistrasifk,
             };
-            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(async function (e) {
               responData = e.data.dataresponse;
               if (responData[0].dataresponse.metadata.code == 400) {
                 var message = responData[0].dataresponse.metadata.message || "Terjadi kesalahan (400)";
@@ -10752,19 +10755,23 @@ define(["initialize", "Configuration"], function (initialize, config) {
                 status: "GROUPING IDRG",
               };
               if (responData[0].dataresponse.metadata.code == 200 || responData[0].dataresponse.metadata.code == "200") {
-                medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-                  // Debug log response
-                  if (e && e.data && e.data.status == 201) {
-                    console.log("Update status GROUPING IDRG sukses", e.data);
+                try {
+                  let updateRes = await medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend);
+                  if (updateRes && updateRes.data && updateRes.data.status == 201) {
+                    console.log("Update status GROUPING IDRG sukses", updateRes.data);
                   } else {
-                    console.error("Gagal update status GROUPING IDRG", e);
+                    console.error("Gagal update status GROUPING IDRG", updateRes);
                   }
-                });
+                } catch(err) {
+                  console.error("Error update status GROUPING IDRG", err);
+                }
               }
 
-              $scope.groupingSuccess = true;
-              $scope.isRouteLoading = false;
-              $scope.setdetail(set);
+              $scope.$applyAsync(function () {
+                $scope.groupingSuccess = true;
+                $scope.isRouteLoading = false;
+                $scope.setdetail(set);
+              });
             });
           });
         }
@@ -11253,6 +11260,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
         medifirstService.get("bridging/inacbg/get-status-bridging-inacbg?noregistrasifk=" + $scope.item.data[0].noregistrasifk)
           .then(function (res) {
             var data = res.data;
+            console.log("Status from get-status-bridging-inacbg:", data);
             // Reset semua status
             $scope.groupingSuccess = false;
             $scope.finalIDRGSuccess = false;
