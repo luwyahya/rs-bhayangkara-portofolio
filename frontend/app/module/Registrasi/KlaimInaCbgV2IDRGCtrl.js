@@ -2265,7 +2265,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: 0,
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              kode_tarif: "CP",
+              // kode_tarif: "CP",
+              kode_tarif: "AP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -2461,7 +2462,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: "",
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              kode_tarif: "CP",
+              // kode_tarif: "CP",
+              kode_tarif: "AP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -10460,7 +10462,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: 0,
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              kode_tarif: "CP",
+              // kode_tarif: "CP",
+              kode_tarif: "AP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -10529,7 +10532,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
             var totaldijamin = "";
             var hakkelas = "";
             var biayanaikkelas = "0";
-            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(async function (e) {
               $scope.isRouteLoading = false;
               responData = e.data.dataresponse;
               if (responData[0].dataresponse.metadata.code == 400) {
@@ -10552,21 +10555,24 @@ define(["initialize", "Configuration"], function (initialize, config) {
                 status: "GROUPING IDRG",
               };
               if (responData[0].dataresponse.metadata.code == 200 || responData[0].dataresponse.metadata.code == "200") {
-                medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-                  // Debug log response
-                  if (e && e.data && e.data.status == 201) {
-                    console.log("Update status GROUPING IDRG sukses", e.data);
+                try {
+                  let updateRes = await medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend);
+                  if (updateRes && updateRes.data && updateRes.data.status == 201) {
+                    console.log("Update status GROUPING IDRG sukses", updateRes.data);
                   } else {
-                    console.error("Gagal update status GROUPING IDRG", e);
+                    console.error("Gagal update status GROUPING IDRG", updateRes);
                   }
-                });
+                } catch(err) {
+                  console.error("Error update status GROUPING IDRG", err);
+                }
               }
 
               // jika berhasil 
-              $scope.groupingSuccess = true;
-
-              $scope.isRouteLoading = false;
-              $scope.setdetail(set);
+              $scope.$applyAsync(function () {
+                $scope.groupingSuccess = true;
+                $scope.isRouteLoading = false;
+                $scope.setdetail(set);
+              });
             });
           });
         } else {
@@ -10663,7 +10669,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: "",
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              kode_tarif: "CP",
+              // kode_tarif: "CP",
+              kode_tarif: "AP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -10726,7 +10733,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
               data: dt2,
               noregistrasifk: $scope.item.data[0].noregistrasifk,
             };
-            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(function (e) {
+            medifirstService.post("bridging/inacbg/save-bridging-inacbg", objData).then(async function (e) {
               responData = e.data.dataresponse;
               if (responData[0].dataresponse.metadata.code == 400) {
                 var message = responData[0].dataresponse.metadata.message || "Terjadi kesalahan (400)";
@@ -10748,19 +10755,23 @@ define(["initialize", "Configuration"], function (initialize, config) {
                 status: "GROUPING IDRG",
               };
               if (responData[0].dataresponse.metadata.code == 200 || responData[0].dataresponse.metadata.code == "200") {
-                medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend).then(function (e) {
-                  // Debug log response
-                  if (e && e.data && e.data.status == 201) {
-                    console.log("Update status GROUPING IDRG sukses", e.data);
+                try {
+                  let updateRes = await medifirstService.post("bridging/inacbg/update-status-bridging-inacbg", datasend);
+                  if (updateRes && updateRes.data && updateRes.data.status == 201) {
+                    console.log("Update status GROUPING IDRG sukses", updateRes.data);
                   } else {
-                    console.error("Gagal update status GROUPING IDRG", e);
+                    console.error("Gagal update status GROUPING IDRG", updateRes);
                   }
-                });
+                } catch(err) {
+                  console.error("Error update status GROUPING IDRG", err);
+                }
               }
 
-              $scope.groupingSuccess = true;
-              $scope.isRouteLoading = false;
-              $scope.setdetail(set);
+              $scope.$applyAsync(function () {
+                $scope.groupingSuccess = true;
+                $scope.isRouteLoading = false;
+                $scope.setdetail(set);
+              });
             });
           });
         }
@@ -11246,9 +11257,11 @@ define(["initialize", "Configuration"], function (initialize, config) {
       // Fungsi untuk ambil status bridging dari backend dan update semua variabel tombol
       $scope.getStatusBridgingInacbg = function () {
         if (!$scope.item || !$scope.item.data || !$scope.item.data[0] || !$scope.item.data[0].noregistrasifk) return;
-        medifirstService.get("bridging/inacbg/get-status-bridging-inacbg?noregistrasifk=" + $scope.item.data[0].noregistrasifk)
+        var cacheBuster = new Date().getTime();
+        medifirstService.get("bridging/inacbg/get-status-bridging-inacbg?noregistrasifk=" + $scope.item.data[0].noregistrasifk + "&t=" + cacheBuster)
           .then(function (res) {
             var data = res.data;
+            console.log("Status from get-status-bridging-inacbg:", data);
             // Reset semua status
             $scope.groupingSuccess = false;
             $scope.finalIDRGSuccess = false;
