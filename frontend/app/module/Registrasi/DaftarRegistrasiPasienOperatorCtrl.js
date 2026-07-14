@@ -1267,15 +1267,92 @@ define(['initialize'], function (initialize) {
             $scope.GelangPasien = function () {
                 $scope.popUpGelang.center().open();
             }
+            // $scope.cetakGelang = function () {
+            //     debugger;
+            //     if ($scope.dataPasienSelected.noregistrasi != undefined) {
+            //         var client = new HttpClient();
+            //         client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-gelang=1&nocm=' + $scope.dataPasienSelected.nocm + '&kelamin=' + $scope.itemCetakGelang.jenis, function (response) {
+            //             // do something with response
+            //         });
+            //     }
+            // }
+
+            // Fungsi eksekusi cetak menggunakan Jasper REST API
             $scope.cetakGelang = function () {
                 debugger;
-                if ($scope.dataPasienSelected.noregistrasi != undefined) {
-                    var client = new HttpClient();
-                    client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-gelang=1&nocm=' + $scope.dataPasienSelected.nocm + '&kelamin=' + $scope.itemCetakGelang.jenis, function (response) {
-                        // do something with response
-                    });
+                // Validasi data pasien terpilih
+                if (!$scope.dataPasienSelected || $scope.dataPasienSelected.noregistrasi === undefined) {
+                    alert("Silahkan pilih data pasien pada tabel terlebih dahulu!");
+                    return;
                 }
-            }
+
+                // 1. Tentukan nama file template target berdasarkan kategori pilihan
+                let namaFileReport = "gelangPasienDewasa.pdf";
+                if ($scope.itemCetakGelang.jenis === 'bayilaki' || $scope.itemCetakGelang.jenis === 'bayiperempuan') {
+                    namaFileReport = "gelangPasienBayi.pdf";
+                }
+
+                // 2. Susun Query SQL Data Pasien
+                let queryData = " SELECT pd.noregistrasi, pd.tglregistrasi, p.nocm, upper((p.namapasien)::text) AS namapasien, " +
+                                " jk.jeniskelamin AS jk, upper((alm.alamatlengkap)::text) AS alamat, " +
+                                " to_char(p.tgllahir, 'DD-TMmon-YYYY'::text) AS tgllahir, " +
+                                " CASE WHEN (pg.namalengkap IS NULL) THEN '-'::character varying ELSE pg.namalengkap END AS namadokter, " +
+                                " TO_CHAR(age(now(), P.tgllahir), 'YY Tahun MM Bulan DD Hari') AS umur " +
+                                " FROM pasiendaftar_t pd " +
+                                " JOIN pasien_m p ON pd.nocmfk = p.id " +
+                                " JOIN jeniskelamin_m jk ON jk.id = p.objectjeniskelaminfk " +
+                                " LEFT JOIN pegawai_m pg ON pg.id = pd.objectpegawaifk " +
+                                " LEFT JOIN alamat_m alm ON alm.nocmfk = p.id " +
+                                " WHERE pd.noregistrasi = '" + $scope.dataPasienSelected.noregistrasi + "'";
+
+                // 3. Bangun struktur parameter payload untuk Jasper Server
+                var baseQrCode = $scope.dataPasienSelected.noregistrasi;
+                var jsonPayload = {
+                    "gambarLogo": "logodokkes.jpg",
+                    "paramKey": ["noreg", "qrcode", "query"],
+                    "paramValue": [$scope.dataPasienSelected.noregistrasi, baseQrCode, queryData],
+                    "paramType": ["", "", ""]
+                };
+
+                // 4. Pengiriman Request HTTP menggunakan XMLHttpRequest Native (Blob handling)
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        if (this.status === 200) {
+                            console.log("File PDF Gelang sukses dibuat.");
+                            var blobUrl = window.URL.createObjectURL(this.response);
+                            
+                            // Membuka tab baru untuk pratinjau dan cetak langsung ke printer thermal
+                            var printWindow = window.open(blobUrl, '_blank');
+                            if (printWindow) {
+                                printWindow.focus();
+                            } else {
+                                alert("Pop-up diblokir oleh browser! Mohon aktifkan izin pop-up untuk tab ini.");
+                            }
+                        } else {
+                            alert("Gagal memproses cetakan ke server Jasper. Status: " + this.status);
+                        }
+                    }
+                };
+
+                // Deteksi otomatis endpoint local dev environment vs production server
+                if (window.location.hostname.indexOf('localhost') > -1) {
+                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/' + namaFileReport);
+                } else {
+                    xhr.open('POST', '/jasper1/generic/report/' + namaFileReport);
+                }
+
+                // Konfigurasi Header Keamanan dan Format Data
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                xhr.responseType = 'blob'; 
+                
+                // Kirim data JSON ke backend
+                xhr.send(JSON.stringify(jsonPayload));
+
+                // Tutup jendela modal Kendo setelah tombol ditekan
+                $scope.popUpGelang.close();
+            };
 
             $scope.Tracer = function () {
                 if ($scope.dataPasienSelected.noregistrasi != undefined) {

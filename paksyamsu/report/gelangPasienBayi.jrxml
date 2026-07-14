@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="gelangPasienBayi" pageWidth="468" pageHeight="72" orientation="Landscape" columnWidth="448" leftMargin="10" rightMargin="10" topMargin="2" bottomMargin="2" uuid="b2bbde89-7cf8-4122-8d7a-112233445566">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="noreg" class="java.lang.String"/>
+	<parameter name="qrcode" class="java.lang.String"/>
+	<parameter name="query" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[$P!{query}]]>
+	</queryString>
+	<field name="namapasien" class="java.lang.String"/>
+	<field name="nocm" class="java.lang.String"/>
+	<field name="jk" class="java.lang.String"/>
+	<field name="tgllahir" class="java.lang.String"/>
+	<field name="umur" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="4" width="40" height="13" uuid="a1a1a1a1-1111-2222-3333-444455556666"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="17" width="40" height="13" uuid="b2b2b2b2-2222-3333-4444-555566667777"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="30" width="40" height="13" uuid="c3c3c3c3-3333-4444-5555-666677778888"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="4" width="6" height="13" uuid="d4d4d4d4-4444-5555-6666-777788889999"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="17" width="6" height="13" uuid="e5e5e5e5-5555-6666-7777-888899990000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="30" width="6" height="13" uuid="f6f6f6f6-6666-7777-8888-999900001111"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="53" y="4" width="167" height="13" forecolor="#000000" uuid="00001111-2222-3333-4444-555566667777"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="17" width="77" height="13" forecolor="#000000" uuid="11112222-3333-4444-5555-666677778888"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="30" width="67" height="13" forecolor="#000000" uuid="22223333-4444-5555-6666-777788889999"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="120" y="30" width="6" height="13" uuid="33334444-5555-6666-7777-888899990000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="128" y="30" width="92" height="13" forecolor="#000000" uuid="44445555-6666-7777-8888-999900001111"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="130" y="17" width="6" height="13" forecolor="#000000" uuid="55556666-7777-8888-9999-000011112222"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="138" y="17" width="82" height="13" forecolor="#000000" uuid="66667777-8888-9999-0000-111122223333"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle">
+				<reportElement x="230" y="4" width="160" height="42" uuid="77778888-9999-0000-1111-222233334444"/>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="230" y="46" width="160" height="12" uuid="88889999-0000-1111-2222-333344445555"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{noreg}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
