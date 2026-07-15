@@ -30864,5 +30864,37 @@ WHERE rm.norec = '$norec_resume'
         return $this->respond($data);
     }
 
+    public function deleteRiwayatLaporanTransferInternal(Request $request, $method)
+    {
+        DB::beginTransaction();
+        try {
+            $norec = '';
+            $RekamMedis = EMRPasien::where('norec', $request['norec'])->delete();
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'Inhuman',
+            );
+        } else {
+            $transMessage = "Error";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message' => $transMessage,
+                'as' => 'Inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
 
 }
