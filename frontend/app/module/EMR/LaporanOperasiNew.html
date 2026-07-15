@@ -8,39 +8,37 @@
         background-color: #53ab13;
         color: white;
     }
-    fieldset
-    {
-    border-radius:
-    5px;
-    border:
-    2px
-    solid
-    #228be6;
+
+    fieldset {
+        border-radius:
+            5px;
+        border:
+            2px solid #228be6;
     }
+
     .persija {
         color: #fff;
         background-color: #e62c92;
         border-color: #e62c92
     }
+
     .hejo {
-		background-color: #19c419;
-		color: #ffffff;
-		font-weight: bold;
-	}
+        background-color: #19c419;
+        color: #ffffff;
+        font-weight: bold;
+    }
 
     .tg {
         border-collapse: collapse;
         border-spacing: 0;
         border-color: #aabcfe;
     }
-    fieldset
-    {
-    border-radius:
-    5px;
-    border:
-    1px
-    solid
-    #228be6;
+
+    fieldset {
+        border-radius:
+            5px;
+        border:
+            1px solid #228be6;
     }
 
     .tg td {
@@ -134,32 +132,32 @@
                 <div class="grid_2"></div>
                 <div class="grid_12" style="margin-top: 1%;">
                     <fieldset>
-                    <div class="grid_12  headerBox">
-                        <p>Riwayat Laporan Operasi</p>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="grid_12 borderBox" style="margin-bottom: 5px;">
-                        <div id="kGrid" kendo-grid k-data-source="dataRiwayatOperasi" k-selectable="'row'"
-                            k-columns="columnRiwayatOperasi" k-sortable="'true'" k-pageable="'true'"
-                            k-ng-model="dataSelectedRiwayatOperasi" ng-click="click(dataSelectedRiwayatOperasi)">
+                        <div class="grid_12  headerBox">
+                            <p>Riwayat Laporan Operasi</p>
                         </div>
-                    </div>
-                    <div class="grid_12">
-                        <div class="grid_6"></div>
-                        <div class="grid_6"></div>
-                        <div class="grid_2" ng-hide="true">
-                            <button class="btnTemplate1 cancel" ng-click="kembali()">Kembali</button>
+                        <div class="clear"></div>
+                        <div class="grid_12 borderBox" style="margin-bottom: 5px;">
+                            <div id="kGrid" kendo-grid k-data-source="dataRiwayatOperasi" k-selectable="'row'"
+                                k-columns="columnRiwayatOperasi" k-sortable="'true'" k-pageable="'true'"
+                                k-ng-model="dataSelectedRiwayatOperasi" ng-click="click(dataSelectedRiwayatOperasi)">
+                            </div>
                         </div>
-                        <div class="grid_2" ng-hide="true">
-                            <button class="btnTemplate1 hejo" ng-click="cetak()">Cetak</button>
+                        <div class="grid_12">
+                            <div class="grid_6"></div>
+                            <div class="grid_6"></div>
+                            <div class="grid_2" ng-hide="true">
+                                <button class="btnTemplate1 cancel" ng-click="kembali()">Kembali</button>
+                            </div>
+                            <div class="grid_2" ng-hide="true">
+                                <button class="btnTemplate1 hejo" ng-click="cetak()">Cetak</button>
+                            </div>
+                            <div class="grid_2">
+                                <button class="btnTemplate1 persija" ng-click="EditLihat()">Edit/Lihat</button>
+                            </div>
+                            <div class="grid_2">
+                                <button class="btnTemplate1" ng-click="BuatBaru()">Buat Baru</button>
+                            </div>
                         </div>
-                        <div class="grid_2">
-                            <button class="btnTemplate1 persija" ng-click="EditLihat()">Edit/Lihat</button>
-                        </div>
-                        <div class="grid_2">
-                            <button class="btnTemplate1" ng-click="BuatBaru()">Buat Baru</button>
-                        </div>
-                    </div>
                     </fieldset>
                 </div>
             </div>
@@ -171,44 +169,51 @@
                     <tr>
                         <td colspan="4" class="tg-yw4l">
                             <label c-label item="item" style="font-size: 14px;" required>Tanggal Operasi :</label>
-                            <input style="width: 100%" k-ng-model="item.obj[4491]" kendo-datepicker placeholer="yyyy-MM-dd"
-                                k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                            <input style="width: 100%" k-ng-model="item.obj[4491]" kendo-datepicker
+                                placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" rowspan="2" class="tg-yw4l">
                             <label c-label item="item" style="font-size: 14px;" required>Nama Dokter Bedah :</label>
-                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[4478]" 
-                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listDokter" />
+                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[4478]"
+                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
+                                k-data-source="listDokter" />
                         </td>
                         <td class="tg-yw4l">
                             <label c-label item="item" style="font-size: 14px;" required>Nama Asisten I :</label>
-                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[4479]" 
-                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listPerawat" />
+                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[4479]"
+                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
+                                k-data-source="listPerawat" />
                         </td>
                         <td class="tg-yw4l">
-                            <label c-label item="item" style="font-size: 14px;" required>Nama Perawat Instrumen :</label>
-                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[4480]" 
-                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listPerawat" />
+                            <label c-label item="item" style="font-size: 14px;" required>Nama Perawat Instrumen
+                                :</label>
+                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[4480]"
+                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
+                                k-data-source="listPerawat" />
                         </td>
                     </tr>
                     <tr>
                         <td class="tg-yw4l">
                             <label c-label item="item" style="font-size: 14px;" required>Nama Asisten II :</label>
-                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[6584]" 
-                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listPerawat" />
+                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[6584]"
+                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
+                                k-data-source="listPerawat" />
                         </td>
                         <td class="tg-yw4l">
                             <label c-label item="item" style="font-size: 14px;" required>Nama Perawat Sirkuler :</label>
-                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[6585]" 
-                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listPerawat" />
+                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[6585]"
+                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
+                                k-data-source="listPerawat" />
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" class="tg-yw4l">
                             <label c-label item="item" style="font-size: 14px;" required>Ahli Anestesi :</label>
-                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[6583]" 
-                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listDokter" />
+                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[6583]"
+                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
+                                k-data-source="listDokter" />
                         </td>
                         <td class="tg-yw4l">
                             <label c-label item="item" style="font-size: 14px;" required>Jenis Anestesi :</label>
@@ -216,8 +221,9 @@
                         </td>
                         <td class="tg-yw4l">
                             <label c-label item="item" style="font-size: 14px;" required>Nama Perawat Anestesi :</label>
-                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[6586]" 
-                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listPerawat" />
+                            <input required style="width: 100%" kendo-combo-box k-ng-model="item.obj[6586]"
+                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
+                                k-data-source="listPerawat" />
                         </td>
                     </tr>
                     <tr>
@@ -243,11 +249,13 @@
                     </tr>
                     <tr>
                         <td colspan="3" class="tg-yw4l">
-                            <label c-label item="item" style="font-size: 15px;" required>Desinfeksi Kulit Dengan :</label>
+                            <label c-label item="item" style="font-size: 15px;" required>Desinfeksi Kulit Dengan
+                                :</label>
                             <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[6588]" />
                         </td>
                         <td class="tg-yw4l">
-                            <label c-label item="item" style="font-size: 15px;" required>Jaringan Yang Di Eksisi Dikirim Ke Bagian Patologi Anatomi :</label>
+                            <label c-label item="item" style="font-size: 15px;" required>Jaringan Yang Di Eksisi Dikirim
+                                Ke Bagian Patologi Anatomi :</label>
                             <div class="grid_6" style="margin-top:10px;">
                                 <input type="checkbox" class="k-checkbox" ng-model="item.obj[4489]" id="item.obj[4489]">
                                 <label class="c-label k-checkbox-label" for="item.obj[4489]" required>Ya</label>
@@ -263,26 +271,28 @@
                             <label c-label item="item" style="font-size: 15px;" required>Jam Operasi</label>
                         </td>
                         <td rowspan="2" class="tg-yw4l">
-                            <label c-label item="item" style="font-size: 15px;" required>Lama Operasi Berlangsung :</label>
-                            <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[4493]"/>
+                            <label c-label item="item" style="font-size: 15px;" required>Lama Operasi Berlangsung
+                                :</label>
+                            <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[4493]" />
                         </td>
                         <td rowspan="2" class="tg-yw4l">
-                            <label c-label item="item" style="font-size: 15px;" required>Jenis Bahan Yang Dikirim Ke Laboratorium Untuk Pemeriksaan :</label>
+                            <label c-label item="item" style="font-size: 15px;" required>Jenis Bahan Yang Dikirim Ke
+                                Laboratorium Untuk Pemeriksaan :</label>
                             <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[4490]" />
                         </td>
                     </tr>
                     <tr>
                         <td class="tg-yw4l">
                             <label c-label item="item" style="font-size: 15px;" required>Mulai :</label>
-                            <!-- <input style="width: 100%" k-ng-model="item.obj[4494]" kendo-timepicker placeholer="HH:mm"
-                                k-format="'HH:mm'" parsedate="HH:mm" /> -->
-                            <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[4494]" />
+                            <input style="width: 100%" k-ng-model="item.obj[4494]" kendo-timepicker placeholer="HH:mm"
+                                k-format="'HH:mm'" parsedate="HH:mm" />
+                            <!-- <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[4494]" /> -->
                         </td>
                         <td class="tg-yw4l">
                             <label c-label item="item" style="font-size: 15px;" required>Selesai :</label>
-                            <!-- <input style="width: 100%" k-ng-model="item.obj[4496]" kendo-timepicker placeholer="HH:mm"
-                                k-format="'HH:mm'" parsedate="HH:mm" /> -->
-                            <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[4496]" />
+                            <input style="width: 100%" k-ng-model="item.obj[4496]" kendo-timepicker placeholer="HH:mm"
+                                k-format="'HH:mm'" parsedate="HH:mm" />
+                            <!-- <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[4496]" /> -->
                         </td>
                     </tr>
                     <tr>
@@ -299,7 +309,8 @@
                     </tr>
                     <tr>
                         <td colspan="4" class="tg-yw4l">
-                            <label c-label item="item" style="font-size: 15px;" required>Teknik Operasi Dan Temuan Intra Operasi :</label>
+                            <label c-label item="item" style="font-size: 15px;" required>Teknik Operasi Dan Temuan Intra
+                                Operasi :</label>
                             <textarea required class="k-textbox" style="height: 140px;width: 100%;margin-top: 5px;
                                 resize: none;" ng-model="item.obj[6591]"></textarea>
                         </td>
@@ -308,20 +319,24 @@
                         <td colspan="4" class="tg-yw4l">
                             <div class="grid_12">
                                 <div class="grid_4">
-                                    <label c-label item="item" style="font-size: 15px;" required>Komplikasi Intra-Operasi :</label>
+                                    <label c-label item="item" style="font-size: 15px;" required>Komplikasi
+                                        Intra-Operasi :</label>
                                 </div>
                                 <div class="grid_4">
-                                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6592]" id="item.obj[6592]">
+                                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6592]"
+                                        id="item.obj[6592]">
                                     <label class="c-label k-checkbox-label" for="item.obj[6592]" required>Ya</label>
                                 </div>
                                 <div class="grid_4" style="margin-left: -10px;">
-                                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6593]" id="item.obj[6593]">
+                                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6593]"
+                                        id="item.obj[6593]">
                                     <label class="c-label k-checkbox-label" for="item.obj[6593]" required>Tidak</label>
                                 </div>
                             </div>
 
                             <div class="grid_12" style="margin-top: 10px;">
-                                <label c-label item="item" style="font-size: 15px;" required>Penjabaran Komplikasi Intra-Operasi :</label>
+                                <label c-label item="item" style="font-size: 15px;" required>Penjabaran Komplikasi
+                                    Intra-Operasi :</label>
                                 <textarea required class="k-textbox" style="height: 80px;width: 100%;margin-top: 5px;
                                     resize: none;" ng-model="item.obj[6594]"></textarea>
                             </div>
@@ -334,8 +349,10 @@
                                     <label c-label item="item">Pendarahan :</label>
                                 </div>
                                 <div class="grid_8" style="margin-top:-15px">
-                                    <input required c-text-box type="input"  class="k-textbox" ng-model="item.obj[6595]"/>
-                                    <label class="keteranganFieldTambahan" style="margin-top: 10px;margin-right: 10px">cc</label>
+                                    <input required c-text-box type="input" class="k-textbox"
+                                        ng-model="item.obj[6595]" />
+                                    <label class="keteranganFieldTambahan"
+                                        style="margin-top: 10px;margin-right: 10px">cc</label>
                                 </div>
                             </div>
 
@@ -344,8 +361,10 @@
                                     <label c-label item="item">Transfusi Darah :</label>
                                 </div>
                                 <div class="grid_8" style="margin-top:-15px">
-                                    <input required c-text-box type="input"  class="k-textbox" ng-model="item.obj[6596]"/>
-                                    <label class="keteranganFieldTambahan" style="margin-top: 10px;margin-right: 10px">cc</label>
+                                    <input required c-text-box type="input" class="k-textbox"
+                                        ng-model="item.obj[6596]" />
+                                    <label class="keteranganFieldTambahan"
+                                        style="margin-top: 10px;margin-right: 10px">cc</label>
                                 </div>
                             </div>
                         </td>
@@ -364,26 +383,35 @@
                                             <label c-label item="item" style="font-size: 15px;" required>1.</label>
                                         </div>
                                         <div class="grid_3">
-                                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[6598]" id="item.obj[6598]">
-                                            <label class="c-label k-checkbox-label" for="item.obj[6598]" required>Kontrol nadi/</label>
+                                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[6598]"
+                                                id="item.obj[6598]">
+                                            <label class="c-label k-checkbox-label" for="item.obj[6598]"
+                                                required>Kontrol nadi/</label>
                                         </div>
                                         <div class="grid_2">
-                                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[6599]" id="item.obj[6599]">
-                                            <label class="c-label k-checkbox-label" for="item.obj[6599]" required>tensi/</label>
+                                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[6599]"
+                                                id="item.obj[6599]">
+                                            <label class="c-label k-checkbox-label" for="item.obj[6599]"
+                                                required>tensi/</label>
                                         </div>
                                         <div class="grid_3">
-                                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[6600]" id="item.obj[6600]">
-                                            <label class="c-label k-checkbox-label" for="item.obj[6600]" required>pernapasan/</label>
+                                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[6600]"
+                                                id="item.obj[6600]">
+                                            <label class="c-label k-checkbox-label" for="item.obj[6600]"
+                                                required>pernapasan/</label>
                                         </div>
                                         <div class="grid_2">
-                                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[6601]" id="item.obj[6601]">
-                                            <label class="c-label k-checkbox-label" for="item.obj[6601]" required>suhu/</label>
+                                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[6601]"
+                                                id="item.obj[6601]">
+                                            <label class="c-label k-checkbox-label" for="item.obj[6601]"
+                                                required>suhu/</label>
                                         </div>
                                     </div>
 
                                     <div class="grid_12" style="margin-top: 10px;">
                                         <label c-label item="item" style="font-size: 15px;" required>...</label>
-                                        <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[6602]" />
+                                        <input required c-text-box type="input" class="k-textbox"
+                                            ng-model="item.obj[6602]" />
                                     </div>
 
                                     <div class="grid_12" style="margin-top: 10px;">
@@ -407,19 +435,22 @@
 
                                 <div class="grid_6">
                                     <div class="grid_12" style="margin-top: 10px;">
-                                        <label c-label item="item" style="font-size: 15px;" required>5. Obat-obatan :</label>
+                                        <label c-label item="item" style="font-size: 15px;" required>5. Obat-obatan
+                                            :</label>
                                         <textarea required class="k-textbox" style="height: 80px;width: 100%;margin-top: 5px;
                                             resize: none;" ng-model="item.obj[6606]"></textarea>
                                     </div>
 
                                     <div class="grid_12" style="margin-top: 10px;">
-                                        <label c-label item="item" style="font-size: 15px;" required>6. Ganti Balut :</label>
+                                        <label c-label item="item" style="font-size: 15px;" required>6. Ganti Balut
+                                            :</label>
                                         <textarea required class="k-textbox" style="height: 80px;width: 100%;margin-top: 5px;
                                             resize: none;" ng-model="item.obj[6607]"></textarea>
                                     </div>
 
                                     <div class="grid_12" style="margin-top: 10px;">
-                                        <label c-label item="item" style="font-size: 15px;" required>7. Lain-lain :</label>
+                                        <label c-label item="item" style="font-size: 15px;" required>7. Lain-lain
+                                            :</label>
                                         <textarea required class="k-textbox" style="height: 80px;width: 100%;margin-top: 5px;
                                             resize: none;" ng-model="item.obj[6608]"></textarea>
                                     </div>
@@ -662,9 +693,11 @@
                 <div class="grid_6">
                 </div>
                 <div class="grid_6">
-                    <label c-label item="item" style="margin-left: 40px; font-size: 17px;">Tanda Tangan Dokter Bedah </label>
-                        <input required style="width: 60%;" kendo-combo-box k-ng-model="item.obj[4503]" 
-                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listDokter" />
+                    <label c-label item="item" style="margin-left: 40px; font-size: 17px;">Tanda Tangan Dokter Bedah
+                    </label>
+                    <input required style="width: 60%;" kendo-combo-box k-ng-model="item.obj[4503]"
+                        k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
+                        k-data-source="listDokter" />
                 </div>
             </div>
 

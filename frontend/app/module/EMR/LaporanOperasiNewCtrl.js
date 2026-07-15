@@ -27,6 +27,17 @@ define(['initialize'], function(initialize) {
             medifirstService.get('emr/get-combo?').then(function(dat) {
                 $scope.listDokter = dat.data.dokter
                 $scope.listPerawat = dat.data.perawat
+
+                var pegawai = medifirstService.getPegawaiLogin();
+                if (pegawai) {
+                    var userObj = { id: pegawai.id, namalengkap: (pegawai.namaLengkap || pegawai.namalengkap) };
+                    if ($scope.listDokter && !$scope.listDokter.some(function(d) { return d.id === userObj.id })) {
+                        $scope.listDokter.push(userObj);
+                    }
+                    if ($scope.listPerawat && !$scope.listPerawat.some(function(p) { return p.id === userObj.id })) {
+                        $scope.listPerawat.push(userObj);
+                    }
+                }
             })
         }
 
@@ -122,6 +133,11 @@ define(['initialize'], function(initialize) {
                         $scope.user.poto = dat.data[0].template
                         $scope.user.poto2 = dat.data[1].template
                     })
+                    if (!$scope.item.obj) {
+                        $scope.item.obj = [];
+                    }
+                    var pegawai = medifirstService.getPegawaiLogin();
+                    $scope.item.obj[4503] = { id: pegawai.id, namalengkap: (pegawai.namaLengkap || pegawai.namalengkap) };
                 }
             })
             // loadRiwayat()
@@ -133,6 +149,8 @@ define(['initialize'], function(initialize) {
                 var chekedd = false
                 $scope.item.obj = []
                 $scope.item.obj2 = []
+                var pegawai = medifirstService.getPegawaiLogin();
+                $scope.item.obj[4503] = { id: pegawai.id, namalengkap: (pegawai.namaLengkap || pegawai.namalengkap) };
                 // $scope.item.obj[68] = $scope.now
                 dataLoad = dat.data.data
                 // debugger
@@ -489,6 +507,8 @@ debugger
             nomorEMRSS = ''
             $scope.cc.norec_emr = '-'
             $scope.item.obj[4491] = moment($scope.now).format('YYYY-MM-DD')
+            var pegawai = medifirstService.getPegawaiLogin();
+            $scope.item.obj[4503] = { id: pegawai.id, namalengkap: (pegawai.namaLengkap || pegawai.namalengkap) };
             // LoadCacheHelper();
         }
         $scope.formatTanggal = function (tanggal) {
