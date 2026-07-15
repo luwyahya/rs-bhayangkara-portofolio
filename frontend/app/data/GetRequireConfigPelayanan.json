@@ -1,9 +1,10 @@
 {
-    "path": [{
+    "path": [
+        {
             "nameDep": "RegistrasiPasienBaruCtrl",
             "urlDep": "module/Registrasi/RegistrasiPasienBaruCtrl"
         },
-        { 
+        {
             "nameDep": "RegistrasiPasienBaruMCUCtrl",
             "urlDep": "module/Registrasi/RegistrasiPasienBaruMCUCtrl"
         },
@@ -39,32 +40,26 @@
             "nameDep": "LaporanOperasiNewCtrl",
             "urlDep": "module/EMR/LaporanOperasiNewCtrl"
         },
-        
         {
             "nameDep": "OrderLaboratoriumCtrl",
             "urlDep": "module/EMR/OrderLaboratoriumCtrl"
         },
-        
         {
             "nameDep": "OrderRadiologiCtrl",
             "urlDep": "module/EMR/OrderRadiologiCtrl"
         },
-
         {
             "nameDep": "TerapiCairanCtrl",
             "urlDep": "module/EMR/TerapiCairanCtrl"
         },
-
         {
             "nameDep": "PemantauanPemberianCairanCtrl",
             "urlDep": "module/EMR/PemantauanPemberianCairanCtrl"
         },
-
         {
             "nameDep": "FarmasiMesoCtrl",
             "urlDep": "module/EMR/FarmasiMesoCtrl"
         },
-
         {
             "nameDep": "GiziProsesAsuhanGiziTerstandarCtrl",
             "urlDep": "module/EMR/GiziProsesAsuhanGiziTerstandarCtrl"
@@ -73,12 +68,10 @@
             "nameDep": "GiziProsesAsuhanGiziTerstandarRJCtrl",
             "urlDep": "module/EMR/GiziProsesAsuhanGiziTerstandarRJCtrl"
         },
-
         {
             "nameDep": "FarmasiRekonsiliasiCtrl",
             "urlDep": "module/EMR/FarmasiRekonsiliasiCtrl"
         },
-        
         {
             "nameDep": "RegistrasiPasienLamaCtrl",
             "urlDep": "module/Registrasi/RegistrasiPasienLamaCtrl"
@@ -86,9 +79,7 @@
         {
             "nameDep": "RegistrasiRuanganCtrl",
             "urlDep": "module/Registrasi/RegistrasiRuanganCtrl"
-        }
-
-        ,
+        },
         {
             "nameDep": "RegistrasiPegawaiToPasienCtrl",
             "urlDep": "module/Registrasi/RegistrasiPegawaiToPasienCtrl"
@@ -97,7 +88,6 @@
             "nameDep": "RegistrasiPasienIsomanLangsungCtrl",
             "urlDep": "module/Registrasi/RegistrasiPasienIsomanLangsungCtrl"
         },
-
         {
             "nameDep": "DaftarPasienIsomanCtrl",
             "urlDep": "module/Registrasi/DaftarPasienIsomanCtrl"
@@ -997,10 +987,12 @@
         {
             "nameDep": "DaftarOrderGiziSusterCtrl",
             "urlDep": "module/Gizi/DaftarOrderGiziSusterCtrl"
-        }, {
+        },
+        {
             "nameDep": "InputMenuGiziCtrl",
             "urlDep": "module/Gizi/InputMenuGiziCtrl"
-        }, {
+        },
+        {
             "nameDep": "DaftarMenuGiziCtrl",
             "urlDep": "module/Gizi/DaftarMenuGiziCtrl"
         },
@@ -1016,7 +1008,6 @@
             "nameDep": "PendaftaranTriageCtrl",
             "urlDep": "module/IGD/PendaftaranTriageCtrl"
         },
-        
         {
             "nameDep": "DaftarHasilTriaseCtrl",
             "urlDep": "module/IGD/DaftarHasilTriaseCtrl"
@@ -1088,7 +1079,8 @@
         {
             "nameDep": "DaftarOrderGiziCtrl",
             "urlDep": "module/Gizi/DaftarOrderGiziCtrl"
-        }, {
+        },
+        {
             "nameDep": "DaftarOrderGizilihatCtrl",
             "urlDep": "module/Gizi/DaftarOrderGizilihatCtrl"
         },
@@ -1171,10 +1163,10 @@
         {
             "nameDep": "CatatanKeperawatanCtrl",
             "urlDep": "module/EMR/CatatanKeperawatanCtrl"
-        }, {
+        },
+        {
             "nameDep": "CatatanGrafikTandaVitalCtrl",
             "urlDep": "module/EMR/CatatanGrafikTandaVitalCtrl"
-
         },
         {
             "nameDep": "CatatanDokterCtrl",
@@ -1185,16 +1177,16 @@
             "urlDep": "module/EMR/EwsCtrl"
         },
         {
-          "nameDep": "IHS_toolsCtrl",
-          "urlDep": "module/Bridging/IHS_toolsCtrl"
+            "nameDep": "IHS_toolsCtrl",
+            "urlDep": "module/Bridging/IHS_toolsCtrl"
         },
         {
-          "nameDep": "MasterRuanganCtrl",
-          "urlDep": "module/SysAdmin/MasterRuanganCtrl"
+            "nameDep": "MasterRuanganCtrl",
+            "urlDep": "module/SysAdmin/MasterRuanganCtrl"
         },
         {
-          "nameDep": "MasterProdukApotikCtrl",
-          "urlDep": "module/Farmasi/MasterProdukApotikCtrl"
+            "nameDep": "MasterProdukApotikCtrl",
+            "urlDep": "module/Farmasi/MasterProdukApotikCtrl"
         },
         {
             "nameDep": "EmrTriaseIGDCtrl",
@@ -1295,7 +1287,7 @@
         {
             "nameDep": "PengkajianPasienRICtrl",
             "urlDep": "module/EMR/PengkajianPasienRICtrl"
-        }, 
+        },
         {
             "nameDep": "RiOrthopediCtrl",
             "urlDep": "module/EMR/RiOrthopediCtrl"
@@ -1348,8 +1340,6 @@
             "nameDep": "FormulirRisikoJatuhPasienDewasaCtrl",
             "urlDep": "module/EMR/FormulirRisikoJatuhPasienDewasaCtrl"
         },
-
-
         {
             "nameDep": "RencanaAskepCtrl",
             "urlDep": "module/EMR/RencanaAskepCtrl"
@@ -1401,7 +1391,6 @@
         {
             "nameDep": "TriasePrimerCtrl",
             "urlDep": "module/EMR/TriasePrimerCtrl"
-
         },
         {
             "nameDep": "TindakanFiksasiMekanikCtrl",
@@ -1438,7 +1427,6 @@
         {
             "nameDep": "TriasePrimerCtrl",
             "urlDep": "module/EMR/TriasePrimerCtrl"
-
         },
         {
             "nameDep": "TindakanFiksasiMekanikCtrl",
@@ -1467,7 +1455,6 @@
         {
             "nameDep": "FormACtrl",
             "urlDep": "module/EMR/FormACtrl"
-
         },
         {
             "nameDep": "DASCtrl",
@@ -1504,7 +1491,6 @@
         {
             "nameDep": "FormBCtrl",
             "urlDep": "module/EMR/FormBCtrl"
-
         },
         {
             "nameDep": "CatatanPerkembanganKeperawatanCtrl",
@@ -1522,7 +1508,6 @@
             "nameDep": "ImplementasiSosialRICtrl",
             "urlDep": "module/EMR/ImplementasiSosialRICtrl"
         },
-
         {
             "nameDep": "ImplementasiKeperawatanHalusinasiCtrl",
             "urlDep": "module/EMR/ImplementasiKeperawatanHalusinasiCtrl"
@@ -1562,7 +1547,6 @@
         {
             "nameDep": "HasilEEGCtrl",
             "urlDep": "module/EMR/HasilEEGCtrl"
-
         },
         {
             "nameDep": "AsesmenPerawatJiwaRemajaCtrl",
@@ -1575,7 +1559,6 @@
         {
             "nameDep": "CatatanPemeriksaanPenunjangCtrl",
             "urlDep": "module/EMR/CatatanPemeriksaanPenunjangCtrl"
-
         },
         {
             "nameDep": "SerahTerimaPasienCtrl",
@@ -1588,7 +1571,6 @@
         {
             "nameDep": "LaporanKunjunganCtrl",
             "urlDep": "module/Registrasi/Laporan/LaporanKunjunganCtrl"
-
         },
         {
             "nameDep": "LaporanKegiatanCtrl",
@@ -1613,7 +1595,6 @@
         {
             "nameDep": "SkriningTBCtrl",
             "urlDep": "module/EMR/SkriningTBCtrl"
-
         },
         {
             "nameDep": "InputCheklisApdCtrl",
@@ -1622,7 +1603,6 @@
         {
             "nameDep": "InputFormulirPendelegasianObatCtrl",
             "urlDep": "module/EMR/InputFormulirPendelegasianObatCtrl"
-
         },
         {
             "nameDep": "AsesmenAwalKeperawatanPsikogeriatriCtrl",
@@ -1639,12 +1619,10 @@
         {
             "nameDep": "AsuhanGiziAnakCtrl",
             "urlDep": "module/EMR/AsuhanGiziAnakCtrl"
-
         },
         {
             "nameDep": "InformasiTanggunganCtrl",
             "urlDep": "module/TataRekening/InformasiTanggunganCtrl"
-
         },
         {
             "nameDep": "ImplementasiBunuhDiriCtrl",
@@ -1661,9 +1639,7 @@
         {
             "nameDep": "ImplementasiKeperawatanDefisitPerawatanDiriCtrl",
             "urlDep": "module/EMR/ImplementasiKeperawatanDefisitPerawatanDiriCtrl"
-
         },
-
         {
             "nameDep": "DaftarRiwayatPasienCtrl",
             "urlDep": "module/Registrasi/DaftarRiwayatPasienCtrl"
@@ -1683,7 +1659,6 @@
         {
             "nameDep": "RadiologiCtrl",
             "urlDep": "module/EMR/RadiologiCtrl"
-
         },
         {
             "nameDep": "LembarKegiatanRehabCtrl",
@@ -1732,12 +1707,10 @@
         {
             "nameDep": "KepatuhanHandHygieneCtrl",
             "urlDep": "module/PPI/KepatuhanHandHygieneCtrl"
-
         },
         {
             "nameDep": "KepatuhanAPDCtrl",
             "urlDep": "module/PPI/KepatuhanAPDCtrl"
-
         },
         {
             "nameDep": "SkorEWSDewasa2Ctrl",
@@ -1862,7 +1835,6 @@
         {
             "nameDep": "AsesmenRisikoMelarikanDiri7Ctrl",
             "urlDep": "module/EMR/AsesmenRisikoMelarikanDiri7Ctrl"
-
         },
         {
             "nameDep": "MenuBunuhDiriCtrl",
@@ -1891,7 +1863,6 @@
         {
             "nameDep": "AsesmenRisikoBunuhDiri7Ctrl",
             "urlDep": "module/EMR/AsesmenRisikoBunuhDiri7Ctrl"
-
         },
         {
             "nameDep": "LaporanDemografiRICtrl",
@@ -1904,18 +1875,15 @@
         {
             "nameDep": "IndikatorPelayananTahunCtrl",
             "urlDep": "module/Registrasi/Laporan/IndikatorPelayananTahunCtrl"
-
         },
         {
             "nameDep": "LaporanKinerjaCtrl",
             "urlDep": "module/Registrasi/Laporan/LaporanKinerjaCtrl"
-
         },
         {
             "nameDep": "JumlahPasienDanCaraBayarCtrl",
             "urlDep": "module/Registrasi/Laporan/JumlahPasienDanCaraBayarCtrl"
         },
-
         {
             "nameDep": "MenuObservasiFisikCtrl",
             "urlDep": "module/EMR/MenuObservasiFisikCtrl"
@@ -2083,7 +2051,6 @@
         {
             "nameDep": "FormulirTransfer3Ctrl",
             "urlDep": "module/EMR/FormulirTransfer3Ctrl"
-
         },
         {
             "nameDep": "FormulirTransfer4Ctrl",
@@ -2116,7 +2083,6 @@
         {
             "nameDep": "MenuPansECCtrl",
             "urlDep": "module/EMR/MenuPansECCtrl"
-
         },
         {
             "nameDep": "RekamPsikologJlCtrl",
@@ -2161,7 +2127,6 @@
         {
             "nameDep": "AsesmenMedisWajibLaporCtrl",
             "urlDep": "module/EMR/AsesmenMedisWajibLaporCtrl"
-
         },
         {
             "nameDep": "MenuKegiatanRehabCtrl",
@@ -2254,7 +2219,6 @@
         {
             "nameDep": "GeriatricDepressionScaleCtrl",
             "urlDep": "module/EMR/GeriatricDepressionScaleCtrl"
-
         },
         {
             "nameDep": "AsesmenGigiDanMulutCtrl",
@@ -2848,7 +2812,6 @@
             "nameDep": "CpptNewUmum2Ctrl",
             "urlDep": "module/EMR/CpptNewUmum2Ctrl"
         },
-
         {
             "nameDep": "TriaseIGDCtrl",
             "urlDep": "module/EMR/TriaseIGDCtrl"
@@ -2861,7 +2824,6 @@
             "nameDep": "PengkajianAwalKeperawatanIgdCtrl",
             "urlDep": "module/EMR/PengkajianAwalKeperawatanIgdCtrl"
         },
-
         {
             "nameDep": "LaporanTindakanRuanganCtrl",
             "urlDep": "module/Registrasi/Laporan/LaporanTindakanRuanganCtrl"
@@ -2986,7 +2948,7 @@
             "nameDep": "LaporanReleaseDviCtrl",
             "urlDep": "module/Jenazah/LaporanReleaseDviCtrl"
         },
-          {
+        {
             "nameDep": "CPCovidAnakDgnGejalaRinganCtrl",
             "urlDep": "module/ClinicalPathway/CPCovidAnakDgnGejalaRinganCtrl"
         },
@@ -3071,8 +3033,8 @@
             "urlDep": "module/Registrasi/Laporan/LaporanPengkajianAwalKeperawatanRICtrl"
         },
         {
-          "nameDep": "ResumeMedisIGDCtrl",
-          "urlDep": "module/EMR/ResumeMedisIGDCtrl"
+            "nameDep": "ResumeMedisIGDCtrl",
+            "urlDep": "module/EMR/ResumeMedisIGDCtrl"
         },
         {
             "nameDep": "IHS_toolsCtrl",
@@ -3185,6 +3147,10 @@
         {
             "nameDep": "PengkajianAwalKeperAnakRJCtrl",
             "urlDep": "module/EMR/PengkajianAwalKeperAnakRJCtrl"
+        },
+        {
+            "nameDep": "TransferInternalCtrl",
+            "urlDep": "module/EMR/TransferInternalCtrl"
         }
     ]
 }

@@ -1,0 +1,1555 @@
+<style type="text/css">
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+
+    fieldset {
+        border-radius:
+            5px;
+        border:
+            1px solid #228be6;
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+
+    .tg .tg-yw4l {
+        vertical-align: top
+    }
+
+
+    .rowstyle {
+        border-bottom: 1px dashed lightblue
+    }
+
+    .footer {
+        text-align: center;
+        font-size: 120%;
+        font-weight: 700;
+        margin-bottom: 20px
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    textarea {
+        font-family: 'Comfortaa', cursive, 'OpenSans-Regular';
+    }
+
+    .carousel-inner>.item>a>img,
+    .carousel-inner>.item>img,
+    .img-responsive,
+    .thumbnail a>img,
+    .thumbnail>img {
+        display: block;
+        max-width: 80%;
+        height: auto;
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    img {
+        border: 0;
+    }
+
+    .photo-pasien {
+        /* display: inline-block; */
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+        /* background-size: 32px 35px; */
+        /* background-position: center center; */
+        vertical-align: middle;
+    }
+
+    .btnHijau {
+        background-color: #255602;
+        color: white;
+    }
+
+    .palTengah {
+        text-align: center;
+    }
+
+    .btnHijau:hover {
+        background-color: #255602;
+        color: white;
+    }
+</style>
+<div class="grid_12">
+    <div class="grid_12">
+        <div style="margin-bottom: 10px" class="panel panel-default container_12">
+            <div class="panel-heading text-center">Transfer Internal (Alih rawat/Pemeriksaan penunjang/Tindakan)</div>
+        </div>
+        <div class="grid_12">
+            <fieldset>
+
+                <div class="grid_12">
+                    <div>
+                        <div class="grid_2"></div>
+                        <div class="grid_2"></div>
+                        <div class="grid_12" style="margin-top: 1%;">
+                            <fieldset>
+                                <div class="grid_12  headerBox">
+                                    <p>Riwayat Transfer Internal</p>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="grid_12 borderBox" style="margin-bottom: 5px;">
+                                    <div id="kGrid" kendo-grid k-data-source="dataRiwayatTransferInternal"
+                                        k-selectable="'row'" k-columns="columnRiwayatTransferInternal"
+                                        k-sortable="'true'" k-pageable="'true'"
+                                        k-ng-model="dataSelectedRiwayatTransferInternal"
+                                        ng-click="click(dataSelectedRiwayatTransferInternal)">
+                                    </div>
+                                </div>
+                                <div class="grid_12">
+                                    <div class="grid_6"></div>
+                                    <div class="grid_6"></div>
+                                    <div class="grid_2" ng-hide="true">
+                                        <button class="btnTemplate1 cancel" ng-click="kembali()">Kembali</button>
+                                    </div>
+                                    <div class="grid_2" ng-hide="true">
+                                        <button class="btnTemplate1 hejo" ng-click="cetak()">Cetak</button>
+                                    </div>
+                                    <div class="grid_2">
+                                        <button class="btnTemplate1 persija" ng-click="EditLihat()">Edit/Lihat</button>
+                                    </div>
+                                    <div class="grid_2">
+                                        <button class="btnTemplate1" ng-click="BuatBaru()">Buat Baru</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid_12">
+                    <div class="grid_3">
+                        <div class="grid_12" style="margin-top: 15px;">
+                            <label c-label="" item="item"><b>Kpd Yth. TS</b></label>
+                        </div>
+                        <div class="grid_12" style="margin-top: 15px;">
+                            <label c-label="" item="item"><b>Ruangan</b></label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box="" k-ng-model="item.obj[1901304995]"
+                                k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listRuangan">
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_3">
+                        <div class="grid_12" style="margin-top: 15px;">
+                            <label c-label="" item="item"><b>Nakes</b></label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box="" k-ng-model="item.obj[1901304996]"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listPegawai">
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_12">
+                        <p><b>Kami Kirimkan Pasien :</b></p>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">1. No. RM</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901304997]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">2. Nama Pasien</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901304998]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">3. Tanggal Lahir</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901304999]">
+                        </div>
+                        <div class="grid_1">
+                            <label for="">Jenis Kelamin</label>
+                        </div>
+                        <div class="grid_1">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305001]"
+                                id="item.obj[1901305001]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305001]" required="">L</label>
+                        </div>
+                        <div class="grid_1">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305002]"
+                                id="item.obj[1901305002]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305002]" required="">P</label>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">4. Asal Ruangan/Poliklinik</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305000]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">5. Status</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305003]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">6. Indikasi Rawat Inap</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305004]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">7. Ringkasan Riwayat Penyakit</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305005]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">8. Pemeriksaan Fisik</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305006]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">9. Pemeriksaan Penunjang</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305007]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">10. Diagnosa Utama</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305008]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">11. Diagnosa Sekunder</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305009]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">12. Alasan transfer</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305010]"
+                                id="item.obj[1901305010]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305010]" required="">Alih Rawat
+                                Ke</label>
+                        </div>
+                        <div class="grid_2">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305011]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                        </div>
+                        <div class="grid_3" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305012]"
+                                id="item.obj[1901305012]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305012]" required="">Pemeriksaan
+                                penunjang yang akan dilakukan</label>
+                        </div>
+                        <div class="grid_2">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305013]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                        </div>
+                        <div class="grid_3" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305014]"
+                                id="item.obj[1901305014]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305014]" required="">Tindakan yang
+                                akan dilakukan</label>
+                        </div>
+                        <div class="grid_2">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305015]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">13. Prosedur yang telah dilakukan</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305016]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">14. Terapi (Obat/Tindakan)</label>
+                        </div>
+                        <div class="grid_3">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305017]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Nama Obat/Cairan Infus</td>
+                                    <td>Sediaan</td>
+                                    <td>Tgl &amp; Jam Mulai</td>
+                                    <td>Dosis &amp; Frekuensi</td>
+                                    <td>Rute</td>
+                                </tr>
+                                <tr ng-repeat="baris in listBarisObat track by $index">
+                                    <td>{{ $index + 1 }}</td>
+                                    <td><input c-text-box="" type="text" class="k-textbox"
+                                            ng-model="item.obj[baris.idNamaObat]"></td>
+                                    <td><input c-text-box="" type="text" class="k-textbox"
+                                            ng-model="item.obj[baris.idSediaan]"></td>
+                                    <td>
+                                        <div class="grid_12">
+                                            <input style="width: 100%" k-ng-model="item.obj[baris.idTglJam]"
+                                                kendo-datetimepicker="" placeholer="yyyy-MM-dd HH:mm"
+                                                k-format="'yyyy-MM-dd HH:mm'">
+                                        </div>
+                                    </td>
+                                    <td><input c-text-box="" type="text" class="k-textbox"
+                                            ng-model="item.obj[baris.idDosis]"></td>
+                                    <td><input c-text-box="" type="text" class="k-textbox"
+                                            ng-model="item.obj[baris.idRute]"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="grid_3" style="text-align: right; margin-bottom: 10px;">
+                            <button class="btnTemplate1" ng-click="tambahBarisManual()" style="padding: 5px 15px;">
+                                <i class="fa fa-plus"></i> Tambah Baris Obat
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">Rencana Tindakan/Terapi Selanjutnya</label>
+                        </div>
+                        <div class="grid_7">
+                            <textarea c-text-area="" type="input" filter="'string'" class="k-textbox"
+                                ng-model="item.obj[1901305048]" style="height: 80px; width: 98%"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">Peralatan yang digunakan pasien</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305049]"
+                                id="item.obj[1901305049]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305049]"
+                                required="">Oksigen</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305050]"
+                                id="item.obj[1901305050]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305050]"
+                                required="">Kateter</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305051]"
+                                id="item.obj[1901305051]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305051]"
+                                required="">Suction</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305052]"
+                                id="item.obj[1901305052]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305052]"
+                                required="">Ventilator</label>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3"></div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305053]"
+                                id="item.obj[1901305053]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305053]" required="">NGT</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305054]"
+                                id="item.obj[1901305054]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305054]" required="">Infus
+                                Pump</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305055]"
+                                id="item.obj[1901305055]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305055]" required="">Valve Bag
+                                Mask</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305056]"
+                                id="item.obj[1901305056]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305056]" required="">Syringe
+                                Pump</label>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">Metode Transfer</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305057]"
+                                id="item.obj[1901305057]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305057]" required="">Kursi
+                                Roda</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305058]"
+                                id="item.obj[1901305058]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305058]"
+                                required="">Brankar</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305059]"
+                                id="item.obj[1901305059]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305059]" required="">Tempat
+                                Tidur</label>
+                        </div>
+                        <div class="grid_1" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305060]"
+                                id="item.obj[1901305060]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305060]" required=""></label>
+                        </div>
+                        <div class="grid_2">
+                            <input c-text-box="" type="text" filter="" class="k-textbox"
+                                ng-model="item.obj[1901305061]">
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">Resiko Jatuh</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305062]"
+                                id="item.obj[1901305062]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305062]"
+                                required="">Rendah</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305063]"
+                                id="item.obj[1901305063]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305063]"
+                                required="">Sedang</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305064]"
+                                id="item.obj[1901305064]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305064]"
+                                required="">Tinggi</label>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                            <label for="">Kelengkapan Dokumen </label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305065]"
+                                id="item.obj[1901305065]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305065]" required="">Rekam
+                                Medis</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305066]"
+                                id="item.obj[1901305066]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305066]"
+                                required="">Rontgen</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305067]"
+                                id="item.obj[1901305067]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305067]" required="">EKG</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305068]"
+                                id="item.obj[1901305068]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305068]" required="">USG</label>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3" style="margin-top: 10px;">
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305069]"
+                                id="item.obj[1901305069]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305069]"
+                                required="">Laboratorium</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305070]"
+                                id="item.obj[1901305070]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305070]" required="">PA</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305071]"
+                                id="item.obj[1901305071]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305071]"
+                                required="">Endoskopi</label>
+                        </div>
+                        <div class="grid_2" style="margin-top: 15px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305072]"
+                                id="item.obj[1901305072]">
+                            <label class="c-label k-checkbox-label" for="item.obj[1901305072]" required="">CT
+                                Scan/MSCT</label>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;"><b>KONDISI UMUM</b></td>
+                                    <td style="text-align: center;"><b>SEBELUM DITRANSFER</b></td>
+                                    <td style="text-align: center;"><b>TIBA DI TEMPAT TUJUAN</b></td>
+                                </tr>
+                                <tr>
+                                    <td>Keadaan Umum</td>
+                                    <td><input c-text-box="" type="text" filter="" class="k-textbox"
+                                            ng-model="item.obj[1901305073]"></td>
+                                    <td><input c-text-box="" type="text" filter="" class="k-textbox"
+                                            ng-model="item.obj[1901305074]"></td>
+                                </tr>
+                                <tr>
+                                    <td>Kesadaran</td>
+                                    <td>
+                                        <input required="" style="width: 100%;" kendo-combo-box=""
+                                            k-ng-model="item.obj[1901305075]" k-data-text-field="'text'"
+                                            k-filter="'contains'" k-data-value-field="'value'"
+                                            k-data-source="listKesadaran">
+                                    </td>
+                                    <td>
+                                        <input required="" style="width: 100%;" kendo-combo-box=""
+                                            k-ng-model="item.obj[1901305076]" k-data-text-field="'text'"
+                                            k-filter="'contains'" k-data-value-field="'value'"
+                                            k-data-source="listKesadaran">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>GCS : EVM</td>
+                                    <td>
+                                        <div class="grid_12">
+                                            <div class="grid_2"
+                                                style="margin-top:12px; margin-left:28%; margin-right: -13%;">
+                                                <label c-label="" item="item" required="">E</label>
+                                            </div>
+                                            <div class="grid_2">
+                                                <input required="" style="width: 100%;" kendo-combo-box=""
+                                                    placeholder="'1 - 4'" k-ng-model="item.obj[1901305077]"
+                                                    k-data-text-field="'text'" k-filter="'contains'"
+                                                    k-data-value-field="'value'" k-data-source="listGcsE">
+                                            </div>
+                                            <div class="grid_2"
+                                                style="margin-top:12px;margin-left:4%; margin-right: -13%;">
+                                                <label c-label="" item="item" required="">M</label>
+                                            </div>
+                                            <div class="grid_2">
+                                                <input required="" style="width: 100%;" kendo-combo-box=""
+                                                    placeholder="'1 - 6'" k-ng-model="item.obj[1901305078]"
+                                                    k-data-text-field="'text'" k-filter="'contains'"
+                                                    k-data-value-field="'value'" k-data-source="listGcsM">
+                                            </div>
+                                            <div class="grid_2"
+                                                style="margin-top:12px;margin-left:4%; margin-right: -13%;">
+                                                <label c-label="" item="item" required="">V</label>
+                                            </div>
+                                            <div class="grid_2">
+                                                <input required="" style="width: 100%;" kendo-combo-box=""
+                                                    placeholder="'1 - 5'" k-ng-model="item.obj[1901305079]"
+                                                    k-data-text-field="'text'" k-filter="'contains'"
+                                                    k-data-value-field="'value'" k-data-source="listGcsV">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid_12">
+                                            <div class="grid_2"
+                                                style="margin-top:12px; margin-left:28%; margin-right: -13%;">
+                                                <label c-label="" item="item" required="">E</label>
+                                            </div>
+                                            <div class="grid_2">
+                                                <input required="" style="width: 100%;" kendo-combo-box=""
+                                                    placeholder="'1 - 4'" k-ng-model="item.obj[1901305080]"
+                                                    k-data-text-field="'text'" k-filter="'contains'"
+                                                    k-data-value-field="'value'" k-data-source="listGcsE">
+                                            </div>
+                                            <div class="grid_2"
+                                                style="margin-top:12px;margin-left:4%; margin-right: -13%;">
+                                                <label c-label="" item="item" required="">M</label>
+                                            </div>
+                                            <div class="grid_2">
+                                                <input required="" style="width: 100%;" kendo-combo-box=""
+                                                    placeholder="'1 - 6'" k-ng-model="item.obj[1901305081]"
+                                                    k-data-text-field="'text'" k-filter="'contains'"
+                                                    k-data-value-field="'value'" k-data-source="listGcsM">
+                                            </div>
+                                            <div class="grid_2"
+                                                style="margin-top:12px;margin-left:4%; margin-right: -13%;">
+                                                <label c-label="" item="item" required="">V</label>
+                                            </div>
+                                            <div class="grid_2">
+                                                <input required="" style="width: 100%;" kendo-combo-box=""
+                                                    placeholder="'1 - 5'" k-ng-model="item.obj[1901305082]"
+                                                    k-data-text-field="'text'" k-filter="'contains'"
+                                                    k-data-value-field="'value'" k-data-source="listGcsV">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kondisi Umum</td>
+                                    <td>
+                                        <div class="grid_12">
+                                            <div class="grid_2" style="margin-top: 15px;">
+                                                <label for="">Sakit</label>
+                                            </div>
+                                            <div class="grid_5">
+                                                <input required="" style="width: 100%;" kendo-combo-box=""
+                                                    k-ng-model="item.obj[1901305083]" k-data-text-field="'text'"
+                                                    k-filter="'contains'" k-data-value-field="'value'"
+                                                    k-data-source="listKondisiUmum">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid_12">
+                                            <div class="grid_2" style="margin-top: 15px;">
+                                                <label for="">Sakit</label>
+                                            </div>
+                                            <div class="grid_5">
+                                                <input required="" style="width: 100%;" kendo-combo-box=""
+                                                    k-ng-model="item.obj[1901305084]" k-data-text-field="'text'"
+                                                    k-filter="'contains'" k-data-value-field="'value'"
+                                                    k-data-source="listKondisiUmum">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="5">
+                                        <div class="grid_12">
+                                            Tanda Vital :
+                                            <div class="grid_12" style="margin-top: 10px;">
+                                                <div class="grid_12">
+                                                    <label for="">Tekanan Darah</label>
+                                                </div>
+                                                <div class="grid_12" style="margin-top: 25px;">
+                                                    <label for="">Nadi</label>
+                                                </div>
+                                                <div class="grid_12" style="margin-top: 30px;">
+                                                    <label for="">Respirasi</label>
+                                                </div>
+                                                <div class="grid_12" style="margin-top: 30px;">
+                                                    <label for="">Suhu</label>
+                                                </div>
+                                                <div class="grid_12" style="margin-top: 30px;">
+                                                    <label for="">Spo2</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901305085]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">mmHg</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901305086]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">mmHg</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901305087]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">x/menit</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901305088]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">x/menit</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901305089]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">x/menit</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901305090]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">x/menit</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901305091]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">°C</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901305092]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">°C</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901308074]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">x/menit</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid_12 parentKeteranganFieldTambahan">
+                                            <input c-text-box="" type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.obj[1901308075]">
+                                            <label class="keteranganFieldTambahan"
+                                                style="margin-top: 5px;margin-right: 30px">x/menit</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <label for="">*) Coret yang tidak perlu</label>
+                    </div>
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <label for="">Beri tanda (x) Sesuai yang dipilih</label>
+                    </div>
+                    <div class="grid_12" style="margin-top: 20px;">
+                        <label for="">Atas Bantuannya kami ucapkan terimakasih</label>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_4">
+                            <div class="grid_3" style="margin-top:10px">
+                                <label c-label="" item="item" required="">Cianjur, </label>
+                            </div>
+                            <div class="grid_9">
+                                <input style="width: 100%" k-ng-model="item.obj[1901305093]" kendo-datetimepicker=""
+                                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                    parsedate="yyyy-MM-dd HH:mm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_4">
+                            <div class="grid_12" style="margin-top: 15px;">
+                                <label c-label="" item="item"><b>Dokter</b></label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box="" k-ng-model="item.obj[1901305094]"
+                                    k-data-text-field=" 'namalengkap' " k-data-value-field=" 'id' "
+                                    k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai">
+                            </div>
+                        </div>
+                        <div class="grid_4">
+                            <div class="grid_12" style="margin-top: 15px;">
+                                <label c-label="" item="item"><b>Yang mendampingi</b></label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box="" k-ng-model="item.obj[1901305095]"
+                                    k-data-text-field=" 'namalengkap' " k-data-value-field=" 'id' "
+                                    k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai">
+                            </div>
+                        </div>
+                        <div class="grid_4">
+                            <div class="grid_12" style="margin-top: 15px;">
+                                <label c-label="" item="item"><b>Perawat/Dokter yang menerima</b></label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box="" k-ng-model="item.obj[1901305096]"
+                                    k-data-text-field=" 'namalengkap' " k-data-value-field=" 'id' "
+                                    k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <hr>
+
+    </div>
+</div>
+<div class="grid_12">
+    <div class="grid_12" style="margin-top:10px">
+        <div class="grid_6"></div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="Save()"><b style="font-size:1.1em"><span class="fa fa-save"></span>
+                    SIMPAN</b></button>
+        </div>
+        <!-- <div class="grid_2" ng-show="isUpdate">
+            <button class="btnTemplate1" ng-click="Save()"><b style="font-size:1.1em"><span class="fa fa-save"></span> UPDATE</b></button>
+        </div> -->
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" onclick="history.back()"><b style="font-size:1.1em"><span
+                        class="fa fa-arrow-left"></span> KEMBALI</b></button>
+        </div>
+        <div class="grid_2 no-print">
+            <button class="btnTemplate1" onclick="printDiv('cetakRm')">
+                <b style="font-size:1.1em"><span class="fa fa-print"></span> CETAK</b>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div kendo-window="popUpCetak" k-title="'Preview Cetak Transfer Internal'" k-width="1200" k-height="700"
+    k-visible="false" k-on-close="customClicked()">
+    <div class="panel panel-default container_12" style="padding: 10px 10px;">
+        <div class="panel-body">
+            <div class="grid_12">
+                <div class="k-edit-buttons k-state-default pull-right" style="margin-top:10px">
+                    <a class="no-print k-button k-button-icontext" href="javascript:printDiv('cetakRm');"><span
+                            class="k-icon k-i-print"></span>Cetak PDF</a>
+                    <button class="k-button btnHapus k-button-icontext" ng-click="tutupSurat()"><span
+                            class="k-icon k-cancel"></span>Tutup</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="grid_12 animated containerBorderBox">
+                <div class="grid_12" style="margin-top: 10px">
+                    <div style="width: 100%" id="cetakRm">
+
+                        <div
+                            style="font-family: 'Times New Roman', Times, serif; color: #000; padding: 10px 20px; font-size: 12px;">
+
+                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
+                                <tr>
+                                    <td style="width: 60%; vertical-align: top;">
+                                        <div style="font-size: 14px; font-weight: bold; line-height: 1.3;">
+                                            POLRI DAERAH JAWA BARAT<br>
+                                            BIDANG KEDOKTERAN DAN KESEHATAN<br>
+                                            RUMAH SAKIT BHAYANGKARA TK IV CIANJUR
+                                        </div>
+                                    </td>
+                                    <td style="width: 40%; vertical-align: top;">
+                                        <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                                            <tr>
+                                                <td style="padding: 2px; width: 35%;">Tgl. Masuk</td>
+                                                <td style="padding: 2px; width: 5%;">:</td>
+                                                <td style="padding: 2px; width: 60%; border-bottom: 1px dotted #000;">
+                                                    {{header.tglmasuk | date:'dd/MM/yyyy'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 2px;">Jam Masuk</td>
+                                                <td style="padding: 2px;">:</td>
+                                                <td style="padding: 2px; border-bottom: 1px dotted #000;">
+                                                    {{header.tglmasuk | date:'HH:mm'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" style="height: 5px;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 2px;">Tgl. Pindah</td>
+                                                <td style="padding: 2px;">:</td>
+                                                <td style="padding: 2px; border-bottom: 1px dotted #000;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 2px;">Jam Pindah</td>
+                                                <td style="padding: 2px;">:</td>
+                                                <td style="padding: 2px; border-bottom: 1px dotted #000;"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div style="text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 5px;">
+                                TRANSFER INTERNAL
+                            </div>
+                            <div style="text-align: center; font-size: 12px; font-weight: bold; margin-bottom: 15px;">
+                                (Alih rawat / Pemeriksaan penunjang / Tindakan *)
+                            </div>
+
+                            <table style="width: 100%; font-size: 12px; margin-bottom: 10px;">
+                                <tr>
+                                    <td style="width: 120px;">Kepada Yth. TS</td>
+                                    <td>: <span
+                                            style="border-bottom: 1px dotted #000; display: inline-block; min-width: 250px;">{{
+                                            item.obj[1901304996].namalengkap || item.obj[1901304996] }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Di Ruang</td>
+                                    <td>: <span
+                                            style="border-bottom: 1px dotted #000; display: inline-block; min-width: 250px;">{{
+                                            item.obj[1901304995].namaruangan || item.obj[1901304995] }}</span></td>
+                                </tr>
+                            </table>
+
+                            <div style="margin-bottom: 5px; font-weight: bold;">Kami Kirimkan Pasien :</div>
+
+                            <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                                <tr>
+                                    <td style="width: 20px; vertical-align: top; padding: 3px;">1</td>
+                                    <td style="width: 180px; vertical-align: top; padding: 3px;">No. RM</td>
+                                    <td style="width: 10px; vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901304997] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">2</td>
+                                    <td style="vertical-align: top; padding: 3px;">Nama Pasien</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901304998] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">3</td>
+                                    <td style="vertical-align: top; padding: 3px;">Tanggal Lahir</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td
+                                        style="width: 250px; vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">
+                                        {{ item.obj[1901304999] }}</td>
+                                    <td style="width: 120px; vertical-align: top; padding: 3px;">Jenis Kelamin :</td>
+                                    <td style="vertical-align: top; padding: 3px;">
+                                        <span
+                                            style="text-decoration: {{ item.obj[1901305001] ? 'none' : 'line-through' }};">L</span>
+                                        /
+                                        <span
+                                            style="text-decoration: {{ item.obj[1901305002] ? 'none' : 'line-through' }};">P</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">4</td>
+                                    <td style="vertical-align: top; padding: 3px;">Asal Ruangan / Poliklinik</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305000] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">5</td>
+                                    <td style="vertical-align: top; padding: 3px;">Status</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305003] || 'BPJS / SKTM / Rekanan / Umum / Trauma Center / Jasa
+                                        Raharja *)' }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">6</td>
+                                    <td style="vertical-align: top; padding: 3px;">Indikasi Rawat Inap</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305004] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">7</td>
+                                    <td style="vertical-align: top; padding: 3px;">Ringkasan Riwayat Penyakit</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305005] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">8</td>
+                                    <td style="vertical-align: top; padding: 3px;">Pemeriksaan Fisik</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305006] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">9</td>
+                                    <td style="vertical-align: top; padding: 3px;">Pemeriksaan Penunjang</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305007] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">10</td>
+                                    <td style="vertical-align: top; padding: 3px;">Diagnosa Utama</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305008] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">11</td>
+                                    <td style="vertical-align: top; padding: 3px;">Diagnosa Sekunder</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305009] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">12</td>
+                                    <td style="vertical-align: top; padding: 3px;">Alasan transfer</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3" style="vertical-align: top; padding: 3px;">
+                                        <div style="margin-bottom: 4px;">
+                                            <span
+                                                style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span
+                                                    ng-if="item.obj[1901305010]">&radic;</span></span>
+                                            Alih Rawat Ke <span
+                                                style="border-bottom: 1px dotted #000; display: inline-block; min-width: 300px;">{{
+                                                item.obj[1901305011] }}</span>
+                                        </div>
+                                        <div style="margin-bottom: 4px;">
+                                            <span
+                                                style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span
+                                                    ng-if="item.obj[1901305012]">&radic;</span></span>
+                                            Pemeriksaan Penunjang yang akan dilakukan : <span
+                                                style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px;">{{
+                                                item.obj[1901305013] }}</span>
+                                        </div>
+                                        <div>
+                                            <span
+                                                style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span
+                                                    ng-if="item.obj[1901305014]">&radic;</span></span>
+                                            Tindakan yang dilakukan <span
+                                                style="border-bottom: 1px dotted #000; display: inline-block; min-width: 250px;">{{
+                                                item.obj[1901305015] }}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">13</td>
+                                    <td style="vertical-align: top; padding: 3px;">Prosedur yang telah dilakukan</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305016] }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: top; padding: 3px;">14</td>
+                                    <td style="vertical-align: top; padding: 3px;">Terapi (Obat / Tindakan)</td>
+                                    <td style="vertical-align: top; padding: 3px;">:</td>
+                                    <td colspan="3"
+                                        style="vertical-align: top; padding: 3px; border-bottom: 1px dotted #000;">{{
+                                        item.obj[1901305017] }}</td>
+                                </tr>
+                            </table>
+
+                            <table
+                                style="width: 100%; border-collapse: collapse; margin-top: 10px; border: 1px solid #000; text-align: center;">
+                                <thead style="font-weight: bold;">
+                                    <tr>
+                                        <th style="border: 1px solid #000; padding: 5px; width: 5%;">No</th>
+                                        <th style="border: 1px solid #000; padding: 5px; width: 30%;">Nama Obat / Cairan
+                                            Infus</th>
+                                        <th style="border: 1px solid #000; padding: 5px; width: 15%;">Sediaan</th>
+                                        <th style="border: 1px solid #000; padding: 5px; width: 20%;">Tgl & Jam Mulai
+                                        </th>
+                                        <th style="border: 1px solid #000; padding: 5px; width: 20%;">Dosis & Frekuensi
+                                        </th>
+                                        <th style="border: 1px solid #000; padding: 5px; width: 10%;">Rute</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="baris in listBarisObat" ng-if="item.obj[baris.idNamaObat]">
+                                        <td style="border: 1px solid #000; padding: 5px;">{{ $index + 1 }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">{{ item.obj[baris.idNamaObat]
+                                            }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">{{ item.obj[baris.idSediaan]
+                                            }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">{{ item.obj[baris.idTglJam] }}
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 5px;">{{ item.obj[baris.idDosis] }}
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 5px;">{{ item.obj[baris.idRute] }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table style="width: 100%; font-size: 12px; margin-top: 10px;">
+                                <tr>
+                                    <td style="width: 250px;">Rencana Tindakan / Terapi Selanjutnya</td>
+                                    <td style="width: 10px;">:</td>
+                                    <td style="border-bottom: 1px dotted #000;">{{ item.obj[1901305048] }}</td>
+                                </tr>
+                            </table>
+
+                            <table
+                                style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 15px; line-height: 2;">
+                                <tr>
+                                    <td style="width: 200px; vertical-align: top;">Peralatan yang digunakan pasien</td>
+                                    <td style="width: 10px; vertical-align: top;">:</td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305049]">&radic;</span></span> Oksigen
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305050]">&radic;</span></span> Kateter
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305051]">&radic;</span></span> Suction
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305052]">&radic;</span></span> Ventilator
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305053]">&radic;</span></span> NGT
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305054]">&radic;</span></span> Infus Pump
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305055]">&radic;</span></span> Valve Bag Mask
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305056]">&radic;</span></span> Syringe Pump
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Metode Transfer</td>
+                                    <td>:</td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305057]">&radic;</span></span> Kursi Roda
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305058]">&radic;</span></span> Brankar
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305059]">&radic;</span></span> Tempat Tidur
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305060]">&radic;</span></span> {{
+                                        item.obj[1901305061] || '.........' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Resiko Jatuh</td>
+                                    <td>:</td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305062]">&radic;</span></span> Rendah
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305063]">&radic;</span></span> Sedang
+                                    </td>
+                                    <td colspan="2">
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305064]">&radic;</span></span> Tinggi
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kelengkapan Dokumen</td>
+                                    <td>:</td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305065]">&radic;</span></span> Rekam Medis
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305066]">&radic;</span></span> Rontgen
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305067]">&radic;</span></span> EKG
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305068]">&radic;</span></span> USG
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305069]">&radic;</span></span> Laboratorium
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305070]">&radic;</span></span> PA
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305071]">&radic;</span></span> Endoscopy
+                                    </td>
+                                    <td>
+                                        <span
+                                            style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px; margin-right:4px;"><span
+                                                ng-if="item.obj[1901305072]">&radic;</span></span> CT Scan/MSCT
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table
+                                style="width: 100%; border-collapse: collapse; margin-top: 15px; border: 1px solid #000;">
+                                <thead style="font-weight: bold; text-align: center;">
+                                    <tr>
+                                        <th style="border: 1px solid #000; padding: 8px; width: 30%;">KONDISI UMUM</th>
+                                        <th style="border: 1px solid #000; padding: 8px; width: 35%;">SEBELUM DITRANSFER
+                                        </th>
+                                        <th style="border: 1px solid #000; padding: 8px; width: 35%;">TIBA DI TEMPAT
+                                            TUJUAN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #000; padding: 5px;">Keadaan Umum</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">: {{ item.obj[1901305073] }}
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 5px;">: {{ item.obj[1901305074] }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #000; padding: 5px;">Kesadaran</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">: {{ item.obj[1901305075].text
+                                            || item.obj[1901305075] }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">: {{ item.obj[1901305076].text
+                                            || item.obj[1901305076] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #000; padding: 5px;">GCS : EVM</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">GCS : E {{
+                                            item.obj[1901305077].text || '-' }} V {{ item.obj[1901305079].text || '-' }}
+                                            M {{ item.obj[1901305078].text || '-' }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">GCS : E {{
+                                            item.obj[1901305080].text || '-' }} V {{ item.obj[1901305082].text || '-' }}
+                                            M {{ item.obj[1901305081].text || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #000; padding: 5px;">Kondisi Umum</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">Sakit {{
+                                            item.obj[1901305083].text || item.obj[1901305083] }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">Sakit {{
+                                            item.obj[1901305084].text || item.obj[1901305084] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #000; padding: 5px; vertical-align: top;">
+                                            Tanda Vital :
+                                            <table
+                                                style="width: 100%; border: none; margin-top: 10px; font-size: 11px;">
+                                                <tr>
+                                                    <td style="text-align: right; padding: 3px;">Tekanan Darah</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: right; padding: 3px;">Nadi</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: right; padding: 3px;">Respirasi</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: right; padding: 3px;">Suhu</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 5px; vertical-align: bottom;">
+                                            <table
+                                                style="width: 100%; border: none; margin-top: 10px; font-size: 11px;">
+                                                <tr>
+                                                    <td
+                                                        style="text-align: center; padding: 3px; border-bottom: 1px dotted #000;">
+                                                        {{ item.obj[1901305085] }} mmHg</td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="text-align: center; padding: 3px; border-bottom: 1px dotted #000;">
+                                                        {{ item.obj[1901305087] }} x/menit</td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="text-align: center; padding: 3px; border-bottom: 1px dotted #000;">
+                                                        {{ item.obj[1901305089] }} x/menit</td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="text-align: center; padding: 3px; border-bottom: 1px dotted #000;">
+                                                        {{ item.obj[1901305091] }} &deg;C</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 5px; vertical-align: bottom;">
+                                            <table
+                                                style="width: 100%; border: none; margin-top: 10px; font-size: 11px;">
+                                                <tr>
+                                                    <td
+                                                        style="text-align: center; padding: 3px; border-bottom: 1px dotted #000;">
+                                                        {{ item.obj[1901305086] }} mmHg</td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="text-align: center; padding: 3px; border-bottom: 1px dotted #000;">
+                                                        {{ item.obj[1901305088] }} x/menit</td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="text-align: center; padding: 3px; border-bottom: 1px dotted #000;">
+                                                        {{ item.obj[1901305090] }} x/menit</td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="text-align: center; padding: 3px; border-bottom: 1px dotted #000;">
+                                                        {{ item.obj[1901305092] }} &deg;C</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div style="font-size: 11px; font-style: italic; margin-top: 10px;">
+                                *) Coret yang tidak perlu<br>
+                                Beri tanda (X) sesuai yang dipilih
+                            </div>
+
+                            <div style="margin-top: 15px;">
+                                Atas bantuannya kami ucapkan terimakasih.
+                            </div>
+
+                            <div style="margin-top: 15px;">
+                                Bandung, {{ item.obj[1901305093] | date:'dd MMMM yyyy HH:mm' }}
+                            </div>
+
+                            <table
+                                style="width: 100%; text-align: center; margin-top: 10px; font-size: 12px; page-break-inside: avoid;">
+                                <tr>
+                                    <td style="width: 33.33%;">Dokter yang mengirim</td>
+                                    <td style="width: 33.33%;">Yang mendampingi</td>
+                                    <td style="width: 33.33%;">Perawat / Dokter yang menerima</td>
+                                </tr>
+                                <tr>
+                                    <td style="height: 80px; vertical-align: middle;">
+                                        <img ng-if="item.qr" ng-src="{{item.qr}}" alt="QR Code"
+                                            style="max-width: 80px; max-height: 80px;" />
+                                    </td>
+                                    <td style="height: 80px; vertical-align: middle;">
+                                        <img ng-if="item.qr2" ng-src="{{item.qr2}}" alt="QR Code"
+                                            style="max-width: 80px; max-height: 80px;" />
+                                    </td>
+                                    <td style="height: 80px; vertical-align: middle;">
+                                        <img ng-if="item.qr3" ng-src="{{item.qr3}}" alt="QR Code"
+                                            style="max-width: 80px; max-height: 80px;" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span
+                                            style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px;">{{
+                                            item.obj[1901305094].namalengkap || item.obj[1901305094] }}</span></td>
+                                    <td><span
+                                            style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px;">{{
+                                            item.obj[1901305095].namalengkap || item.obj[1901305095] }}</span></td>
+                                    <td><span
+                                            style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px;">{{
+                                            item.obj[1901305096].namalengkap || item.obj[1901305096] }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Tanda tangan dan Nama jelas</td>
+                                    <td>Tanda tangan dan Nama jelas</td>
+                                    <td>Tanda tangan dan Nama jelas</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<textarea id="printing-css" style="display:none;">
+    @page { size: A4 portrait; margin: 1cm; }
+    body { font-family: 'Times New Roman', Times, serif; }
+    .no-print { display:none } 
+    #newPage { page-break-before: always; } 
+    -webkit-print-color-adjust: exact !important;
+    .ng-hide { display: none !important; }
+    
+    /* Memastikan tabel dan border tercetak sempurna */
+    table { page-break-inside: auto; }
+    tr    { page-break-inside: avoid; page-break-after: auto; }
+    thead { display: table-header-group; }
+    tfoot { display: table-footer-group; }
+</textarea>
+<iframe id="printing-frame" name="print_frame" src="about:blank" style="display:none;"></iframe>
+
+<script type="text/javascript">
+    function printDiv(divName) {
+        var a = document.getElementById('printing-css').value;
+        var b = document.getElementById(divName).innerHTML;
+        window.frames["print_frame"].document.title = "Transfer Internal PDF";
+        window.frames["print_frame"].document.body.innerHTML = '<style>' + a + '</style>' + b;
+        window.frames["print_frame"].window.focus();
+        window.frames["print_frame"].window.print();
+    }
+</script>

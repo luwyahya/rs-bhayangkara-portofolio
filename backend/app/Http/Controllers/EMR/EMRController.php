@@ -30842,5 +30842,27 @@ WHERE rm.norec = '$norec_resume'
         return $this->respond($result);
     }
 
+    public function getRiwayatTransferInternal(Request $request)
+    {
+        $data = \DB::table('emrpasien_t as ep')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'ep.pegawaifk')
+            ->leftjoin('emrpasiend_t as pd', 'pd.emrpasienfk', '=', 'ep.noemr')
+
+            ->select('ep.tglemr', 'pg.namalengkap', 'ep.norec', 'ep.noemr', 'pd.value')
+            ->where('ep.noregistrasifk', $request['noregistrasi'])
+            ->where('ep.emrfk', 2078)
+            ->where('pd.emrfk', 2078)
+            ->where('pd.emrdfk', 1901305094);
+
+        if (isset($request['noemr']) && $request['noemr'] != '') {
+            $data = $data->where('ep.noemr', '=', $request['noemr']);
+        }
+
+        $data = $data->orderBy('ep.tglemr', 'desc')
+            ->get();
+
+        return $this->respond($data);
+    }
+
 
 }
