@@ -113,6 +113,7 @@ FROM
 		INNER JOIN maphasillab_m AS maps ON maps.produkfk = prd. ID
 		INNER JOIN maphasillabdetail_m AS maps2 ON maps2.maphasilfk = maps. ID
 		AND maps2.jeniskelaminfk = $P{jeniskelamin}
+		AND maps2.statusenabled = true
 		AND maps2.kelompokumurfk IN (
 			SELECT
 				ID
