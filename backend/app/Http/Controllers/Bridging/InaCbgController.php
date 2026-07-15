@@ -39,8 +39,8 @@ class InaCbgController   extends ApiController
         ini_set('max_execution_time', 1000); //6 minutes
         $data  = \DB::table('settingdatafixed_m')
             ->select('namafield', 'nilaifield')
-            // ->where('keteranganfungsi','inacbg')
-            ->where('keteranganfungsi', 'inacbgidrgdev')
+            ->where('keteranganfungsi', 'inacbg')
+            // ->where('keteranganfungsi', 'inacbgidrgdev')
             ->get();
         //        return $data;
         foreach ($data as $item) {

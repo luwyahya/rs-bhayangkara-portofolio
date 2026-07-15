@@ -2265,8 +2265,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: 0,
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              // kode_tarif: "CP",
-              kode_tarif: "AP",
+              // kode_tarif: "AP",
+              kode_tarif: "DP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -2462,8 +2462,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: "",
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              // kode_tarif: "CP",
-              kode_tarif: "AP",
+              // kode_tarif: "AP",
+              kode_tarif: "DP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -10462,8 +10462,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: 0,
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              // kode_tarif: "CP",
-              kode_tarif: "AP",
+              // kode_tarif: "AP",
+              kode_tarif: "DP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -10562,7 +10562,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
                   } else {
                     console.error("Gagal update status GROUPING IDRG", updateRes);
                   }
-                } catch(err) {
+                } catch (err) {
                   console.error("Error update status GROUPING IDRG", err);
                 }
               }
@@ -10669,8 +10669,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
               covid19_cc_ind: "",
               tarif_poli_eks: "",
               nama_dokter: $scope.item.data[0].namadokter, //"RUDY, DR",
-              // kode_tarif: "CP",
-              kode_tarif: "AP",
+              // kode_tarif: "AP",
+              kode_tarif: "DP",
               payor_id: $scope.item.data[0].kodejaminan, //"3",
               payor_cd: $scope.item.data[0].jaminan,
               cob_cd: "#",
@@ -10762,7 +10762,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
                   } else {
                     console.error("Gagal update status GROUPING IDRG", updateRes);
                   }
-                } catch(err) {
+                } catch (err) {
                   console.error("Error update status GROUPING IDRG", err);
                 }
               }
