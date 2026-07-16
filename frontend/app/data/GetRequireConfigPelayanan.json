@@ -3155,6 +3155,10 @@
         {
             "nameDep": "GeneralConsentCtrl",
             "urlDep": "module/EMR/GeneralConsentCtrl"
+        },
+        {
+            "nameDep": "CatatanPemberianObatCtrl",
+            "urlDep": "module/EMR/CatatanPemberianObatCtrl"
         }
     ]
 }

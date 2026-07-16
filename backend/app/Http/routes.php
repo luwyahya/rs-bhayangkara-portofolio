@@ -895,6 +895,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-combo-dokter-new', 'EMR\EMRController@getComboDokter');
             Route::get('get-riwayat-transfer-internal', 'EMR\EMRController@getRiwayatTransferInternal');
             Route::post('delete-riwayat-transfer-internal/{method}', 'EMR\EMRController@deleteRiwayatLaporanTransferInternal');
+            Route::get('get-riwayat-catatan-pemberian-obat', 'EMR\EMRController@getRiwayatCatatanPemberianObat');
 
             //2023-11-01 By Toha
             Route::get('get-detail-dokter-cppt-new', 'EMR\EMRController@getDetailDokterCpptNew');

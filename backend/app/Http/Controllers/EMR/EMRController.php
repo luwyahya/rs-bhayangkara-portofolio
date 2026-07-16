@@ -30896,5 +30896,89 @@ WHERE rm.norec = '$norec_resume'
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
 
+    public function getRiwayatCatatanPemberianObat(Request $request)
+    {
+        $query = \DB::table('emrpasien_t as ep')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'ep.pegawaifk')
+            ->leftjoin('emrpasiend_t as pd', 'pd.emrpasienfk', '=', 'ep.noemr')
+            ->select('ep.tglemr', 'pg.namalengkap', 'ep.norec', 'ep.noemr', 'pd.value')
+            ->where('ep.noregistrasifk', $request['noregistrasi'])
+            ->where('ep.emrfk', 2076)
+            ->where('pd.emrfk', 2076)
+            ->where('pd.emrdfk', 1239);
+
+        if (isset($request['noemr']) && $request['noemr'] != '') {
+            $query = $query->where('ep.noemr', '=', $request['noemr']);
+        }
+
+        $data = $query->orderBy('ep.tglemr', 'desc')
+            ->get();
+
+        // BUNGKUS $data MENGGUNAKAN collect()
+        $dataFiltered = collect($data)->unique('noemr')->values();
+
+        // Return data yang sudah difilter
+        return $this->respond($dataFiltered);
+    }
+
+    public function getOrderPenunjangToCpo(Request $request)
+    {
+        $data = \DB::table('strukorder_t as so')
+            ->join('orderpelayanan_t as op', 'op.strukorderfk', '=', 'so.norec')
+            ->join('produk_m as pro', 'pro.id', '=', 'op.objectprodukfk')
+            ->select('pro.namaproduk', 'so.keteranganorder', 'so.objectruangantujuanfk', 'op.aturanpakai')
+            ->where('so.noregistrasifk', $request['norec_pd'])
+            ->where('so.keteranganorder','=','Order Farmasi')
+            ->orderBy('so.objectruangantujuanfk')
+            ->get();
+
+        return $this->respond($data);
+    }
+    
+    public function getValueSPRI(Request $request)
+    {
+        try {
+            $emrPasien = DB::table('emrpasien_t as ep')
+                ->join('pegawai_m as pg', 'ep.pegawaifk', '=', 'pg.id')
+                ->select('ep.noemr', 'ep.emrfk', 'ep.tglemr')
+                ->where('ep.statusenabled', true)
+                ->where('ep.emrfk', 2022)
+                ->where('ep.noregistrasifk', $request['noRegistrasi'])
+                ->orderBy('ep.tglemr', 'desc')
+                ->first();
+            // $detailEmr = DB::table('emrpasiend_t')
+            //     ->select('value', 'emrdfk')
+            //     ->where('emrpasienfk', $emrPasien->noemr)
+            //     ->where('emrfk', $emrPasien->emrfk)
+            //     // ->where('tgl', $emrPasien->tglemr)
+            //     ->get();
+
+            $detailEmr = DB::table(DB::raw("
+                    (
+                        SELECT ed.value, ed.emrdfk, ed.tgl,
+                            ROW_NUMBER() OVER (PARTITION BY ed.emrdfk ORDER BY ed.tgl DESC) as rn
+                        FROM emrpasiend_t ed
+                        WHERE ed.emrpasienfk = '".$emrPasien->noemr."'
+                        AND ed.emrfk = ".$emrPasien->emrfk."
+                    ) as sub
+                "))
+                ->where('rn', 1)
+                ->select('value', 'emrdfk', 'tgl')
+                ->get();
+
+            $response = [
+                "message" => "Oke",
+                'messageCode' => 200,
+                "data" => $detailEmr
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => $e->errorInfo,
+                "messageCode" => 500
+            ];
+        }
+        return $this->respond($response);
+    }
+
 
 }
