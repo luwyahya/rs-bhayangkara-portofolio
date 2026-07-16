@@ -3151,6 +3151,10 @@
         {
             "nameDep": "TransferInternalCtrl",
             "urlDep": "module/EMR/TransferInternalCtrl"
+        },
+        {
+            "nameDep": "GeneralConsentCtrl",
+            "urlDep": "module/EMR/GeneralConsentCtrl"
         }
     ]
 }

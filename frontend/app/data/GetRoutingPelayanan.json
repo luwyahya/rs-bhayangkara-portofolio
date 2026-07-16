@@ -17735,5 +17735,37 @@
                 "define": "ModulTindakanCtrl"
             }
         ]
+    },
+    {
+        "name": "RekamMedis.GeneralConsent",
+        "url": "/GeneralConsent",
+        "templateurl": "module/EMR/GeneralConsent.html",
+        "controller": "GeneralConsentCtrl",
+        "deps": [
+            {
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            },
+            {
+                "define": "RekamMedisCtrl"
+            },
+            {
+                "define": "ModulEmrCtrl"
+            },
+            {
+                "define": "ModulDiagnosaCtrl"
+            },
+            {
+                "define": "ModulTindakanCtrl"
+            }
+        ]
     }
 ]

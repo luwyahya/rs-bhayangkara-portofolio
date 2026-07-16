@@ -1,0 +1,321 @@
+<div class="grid_12">
+    <style>
+        .tg-consent {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 13px;
+            font-family: "Arial", sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .tg-consent th,
+        .tg-consent td {
+            border: 1px solid #000;
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        .tg-consent th {
+            background-color: #f2f2f2;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .text-center {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .list-alpha {
+            margin: 5px 0 0 15px;
+            padding-left: 10px;
+        }
+
+        .list-alpha li {
+            margin-bottom: 5px;
+            text-align: justify;
+        }
+
+        .k-checkbox-label.no-margin {
+            margin-left: 0;
+            padding-left: 20px;
+        }
+
+        .input-inline {
+            border: none;
+            border-bottom: 1px dotted black;
+            background: transparent;
+            outline: none;
+            width: 200px;
+            padding: 2px 5px;
+        }
+    </style>
+
+    <div style="margin-bottom: 10px" class="panel panel-default container_12">
+        <div class="panel-heading" c-translate="">Persetujuan Umum Rawat Jalan</div>
+    </div>
+    <div class="grid_12">
+        <fieldset>
+            <table class="tg-consent">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">NO</th>
+                        <th style="width: 80%;">MATERI INFORMASI / PENJELASAN</th>
+                        <th style="width: 15%;">TANDA (☑)<br>DI ISI OLEH PASIEN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center font-bold">1</td>
+                        <td>
+                            <div class="font-bold">Hak dan Kewajiban Pasien / Keluarga</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya sudah mendapatkan penjelasan dan mengerti tentang hak dan kewajiban saya
+                                    sebagai pasien/keluarga sesuai dengan yang termuat dalam leaflet.</li>
+                                <li>Saya diinformasikan tentang tata tertib yang berlaku di Rumah Sakit Bhayangkara TK
+                                    IV Cianjur.</li>
+                                <li>Sebagai Pasien saya memiliki hak mendapatkan penjelasan tentang informasi medis dan
+                                    mengajukan pertanyaan tentang pengobatan yang diusulkan, menyetujui dan menolak
+                                    tindakan atau pengobatan setelah mendapatkan penjelasan.</li>
+                            </ol>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901311516]"
+                                ng-model="item.obj[1901311516]" ng-init="item.obj[1901311516] = true"><label
+                                class="k-checkbox-label no-margin" for="item.obj[1901311516]"></label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">2</td>
+                        <td>
+                            <div class="font-bold">Pengobatan / Tindakan Medis</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya mengerti bahwa tindakan kedokteran adalah berisiko, meliputi tindakan medis
+                                    berupa pencegahan, pengobatan dan pemulihan yang dilakukan oleh dokter / dokter gigi
+                                    terhadap pasien.</li>
+                                <li>Saya mengizinkan dokter dan pemberi asuhan lainnya untuk melakukan pengkajian,
+                                    prosedur diagnostic dan pengobatan medis seperti yang diperlukan dalam penilaian
+                                    professional mereka, termasuk tapi tidak terbatas pada pemeriksaan Elektrocardiogram
+                                    (EKG), X-ray dan test darah, terapi fisik, pemberian obat dan prosedur lainnya yang
+                                    berisiko rendah yang tidak membutuhkan persetujuan khusus.</li>
+                                <li>Saya diinformasikan bahwa dalam tindakan kedokteran dapat terjadi adanya kejadian
+                                    tidak terduga diharapkan yang dapat merupakan efek samping dari tindakan kedokteran
+                                    yang tidak dapat di duga sebelumnya termasuk antara lain, namun tidak terbatas pada
+                                    Steven Jhonson Syndrome dan syok anafilaktik dan akan dijelaskan oleh dokter.</li>
+                            </ol>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901311517]"
+                                ng-model="item.obj[1901311517]" ng-init="item.obj[1901311517] = true"><label
+                                class="k-checkbox-label no-margin" for="item.obj[1901311517]"></label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">3</td>
+                        <td>
+                            <div class="font-bold">Informasi Medis dan Pelepasan Informasi (Kerahasiaan)</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya mengerti bahwa informasi medis pasien termasuk diagnosa, hasil laboratorium dan
+                                    hasil test diagnostik yang digunakan untuk perawatan dan pengobatan medis akan di
+                                    jaga kerahasiaannya oleh rumah sakit, kecuali saya mengungkapkan sendiri atau
+                                    memberikan kuasa kepada orang lain.</li>
+                                <li>Saya menyetujui dan memberikan wewenang kepada rumah sakit menggunakan informasi
+                                    medis pasien untuk kepentingan perawatan dan pengobatan, penagihan kepada asuransi /
+                                    pembayaran biaya pengobatan dan pembahasan / pemantauan yang dibutuhkan oleh rumah
+                                    sakit.</li>
+                            </ol>
+                            <div style="margin-top: 5px;">
+                                Jika saya menghendaki pelepasan informasi yang tidak diatur oleh undang-undang / aturan
+                                terkait tentang informasi kesehatan, diagnosis, pemeriksaan dan pengobatan, maka sebagai
+                                pasien / keluarga akan membuat penyataan.
+                            </div>
+                            <div style="margin-top: 10px; font-weight: bold;">
+                                Saya memberi kuasa tentang informasi medis dan pelepasan informasi medis saya kepada :
+                            </div>
+                            <div style="margin-top: 5px; margin-left: 10px;">
+                                a. <input c-text-box="" type="text" class="k-textbox" ng-model="item.obj[1901311518]"
+                                    placeholder="Nama Lengkap"> hubungan dengan pasien <input c-text-box="" type="text"
+                                    class="k-textbox" style="width: 150px;" ng-model="item.obj[1901311519]"
+                                    placeholder="Keluarga/Saudara/Dll">
+                            </div>
+                            <div style="margin-top: 5px; margin-left: 10px;">
+                                b. <input c-text-box="" type="text" class="k-textbox" ng-model="item.obj[1901311520]"
+                                    placeholder="Nama Lengkap"> hubungan dengan pasien <input c-text-box="" type="text"
+                                    class="k-textbox" style="width: 150px;" ng-model="item.obj[1901311521]"
+                                    placeholder="Keluarga/Saudara/Dll">
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901311522]"
+                                ng-model="item.obj[1901311522]" ng-init="item.obj[1901311522] = true"><label
+                                class="k-checkbox-label no-margin" for="item.obj[1901311522]"></label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">4</td>
+                        <td>
+                            <div class="font-bold">Keamanan Barang Berharga Milik Pasien</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya diinformasikan bahwa pasien yang tidak dapat menjaga barang miliknya misalnya
+                                    pasien gawat darurat, tidak sadar, tindakan bedah rawat sehari, dan pasien yang
+                                    menyatakan tidak mampu menjaga barang miliknya, dan tidak ada keluarga, maka dapat
+                                    menitipkan kepada rumah sakit dengan mengisi formulir penitipan barang.</li>
+                                <li>Pasien dan keluarga diwajibkan menjaga barang miliknya dan tidak meninggalkan barang
+                                    tanpa ada yang menjaganya, karena poliklinik / rawat jalan merupakan area umum /
+                                    area publik, kehilangan barang yang tidak dititipkan kepada rumah sakit adalah
+                                    tanggung jawab pribadi.</li>
+                            </ol>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901311523]"
+                                ng-model="item.obj[1901311523]" ng-init="item.obj[1901311523] = true"><label
+                                class="k-checkbox-label no-margin" for="item.obj[1901311523]"></label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">5</td>
+                        <td>
+                            <div class="font-bold">Informasi Pelayanan dan Fasilitas Rumah Sakit</div>
+                            <div style="margin-top: 5px;">
+                                Saya telah diinformasikan tentang jenis pelayanan di rumah sakit, fasilitas dan cara
+                                untuk mendapatkan pelayanan Rawat jalan dan pemeriksaan penunjang / tindakan /
+                                pengobatan di rumah sakit dengan fasilitas leaflet / flyer.
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901311524]"
+                                ng-model="item.obj[1901311524]" ng-init="item.obj[1901311524] = true"><label
+                                class="k-checkbox-label no-margin" for="item.obj[1901311524]"></label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">6</td>
+                        <td>
+                            <div class="font-bold">Persetujuan untuk Pengobatan</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya memberikan kuasa kepada pihak RS Bhayangkara TK IV Cianjuruntuk
+                                    memberikan perawatan, pemeriksaan fisik, prosedur diagnostic, radiologi dan/atau
+                                    terapi.</li>
+                                <li>Saya mengetahui bahwa RS Bhayangkara TK IV Cianjur merupakan RS Pendidikan yang
+                                    menjadi tempat praktik klinik bagi mahasiswa kedokteran dan profesi kesehatan
+                                    lainnya, dengan demikian saya bersedia berpartisipasi atau terlibat dalam perawatan
+                                    dan pengembangan ilmu pengetahuan dibawah supervisi dokter penanggung jawab
+                                    pelayanan (DPJP).</li>
+                            </ol>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901311525]"
+                                ng-model="item.obj[1901311525]" ng-init="item.obj[1901311525] = true"><label
+                                class="k-checkbox-label no-margin" for="item.obj[1901311525]"></label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">7</td>
+                        <td>
+                            <div class="font-bold">Informasi Biaya</div>
+                            <div style="margin-top: 5px;">
+                                Saya sudah mendapatkan penjelasan tentang informasi biaya sebagai konsekuensi pengobatan
+                                / tindakan yang diberikan kepada saya / keluarga saya * sebagai pasien dan bersedia
+                                untuk memenuhi kewajiban finansial ini setelah mendapatkan pelayanan baik jaminan,
+                                asuransi, pribadi.
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901311526]"
+                                ng-model="item.obj[1901311526]" ng-init="item.obj[1901311526] = true"><label
+                                class="k-checkbox-label no-margin" for="item.obj[1901311526]"></label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="grid_12"
+                style="background-color: #f2f2f2; padding: 15px; border: 1px solid black; text-align: center; font-weight: bold; margin-bottom: 20px;">
+                SAYA TELAH DIJELASKAN, MEMBACA, MEMAHAMI, dan SEPENUHNYA SETUJU<br>terhadap pernyataan tersebut diatas
+            </div>
+
+            <div class="grid_12">
+                <div class="grid_6" style="text-align: center;">
+                    <div style="margin-bottom: 10px;">Cianjur, <input style="width: 130px;" kendo-date-picker=""
+                            k-ng-model="item.obj[1901311527]" k-format="'dd-MM-yyyy'"></div>
+                    <div style="margin-bottom: 50px; font-weight: bold;">Petugas Rumah Sakit</div>
+                    <div style="padding: 0 40px;">
+                        <input style="width: 60%;" kendo-combo-box="" k-ng-model="item.obj[1901311528]"
+                            k-data-text-field=" 'namalengkap' " k-data-value-field=" 'id' " k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listPegawai">
+                    </div>
+                </div>
+
+                <div class="grid_6" style="text-align: center;">
+                    <div style="margin-bottom: 10px; visibility: hidden;">Spacer</div>
+                    <div style="margin-bottom: 50px; font-weight: bold;">Pasien / Keluarga / Penanggung Jawab</div>
+                    <div style="padding: 0 40px;">
+                        <input c-text-box="" type="text" class="k-textbox" style="width: 100%; text-align: center;"
+                            ng-model="item.obj[1901311529]">
+                    </div>
+
+                    <div style="margin-top: 10px; text-align: left; padding-left: 20px; font-size: 12px;">
+                        <b>Hubungan dengan pasien:</b><br>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px;">
+                            <div>
+                                <input type="checkbox" class="k-checkbox" id="item.obj[1901311530]"
+                                    ng-model="item.obj[1901311530]">
+                                <label class="k-checkbox-label" for="item.obj[1901311530]">Pasien Sendiri</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="k-checkbox" id="item.obj[1901311531]"
+                                    ng-model="item.obj[1901311531]">
+                                <label class="k-checkbox-label" for="item.obj[1901311531]">Suami</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="k-checkbox" id="item.obj[1901311532]"
+                                    ng-model="item.obj[1901311532]">
+                                <label class="k-checkbox-label" for="item.obj[1901311532]">Istri</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="k-checkbox" id="item.obj[1901311533]"
+                                    ng-model="item.obj[1901311533]">
+                                <label class="k-checkbox-label" for="item.obj[1901311533]">Orang Tua</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="k-checkbox" id="item.obj[1901311534]"
+                                    ng-model="item.obj[1901311534]">
+                                <label class="k-checkbox-label" for="item.obj[1901311534]">P. Jawab Pasien</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+
+
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_6"></div>
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="Save()"><b style="font-size:1.1em"><span
+                            class="fa fa-save"></span> SIMPAN</b></button>
+            </div>
+            <div class="grid_2">
+                <button class="btnTemplate1 cancel" onclick="history.back()"><b style="font-size:1.1em"><span
+                            class="fa fa-arrow-left"></span> KEMBALI</b></button>
+            </div>
+            <div class="grid_2 no-print">
+                <button class="btnTemplate1" onclick="printDiv('cetakRm')">
+                    <b style="font-size:1.1em"><span class="fa fa-print"></span> CETAK</b>
+                </button>
+            </div>
+        </div>
+    </div>
