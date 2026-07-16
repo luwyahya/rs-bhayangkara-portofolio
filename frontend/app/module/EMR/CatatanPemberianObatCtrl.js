@@ -251,7 +251,14 @@ define(["initialize"], function (initialize) {
         for (var i = arrobj.length - 1; i >= 0; i--) {
           var currentId = arrobj[i];
           var currentObj = $scope.item.obj[parseInt(currentId)];
-          arrSave.push({ id: currentId, values: currentObj });
+          
+          if (currentObj != undefined && currentObj !== "") {
+            if (currentObj.hasOwnProperty('id') && currentObj.hasOwnProperty('namalengkap')) {
+              arrSave.push({ id: currentId, values: { value: currentObj.id, text: currentObj.namalengkap } });
+            } else {
+              arrSave.push({ id: currentId, values: currentObj });
+            }
+          }
         }
 
         $scope.cc.jenisemr = "catatanpemberianobat";
