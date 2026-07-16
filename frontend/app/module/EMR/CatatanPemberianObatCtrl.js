@@ -97,24 +97,24 @@ define(["initialize"], function (initialize) {
       function init() {
         $scope.isLoading = true;
 
-        medifirstService.get("emr/get-riwayat-catatan-pemberian-obat?noregistrasi=" + $scope.cc.noregistrasi, true).then(function(dat) {
-                $scope.isRouteLoading = false;                        
-                let data = dat.data
-                for(let i = 0; i < data.length; i++) {
-                    data[i].no = i + 1;
-                }
-                $scope.dataRiwayatCPO = new kendo.data.DataSource({
-                    data: data,
-                    schema: {
-                        model: {
-                        }
-                    },
-                    pageSize: 10,
-                    total: data.length,
-                    serverPaging: false,
-                   
-                });  
-            })
+        medifirstService.get("emr/get-riwayat-catatan-pemberian-obat?noregistrasi=" + $scope.cc.noregistrasi, true).then(function (dat) {
+          $scope.isRouteLoading = false;
+          let data = dat.data
+          for (let i = 0; i < data.length; i++) {
+            data[i].no = i + 1;
+          }
+          $scope.dataRiwayatCPO = new kendo.data.DataSource({
+            data: data,
+            schema: {
+              model: {
+              }
+            },
+            pageSize: 10,
+            total: data.length,
+            serverPaging: false,
+
+          });
+        })
         $scope.item.obj = [];
         $scope.item.obj2 = [];
         $scope.item.obj[1147] = moment($scope.cc.tglregistrasi).format("YYYY-MM-DD HH:mm");
@@ -160,7 +160,7 @@ define(["initialize"], function (initialize) {
         $scope.isLoading = false;
       }
 
-            function setobjectToModel(nomorEMRSS, emrfk) {
+      function setobjectToModel(nomorEMRSS, emrfk) {
         let namaPegawai = "";
         medifirstService.get("emr/get-emr-transaksi-detail-new?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
           debugger;
@@ -188,16 +188,18 @@ define(["initialize"], function (initialize) {
                 $scope.item.obj2[dataLoad[i].emrdfk] = true;
               } else if (dataLoad[i].type == "textarea") {
                 $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
+              } else if (dataLoad[i].type == "text") {
+                $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
               } else if (dataLoad[i].type == "combobox") {
-                  var str = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
-                  if (str) {
-                      var res = str.split("~");
-                      namaPegawai = res[1];
-                      $scope.item.obj[dataLoad[i].emrdfk] = {
-                          id: res[0],
-                          namalengkap: res[1]
-                      };
-                  }
+                var str = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
+                if (str) {
+                  var res = str.split("~");
+                  namaPegawai = res[1];
+                  $scope.item.obj[dataLoad[i].emrdfk] = {
+                    id: res[0],
+                    namalengkap: res[1]
+                  };
+                }
               } else if (dataLoad[i].type == "photo" || dataLoad[i].type == "image") {
                 $scope.user.poto = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
               }
@@ -226,7 +228,7 @@ define(["initialize"], function (initialize) {
         });
       };
 
-            $scope.Saveok = function () {
+      $scope.Saveok = function () {
         $scope.isUpdateCetak = false;
         $scope.isLoading = true;
         var photo = "";
@@ -253,11 +255,11 @@ define(["initialize"], function (initialize) {
         }
 
         $scope.cc.jenisemr = "catatanpemberianobat";
-        
+
         var method = 'save';
         if ($scope.isUpdate === true) {
-            method = 'update';
-            $scope.cc.norec_emr = $scope.noemr;
+          method = 'update';
+          $scope.cc.norec_emr = $scope.noemr;
         }
 
         var jsonSave = {
@@ -266,7 +268,7 @@ define(["initialize"], function (initialize) {
           data: arrSave,
           image: $scope.item.image != undefined && $scope.item.image != "../app/images/svg/no-image.svg" ? $scope.item.image : null,
         };
-        
+
         medifirstService.post("emr/save-emr-new", jsonSave).then(function (e) {
           $scope.isSave = false;
           $scope.isUpdate = true;
@@ -307,7 +309,7 @@ define(["initialize"], function (initialize) {
                   $scope.item.obj[1334] = (value[i].value == "1");
                 }
                 if (value[i].emrdfk == 1901300305) {
-                 $scope.item.obj[1335] = (value[i].value == "1");
+                  $scope.item.obj[1335] = (value[i].value == "1");
                 }
                 if (value[i].emrdfk == 1901300299) {
                   $scope.item.obj[1901301910] = value[i].value;
@@ -339,37 +341,37 @@ define(["initialize"], function (initialize) {
                   $scope.item.obj[844] = value[i].value
                 }
                 if (value[i].emrdfk == 2638 || value[i].emrdfk == 2639) {
-                    if (value[i].value) {
-                        if ($scope.item.obj[2188]) {
-                            $scope.item.obj[2188] += "\n\n" + value[i].value;
-                        } else {
-                            $scope.item.obj[2188] = value[i].value;
-                        }
+                  if (value[i].value) {
+                    if ($scope.item.obj[2188]) {
+                      $scope.item.obj[2188] += "\n\n" + value[i].value;
+                    } else {
+                      $scope.item.obj[2188] = value[i].value;
                     }
+                  }
                 }
                 if (value[i].emrdfk == 2414) {
-                  var rawData = value[i].value; 
-                  
-                  var parts = rawData.split('~'); 
-                  
+                  var rawData = value[i].value;
+
+                  var parts = rawData.split('~');
+
                   var textKesadaran = parts.length > 1 ? parts[1].trim() : rawData;
-                  
+
                   textKesadaran = textKesadaran.toLowerCase();
 
                   if (textKesadaran.includes("compos mentis")) {
-                      $scope.item.obj[30] = true;
-                  } 
+                    $scope.item.obj[30] = true;
+                  }
                   else if (textKesadaran.includes("apatis")) {
-                      $scope.item.obj[31] = true;
+                    $scope.item.obj[31] = true;
                   }
                   else if (textKesadaran.includes("somnolent")) {
-                      $scope.item.obj[40] = true;
+                    $scope.item.obj[40] = true;
                   }
                   else if (textKesadaran.includes("sopor") || textKesadaran.includes("delirium")) {
-                      $scope.item.obj[42] = true;
+                    $scope.item.obj[42] = true;
                   }
                   else if (textKesadaran.includes("coma")) {
-                      $scope.item.obj[44] = true;
+                    $scope.item.obj[44] = true;
                   }
                 }
                 if (value[i].emrdfk == 2415) {
@@ -408,311 +410,311 @@ define(["initialize"], function (initialize) {
       //end Isian Default
 
       function getPenunjang(paramSearch) {
-          medifirstService.get('emr/get-riwayat-order-penunjang-lab-rad?' + paramSearch).then(function (e) {
+        medifirstService.get('emr/get-riwayat-order-penunjang-lab-rad?' + paramSearch).then(function (e) {
 
-              let daftar = e.data.daftar || [];
+          let daftar = e.data.daftar || [];
 
-              // Masukkan nomor urut
-              for (var i = daftar.length - 1; i >= 0; i--) {
-                  daftar[i].no = i + 1;
-              }
+          // Masukkan nomor urut
+          for (var i = daftar.length - 1; i >= 0; i--) {
+            daftar[i].no = i + 1;
+          }
 
-              // Ambil semua details → namaproduk
-              let semuaProduk = [];
+          // Ambil semua details → namaproduk
+          let semuaProduk = [];
 
-              daftar.forEach(item => {
-                  if (item.details && item.details.length > 0) {
-                      item.details.forEach(det => {
-                          semuaProduk.push(det.namaproduk);
-                      });
-                  }
+          daftar.forEach(item => {
+            if (item.details && item.details.length > 0) {
+              item.details.forEach(det => {
+                semuaProduk.push(det.namaproduk);
               });
-
-              // Gabungkan ke textarea
-              // Pisahkan dengan enter (\n)
-              if (semuaProduk.length > 0) {
-                  $scope.item.obj[261] = semuaProduk.join('\n');
-              }
-
-              // Masukkan ke grid
-              $scope.dataGridRiwayat = new kendo.data.DataSource({
-                  data: daftar,
-                  pageSize: 10
-              });
-
+            }
           });
+
+          // Gabungkan ke textarea
+          // Pisahkan dengan enter (\n)
+          if (semuaProduk.length > 0) {
+            $scope.item.obj[261] = semuaProduk.join('\n');
+          }
+
+          // Masukkan ke grid
+          $scope.dataGridRiwayat = new kendo.data.DataSource({
+            data: daftar,
+            pageSize: 10
+          });
+
+        });
       }
 
       function getValueSPRI() {
-            medifirstService.get('emr/get-value-spri?noRegistrasi=' + $scope.cc.noregistrasi).then(function (e) {
-                let pemeriksaanfisik = '';
-                if (e.data.messageCode == 200) {
-                    var value = e.data.data
-                    if (value.length > 0) {
-                        for (let i = 0; i < value.length; i++) {
-                            if (value[i].emrdfk == 358) {
-                                $scope.item.obj[382] = value[i].value
-                            }
-                            if (value[i].emrdfk == 379) {
-                                $scope.item.obj[2187] = value[i].value
-                            }
-                        }
-                    }
-                } else {
+        medifirstService.get('emr/get-value-spri?noRegistrasi=' + $scope.cc.noregistrasi).then(function (e) {
+          let pemeriksaanfisik = '';
+          if (e.data.messageCode == 200) {
+            var value = e.data.data
+            if (value.length > 0) {
+              for (let i = 0; i < value.length; i++) {
+                if (value[i].emrdfk == 358) {
+                  $scope.item.obj[382] = value[i].value
                 }
-            })
-        }
-
-       $scope.hitungSkor = function() {
-            // Memastikan object item dan obj sudah ada
-            if (!$scope.item) $scope.item = {};
-            if (!$scope.item.obj) $scope.item.obj = {};
-
-            // Mapping ID berdasarkan HTML yang Anda berikan
-            var konfigurasiSkor = [
-                { // Kolom 1
-                    idTotal: 1901302441, 
-                    checkboxes: [
-                        { id: 1901302393, bobot: 1 },  { id: 1901302401, bobot: 2 },
-                        { id: 1901302409, bobot: 6 },  { id: 1901302417, bobot: 10 },
-                        { id: 1901302425, bobot: 10 }, { id: 1901302433, bobot: 4 }
-                    ]
-                },
-                { // Kolom 2
-                    idTotal: 1901302442, 
-                    checkboxes: [
-                        { id: 1901302394, bobot: 1 },  { id: 1901302402, bobot: 2 },
-                        { id: 1901302410, bobot: 6 },  { id: 1901302418, bobot: 10 },
-                        { id: 1901302426, bobot: 10 }, { id: 1901302434, bobot: 4 }
-                    ]
-                },
-                { // Kolom 3
-                    idTotal: 1901302443, 
-                    checkboxes: [
-                        { id: 1901302395, bobot: 1 },  { id: 1901302403, bobot: 2 },
-                        { id: 1901302411, bobot: 6 },  { id: 1901302419, bobot: 10 },
-                        { id: 1901302427, bobot: 10 }, { id: 1901302435, bobot: 4 }
-                    ]
-                },
-                { // Kolom 4
-                    idTotal: 1901302444, 
-                    checkboxes: [
-                        { id: 1901302396, bobot: 1 },  { id: 1901302404, bobot: 2 },
-                        { id: 1901302412, bobot: 6 },  { id: 19013024020, bobot: 10 }, // Catatan: Ada typo ID di HTML Anda
-                        { id: 1901302428, bobot: 10 }, { id: 1901302436, bobot: 4 }
-                    ]
-                },
-                { // Kolom 5
-                    idTotal: 1901302445, 
-                    checkboxes: [
-                        { id: 1901302397, bobot: 1 },  { id: 1901302405, bobot: 2 },
-                        { id: 1901302413, bobot: 6 },  { id: 1901302421, bobot: 10 },
-                        { id: 1901302429, bobot: 10 }, { id: 1901302437, bobot: 4 }
-                    ]
-                },
-                { // Kolom 6
-                    idTotal: 1901302446, 
-                    checkboxes: [
-                        { id: 1901302398, bobot: 1 },  { id: 1901302406, bobot: 2 },
-                        { id: 1901302414, bobot: 6 },  { id: 1901302422, bobot: 10 },
-                        { id: 1901302430, bobot: 10 }, { id: 1901302438, bobot: 4 }
-                    ]
-                },
-                { // Kolom 7
-                    idTotal: 1901302447, 
-                    checkboxes: [
-                        { id: 1901302399, bobot: 1 },  { id: 1901302407, bobot: 2 },
-                        { id: 1901302415, bobot: 6 },  { id: 1901302423, bobot: 10 },
-                        { id: 1901302431, bobot: 10 }, { id: 1901302439, bobot: 4 }
-                    ]
-                },
-                { // Kolom 8
-                    idTotal: 1901302448, 
-                    checkboxes: [
-                        { id: 1901302400, bobot: 1 },  { id: 1901302408, bobot: 2 },
-                        { id: 1901302416, bobot: 6 },  { id: 1901302424, bobot: 10 },
-                        { id: 1901302432, bobot: 10 }, { id: 1901302440, bobot: 4 }
-                    ]
+                if (value[i].emrdfk == 379) {
+                  $scope.item.obj[2187] = value[i].value
                 }
-            ];
-
-            // Proses perhitungan masing-masing kolom
-            angular.forEach(konfigurasiSkor, function(kolom) {
-                var totalSkor = 0;
-                
-                angular.forEach(kolom.checkboxes, function(cb) {
-                    if ($scope.item.obj[cb.id] === true) {
-                        totalSkor += cb.bobot;
-                    }
-                });
-                
-                // Memasukkan hasil ke Textbox Total
-                // Jika nilainya 0, Anda bisa memilih menampilkan 0 atau mengosongkannya (null)
-                $scope.item.obj[kolom.idTotal] = totalSkor; 
-            });
-        };
-
-        function loadOrderPenunjang() {
-            medifirstService.get('emr/get-order-penunjang-to-cpo?norec_pd=' + $scope.cc.norec_pd).then(function(dat) {
-
-                if (dat.data && dat.data.length > 0) {
-                    
-                    if (!$scope.item) {
-                        $scope.item = {};
-                    }
-                    if (!$scope.item.obj) {
-                        $scope.item.obj = {};
-                    }
-
-                    let baseId = 1901303184; 
-                    
-                    let obatSudahDiinput = []; 
-                    let barisKe = 0; 
-
-                    for (let i = 0; i < dat.data.length; i++) {
-                        let currentItem = dat.data[i];
-                        
-                        if (currentItem.namaproduk && !obatSudahDiinput.includes(currentItem.namaproduk)) {
-                            
-                            let namaObat = currentItem.namaproduk;
-                            let targetId = baseId + (barisKe * 184); 
-                            
-                            $scope.item.obj[targetId] = namaObat; // + aturanPakai;
-                            
-                            obatSudahDiinput.push(namaObat);
-                            
-                            barisKe++; 
-                        }
-                    }
-                }
-            });
-        }
-
-        $scope.toggleChecklistAll = function(idChecklistAll) {
-            var isChecked = $scope.item.obj[idChecklistAll];
-            
-            for (var i = 1; i <= 7; i++) {
-                var targetId = idChecklistAll - i;
-                $scope.item.obj[targetId] = isChecked;
+              }
             }
-        };
+          } else {
+          }
+        })
+      }
 
-        $scope.columnRiwayatCPO = [
-            {
-                "field": "no",  
-                "title": "No",
-                "width": "5px",
-                "template": "<span class='style-center'>#: no #</span>",
-            },  
-            {
-                "field": "value",
-                "title": "Tanggal",
-                "width": "20px"
-            },               
-            {
-                "field": "namalengkap",
-                "title": "Petugas",
-                "width": "30px",
-            },
-            {
-                "title": "Hapus",
-                "width": "10px",
-                "template": "<button class=\"k-button custom-button\" ng-click=\"hapusGrid(dataSelectedRiwayatTransferInternal)\" style=\"margin:0 0 5px\">Hapus</button>"
-            }
+      $scope.hitungSkor = function () {
+        // Memastikan object item dan obj sudah ada
+        if (!$scope.item) $scope.item = {};
+        if (!$scope.item.obj) $scope.item.obj = {};
+
+        // Mapping ID berdasarkan HTML yang Anda berikan
+        var konfigurasiSkor = [
+          { // Kolom 1
+            idTotal: 1901302441,
+            checkboxes: [
+              { id: 1901302393, bobot: 1 }, { id: 1901302401, bobot: 2 },
+              { id: 1901302409, bobot: 6 }, { id: 1901302417, bobot: 10 },
+              { id: 1901302425, bobot: 10 }, { id: 1901302433, bobot: 4 }
+            ]
+          },
+          { // Kolom 2
+            idTotal: 1901302442,
+            checkboxes: [
+              { id: 1901302394, bobot: 1 }, { id: 1901302402, bobot: 2 },
+              { id: 1901302410, bobot: 6 }, { id: 1901302418, bobot: 10 },
+              { id: 1901302426, bobot: 10 }, { id: 1901302434, bobot: 4 }
+            ]
+          },
+          { // Kolom 3
+            idTotal: 1901302443,
+            checkboxes: [
+              { id: 1901302395, bobot: 1 }, { id: 1901302403, bobot: 2 },
+              { id: 1901302411, bobot: 6 }, { id: 1901302419, bobot: 10 },
+              { id: 1901302427, bobot: 10 }, { id: 1901302435, bobot: 4 }
+            ]
+          },
+          { // Kolom 4
+            idTotal: 1901302444,
+            checkboxes: [
+              { id: 1901302396, bobot: 1 }, { id: 1901302404, bobot: 2 },
+              { id: 1901302412, bobot: 6 }, { id: 19013024020, bobot: 10 }, // Catatan: Ada typo ID di HTML Anda
+              { id: 1901302428, bobot: 10 }, { id: 1901302436, bobot: 4 }
+            ]
+          },
+          { // Kolom 5
+            idTotal: 1901302445,
+            checkboxes: [
+              { id: 1901302397, bobot: 1 }, { id: 1901302405, bobot: 2 },
+              { id: 1901302413, bobot: 6 }, { id: 1901302421, bobot: 10 },
+              { id: 1901302429, bobot: 10 }, { id: 1901302437, bobot: 4 }
+            ]
+          },
+          { // Kolom 6
+            idTotal: 1901302446,
+            checkboxes: [
+              { id: 1901302398, bobot: 1 }, { id: 1901302406, bobot: 2 },
+              { id: 1901302414, bobot: 6 }, { id: 1901302422, bobot: 10 },
+              { id: 1901302430, bobot: 10 }, { id: 1901302438, bobot: 4 }
+            ]
+          },
+          { // Kolom 7
+            idTotal: 1901302447,
+            checkboxes: [
+              { id: 1901302399, bobot: 1 }, { id: 1901302407, bobot: 2 },
+              { id: 1901302415, bobot: 6 }, { id: 1901302423, bobot: 10 },
+              { id: 1901302431, bobot: 10 }, { id: 1901302439, bobot: 4 }
+            ]
+          },
+          { // Kolom 8
+            idTotal: 1901302448,
+            checkboxes: [
+              { id: 1901302400, bobot: 1 }, { id: 1901302408, bobot: 2 },
+              { id: 1901302416, bobot: 6 }, { id: 1901302424, bobot: 10 },
+              { id: 1901302432, bobot: 10 }, { id: 1901302440, bobot: 4 }
+            ]
+          }
         ];
 
-         $scope.BuatBaru = function (){
-            var chekedd = false
-            $scope.showForm = true;
-            $scope.item.obj = []
-            nomorEMRSS = ''
-            $scope.cc.norec_emr = '-'
-            $scope.item.obj[1901302385] = moment($scope.now).format('YYYY-MM-DD')
-            // LoadCacheHelper();
-            loadOrderPenunjang();
-        }
+        // Proses perhitungan masing-masing kolom
+        angular.forEach(konfigurasiSkor, function (kolom) {
+          var totalSkor = 0;
 
-         $scope.EditLihat = function () {
-            if ($scope.dataSelectedRiwayatCPO == undefined) {
-                alert("Pilih Tanggal CPO Yang Mau di Edit / Lihat !!")
-                return;
+          angular.forEach(kolom.checkboxes, function (cb) {
+            if ($scope.item.obj[cb.id] === true) {
+              totalSkor += cb.bobot;
+            }
+          });
+
+          // Memasukkan hasil ke Textbox Total
+          // Jika nilainya 0, Anda bisa memilih menampilkan 0 atau mengosongkannya (null)
+          $scope.item.obj[kolom.idTotal] = totalSkor;
+        });
+      };
+
+      function loadOrderPenunjang() {
+        medifirstService.get('emr/get-order-penunjang-to-cpo?norec_pd=' + $scope.cc.norec_pd).then(function (dat) {
+
+          if (dat.data && dat.data.length > 0) {
+
+            if (!$scope.item) {
+              $scope.item = {};
+            }
+            if (!$scope.item.obj) {
+              $scope.item.obj = {};
             }
 
-            $scope.showForm = true;
+            let baseId = 1901303184;
 
-            console.log('Selected Transfer:', $scope.dataSelectedRiwayatCPO);
-            
-            $scope.isRouteLoading = true
-            var noemr = '&noemr=' + $scope.dataSelectedRiwayatCPO.noemr;
-            var paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi;
-            medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=catatanpemberianobat" + noemr, true).then(function(dat) {
-                $scope.isRouteLoading = false
-                    $scope.noemr = dat.data.data[0].noemr
-                    $scope.cc.norec_emr = dat.data.data[0].noemr
-                    nomorEMRSS = ''
-                    nomorEMRSS = dat.data.data[0].noemr
-                    nomorEMR = nomorEMRSS
-                    $scope.cc.emrfk = 2076;
-                    setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
-            })
+            let obatSudahDiinput = [];
+            let barisKe = 0;
+
+            for (let i = 0; i < dat.data.length; i++) {
+              let currentItem = dat.data[i];
+
+              if (currentItem.namaproduk && !obatSudahDiinput.includes(currentItem.namaproduk)) {
+
+                let namaObat = currentItem.namaproduk;
+                let targetId = baseId + (barisKe * 184);
+
+                $scope.item.obj[targetId] = namaObat; // + aturanPakai;
+
+                obatSudahDiinput.push(namaObat);
+
+                barisKe++;
+              }
+            }
+          }
+        });
+      }
+
+      $scope.toggleChecklistAll = function (idChecklistAll) {
+        var isChecked = $scope.item.obj[idChecklistAll];
+
+        for (var i = 1; i <= 7; i++) {
+          var targetId = idChecklistAll - i;
+          $scope.item.obj[targetId] = isChecked;
+        }
+      };
+
+      $scope.columnRiwayatCPO = [
+        {
+          "field": "no",
+          "title": "No",
+          "width": "5px",
+          "template": "<span class='style-center'>#: no #</span>",
+        },
+        {
+          "field": "value",
+          "title": "Tanggal",
+          "width": "20px"
+        },
+        {
+          "field": "namalengkap",
+          "title": "Petugas",
+          "width": "30px",
+        },
+        {
+          "title": "Hapus",
+          "width": "10px",
+          "template": "<button class=\"k-button custom-button\" ng-click=\"hapusGrid(dataSelectedRiwayatTransferInternal)\" style=\"margin:0 0 5px\">Hapus</button>"
+        }
+      ];
+
+      $scope.BuatBaru = function () {
+        var chekedd = false
+        $scope.showForm = true;
+        $scope.item.obj = []
+        nomorEMRSS = ''
+        $scope.cc.norec_emr = '-'
+        $scope.item.obj[1901302385] = moment($scope.now).format('YYYY-MM-DD')
+        // LoadCacheHelper();
+        loadOrderPenunjang();
+      }
+
+      $scope.EditLihat = function () {
+        if ($scope.dataSelectedRiwayatCPO == undefined) {
+          alert("Pilih Tanggal CPO Yang Mau di Edit / Lihat !!")
+          return;
         }
 
-        $scope.tutupForm = function() {
-            $scope.showForm = false; 
+        $scope.showForm = true;
+
+        console.log('Selected Transfer:', $scope.dataSelectedRiwayatCPO);
+
+        $scope.isRouteLoading = true
+        var noemr = '&noemr=' + $scope.dataSelectedRiwayatCPO.noemr;
+        var paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi;
+        medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=catatanpemberianobat" + noemr, true).then(function (dat) {
+          $scope.isRouteLoading = false
+          $scope.noemr = dat.data.data[0].noemr
+          $scope.cc.norec_emr = dat.data.data[0].noemr
+          nomorEMRSS = ''
+          nomorEMRSS = dat.data.data[0].noemr
+          nomorEMR = nomorEMRSS
+          $scope.cc.emrfk = 2076;
+          setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
+        })
+      }
+
+      $scope.tutupForm = function () {
+        $scope.showForm = false;
+      };
+
+      $scope.hapusGrid = function (dataSelectedRiwayatCPO) {
+
+        if ($scope.dataSelectedRiwayatCPO == null || $scope.dataSelectedRiwayatCPO == 'undefined') {
+          toastr.error("Pilih data yang akan dihapus");
+          return;
+        }
+
+        var item = {
+          "norec": $scope.dataSelectedRiwayatCPO.norec
+        }
+
+        var confirm = $mdDialog.confirm()
+          .title('Peringatan')
+          .textContent('Peringatan, Anda yakin akan menghapus riwayat catatan pemberian obat yang dipilih?')
+          .ariaLabel('Lucky day')
+          .cancel('Tidak')
+          .ok('Ya')
+        $mdDialog.show(confirm).then(function () {
+          medifirstService.post('emr/delete-riwayat-catatan-pemberian-obat/delete', item).then(function (e) {
+
+            init()
+          });
+        })
+      }
+
+      $scope.listObatTambahan = [];
+      var lastObatId = 1901306233;
+
+      $scope.tambahBarisObat = function () {
+        var idBaru = [];
+        var jumlahInput = 184;
+
+        for (var i = 0; i < jumlahInput; i++) {
+          lastObatId++;
+          idBaru.push(lastObatId);
+        }
+
+        var obatBaru = {
+          teks1: idBaru[0],
+          teks2: idBaru[1],
+          teks3: idBaru[2],
+          teks4: idBaru[3],
+
+          far: idBaru.slice(4, 40),
+          pr: idBaru.slice(40, 76),
+          pr1: idBaru.slice(76, 112),
+          pr2: idBaru.slice(112, 148),
+          px: idBaru.slice(148, 184)
         };
 
-        $scope.hapusGrid = function(dataSelectedRiwayatCPO) {
-            
-            if($scope.dataSelectedRiwayatCPO==null || $scope.dataSelectedRiwayatCPO=='undefined') {
-                toastr.error("Pilih data yang akan dihapus");
-                return;
-            }
-
-            var item = {
-                "norec": $scope.dataSelectedRiwayatCPO.norec
-            }
-
-            var confirm = $mdDialog.confirm()
-            .title('Peringatan')
-            .textContent('Peringatan, Anda yakin akan menghapus riwayat catatan pemberian obat yang dipilih?')
-            .ariaLabel('Lucky day')
-            .cancel('Tidak')
-            .ok('Ya')
-            $mdDialog.show(confirm).then(function () {
-                medifirstService.post('emr/delete-riwayat-catatan-pemberian-obat/delete', item).then(function(e) {
-                                                        
-                    init()
-                });
-            })
-        }
-
-        $scope.listObatTambahan = [];
-        var lastObatId = 1901306233; 
-
-        $scope.tambahBarisObat = function () {
-            var idBaru = [];
-            var jumlahInput = 184;
-
-            for (var i = 0; i < jumlahInput; i++) {
-                lastObatId++; 
-                idBaru.push(lastObatId);
-            }
-
-            var obatBaru = {
-                teks1: idBaru[0],
-                teks2: idBaru[1],
-                teks3: idBaru[2],
-                teks4: idBaru[3],
-                
-                far: idBaru.slice(4, 40),
-                pr: idBaru.slice(40, 76),
-                pr1: idBaru.slice(76, 112),
-                pr2: idBaru.slice(112, 148),
-                px: idBaru.slice(148, 184)
-            };
-
-            $scope.listObatTambahan.push(obatBaru);
-        };
+        $scope.listObatTambahan.push(obatBaru);
+      };
     },
   ]);
 });
