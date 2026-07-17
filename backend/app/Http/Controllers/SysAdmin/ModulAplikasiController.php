@@ -920,6 +920,7 @@ class ModulAplikasiController extends ApiController
         $data  = \DB::table('loginuser_s as lo')
             ->join('pegawai_m as pg', 'lo.objectpegawaifk', '=', 'pg.id')
             ->join('kelompokuser_s as kl', 'lo.objectkelompokuserfk', '=', 'kl.id')
+            ->join('statuspegawai_m as sp', 'pg.objectstatuspegawaifk', '=', 'sp.id')
             ->select(
                 'lo.id',
                 'lo.namauser',
@@ -931,6 +932,7 @@ class ModulAplikasiController extends ApiController
             )
             ->where('lo.statusenabled', true)
             ->where('pg.statusenabled', true)
+            ->where('sp.id', 1)
             ->orderBy('lo.namauser');
 
         $data = $data->get();
