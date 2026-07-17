@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Egie Ramdan
@@ -24,8 +25,9 @@ class ModulAplikasiController extends ApiController
 
     use Valet;
 
-    public function __construct() {
-        parent::__construct($skip_authentication=false);
+    public function __construct()
+    {
+        parent::__construct($skip_authentication = false);
     }
 
     public function getMenuDinamis(Request $request)
@@ -33,56 +35,64 @@ class ModulAplikasiController extends ApiController
         $dataraw3 = [];
         $dataRaw = \DB::table('objekmodulaplikasi_s as oma')
             ->join('mapobjekmodulaplikasitomodulaplikasi_s as acdc', 'acdc.objekmodulaplikasiid', '=', 'oma.id')
-            ->join('maploginusertomodulaplikasi_s as maps',
-                function ($join){
+            ->join(
+                'maploginusertomodulaplikasi_s as maps',
+                function ($join) {
                     $join->on('maps.objectmodulaplikasifk', '=', 'acdc.modulaplikasiid');
-//					$join->on('maps.objectmodulaplikasifk', '=', 'acdc.modulaplikasiid');
-                })
-//				'maps.objectmodulaplikasifk', '=', 'acdc.modulaplikasiid')
+                    //					$join->on('maps.objectmodulaplikasifk', '=', 'acdc.modulaplikasiid');
+                }
+            )
+            //				'maps.objectmodulaplikasifk', '=', 'acdc.modulaplikasiid')
             ->join('modulaplikasi_s as ma', 'ma.id', '=', 'acdc.modulaplikasiid')
             ->where('oma.statusenabled', true)
             ->where('ma.reportdisplay', 'Menu')
-            ->where('maps.objectloginuserfk',$request['idUser'] )
+            ->where('maps.objectloginuserfk', $request['idUser'])
 
-            ->select('oma.id', 'oma.kdobjekmodulaplikasihead', 'oma.objekmodulaplikasi','oma.alamaturlform','ma.modulaplikasi',
-                'acdc.modulaplikasiid','oma.kodeexternal')
+            ->select(
+                'oma.id',
+                'oma.kdobjekmodulaplikasihead',
+                'oma.objekmodulaplikasi',
+                'oma.alamaturlform',
+                'ma.modulaplikasi',
+                'acdc.modulaplikasiid',
+                'oma.kodeexternal'
+            )
             ->orderBy('oma.nourut');
         $dataRaw = $dataRaw->get();
         foreach ($dataRaw as $dataRaw2) {
-//                if ((integer)$dataRaw2->id < 100) {
+            //                if ((integer)$dataRaw2->id < 100) {
             if ($dataRaw2->kdobjekmodulaplikasihead == null) {
-                if($dataRaw2->alamaturlform != null || $dataRaw2->alamaturlform !=''){
+                if ($dataRaw2->alamaturlform != null || $dataRaw2->alamaturlform != '') {
                     $dataraw3[] = array(
                         'id' => $dataRaw2->id,
                         'parent_id' => 0,
-//					'modulaplikasiid'=>$dataRaw2->modulaplikasiid,
+                        //					'modulaplikasiid'=>$dataRaw2->modulaplikasiid,
                         'name' => $dataRaw2->objekmodulaplikasi,
-                        'link' =>$dataRaw2->alamaturlform //!= null? $dataRaw2->alamaturlform : '#/',
+                        'link' => $dataRaw2->alamaturlform //!= null? $dataRaw2->alamaturlform : '#/',
                     );
-                }else{
+                } else {
                     $dataraw3[] = array(
                         'id' => $dataRaw2->id,
                         'parent_id' => 0,
                         'name' => $dataRaw2->objekmodulaplikasi,
-                       // 'link' =>$dataRaw2->alamaturlform //!= null? $dataRaw2->alamaturlform : '#/',
+                        // 'link' =>$dataRaw2->alamaturlform //!= null? $dataRaw2->alamaturlform : '#/',
                     );
                 }
-
             } else {
-                if ($dataRaw2->kdobjekmodulaplikasihead != null ) {
-                    if($dataRaw2->alamaturlform != null || $dataRaw2->alamaturlform !='') {
+                if ($dataRaw2->kdobjekmodulaplikasihead != null) {
+                    if ($dataRaw2->alamaturlform != null || $dataRaw2->alamaturlform != '') {
                         $dataraw3[] = array(
                             'id' => $dataRaw2->id,
                             'parent_id' => $dataRaw2->kdobjekmodulaplikasihead,
                             'name' => $dataRaw2->objekmodulaplikasi,
-                            'link' => $dataRaw2->alamaturlform// != null ? $dataRaw2->alamaturlform : '#/',
+                            'link' => $dataRaw2->alamaturlform // != null ? $dataRaw2->alamaturlform : '#/',
                         );
-                    }else{
+                    } else {
                         $dataraw3[] = array(
                             'id' => $dataRaw2->id,
                             'parent_id' => $dataRaw2->kdobjekmodulaplikasihead,
                             'name' => $dataRaw2->objekmodulaplikasi,
-                           // 'link' => $dataRaw2->alamaturlform// != null ? $dataRaw2->alamaturlform : '#/',
+                            // 'link' => $dataRaw2->alamaturlform// != null ? $dataRaw2->alamaturlform : '#/',
                         );
                     }
                 } else {
@@ -94,12 +104,12 @@ class ModulAplikasiController extends ApiController
                                 'name' => $dataRaw2->objekmodulaplikasi,
                                 'link' => $dataRaw2->alamaturlform //? $dataRaw2->alamaturlform : '#/',
                             );
-                        }else{
+                        } else {
                             $dataraw3[] = array(
                                 'id' => $dataRaw2->id,
                                 'parent_id' => $dataRaw2->kdobjekmodulaplikasihead,
                                 'name' => $dataRaw2->objekmodulaplikasi,
-                               // 'link' => $dataRaw2->alamaturlform //? $dataRaw2->alamaturlform : '#/',
+                                // 'link' => $dataRaw2->alamaturlform //? $dataRaw2->alamaturlform : '#/',
                             );
                         }
                     }
@@ -107,7 +117,7 @@ class ModulAplikasiController extends ApiController
             }
         }
         $data = $dataraw3;
-//        return $this->respond($data);
+        //        return $this->respond($data);
         function recursiveElements($data)
         {
             $elements = [];
@@ -136,22 +146,22 @@ class ModulAplikasiController extends ApiController
 
     public function getObjekModulAplikasiStandar(Request $request)
     {
-//		$data = DB::table('modulaplikasi_s')
-//			->select('*')
-//			->where('statusenabled',true)
-//			->orderBy('nourut')
-//			->get();
-//		$result = array(
-//			'data' => $data,
-//			'as'=> 'inhuman'
-//		);
-//		return $this->respond($result);
+        //		$data = DB::table('modulaplikasi_s')
+        //			->select('*')
+        //			->where('statusenabled',true)
+        //			->orderBy('nourut')
+        //			->get();
+        //		$result = array(
+        //			'data' => $data,
+        //			'as'=> 'inhuman'
+        //		);
+        //		return $this->respond($result);
 
         $dataraw3 = [];
         $dataRaw = \DB::table('objekmodulaplikasi_s')
             ->where('statusenabled', true)
             ->select('id', 'kdobjekmodulaplikasihead', 'objekmodulaplikasi')
-//			->whereBetween('id',[1450,1790])
+            //			->whereBetween('id',[1450,1790])
             ->orderBy('id');
         $dataRaw = $dataRaw->get();
         foreach ($dataRaw as $dataRaw2) {
@@ -161,14 +171,13 @@ class ModulAplikasiController extends ApiController
                     'parent_id' => 0,
                     'name' => $dataRaw2->objekmodulaplikasi,
                 );
-            } else if ($dataRaw2->kdobjekmodulaplikasihead != null ) {
+            } else if ($dataRaw2->kdobjekmodulaplikasihead != null) {
                 $dataraw3[] = array(
                     'id' => $dataRaw2->id,
                     'parent_id' => $dataRaw2->kdobjekmodulaplikasihead,
                     'name' => $dataRaw2->objekmodulaplikasi,
                 );
             }
-
         }
         $data = $dataraw3;
 
@@ -184,9 +193,9 @@ class ModulAplikasiController extends ApiController
                 if (isset($elements[$parent_id])) {
                     $elements[$parent_id]['child'][] = &$element;
                 } else {
-//					if ($parent_id <= 10) {
+                    //					if ($parent_id <= 10) {
                     $tree[] = &$element;
-//					}
+                    //					}
                 }
             }
             return $tree;
@@ -194,8 +203,8 @@ class ModulAplikasiController extends ApiController
 
         $data = recursiveElements($data);
 
-        $modulAplikasi = ModulAplikasi::where('statusenabled',true)
-            ->where('reportdisplay','=','Menu')->get();
+        $modulAplikasi = ModulAplikasi::where('statusenabled', true)
+            ->where('reportdisplay', '=', 'Menu')->get();
         $result = array(
             'objekmodulaplikasi' => $data,
             'modulaplikasi' => $modulAplikasi
@@ -210,9 +219,16 @@ class ModulAplikasiController extends ApiController
             ->join('mapobjekmodulaplikasitomodulaplikasi_s as acdc', 'acdc.objekmodulaplikasiid', '=', 'oma.id')
             ->join('modulaplikasi_s as ma', 'ma.id', '=', 'acdc.modulaplikasiid')
             ->where('oma.statusenabled', true)
-            ->where('ma.id',$request['idModulAplikasi'] )
-            ->select('oma.id', 'oma.kdobjekmodulaplikasihead', 'oma.objekmodulaplikasi','oma.alamaturlform','ma.modulaplikasi',
-                'acdc.modulaplikasiid','oma.kodeexternal')
+            ->where('ma.id', $request['idModulAplikasi'])
+            ->select(
+                'oma.id',
+                'oma.kdobjekmodulaplikasihead',
+                'oma.objekmodulaplikasi',
+                'oma.alamaturlform',
+                'ma.modulaplikasi',
+                'acdc.modulaplikasiid',
+                'oma.kodeexternal'
+            )
             ->orderBy('oma.nourut', 'asc');
         $dataRaw = $dataRaw->get();
         foreach ($dataRaw as $dataRaw2) {
@@ -220,20 +236,19 @@ class ModulAplikasiController extends ApiController
                 $dataraw3[] = array(
                     'id' => $dataRaw2->id,
                     'parent_id' => 0,
-//					'modulaplikasiid'=>$dataRaw2->modulaplikasiid,
+                    //					'modulaplikasiid'=>$dataRaw2->modulaplikasiid,
                     'name' => $dataRaw2->objekmodulaplikasi,
                     'isChecked' => true
                 );
-            } else if ($dataRaw2->kdobjekmodulaplikasihead != null ) {
+            } else if ($dataRaw2->kdobjekmodulaplikasihead != null) {
                 $dataraw3[] = array(
                     'id' => $dataRaw2->id,
                     'parent_id' => $dataRaw2->kdobjekmodulaplikasihead,
                     'name' => $dataRaw2->objekmodulaplikasi,
                     'isChecked' => true
                 );
-
             }
-            $dataraw4 [] = array(
+            $dataraw4[] = array(
                 'id' => $dataRaw2->id,
                 'isChecked' => true
             );
@@ -252,9 +267,9 @@ class ModulAplikasiController extends ApiController
                 if (isset($elements[$parent_id])) {
                     $elements[$parent_id]['child'][] = &$element;
                 } else {
-//					if ($parent_id <= 10) {
+                    //					if ($parent_id <= 10) {
                     $tree[] = &$element;
-//					}
+                    //					}
                 }
             }
             return $tree;
@@ -262,13 +277,14 @@ class ModulAplikasiController extends ApiController
 
         $data = recursiveElements($data);
         $result = array(
-            'recursive' =>$data,
+            'recursive' => $data,
             'data' => $dataraw4
         );
 
         return $this->respond($result);
     }
-    function buildTree($elements, $parentId = "0") {
+    function buildTree($elements, $parentId = "0")
+    {
         $branch = array();
         foreach ($elements as $element) {
             if ($element->parent_id === $parentId) {
@@ -281,65 +297,75 @@ class ModulAplikasiController extends ApiController
         }
         return $branch;
     }
-    public function all(Request $request){
+    public function all(Request $request)
+    {
         $get_data_modul = DB::table('ModulAplikasi_S as modul')
             ->leftJoin('MapLoginUserToProfile_S as map', 'map.KdModulAplikasi', '=', 'modul.KdModulAplikasi')
-            ->where('modul.StatusEnabled','=',1)
-            ->where('modul.KdModulAplikasi','=',$request->input('KdModuleAplikasi'))
-            ->where('map.KdProfile','=',$request->input('KdProfile'))
-            ->where('map.KdRuangan','=',$request->input('KdRuangan'))
-            ->where('map.KdUser','=',$request->input('KdUser'))
+            ->where('modul.StatusEnabled', '=', 1)
+            ->where('modul.KdModulAplikasi', '=', $request->input('KdModuleAplikasi'))
+            ->where('map.KdProfile', '=', $request->input('KdProfile'))
+            ->where('map.KdRuangan', '=', $request->input('KdRuangan'))
+            ->where('map.KdUser', '=', $request->input('KdUser'))
             ->select('modul.KdModulAplikasi', 'modul.KdModulAplikasiHead', 'modul.ReportDisplay')
-            ->orderBy('modul.KdModulAplikasiHead','ASC')->get();
+            ->orderBy('modul.KdModulAplikasiHead', 'ASC')->get();
 
         $get_data_menu = DB::table('MapObjekModulToModulAplikasi_S as main')
-            ->join('ObjekModulAplikasi_S as objek', function($join) {
+            ->join('ObjekModulAplikasi_S as objek', function ($join) {
                 $join->on('main.KdObjekModulAplikasi', '=', 'objek.KdObjekModulAplikasi')
                     ->where('objek.StatusEnabled', '=', 1);
             })
             // ->join('MapObjekModulToModulAplikasi_S as objek', 'main.KdObjekModulAplikasi', '=', 'objek.KdObjekModulAplikasi')
-            ->join('MapObjekModulToKelompokUser_S as group',function($kelompokUser){
+            ->join('MapObjekModulToKelompokUser_S as group', function ($kelompokUser) {
                 $kelompokUser->on('main.KdObjekModulAplikasi', '=', 'group.KdObjekModulAplikasi');
                 $kelompokUser->on('main.KdProfile', '=', 'group.KdProfile');
             })
-            ->where('main.StatusEnabled','=',1)
-            ->where('main.KdModulAplikasi','=',$request->input('KdModuleAplikasi'))
-            ->where('group.KdKelompokUser','=', $request->input('KdKelompokUser'))
+            ->where('main.StatusEnabled', '=', 1)
+            ->where('main.KdModulAplikasi', '=', $request->input('KdModuleAplikasi'))
+            ->where('group.KdKelompokUser', '=', $request->input('KdKelompokUser'))
             ->where('main.KdProfile', '=', $request->input('KdProfile'))
-            ->select('objek.KdObjekModulAplikasi','objek.KdObjekModulAplikasiHead', 'main.KdModulAplikasi', 'objek.ReportDisplay', 'objek.AlamatURLFormObjek',
-                'group.Simpan', 'group.Hapus', 'group.Ubah', 'group.Cetak', 'group.Tampil'
+            ->select(
+                'objek.KdObjekModulAplikasi',
+                'objek.KdObjekModulAplikasiHead',
+                'main.KdModulAplikasi',
+                'objek.ReportDisplay',
+                'objek.AlamatURLFormObjek',
+                'group.Simpan',
+                'group.Hapus',
+                'group.Ubah',
+                'group.Cetak',
+                'group.Tampil'
 
             )
-            ->orderBy('main.NoUrutObjek','ASC')
-            ->orderBy('objek.ReportDisplay','ASC')->get();
+            ->orderBy('main.NoUrutObjek', 'ASC')
+            ->orderBy('objek.ReportDisplay', 'ASC')->get();
         //var_dump($get_data_modul);
         //var_dump($get_data_menu);
         $data_menu = array();
         $data_module = array();
-        foreach ($get_data_modul as $key => $value){
+        foreach ($get_data_modul as $key => $value) {
             $obj = new \stdClass();
             $obj->id = $value->KdModulAplikasi;
-            $obj->parent_id = ($value->KdModulAplikasiHead === NULL)?"0":$value->KdModulAplikasiHead;
+            $obj->parent_id = ($value->KdModulAplikasiHead === NULL) ? "0" : $value->KdModulAplikasiHead;
             $obj->label = $value->ReportDisplay;
             $obj->icon = 'fa fa-fw fa-sitemap';
             // $obj->routerLink = [''];
             $obj->badge = '';
             $obj->badgeStyleClass = 'orange-badge';
-            array_push($data_module,$obj );
+            array_push($data_module, $obj);
         }
 
-        foreach ($get_data_menu as $key => $value){
+        foreach ($get_data_menu as $key => $value) {
             $obj = new \stdClass();
-            $obj->id = $value->KdObjekModulAplikasi.'_child';
-            $obj->parent_id = ($value->KdObjekModulAplikasiHead < 1)? $value->KdModulAplikasi : $value->KdObjekModulAplikasiHead.'_child' ;
+            $obj->id = $value->KdObjekModulAplikasi . '_child';
+            $obj->parent_id = ($value->KdObjekModulAplikasiHead < 1) ? $value->KdModulAplikasi : $value->KdObjekModulAplikasiHead . '_child';
             $obj->label = $value->ReportDisplay;
             $obj->icon = 'fa fa-fw fa-sitemap';
-            $obj->routerLink = ($value->AlamatURLFormObjek)?['./'.$value->AlamatURLFormObjek]:['./'];
+            $obj->routerLink = ($value->AlamatURLFormObjek) ? ['./' . $value->AlamatURLFormObjek] : ['./'];
             $obj->badge = '';
             $obj->badgeStyleClass = 'orange-badge';
-            array_push($data_menu,$obj );
+            array_push($data_menu, $obj);
         }
-        $data = array_merge($data_module,$data_menu);
+        $data = array_merge($data_module, $data_menu);
         $results = $this->buildTree($data);
 
         return response()->json($results);
@@ -347,26 +373,26 @@ class ModulAplikasiController extends ApiController
     public function saveModulAplikasi(Request $request)
     {
         DB::beginTransaction();
-        try{
-            $newId = ModulAplikasi::max('id') +1 ;
-            if ($request['id'] == ''){
+        try {
+            $newId = ModulAplikasi::max('id') + 1;
+            if ($request['id'] == '') {
                 $TP = new ModulAplikasi();
                 $TP->id = $newId;
                 $TP->kdprofile = 1;
                 $TP->norec = $TP->generateNewId();
-            }else{
+            } else {
                 $TP = ModulAplikasi::where('id', $request['id'])->first();
                 $newId = $TP->id;
             }
             $TP->statusenabled =  $request['statusenabled'];
             $TP->kdmodulaplikasi = $newId;
-//			$TP->kodeexternal =  $newId;
+            //			$TP->kodeexternal =  $newId;
             $TP->reportdisplay = $request['reportdisplay'];
             $TP->modulaplikasi = $request['modulaplikasi'];
-            if($request['modulAplikasiHead']!= ''){
+            if ($request['modulAplikasiHead'] != '') {
                 $TP->kdmodulaplikasihead = $request['modulAplikasiHead'];
             }
-//			$TP->nourut = $request['nourut'];
+            //			$TP->nourut = $request['nourut'];
             $TP->save();
 
             $transStatus = true;
@@ -393,19 +419,18 @@ class ModulAplikasiController extends ApiController
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-
     }
     public function saveObjekModulAplikasi(Request $request)
     {
         DB::beginTransaction();
-        try{
-            $newId = ObjekModulAplikasi::max('id') +1 ;
-            if ($request['id'] == ''){
+        try {
+            $newId = ObjekModulAplikasi::max('id') + 1;
+            if ($request['id'] == '') {
                 $TP = new ObjekModulAplikasi();
                 $TP->id = $newId;
                 $TP->kdprofile = 1;
                 $TP->norec = $TP->generateNewId();
-            }else{
+            } else {
                 $TP = ObjekModulAplikasi::where('id', $request['id'])->first();
                 $newId = $TP->id;
             }
@@ -417,7 +442,7 @@ class ModulAplikasiController extends ApiController
             $TP->fungsi = $request['fungsi'];
             $TP->keterangan = $request['keterangan'];
             $TP->alamaturlform = $request['alamaturlform'] != '' ? $request['alamaturlform'] : null;
-            if($request['objekModulAplikasiHead']!= ''){
+            if ($request['objekModulAplikasiHead'] != '') {
                 $TP->kdobjekmodulaplikasihead = $request['objekModulAplikasiHead'];
             }
             $TP->nourut = $request['nourut'];
@@ -447,45 +472,42 @@ class ModulAplikasiController extends ApiController
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-
     }
     public function getDaftarObjekModulAplikasi(Request $request)
     {
         $data = DB::table('objekmodulaplikasi_s')
             ->select('*')
-            ->where('statusenabled',true)
+            ->where('statusenabled', true)
             ->orderBy('nourut')
             ->get();
         $result = array(
-            'data' =>$data,
-            'as'=> 'inhuman'
+            'data' => $data,
+            'as' => 'inhuman'
         );
         return $this->respond($result);
-
     }
 
     public function getMapLoginToModulApp(Request $request)
     {
         $data = DB::table('maploginusertomodulaplikasi_s as maps')
-            ->join('loginuser_s as log','maps.objectloginuserfk','=','log.id')
-            ->join('modulaplikasi_s as mod','maps.objectmodulaplikasifk','=','mod.id')
-            ->select('maps.*','mod.modulaplikasi','log.namauser')
-            ->where('maps.statusenabled',true)
-            ->where('log.id',$request['idLogin'])
-//			->orderBy('nourut')
+            ->join('loginuser_s as log', 'maps.objectloginuserfk', '=', 'log.id')
+            ->join('modulaplikasi_s as mod', 'maps.objectmodulaplikasifk', '=', 'mod.id')
+            ->select('maps.*', 'mod.modulaplikasi', 'log.namauser')
+            ->where('maps.statusenabled', true)
+            ->where('log.id', $request['idLogin'])
+            //			->orderBy('nourut')
             ->get();
         $result = array(
             'data' => $data,
-            'as'=> 'inhuman'
+            'as' => 'inhuman'
         );
         return $this->respond($result);
-
     }
     public function saveMapLoginToModulApp(Request $request)
     {
         DB::beginTransaction();
-        try{
-            $newId = MapLoginUserToModulAplikasi::max('id') +1 ;
+        try {
+            $newId = MapLoginUserToModulAplikasi::max('id') + 1;
 
             $TP = new MapLoginUserToModulAplikasi();
             $TP->id = $newId;
@@ -520,15 +542,14 @@ class ModulAplikasiController extends ApiController
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-
     }
     public function deleteMapLoginToModulApp(Request $request)
     {
         DB::beginTransaction();
-        try{
-            MapLoginUserToModulAplikasi::where('objectloginuserfk',$request['objectloginuserfk'])
-                ->where('objectmodulaplikasifk',$request['objectmodulaplikasifk'])
-                ->where('id',$request['id'])
+        try {
+            MapLoginUserToModulAplikasi::where('objectloginuserfk', $request['objectloginuserfk'])
+                ->where('objectmodulaplikasifk', $request['objectmodulaplikasifk'])
+                ->where('id', $request['id'])
                 ->delete();
 
             $transStatus = true;
@@ -542,7 +563,7 @@ class ModulAplikasiController extends ApiController
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
-//				'result' => $TP,
+                //				'result' => $TP,
                 'as' => 'inhuman',
             );
         } else {
@@ -555,15 +576,14 @@ class ModulAplikasiController extends ApiController
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-
     }
     public function saveMapModultoObjekModulApp(Request $request)
     {
         DB::beginTransaction();
-        try{
-            MapObjekModulAplikasiToModulAplikasi::where('modulaplikasiid',$request['modulaplikasiid'])->delete();
-            foreach ($request['data'] as $item){
-                $newId = MapObjekModulAplikasiToModulAplikasi::max('id') +1 ;
+        try {
+            MapObjekModulAplikasiToModulAplikasi::where('modulaplikasiid', $request['modulaplikasiid'])->delete();
+            foreach ($request['data'] as $item) {
+                $newId = MapObjekModulAplikasiToModulAplikasi::max('id') + 1;
                 $TP = new MapObjekModulAplikasiToModulAplikasi();
                 $TP->id = $newId;
                 $TP->kdprofile = 1;
@@ -599,15 +619,14 @@ class ModulAplikasiController extends ApiController
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-
     }
     public function saveObjekModulAplikasiFromJson(Request $request)
     {
         DB::beginTransaction();
 
-        try{
-            $newIds = ObjekModulAplikasi::max('id') +1 ;
-            $no = ObjekModulAplikasi::max('nourut') +1 ;
+        try {
+            $newIds = ObjekModulAplikasi::max('id') + 1;
+            $no = ObjekModulAplikasi::max('nourut') + 1;
             $TPs = new ObjekModulAplikasi();
             $TPs->id = $newIds;
             $TPs->kdprofile = 1;
@@ -619,20 +638,20 @@ class ModulAplikasiController extends ApiController
             $TPs->objekmodulaplikasi = $request['name'];
             $TPs->fungsi = '';
             $TPs->keterangan = $request['name'];
-            if(isset($request['link'])){
+            if (isset($request['link'])) {
                 $TPs->alamaturlform = $request['link'];
             }
-//
-//			$TPs->kdobjekmodulaplikasihead = 1676 ;
+            //
+            //			$TPs->kdobjekmodulaplikasihead = 1676 ;
             $TPs->nourut = $no;
             $TPs->save();
-            $idHead=$TPs->id;
+            $idHead = $TPs->id;
 
-            if(isset( $request ['children'])){
-                $dataRaw = $request ['children'];
-                foreach ($dataRaw as $item){
-                    $newId = ObjekModulAplikasi::max('id') +1 ;
-                    $no = ObjekModulAplikasi::max('nourut') +1 ;
+            if (isset($request['children'])) {
+                $dataRaw = $request['children'];
+                foreach ($dataRaw as $item) {
+                    $newId = ObjekModulAplikasi::max('id') + 1;
+                    $no = ObjekModulAplikasi::max('nourut') + 1;
                     $TP = new ObjekModulAplikasi();
                     $TP->id = $newId;
                     $TP->kdprofile = 1;
@@ -648,11 +667,10 @@ class ModulAplikasiController extends ApiController
                     $TP->kdobjekmodulaplikasihead = $idHead;
                     $TP->nourut = $no;
                     $TP->save();
-
                 }
             }
 
-//
+            //
             $transStatus = true;
         } catch (\Exception $e) {
             $transStatus = false;
@@ -664,7 +682,7 @@ class ModulAplikasiController extends ApiController
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
-//				'result' => $TP,
+                //				'result' => $TP,
                 'as' => 'inhuman',
             );
         } else {
@@ -677,28 +695,28 @@ class ModulAplikasiController extends ApiController
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-
     }
-    public function saveEndWaktuLogin (Request $request){
+    public function saveEndWaktuLogin(Request $request)
+    {
         DB::beginTransaction();
         try {
-//			$data = WaktuLogin::where('statusenabled',true)
-//				->where('objectjenisruanganfk',$request['jenisruanganid'])
-//				->get();
-//			if(count($data) != 0){
-//				$data2 = App\Master\MapRuanganToJenisRuangan::where('statusenabled',true)
-//					->where('objectjenisruanganfk',$request['jenisruanganid'])
-//					->delete();
-//
-//			}
+            //			$data = WaktuLogin::where('statusenabled',true)
+            //				->where('objectjenisruanganfk',$request['jenisruanganid'])
+            //				->get();
+            //			if(count($data) != 0){
+            //				$data2 = App\Master\MapRuanganToJenisRuangan::where('statusenabled',true)
+            //					->where('objectjenisruanganfk',$request['jenisruanganid'])
+            //					->delete();
+            //
+            //			}
             foreach ($request['user'] as $item) {
 
-                $new = New WaktuLogin();
+                $new = new WaktuLogin();
                 $new->id = WaktuLogin::max('id') + 1;
                 $new->kdprofile = 1;
                 $new->statusenabled = true;
                 $new->norec = $new->generateNewId();
-//				$new->pegawaifk = $item['jenisruanganid'];
+                //				$new->pegawaifk = $item['jenisruanganid'];
                 $new->loginuserfk = $item['luid'];
                 $new->expired =  $request['waktuberakhir'];
                 $new->status = '';
@@ -726,16 +744,22 @@ class ModulAplikasiController extends ApiController
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
-    public function getEndWaktuLogin (Request $request)
+    public function getEndWaktuLogin(Request $request)
     {
         $data = DB::table('waktulogin_m as wl')
-            ->join('loginuser_s as lu','lu.id','=','wl.loginuserfk')
-            ->join('pegawai_m as pg','pg.id','=','lu.objectpegawaifk')
-            ->select('wl.id','wl.loginuserfk','wl.expired','lu.namauser','lu.objectpegawaifk',
-                'pg.namalengkap')
+            ->join('loginuser_s as lu', 'lu.id', '=', 'wl.loginuserfk')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'lu.objectpegawaifk')
+            ->select(
+                'wl.id',
+                'wl.loginuserfk',
+                'wl.expired',
+                'lu.namauser',
+                'lu.objectpegawaifk',
+                'pg.namalengkap'
+            )
             ->orderBy('wl.expired');
-        if(isset($request['idUser']) && $request['idUser']!=''){
-            $data = $data->where('lu.id',$request['idUser']);
+        if (isset($request['idUser']) && $request['idUser'] != '') {
+            $data = $data->where('lu.id', $request['idUser']);
         }
         $data = $data->get();
         $result = array(
@@ -743,12 +767,12 @@ class ModulAplikasiController extends ApiController
             'as' => 'ramdanegie',
         );
         return $this->respond($result);
-
     }
-    public function deleteEndWaktuLogin (Request $request){
+    public function deleteEndWaktuLogin(Request $request)
+    {
         DB::beginTransaction();
         try {
-            WaktuLogin::where('id',$request['id'])->delete();
+            WaktuLogin::where('id', $request['id'])->delete();
 
             $transStatus = true;
         } catch (\Exception $e) {
@@ -776,14 +800,14 @@ class ModulAplikasiController extends ApiController
     {
         return sha1($pass);
     }
-    public function saveNewUser (Request $request)
+    public function saveNewUser(Request $request)
     {
         DB::beginTransaction();
-        try{
-            if($request['id'] == ''){
-                $user = LoginUser::where('namauser',$request['namauser'])->get();
-                if( count($user)>0 ){
-                    $transMessage = 'User sudah ada' ;
+        try {
+            if ($request['id'] == '') {
+                $user = LoginUser::where('namauser', $request['namauser'])->get();
+                if (count($user) > 0) {
+                    $transMessage = 'User sudah ada';
                     $result = array(
                         "status" => 400,
                         "message" => 'inhuman@epic'
@@ -795,24 +819,23 @@ class ModulAplikasiController extends ApiController
                 $new->kdprofile = 0;
                 $new->statusenabled = true;
                 $new->norec = $new->generateNewId();
-            }else{
+            } else {
                 $new = LoginUser::where('id', $request['id'])->first();
-                $cekUser = LoginUser::where('namauser',$request['namauser'])
+                $cekUser = LoginUser::where('namauser', $request['namauser'])
                     ->first();
-                $sama = false ;
-                if(!empty($cekUser)){
-                    if($cekUser->id != $request['id'] && $request['namauser'] == $cekUser->namauser ){
+                $sama = false;
+                if (!empty($cekUser)) {
+                    if ($cekUser->id != $request['id'] && $request['namauser'] == $cekUser->namauser) {
                         $sama = true;
                     }
                 }
-                if($sama ==  true){
+                if ($sama ==  true) {
                     $result = array(
                         "status" => 400,
                         "as" => '#Inhuman'
                     );
                     return $this->setStatusCode($result['status'])->respond($result, 'Nama User sudah ada');
                 }
-
             }
             $new->namaexternal = $request['namauser'];
             $new->reportdisplay = $request['namauser'];
@@ -824,8 +847,8 @@ class ModulAplikasiController extends ApiController
             $new->passcode = $this->encryptSHA1($request['katasandi']);
             $new->statuspublic = $request['statuspublic'];
             $new->save();
-            if(isset($request['waktuberakhir']) && $request['waktuberakhir'] != ''){
-                $news = New WaktuLogin();
+            if (isset($request['waktuberakhir']) && $request['waktuberakhir'] != '') {
+                $news = new WaktuLogin();
                 $news->id = WaktuLogin::max('id') + 1;
                 $news->kdprofile = 1;
                 $news->statusenabled = true;
@@ -834,7 +857,6 @@ class ModulAplikasiController extends ApiController
                 $news->expired =  $request['waktuberakhir'];
                 $news->status = '';
                 $news->save();
-
             }
             $transStatus = true;
         } catch (\Exception $e) {
@@ -858,31 +880,34 @@ class ModulAplikasiController extends ApiController
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
-    public function getPegawaiPart(Request $request) {
-        $req=$request->all();
-        $datas =[];
+    public function getPegawaiPart(Request $request)
+    {
+        $req = $request->all();
+        $datas = [];
         $data  = \DB::table('pegawai_m as st')
-            ->select('st.id','st.namalengkap')
-            ->where('st.statusenabled',true)
+            ->select('st.id', 'st.namalengkap')
+            ->where('st.statusenabled', true)
             ->orderBy('st.namalengkap');
-        if(isset($req['filter']['filters'][0]['value']) &&
-            $req['filter']['filters'][0]['value']!="" &&
-            $req['filter']['filters'][0]['value']!="undefined"){
-            $data = $data->where('st.namalengkap','ilike','%'. $req['filter']['filters'][0]['value'].'%' );
+        if (
+            isset($req['filter']['filters'][0]['value']) &&
+            $req['filter']['filters'][0]['value'] != "" &&
+            $req['filter']['filters'][0]['value'] != "undefined"
+        ) {
+            $data = $data->where('st.namalengkap', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%');
         };
-        if(isset($req['namalengkap']) && $req['namalengkap']!="" && $req['namalengkap']!="undefined"){
+        if (isset($req['namalengkap']) && $req['namalengkap'] != "" && $req['namalengkap'] != "undefined") {
             $data = $data
-                ->where('st.namalengkap','ilike','%'.$req['namalengkap'].'%' );
+                ->where('st.namalengkap', 'ilike', '%' . $req['namalengkap'] . '%');
         }
-        if(isset($req['idPeg']) && $req['idPeg']!="" && $req['idPeg']!="undefined"){
+        if (isset($req['idPeg']) && $req['idPeg'] != "" && $req['idPeg'] != "undefined") {
             $data = $data
-                ->where('st.id','=',$req['idPeg'] );
+                ->where('st.id', '=', $req['idPeg']);
         }
         $data = $data->take(10);
         $data = $data->get();
 
-        foreach ($data as $item){
-            $datas[]  =array(
+        foreach ($data as $item) {
+            $datas[]  = array(
                 'id' => $item->id,
                 'namalengkap' => $item->namalengkap,
             );
@@ -890,13 +915,22 @@ class ModulAplikasiController extends ApiController
 
         return $this->respond($datas);
     }
-    public function getDaftarUser(Request $request) {
+    public function getDaftarUser(Request $request)
+    {
         $data  = \DB::table('loginuser_s as lo')
-            ->join('pegawai_m as pg','lo.objectpegawaifk','=','pg.id')
-            ->join('kelompokuser_s as kl','lo.objectkelompokuserfk','=','kl.id')
-            ->select('lo.id','lo.namauser','lo.passcode as katakunci','pg.namalengkap','kl.kelompokuser','lo.objectkelompokuserfk',
-                'lo.objectpegawaifk')
-            ->where('lo.statusenabled',true)
+            ->join('pegawai_m as pg', 'lo.objectpegawaifk', '=', 'pg.id')
+            ->join('kelompokuser_s as kl', 'lo.objectkelompokuserfk', '=', 'kl.id')
+            ->select(
+                'lo.id',
+                'lo.namauser',
+                'lo.passcode as katakunci',
+                'pg.namalengkap',
+                'kl.kelompokuser',
+                'lo.objectkelompokuserfk',
+                'lo.objectpegawaifk'
+            )
+            ->where('lo.statusenabled', true)
+            ->where('pg.statusenabled', true)
             ->orderBy('lo.namauser');
 
         $data = $data->get();
@@ -908,11 +942,11 @@ class ModulAplikasiController extends ApiController
 
         return $this->respond($result);
     }
-    public function deleteNewUser (Request $request)
+    public function deleteNewUser(Request $request)
     {
-        try{
-            if($request['id'] != ''){
-                WaktuLogin::where('loginuserfk',$request['id'])->delete();
+        try {
+            if ($request['id'] != '') {
+                WaktuLogin::where('loginuserfk', $request['id'])->delete();
                 LoginUser::where('id', $request['id'])->delete();
             }
 
@@ -939,60 +973,60 @@ class ModulAplikasiController extends ApiController
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
 
-    public function getMasterModulAplikasi (Request $request){
+    public function getMasterModulAplikasi(Request $request)
+    {
         $modulAplikasi = \DB::table('modulaplikasi_s as mad')
             // ->leftJoin('modulaplikasi_s as mods','mods.id','=','mad.kdmodulaplikasihead')
             ->select('mad.*')
-            ->where('statusenabled',true)
-            ->orderBy('id','desc')
+            ->where('statusenabled', true)
+            ->orderBy('id', 'desc')
             ->get();
 
         $data2 = [];
-        foreach ($modulAplikasi as $item){
-            if($item->kdmodulaplikasihead != null ){
-                $mod = ModulAplikasi::where('statusenabled',true)
-                    ->where('id', $item->kdmodulaplikasihead )
+        foreach ($modulAplikasi as $item) {
+            if ($item->kdmodulaplikasihead != null) {
+                $mod = ModulAplikasi::where('statusenabled', true)
+                    ->where('id', $item->kdmodulaplikasihead)
                     ->first();
 
-                $data2 [] = array(
-                    'iconimage' =>  $item->iconimage ,
-                    'id'  =>  $item->id ,
-                    'kdmodulaplikasi' => $item->kdmodulaplikasi ,
-                    'kdmodulaplikasihead' =>  $item->kdmodulaplikasihead ,
-                    'kdprofile'  =>$item->kdprofile ,
-                    'kodeexternal' =>  $item->kodeexternal ,
-                    'modulaplikasi' =>  $item->modulaplikasi ,
-                    'moduliconimage' =>  $item->moduliconimage ,
-                    'modulnourut' =>  $item->modulnourut  ,
-                    'namaexternal' =>    $item->namaexternal  ,
-                    'norec' =>$item->norec ,
-                    'nourut' => $item->nourut ,
-                    'reportdisplay' => $item->reportdisplay ,
-                    'statusenabled' => $item->statusenabled ,
+                $data2[] = array(
+                    'iconimage' =>  $item->iconimage,
+                    'id'  =>  $item->id,
+                    'kdmodulaplikasi' => $item->kdmodulaplikasi,
+                    'kdmodulaplikasihead' =>  $item->kdmodulaplikasihead,
+                    'kdprofile'  => $item->kdprofile,
+                    'kodeexternal' =>  $item->kodeexternal,
+                    'modulaplikasi' =>  $item->modulaplikasi,
+                    'moduliconimage' =>  $item->moduliconimage,
+                    'modulnourut' =>  $item->modulnourut,
+                    'namaexternal' =>    $item->namaexternal,
+                    'norec' => $item->norec,
+                    'nourut' => $item->nourut,
+                    'reportdisplay' => $item->reportdisplay,
+                    'statusenabled' => $item->statusenabled,
                     'modulAplikasiHead' => array(
                         'modulaplikasi' => $mod['modulaplikasi'],
                         'id' => $mod['id'],
                     )
                 );
-            }else{
-                $data2 [] = array(
-                    'iconimage' =>  $item->iconimage ,
-                    'id'  =>  $item->id ,
-                    'kdmodulaplikasi' => $item->kdmodulaplikasi ,
-                    'kdmodulaplikasihead' =>  $item->kdmodulaplikasihead ,
-                    'kdprofile'  =>$item->kdprofile ,
-                    'kodeexternal' =>  $item->kodeexternal ,
-                    'modulaplikasi' =>  $item->modulaplikasi ,
-                    'moduliconimage' =>  $item->moduliconimage ,
-                    'modulnourut' =>  $item->modulnourut  ,
-                    'namaexternal' =>    $item->namaexternal  ,
-                    'norec' =>$item->norec ,
-                    'nourut' => $item->nourut ,
-                    'reportdisplay' => $item->reportdisplay ,
-                    'statusenabled' => $item->statusenabled ,
+            } else {
+                $data2[] = array(
+                    'iconimage' =>  $item->iconimage,
+                    'id'  =>  $item->id,
+                    'kdmodulaplikasi' => $item->kdmodulaplikasi,
+                    'kdmodulaplikasihead' =>  $item->kdmodulaplikasihead,
+                    'kdprofile'  => $item->kdprofile,
+                    'kodeexternal' =>  $item->kodeexternal,
+                    'modulaplikasi' =>  $item->modulaplikasi,
+                    'moduliconimage' =>  $item->moduliconimage,
+                    'modulnourut' =>  $item->modulnourut,
+                    'namaexternal' =>    $item->namaexternal,
+                    'norec' => $item->norec,
+                    'nourut' => $item->nourut,
+                    'reportdisplay' => $item->reportdisplay,
+                    'statusenabled' => $item->statusenabled,
                 );
             }
-
         }
         $result = array(
             'data' => $data2,
@@ -1037,7 +1071,8 @@ class ModulAplikasiController extends ApiController
 
         return $this->respond($dataRaw);
     }
-    public function updateStatusPublicUser(Request $request) {
+    public function updateStatusPublicUser(Request $request)
+    {
         DB::beginTransaction();
         try {
             if ($request['statuspublic'] == "1") {
@@ -1050,20 +1085,20 @@ class ModulAplikasiController extends ApiController
                 ]);
             }
             $transStatus = 'true';
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $transMessage = 'Gagal';
             $transStatus = 'false';
         }
         if ($transStatus == 'true') {
             $transMessage = 'Berhasil';
             DB::commit();
-            $result = array (
+            $result = array(
                 'status' => 201,
                 'message' => $transMessage
             );
         } else {
             DB::rollBack();
-            $result = array (
+            $result = array(
                 'status' => 400,
                 'message' => $transMessage
             );
