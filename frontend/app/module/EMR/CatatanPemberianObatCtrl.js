@@ -144,6 +144,7 @@ define(["initialize"], function (initialize) {
               $scope.isUpdateCetak = true;
               $scope.cc.noemr = dat.data.data[0].noemr;
               $scope.cc.norec_emr = dat.data.data[0].noemr;
+              $scope.noemr = dat.data.data[0].noemr;
               nomorEMRSS = dat.data.data[0].noemr;
               nomorEMR = nomorEMRSS;
               $scope.cc.emrfk = 2076;
@@ -251,9 +252,9 @@ define(["initialize"], function (initialize) {
         for (var i = arrobj.length - 1; i >= 0; i--) {
           var currentId = arrobj[i];
           var currentObj = $scope.item.obj[parseInt(currentId)];
-          
+
           if (currentObj != undefined && currentObj !== "") {
-            if (currentObj.hasOwnProperty('id') && currentObj.hasOwnProperty('namalengkap')) {
+            if (typeof currentObj === 'object' && currentObj !== null && currentObj.hasOwnProperty('id') && currentObj.hasOwnProperty('namalengkap')) {
               arrSave.push({ id: currentId, values: { value: currentObj.id, text: currentObj.namalengkap } });
             } else {
               arrSave.push({ id: currentId, values: currentObj });
@@ -633,6 +634,8 @@ define(["initialize"], function (initialize) {
       $scope.BuatBaru = function () {
         var chekedd = false
         $scope.showForm = true;
+        $scope.isSave = true;
+        $scope.isUpdate = false;
         $scope.item.obj = []
         nomorEMRSS = ''
         $scope.cc.norec_emr = '-'
@@ -656,6 +659,8 @@ define(["initialize"], function (initialize) {
         var paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi;
         medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=catatanpemberianobat" + noemr, true).then(function (dat) {
           $scope.isRouteLoading = false
+          $scope.isSave = false
+          $scope.isUpdate = true
           $scope.noemr = dat.data.data[0].noemr
           $scope.cc.norec_emr = dat.data.data[0].noemr
           nomorEMRSS = ''
