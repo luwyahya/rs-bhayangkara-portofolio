@@ -29928,20 +29928,24 @@ WHERE rm.norec = '$norec_resume'
 
             if ($head['norec_emr'] == '-') {
 
-                // Cek 1: berdasarkan noregistrasifk + jenisemr
-                $cekNoemrPasien = EMRPasien::where('noregistrasifk', $head['noregistrasi'])
-                    ->where('jenisemr', $head['jenisemr'])
-                    ->where('statusenabled', true)
-                    ->orderBy('tglemr', 'DESC')
-                    ->first();
-
-                // Cek 2: fallback berdasarkan noregistrasifk + emrfk (untuk record lama yang jenisemr-nya null)
-                if (!$cekNoemrPasien && isset($head['emrfk'])) {
+                $cekNoemrPasien = null;
+                // Jika force_new true, lewati pengecekan agar selalu membuat norec_emr baru (kasus multi-record seperti EWS)
+                if (!isset($head['force_new']) || $head['force_new'] == false) {
+                    // Cek 1: berdasarkan noregistrasifk + jenisemr
                     $cekNoemrPasien = EMRPasien::where('noregistrasifk', $head['noregistrasi'])
-                        ->where('emrfk', $head['emrfk'])
+                        ->where('jenisemr', $head['jenisemr'])
                         ->where('statusenabled', true)
                         ->orderBy('tglemr', 'DESC')
                         ->first();
+
+                    // Cek 2: fallback berdasarkan noregistrasifk + emrfk (untuk record lama yang jenisemr-nya null)
+                    if (!$cekNoemrPasien && isset($head['emrfk'])) {
+                        $cekNoemrPasien = EMRPasien::where('noregistrasifk', $head['noregistrasi'])
+                            ->where('emrfk', $head['emrfk'])
+                            ->where('statusenabled', true)
+                            ->orderBy('tglemr', 'DESC')
+                            ->first();
+                    }
                 }
                 
                 if ($cekNoemrPasien) {

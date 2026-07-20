@@ -1764,9 +1764,13 @@ define(['initialize'], function (initialize) {
                     arrSave.push({ id: currentId, values: currentObj });
                 }
 
+                var method = 'new';
                 if ($scope.isUpdate === true) {
-                    var method = 'update'
-                    $scope.cc.norec_emr = $scope.dataSelected.noemr
+                    method = 'update';
+                    $scope.cc.norec_emr = $scope.dataSelected.noemr;
+                    $scope.cc.force_new = false;
+                } else {
+                    $scope.cc.force_new = true;
                 }
 
                 $scope.cc.jenisemr = 'ews'
