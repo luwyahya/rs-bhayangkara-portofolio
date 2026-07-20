@@ -1740,7 +1740,22 @@ define(['initialize'], function (initialize) {
                     $scope.popUpTambahEdukasi.close();
                 }
             }
-                        $scope.saveEws = function () {
+            $scope.saveEws = function () {
+                if (jenisews !== undefined && jenisews !== '') $scope.item.obj[2792] = jenisews;
+                if (keterangan !== undefined && keterangan !== '') $scope.item.obj[2778] = keterangan;
+                if (flag !== undefined && flag !== '') $scope.item.obj[2833] = flag;
+
+                if (jenisews === 'EWS ANAK < 28 HARI' && sum2 !== undefined && sum2 !== '') $scope.item.obj[2777] = sum2;
+                if (jenisews === 'EWS ANAK < 1 TAHUN' && sum2 !== undefined && sum2 !== '') $scope.item.obj[7752] = sum2;
+                if (jenisews === 'EWS ANAK 1 - 5 TAHUN' && sum1 !== undefined && sum1 !== '') $scope.item.obj[7753] = sum1;
+                if (jenisews === 'EWS ANAK 5 - 11 TAHUN' && sum3 !== undefined && sum3 !== '') $scope.item.obj[7754] = sum3;
+                if (jenisews === 'EWS ANAK 12 - 16 TAHUN' && sum4 !== undefined && sum4 !== '') $scope.item.obj[7755] = sum4;
+                if (jenisews === 'EWS DEWASA' && sum5 !== undefined && sum5 !== '') $scope.item.obj[7756] = sum5;
+                if (jenisews === 'EWS OBSTETRI / IBU HAMIL' && sum6 !== undefined && sum6 !== '') $scope.item.obj[7757] = sum6;
+                if (jenisews === 'EWS DEWASA (BARU)' && sum7 !== undefined && sum7 !== '') $scope.item.obj[7758] = sum7;
+                if (jenisews === 'PEWS ANAK' && sum8 !== undefined && sum8 !== '') $scope.item.obj[7759] = sum8;
+                if (jenisews === 'MEOWS' && sum8 !== undefined && sum8 !== '') $scope.item.obj[8143] = sum8;
+
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
                 for (var i = arrobj.length - 1; i >= 0; i--) {
@@ -1885,13 +1900,13 @@ define(['initialize'], function (initialize) {
                     }
                 })
             }
-                        function setobjectToModel(nomorEMRSS, emrfk, tglEws2) {
+            function setobjectToModel(nomorEMRSS, emrfk, tglEws2) {
                 medifirstService.get("emr/get-emr-transaksi-detail-new?noemr=" + nomorEMRSS + "&emrfk=" + emrfk + "&tgl=" + tglEws2, true).then(function (dat) {
                     $scope.isLoading = false
                     var chekedd = false
                     $scope.item.obj = []
                     $scope.item.obj2 = []
-                    
+
                     let dataLoad = dat.data.data
                     for (var i = 0; i <= dataLoad.length - 1; i++) {
                         if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
@@ -1915,7 +1930,7 @@ define(['initialize'], function (initialize) {
                             if (dataLoad[i].type == "textarea") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
                             }
-                            
+
                             let val = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
                             if (dataLoad[i].emrdfk == 2777 || dataLoad[i].emrdfk == 7752) sum2 = val;
                             if (dataLoad[i].emrdfk == 7753) sum1 = val;
