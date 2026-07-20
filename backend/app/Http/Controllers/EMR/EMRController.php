@@ -8290,11 +8290,12 @@ class EMRController  extends ApiController
         $data = DB::table('emrpasien_t as ep')
             ->join('emrpasiend_t as epd', 'ep.noemr', '=', 'epd.emrpasienfk')
             ->select('ep.nocm', 'ep.namapasien', 'ep.noregistrasifk as noregistrasi', 'epd.tgl', 'epd.value', 'epd.emrdfk', 'epd.emrpasienfk', 'ep.norec', 'ep.noemr')
-            ->whereIn('epd.emrdfk', [2777, 2778, 2792, 2833, 7752, 7753, 7754, 7755, 7756, 7757, 7758, 7759])
+            ->whereIn('epd.emrdfk', [2777, 2778, 2792, 2833, 7752, 7753, 7754, 7755, 7756, 7757, 7758, 7759, 8143])
             ->where('ep.emrfk', 876)
             ->where('ep.noregistrasifk', $request['noRegistrasi'])
             ->where('ep.statusenabled', '=', true)
             ->orderBy('epd.tgl', 'desc')
+            ->orderBy('epd.emrdfk', 'desc')
             ->get();
 
         foreach ($data as $item) {
