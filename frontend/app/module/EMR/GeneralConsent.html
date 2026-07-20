@@ -319,3 +319,337 @@
             </div>
         </div>
     </div>
+
+
+<div kendo-window="popUpCetak" k-title="'Preview Cetak General Consent'" k-width="1200" k-height="700"
+    k-visible="false">
+    <div class="panel panel-default container_12" style="padding: 10px 10px;">
+        <div class="panel-body">
+            <div class="grid_12">
+                <div class="k-edit-buttons k-state-default pull-right" style="margin-top:10px">
+                    <a class="no-print k-button k-button-icontext" href="javascript:printDiv('cetakRm');"><span
+                            class="k-icon k-i-print"></span>Cetak PDF</a>
+                    <button class="k-button btnHapus k-button-icontext" ng-click="popUpCetak.close()"><span
+                            class="k-icon k-cancel"></span>Tutup</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="grid_12 animated containerBorderBox">
+                <div class="grid_12" style="margin-top: 10px">
+                    <div style="width: 100%" id="cetakRm">
+                        <style>
+                            .tg-consent {
+                                border-collapse: collapse;
+                                width: 100%;
+                                font-size: 13px;
+                                font-family: "Arial", sans-serif;
+                                margin-bottom: 20px;
+                            }
+                            .tg-consent th,
+                            .tg-consent td {
+                                border: 1px solid #000;
+                                padding: 8px;
+                                vertical-align: top;
+                            }
+                            .tg-consent th {
+                                background-color: #f2f2f2 !important;
+                                text-align: center;
+                                font-weight: bold;
+                                -webkit-print-color-adjust: exact;
+                            }
+                            .text-center {
+                                text-align: center;
+                                vertical-align: middle !important;
+                            }
+                            .font-bold {
+                                font-weight: bold;
+                            }
+                            .list-alpha {
+                                margin: 5px 0 0 15px;
+                                padding-left: 10px;
+                            }
+                            .list-alpha li {
+                                margin-bottom: 5px;
+                                text-align: justify;
+                            }
+                        </style>
+                        <div style="font-family: 'Times New Roman', Times, serif; color: #000; padding: 10px 20px; font-size: 12px;">
+
+                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-family: 'Times New Roman', Times, serif; color: #000;">
+                                <tr>
+                                    <td style="width: 15%; text-align: center; vertical-align: middle; padding: 0; border: none;">
+                                        <img src="images/logodokesnew.png" style="width: 90px; height: auto;">
+                                    </td>
+                                    <td style="width: 50%; text-align: center; vertical-align: middle; padding: 0; border: none;">
+                                        <div style="font-size: 16px; font-weight: bold; line-height: 1.2;">
+                                            KEPOLISIAN DAERAH JAWA BARAT<br>
+                                            BIDANG KEDOKTERAN DAN KESEHATAN<br>
+                                            RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR
+                                        </div>
+                                        <div style="font-size: 11px; margin-top: 5px;">
+                                            Jl. Suroso Nomor. 21, Kel. Pamoyanan, Kec. Cianjur, Kab. Cianjur, Prov. Jawa Barat 43211.<br>
+                                            Telepon. 0263 285 299.
+                                        </div>
+                                    </td>
+                                    <td style="width: 35%; vertical-align: middle; padding: 0; border: none;">
+                                        <div style="border: 2px solid #000; border-radius: 10px; padding: 10px; text-align: left; background-color: #fff;">
+                                            <table style="width: 100%; border-collapse: collapse; font-size: 13px; font-family: 'Times New Roman', Times, serif;">
+                                                <tr>
+                                                    <td style="padding: 1px 5px 1px 0; width: 60px; border: none;">Nama</td>
+                                                    <td style="padding: 1px 5px 1px 0; width: 10px; border: none;">:</td>
+                                                    <td style="padding: 1px 0; border: none;">{{ cc.namapasien }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 1px 5px 1px 0; border: none;">RM/Reg</td>
+                                                    <td style="padding: 1px 5px 1px 0; border: none;">:</td>
+                                                    <td style="padding: 1px 0; border: none;">{{ cc.nocm }} &nbsp;/ {{ cc.jeniskelamin }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 1px 5px 1px 0; border: none;">TTL/JK</td>
+                                                    <td style="padding: 1px 5px 1px 0; border: none;">:</td>
+                                                    <td style="padding: 1px 0; border: none;">{{ cc.tglLahir | date:'yyyy-MM-dd' }} &nbsp;/ -</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 1px 5px 1px 0; border: none;">Ruangan</td>
+                                                    <td style="padding: 1px 5px 1px 0; border: none;">:</td>
+                                                    <td style="padding: 1px 0; border: none;">{{ cc.namaruangan }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; text-decoration: underline;">
+                                GENERAL CONSENT
+                            </div>
+
+                            <table class="tg-consent">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">NO</th>
+                        <th style="width: 80%;">MATERI INFORMASI / PENJELASAN</th>
+                        <th style="width: 15%;">TANDA (☑)<br>DI ISI OLEH PASIEN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center font-bold">1</td>
+                        <td>
+                            <div class="font-bold">Hak dan Kewajiban Pasien / Keluarga</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya sudah mendapatkan penjelasan dan mengerti tentang hak dan kewajiban saya
+                                    sebagai pasien/keluarga sesuai dengan yang termuat dalam leaflet.</li>
+                                <li>Saya diinformasikan tentang tata tertib yang berlaku di Rumah Sakit Bhayangkara TK
+                                    IV Cianjur.</li>
+                                <li>Sebagai Pasien saya memiliki hak mendapatkan penjelasan tentang informasi medis dan
+                                    mengajukan pertanyaan tentang pengobatan yang diusulkan, menyetujui dan menolak
+                                    tindakan atau pengobatan setelah mendapatkan penjelasan.</li>
+                            </ol>
+                        </td>
+                        <td class="text-center">
+                            <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311516]">&radic;</span></span> <span style="font-size:12px;"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">2</td>
+                        <td>
+                            <div class="font-bold">Pengobatan / Tindakan Medis</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya mengerti bahwa tindakan kedokteran adalah berisiko, meliputi tindakan medis
+                                    berupa pencegahan, pengobatan dan pemulihan yang dilakukan oleh dokter / dokter gigi
+                                    terhadap pasien.</li>
+                                <li>Saya mengizinkan dokter dan pemberi asuhan lainnya untuk melakukan pengkajian,
+                                    prosedur diagnostic dan pengobatan medis seperti yang diperlukan dalam penilaian
+                                    professional mereka, termasuk tapi tidak terbatas pada pemeriksaan Elektrocardiogram
+                                    (EKG), X-ray dan test darah, terapi fisik, pemberian obat dan prosedur lainnya yang
+                                    berisiko rendah yang tidak membutuhkan persetujuan khusus.</li>
+                                <li>Saya diinformasikan bahwa dalam tindakan kedokteran dapat terjadi adanya kejadian
+                                    tidak terduga diharapkan yang dapat merupakan efek samping dari tindakan kedokteran
+                                    yang tidak dapat di duga sebelumnya termasuk antara lain, namun tidak terbatas pada
+                                    Steven Jhonson Syndrome dan syok anafilaktik dan akan dijelaskan oleh dokter.</li>
+                            </ol>
+                        </td>
+                        <td class="text-center">
+                            <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311517]">&radic;</span></span> <span style="font-size:12px;"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">3</td>
+                        <td>
+                            <div class="font-bold">Informasi Medis dan Pelepasan Informasi (Kerahasiaan)</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya mengerti bahwa informasi medis pasien termasuk diagnosa, hasil laboratorium dan
+                                    hasil test diagnostik yang digunakan untuk perawatan dan pengobatan medis akan di
+                                    jaga kerahasiaannya oleh rumah sakit, kecuali saya mengungkapkan sendiri atau
+                                    memberikan kuasa kepada orang lain.</li>
+                                <li>Saya menyetujui dan memberikan wewenang kepada rumah sakit menggunakan informasi
+                                    medis pasien untuk kepentingan perawatan dan pengobatan, penagihan kepada asuransi /
+                                    pembayaran biaya pengobatan dan pembahasan / pemantauan yang dibutuhkan oleh rumah
+                                    sakit.</li>
+                            </ol>
+                            <div style="margin-top: 5px;">
+                                Jika saya menghendaki pelepasan informasi yang tidak diatur oleh undang-undang / aturan
+                                terkait tentang informasi kesehatan, diagnosis, pemeriksaan dan pengobatan, maka sebagai
+                                pasien / keluarga akan membuat penyataan.
+                            </div>
+                            <div style="margin-top: 10px; font-weight: bold;">
+                                Saya memberi kuasa tentang informasi medis dan pelepasan informasi medis saya kepada :
+                            </div>
+                            <div style="margin-top: 5px; margin-left: 10px;">
+                                a. <span style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px; text-align:center;">{{ item.obj[1901311518] }}</span> hubungan dengan pasien <span style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px; text-align:center;">{{ item.obj[1901311519] }}</span>
+                            </div>
+                            <div style="margin-top: 5px; margin-left: 10px;">
+                                b. <span style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px; text-align:center;">{{ item.obj[1901311520] }}</span> hubungan dengan pasien <span style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px; text-align:center;">{{ item.obj[1901311521] }}</span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311522]">&radic;</span></span> <span style="font-size:12px;"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">4</td>
+                        <td>
+                            <div class="font-bold">Keamanan Barang Berharga Milik Pasien</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya diinformasikan bahwa pasien yang tidak dapat menjaga barang miliknya misalnya
+                                    pasien gawat darurat, tidak sadar, tindakan bedah rawat sehari, dan pasien yang
+                                    menyatakan tidak mampu menjaga barang miliknya, dan tidak ada keluarga, maka dapat
+                                    menitipkan kepada rumah sakit dengan mengisi formulir penitipan barang.</li>
+                                <li>Pasien dan keluarga diwajibkan menjaga barang miliknya dan tidak meninggalkan barang
+                                    tanpa ada yang menjaganya, karena poliklinik / rawat jalan merupakan area umum /
+                                    area publik, kehilangan barang yang tidak dititipkan kepada rumah sakit adalah
+                                    tanggung jawab pribadi.</li>
+                            </ol>
+                        </td>
+                        <td class="text-center">
+                            <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311523]">&radic;</span></span> <span style="font-size:12px;"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">5</td>
+                        <td>
+                            <div class="font-bold">Informasi Pelayanan dan Fasilitas Rumah Sakit</div>
+                            <div style="margin-top: 5px;">
+                                Saya telah diinformasikan tentang jenis pelayanan di rumah sakit, fasilitas dan cara
+                                untuk mendapatkan pelayanan Rawat jalan dan pemeriksaan penunjang / tindakan /
+                                pengobatan di rumah sakit dengan fasilitas leaflet / flyer.
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311524]">&radic;</span></span> <span style="font-size:12px;"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">6</td>
+                        <td>
+                            <div class="font-bold">Persetujuan untuk Pengobatan</div>
+                            <ol class="list-alpha" type="a">
+                                <li>Saya memberikan kuasa kepada pihak RS Bhayangkara TK IV Cianjur untuk
+                                    memberikan perawatan, pemeriksaan fisik, prosedur diagnostic, radiologi dan/atau
+                                    terapi.</li>
+                                <li>Saya mengetahui bahwa RS Bhayangkara TK IV Cianjur merupakan RS Pendidikan yang
+                                    menjadi tempat praktik klinik bagi mahasiswa kedokteran dan profesi kesehatan
+                                    lainnya, dengan demikian saya bersedia berpartisipasi atau terlibat dalam perawatan
+                                    dan pengembangan ilmu pengetahuan dibawah supervisi dokter penanggung jawab
+                                    pelayanan (DPJP).</li>
+                            </ol>
+                        </td>
+                        <td class="text-center">
+                            <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311525]">&radic;</span></span> <span style="font-size:12px;"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center font-bold">7</td>
+                        <td>
+                            <div class="font-bold">Informasi Biaya</div>
+                            <div style="margin-top: 5px;">
+                                Saya sudah mendapatkan penjelasan tentang informasi biaya sebagai konsekuensi pengobatan
+                                / tindakan yang diberikan kepada saya / keluarga saya * sebagai pasien dan bersedia
+                                untuk memenuhi kewajiban finansial ini setelah mendapatkan pelayanan baik jaminan,
+                                asuransi, pribadi.
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311526]">&radic;</span></span> <span style="font-size:12px;"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="grid_12"
+                style="background-color: #f2f2f2; padding: 15px; border: 1px solid black; text-align: center; font-weight: bold; margin-bottom: 20px;">
+                SAYA TELAH DIJELASKAN, MEMBACA, MEMAHAMI, dan SEPENUHNYA SETUJU<br>terhadap pernyataan tersebut diatas
+            </div>
+
+            <table style="width: 100%; margin-top: 20px; page-break-inside: avoid; border: none;">
+                <tr>
+                    <td style="width: 50%; text-align: center; vertical-align: top; border: none;">
+                        <div style="margin-bottom: 10px;">Cianjur, <span style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px; text-align:center;">{{ item.obj[1901311527] | date:'dd-MM-yyyy' }}</span></div>
+                        <div style="margin-bottom: 50px; font-weight: bold;">Petugas Rumah Sakit</div>
+                        <div style="padding: 0 40px;">
+                            <span style="border-bottom: 1px dotted #000; display: inline-block; min-width: 250px; text-align:center;">{{ item.obj[1901311528].namalengkap || item.obj[1901311528] }}</span>
+                        </div>
+                    </td>
+                    <td style="width: 50%; text-align: center; vertical-align: top; border: none;">
+                        <div style="margin-bottom: 10px; visibility: hidden;">Spacer</div>
+                        <div style="margin-bottom: 50px; font-weight: bold;">Pasien / Keluarga / Penanggung Jawab</div>
+                        <div style="padding: 0 40px;">
+                            <span style="border-bottom: 1px dotted #000; display: inline-block; min-width: 150px; text-align:center;">{{ item.obj[1901311529] }}</span>
+                        </div>
+                        <div style="margin-top: 10px; text-align: left; padding-left: 10px; font-size: 12px;">
+                            <b>Hubungan dengan pasien:</b><br>
+                            <div style="margin-top: 5px;">
+                                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311530]">&radic;</span></span> <span style="font-size:12px;">Pasien Sendiri</span> &nbsp;&nbsp;
+                                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311531]">&radic;</span></span> <span style="font-size:12px;">Suami</span> &nbsp;&nbsp;
+                                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311532]">&radic;</span></span> <span style="font-size:12px;">Istri</span> &nbsp;&nbsp;
+                                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311533]">&radic;</span></span> <span style="font-size:12px;">Orang Tua</span> &nbsp;&nbsp;
+                                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; text-align:center; line-height:12px;"><span ng-if="item.obj[1901311534]">&radic;</span></span> <span style="font-size:12px;">P. Jawab Pasien</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<textarea id="printing-css" style="display:none;">
+    @page { size: A4 portrait; margin: 1cm; }
+    body { font-family: 'Times New Roman', Times, serif; }
+    .no-print { display:none } 
+    #newPage { page-break-before: always; } 
+    -webkit-print-color-adjust: exact !important;
+    .ng-hide { display: none !important; }
+    
+    /* Memastikan tabel dan border tercetak sempurna */
+    table { page-break-inside: auto; }
+    tr    { page-break-inside: avoid; page-break-after: auto; }
+    thead { display: table-header-group; }
+    tfoot { display: table-footer-group; }
+</textarea>
+<iframe id="printing-frame" name="print_frame" src="about:blank" style="display:none;"></iframe>
+
+<script type="text/javascript">
+    function printDiv(divName) {
+        var a = document.getElementById('printing-css').value;
+        var b = document.getElementById(divName).innerHTML;
+        window.frames["print_frame"].document.title = "General Consent PDF";
+        window.frames["print_frame"].document.body.innerHTML = '<style>' + a + '</style>' + b;
+        window.frames["print_frame"].window.focus();
+        window.frames["print_frame"].window.print();
+    }
+</script>

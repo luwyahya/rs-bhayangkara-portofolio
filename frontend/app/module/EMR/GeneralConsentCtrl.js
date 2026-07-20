@@ -30,6 +30,14 @@ define(["initialize"], function (initialize) {
       $scope.isSave = true;
       $scope.isUpdate = false;
       $scope.isUpdateCetak = false;
+      
+      $scope.cetak = function () {
+          $scope.popUpCetak.center().open();
+      };
+      
+      $scope.tutupSurat = function () {
+          $scope.popUpCetak.close();
+      };
 
       //inisialisasi untuk id emr pada pengkajian medis pasien ctrl
       $scope.cc.emrfk = 2153;
