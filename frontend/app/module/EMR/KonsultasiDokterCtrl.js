@@ -11,12 +11,32 @@ define(['initialize'], function (initialize) {
             $scope.pegawaiLogin = JSON.parse(localStorage.getItem('pegawai'))
             var cookie = document.cookie.split(';')
             var kelompokUser = cookie[0].split('=')
-            var getCache = cacheHelper.get('cacheRekamMedis')
-            if (getCache != undefined) {
-                $scope.nocm = getCache[0]
-                $scope.norecPd = getCache[8]
-                $scope.item.ruanganAsal = { id: getCache[11], namaruangan: getCache[12] }
+            var getCache = cacheHelper.get('cacheRekamMedis');
+            if (getCache == undefined) {
+                getCache = cacheHelper.get('cacheRMelektronik');
+            }
 
+            if (getCache != undefined) {
+                $scope.cc = {};
+                $scope.cc.nocm = getCache[0];
+                $scope.cc.namapasien = getCache[1];
+                $scope.cc.jeniskelamin = getCache[2];
+                $scope.cc.noregistrasi = getCache[3];
+                $scope.cc.umur = getCache[4];
+                $scope.cc.kelompokpasien = getCache[5];
+                $scope.cc.tglregistrasi = getCache[6];
+                $scope.cc.norec = getCache[7];
+                $scope.cc.norec_pd = getCache[8];
+                $scope.cc.objectkelasfk = getCache[9];
+                $scope.cc.namakelas = getCache[10];
+                $scope.cc.objectruanganfk = getCache[11];
+                $scope.cc.namaruangan = getCache[12];
+                $scope.cc.DataNoregis = getCache[13];
+                $scope.cc.tglLahir = getCache[14];
+
+                $scope.nocm = getCache[0];
+                $scope.norecPd = getCache[8];
+                $scope.item.ruanganAsal = { id: getCache[11], namaruangan: getCache[12] };
             }
             $scope.resumeOpt = {
                 toolbar: [{
@@ -35,10 +55,14 @@ define(['initialize'], function (initialize) {
                     { field: "namalengkap", title: "PPA Tujuan", width: 120 },
                     { field: "keteranganorder", title: "Keterangan", width: 120 },
                     { field: "keteranganlainnya", title: "Jawaban", width: 200 },
-                    { command: [
-                        { imageClass: "k-icon k-delete", text: "Hapus", click: hapus }, 
-                    { name: "edit", text: "Edit", click: editData },
-                    { imageClass: "k-icon k-edit", text: "Jawab", click: jawab },], title: "&nbsp;", width: 200 }
+                    {
+                        command: [
+                            { imageClass: "k-icon k-delete", text: "Hapus", click: hapus },
+                            { name: "edit", text: "Edit", click: editData },
+                            { imageClass: "k-icon k-edit", text: "Jawab", click: jawab },
+                            { name: "cetak", text: "Cetak", click: cetak },
+                        ], title: "&nbsp;", width: 200
+                    }
                 ],
             };
             $scope.inputBaru = function () {
@@ -67,7 +91,7 @@ define(['initialize'], function (initialize) {
 
                 }
 
-                medifirstService.post( 'emr/disabled-konsultasi',itemDelete).then(function (e) {
+                medifirstService.post('emr/disabled-konsultasi', itemDelete).then(function (e) {
                     if (e.status == 201) {
                         init()
                     }
@@ -79,32 +103,32 @@ define(['initialize'], function (initialize) {
                 var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
                 $scope.item.norec = dataItem.norec
                 $scope.item.ruanganAsalJawab = dataItem.ruanganasal
-                $scope.item.ruanganTujuanJawab =  dataItem.ruangantujuan
-                $scope.item.dokterJawab  =dataItem.namalengkap 
-                $scope.item.keteranganJawab  = dataItem.keteranganorder
-                if(dataItem.keteranganlainnya != null)
-                $scope.item.jawaban  = dataItem.keteranganlainnya
+                $scope.item.ruanganTujuanJawab = dataItem.ruangantujuan
+                $scope.item.dokterJawab = dataItem.namalengkap
+                $scope.item.keteranganJawab = dataItem.keteranganorder
+                if (dataItem.keteranganlainnya != null)
+                    $scope.item.jawaban = dataItem.keteranganlainnya
                 $scope.popUpJawab.center().open()
-                
+
 
             }
-            $scope.SaveJawab = function(){
+            $scope.SaveJawab = function () {
                 if ($scope.item.jawaban == undefined) {
                     toastr.error("Jawaban Belum di isi!")
                     return
                 }
-             
+
                 var objSave = {
                     norec_so: $scope.item.norec,
-                    jawaban : $scope.item.jawaban,
+                    jawaban: $scope.item.jawaban,
                     norec_pd: $scope.item.norec_pd,
 
                 }
-                medifirstService.post( 'emr/update-jawaban-konsultasi',objSave).then(function (e) {
+                medifirstService.post('emr/update-jawaban-konsultasi', objSave).then(function (e) {
                     clear()
                     init();
                     $scope.popUpJawab.close()
-                    
+
                 });
             }
             function editData(e) {
@@ -133,17 +157,17 @@ define(['initialize'], function (initialize) {
             }
             function init() {
                 $scope.isRouteLoading = true;
-                 medifirstService.get( "emr/get-combo").then(function (e) {
+                medifirstService.get("emr/get-combo").then(function (e) {
                     //$scope.listDokter = e.data.dokter
                     $scope.listRuangan = e.data.ruangkonsulnonpenunjang; //e.data.ruangankonsul
                 })
 
-                 medifirstService.get( "sysadmin/general/get-combo-pegawai").then(function (e) {
+                medifirstService.get("sysadmin/general/get-combo-pegawai").then(function (e) {
                     $scope.listDokter = e.data
                 })
 
                 $q.all([
-                     medifirstService.get( "emr/get-order-konsul?norecpd=" + $scope.norecPd)
+                    medifirstService.get("emr/get-order-konsul?norecpd=" + $scope.norecPd)
                 ]).then(function (res) {
                     if (res[0].statResponse) {
                         var result = res[0].data.data
@@ -188,7 +212,7 @@ define(['initialize'], function (initialize) {
                     status: 11,
 
                 }
-                medifirstService.post( 'emr/post-konsultasi',objSave).then(function (e) {
+                medifirstService.post('emr/post-konsultasi', objSave).then(function (e) {
                     clear()
                     init();
                     medifirstService.postLogging('Konsultasi', 'Norec strukorder_t', e.data.strukorder.norec, 'Menu Dokter').then(function (res) {
@@ -276,18 +300,26 @@ define(['initialize'], function (initialize) {
                 $scope.filter = {}
             }
 
-            $scope.cetak = function () {
-                if (confirm('View Resume? ')) {
-                    var stt = 'true';
-                } else {
-                    var stt = 'false'
+            function cetak(e) {
+                e.preventDefault();
+                var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                $scope.dataCetak = dataItem;
+                
+                if (!$scope.$$phase) {
+                    $scope.$apply();
                 }
-                // Do nothing!
-                var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/rekammedis?cetak-resume-rj=' + $scope.nocm
-                    + '&view=' + stt
-                    , function (response) {
-                    });
+
+                $timeout(function () {
+                    if (typeof printDiv === 'function') {
+                        printDiv('cetakKonsultasi');
+                    } else if (typeof window.printDiv === 'function') {
+                        window.printDiv('cetakKonsultasi');
+                    }
+                }, 200);
+            }
+
+            $scope.tutupCetak = function () {
+                $scope.popUpCetak.close();
             }
             var HttpClient = function () {
                 this.get = function (aUrl, aCallback) {
