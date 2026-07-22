@@ -5000,6 +5000,28 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 }
             }
 
+            $scope.cetakBuktiRegistrasiDom = function () {
+                var noRegistrasi = '';
+                if ($scope.item && $scope.item.pasien && $scope.item.pasien.pasienDaftar) {
+                    noRegistrasi = $scope.item.pasien.pasienDaftar.noRegistrasi;
+                } else if ($scope.cacheNoRegistrasi) {
+                    noRegistrasi = $scope.cacheNoRegistrasi;
+                } else if ($state.params.noRegistrasi) {
+                    noRegistrasi = $state.params.noRegistrasi;
+                }
+                
+                if (noRegistrasi !== '') {
+                    var baseUrl = 'http://localhost:8000/service/medifirst2000/';
+                    if (window.location.hostname.indexOf('localhost') === -1) {
+                        baseUrl = window.location.protocol + '//' + window.location.hostname + '/service/medifirst2000/';
+                    }
+                    var fixUrlLaporan = baseUrl + "report/cetak-bukti-registrasi-dom?noregistrasi=" + noRegistrasi + "&kdprofile=1";
+                    window.open(fixUrlLaporan, '_blank');
+                } else {
+                    window.messageContainer.error('No Registrasi tidak ditemukan');
+                }
+            }
+
             $scope.CetakSumList = function () {
                 if ($scope.item != undefined) {
                     //##save identifikasi summary list

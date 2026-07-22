@@ -828,6 +828,57 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         );
         //        return view('','$result');
     }
+
+    public function cetakBuktiRegistrasiDom(Request $request)
+    {
+        $kdProfile = (int)$request['kdprofile'];
+        $profile = collect(DB::select("
+                select * from profile_m where id = $kdProfile limit 1
+            "))->first();
+
+        $registrasi = DB::table('pasiendaftar_t AS pd')
+            ->Join('antrianpasiendiperiksa_t as apdp', 'apdp.noregistrasifk', '=', 'pd.norec')
+            ->Join('pasien_m as ps', 'pd.nocmfk', '=', 'ps.id')
+            ->leftJoin('kebangsaan_m as k', 'ps.objectkebangsaanfk', '=', 'k.id')
+            ->leftJoin('ruangan_m as ru', 'pd.objectruanganlastfk', '=', 'ru.id')
+            ->leftJoin('pegawai_m as pp', 'pd.objectpegawaifk', '=', 'pp.id')
+            ->leftJoin('kelompokpasien_m as kp', 'pd.objectkelompokpasienlastfk', '=', 'kp.id')
+            ->select(DB::raw("pp.namahafis, pd.noregistrasi, ps.nocm, ps.namapasien, k.name as kebangsaan, pd.tglregistrasi, 
+                     ru.namaruangan, pp.namalengkap AS namadokter, kp.kelompokpasien, apdp.noantrian,
+                     EXTRACT(year FROM age(pd.tglregistrasi, ps.tgllahir)) || ' thn ' || 
+                     EXTRACT(month FROM age(pd.tglregistrasi, ps.tgllahir)) || ' bln ' ||
+                     EXTRACT(day FROM age(pd.tglregistrasi, ps.tgllahir)) || ' hr' as umur"))
+            ->where('pd.noregistrasi', $request['noregistrasi'])
+            ->first();
+
+        if(!$registrasi) {
+            return "Data Registrasi Tidak Ditemukan";
+        }
+
+        $noantrian = $registrasi->noantrian;
+        if(strlen($noantrian) == 1) {
+            $noantrian = "00" . $noantrian;
+        } else if(strlen($noantrian) == 2) {
+            $noantrian = "0" . $noantrian;
+        }
+
+        $dataReport = array(
+            'namaprofile' => $profile->namalengkap,
+            'noregistrasi' => $registrasi->noregistrasi,
+            'tglregistrasi' => $registrasi->tglregistrasi,
+            'jamregistrasi' => date('H:i:s', strtotime($registrasi->tglregistrasi)),
+            'norm' => $registrasi->nocm,
+            'namapasien' => $registrasi->namapasien,
+            'kebangsaan' => $registrasi->kebangsaan ? $registrasi->kebangsaan : 'WNI',
+            'umur' => $registrasi->umur,
+            'noantrian' => ($registrasi->namahafis ? $registrasi->namahafis . '-' : '') . $noantrian,
+            'namaruangan' => $registrasi->namaruangan,
+            'namadokter' => $registrasi->namadokter,
+            'kelompokpasien' => $registrasi->kelompokpasien,
+        );
+
+        return view('pendaftaran.buktipendaftaran-dom', compact('dataReport', 'profile'));
+    }
     public function cetakHispatologi(Request $r)
     {
         //        $kdProfile = (int)$r['kdprofile'];

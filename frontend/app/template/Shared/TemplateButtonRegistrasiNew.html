@@ -1,4 +1,9 @@
-<div class="grid_12 " style="float:left;" ng-hide="isHide">
+<style>
+    #btn-template-wrapper .grid_3 {
+        min-height: 42px;
+    }
+</style>
+<div id="btn-template-wrapper" class="grid_12 " style="float:left;" ng-hide="isHide">
     <!--<div class="grid_3">
         &nbsp;
     </div>-->
@@ -17,15 +22,19 @@
             <span class="title">Bukti Layanan</span>
         </c-button> -->
     </div>
+    <div ng-show='isReportPendaftaran && !isReportRawatJalan' class="grid_3" style="float:left;">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakBuktiRegistrasiDom()"
+            position="'right'"><i class="fa fa-print"></i>Cetak Bukti Registrasi</button>
+    </div>
 
-    <div class="grid_3" ng-show='isReportPendaftaran' class="grid_3" style="float:left;">
+    <div class="grid_3" ng-show='isReportPendaftaran' style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" ng-ng-click="cetakLabel()">
             <span class="title">Label Pasien</span>
         </c-button> -->
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakLabel()"
             position="'right'"><i class="fa fa-print"></i>Label Pasien</button>
     </div>
-    <div class="grid_3" ng-show='isReportPendaftaran  && !isReportRawatJalan' class="grid_3" style="float:left;">
+    <div class="grid_3" ng-show='isReportPendaftaran  && !isReportRawatJalan' style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" ng-ng-click="cetakKartu()">
             <span class="title">Kartu Pasien</span>
         </c-button> -->
@@ -54,14 +63,14 @@
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="tracerBon()"
             position="'right'"><i class="fa fa-print"></i>Tracer</button>
     </div>
-    <div ng-show='isAsuransi' class="grid_3" style="float:left;" style="float:left;">
+    <div ng-show='isAsuransi' class="grid_3" style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-ng-click="cetakSEP()">
             <span class="title">Cetak SEP</span>
         </c-button> -->
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakBlangkoBpjs()"
             position="'right'"><i class="fa fa-print"></i>Cetak Blangko Bpjs</button>
     </div>
-    <div ng-show='isAsuransi' class="grid_3" style="float:left;" style="float:left;">
+    <div ng-show='isAsuransi' class="grid_3" style="float:left;">
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakSEP('sep')"
             position="'right'"><i class="fa fa-print"></i>Cetak SEP</button>
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-ng-click="cetakSEP()">
@@ -76,14 +85,14 @@
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="success" ng-click="Save()"
             position="'right'" ng-hide='hideBtnSimpan'><i class="fa fa-save"></i>Simpan</button>
     </div>
-    <div ng-show='isReportRawatInap' class="grid_3" style="float:right;">
+    <div ng-show='isReportRawatInap' class="grid_3" style="float:left;">
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="ringkasanInOut()"
             position="'right'"><i class="fa fa-print"></i>Cetak Lembar Rawat Inap</button>
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-ng-click="ringkasanInOut()">
             <span class="title">Ringkasan Masuk &amp; Keluar</span>
         </c-button> -->
     </div>
-    <div ng-show='isReportPendaftaran' class="grid_3" style="float:left;" style="float:left;">
+    <div ng-show='isReportPendaftaran' class="grid_3" style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-ng-click="cetakIdentifikasiPasien()">
             <span class="title">Cetak Identitas Pasien</span>
         </c-button> -->
@@ -91,50 +100,50 @@
             ng-click="cetakIdentifikasiPasien()" position="'right'"><i class="fa fa-print"></i>Cetak Identitas
             Pasien</button>
     </div>
-    <!-- <div ng-show='isReportPendaftaran' class="grid_3" style="float:left;" style="float:left;">
+    <!-- <div ng-show='isReportPendaftaran' class="grid_3" style="float:left;">
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary"
             ng-click="cetakLembarRawatInap('lembarmasuk')" position="'right'"><i class="fa fa-print"></i>Cetak Lembar  Rawat Inap</button>
     </div> -->
-    <div class="grid_3" ng-show='isReportPendaftaran' style="float:right;">
+    <div class="grid_3" ng-show='isReportPendaftaran' style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" ng-ng-click="nomorAntrian()">
             <span class="title">Nomor Antrian</span>
         </c-button> -->
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="nomorAntrian()"
             position="'right'"><i class="fa fa-print"></i>Nomor Antrian</button>
     </div>
-    <div class="grid_3" ng-show='isReportPendaftaran' style="float:right;">
+    <div class="grid_3" ng-show='isReportPendaftaran' style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" ng-ng-click="nomorAntrian()">
             <span class="title">Nomor Antrian</span>
         </c-button> -->
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="GelangPasien()"
             position="'right'"><i class="fa fa-print"></i>Gelang Pasien</button>
     </div>
-    <div ng-show='isReportRawatInap' class="grid_3" style="float:right;">
+    <div ng-show='isReportRawatInap' class="grid_3" style="float:left;">
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakSEP('sep')"
             position="'right'"><i class="fa fa-print"></i>Cetak SEP</button>
     </div>
-    <div ng-show='isReportRawatInap' class="grid_3" style="float:right;">
+    <div ng-show='isReportRawatInap' class="grid_3" style="float:left;">
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="suratpernyataaan()"
             position="'right'"><i class="fa fa-print"></i>Surat Pernyataan</button>
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-ng-click="ringkasanInOut()">
             <span class="title">Ringkasan Masuk &amp; Keluar</span>
         </c-button> -->
     </div>
-    <div class="grid_3" ng-show='isReportPendaftaran && isReportIgd' style="float:right;">
+    <div class="grid_3" ng-show='isReportPendaftaran && isReportIgd' style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" ng-ng-click="cetakDataTriage()">
             <span class="title">Status Triage</span>
         </c-button> -->
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakDataTriage()"
             position="'right'"><i class="fa fa-print"></i>Status Triage</button>
     </div>
-    <div class="grid_3" ng-show='isReportPendaftaran && isReportIgd' style="float:right;">
+    <div class="grid_3" ng-show='isReportPendaftaran && isReportIgd' style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" ng-ng-click="cetakDataTriage()">
             <span class="title">Status Triage</span>
         </c-button> -->
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakMCU()"
             position="'right'"><i class="fa fa-print"></i>Cetak MCU</button>
     </div>
-    <div class="grid_3" ng-show='isReportPendaftaran && isReportIgd' style="float:right;">
+    <div class="grid_3" ng-show='isReportPendaftaran && isReportIgd' style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" ng-ng-click="cetakDataTriage()">
             <span class="title">Status Triage</span>
         </c-button> -->
@@ -142,7 +151,7 @@
             position="'right'"><i class="fa fa-print"></i>Cetak Rekam Medis</button>
 
     </div>
-    <div ng-show='isPenunjang && isSelesaiSimpan' class="grid_3" style="float:right;">
+    <div ng-show='isPenunjang && isSelesaiSimpan' class="grid_3" style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-click="rincianPelayananPenunjang">
             <span class="title">Transaksi Pelayanan</span>
         </c-button> -->
@@ -150,7 +159,7 @@
             ng-click="rincianPelayananPenunjang()" position="'right'"><i class="fa fa-heartbeat"></i>Transaksi
             Pelayanan</button>
     </div>
-    <div ng-show='isPenunjang && isSelesaiSimpan' class="grid_3" style="float:right;">
+    <div ng-show='isPenunjang && isSelesaiSimpan' class="grid_3" style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-click="inputTindakanNew">
             <span class="title">Input Tindakan</span>
         </c-button> -->
@@ -158,12 +167,12 @@
             position="'right'"><i class="fa fa-fa-accessible-icon"></i>Input Tindakan</button>
     </div>
 
-    <!-- <div ng-hide='isNext' class="grid_3" style="float:right;">
+    <!-- <div ng-hide='isNext' class="grid_3" style="float:left;">
         <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position=" 'right'" ng-click="Next">
             <span class="title">Selanjutnya</span>
         </c-button>
     </div> -->
-    <!--  <div ng-hide='isNext' class="grid_3" style="float:right;">
+    <!--  <div ng-hide='isNext' class="grid_3" style="float:left;">
         <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position=" 'right'" is-back>
             <span class="title">Kembali</span>
         </c-button>
@@ -186,7 +195,7 @@
 
 
 
-    <!--   <div ng-show='isReport' class="grid_3" style="float:right;">
+    <!--   <div ng-show='isReport' class="grid_3" style="float:left;">
         <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-click="cetak">
             <span class="title">Cetak</span>
         </c-button>
@@ -208,7 +217,7 @@
             position="'right'"><i class="fa fa-print"></i>General Consent</button>
     </div>
 
-    <!--  <div ng-show='isReportPendaftaran' class="grid_3" style="float:right;">
+    <!--  <div ng-show='isReportPendaftaran' class="grid_3" style="float:left;">
         <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-click="inputTindakanNew">
             <span class="title">Input Tindakan Beta</span>
         </c-button>
@@ -221,14 +230,14 @@
             position="'right'"><i class="fa fa-trash"></i>Hapus</button>
     </div>
 
-    <div ng-show='isKembali' class="grid_3" style="float:right;">
+    <div ng-show='isKembali' class="grid_3" style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" class="cancel" size="36" position=" 'right'" is-back>
             <span class="title"></span>
         </c-button> -->
         <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" position="'right'" is-back><i
                 class="fa fa-arrow-left"></i>Kembali</button>
     </div>
-    <div ng-show='isKembaliSEP' class="grid_3" style="float:right;">
+    <div ng-show='isKembaliSEP' class="grid_3" style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" class="cancel" size="36" position=" 'right'" is-back>
             <span class="title"></span>
         </c-button> -->
@@ -250,7 +259,7 @@
             position="'right'"><i class="fa fa-print"></i>Cetak SEP</button>
     </div>
 
-    <div ng-show='isDokter' class="grid_3" style="float:right;">
+    <div ng-show='isDokter' class="grid_3" style="float:left;">
         <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item"  size="36" position=" 'right'" ng-ng-click="Detail()">
             <span class="title">Rincian</span>
         </c-button> -->
@@ -258,3 +267,4 @@
             position="'right'"><i class="fa fa-list"></i>Rincian</button>
     </div>
 </div>
+

@@ -1959,6 +1959,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
         Route::get('report/cetak-laporan-triase', 'Report\ReportController@cetakLaporanTriase');
 
         Route::get('report/cetak-bukti-pendaftaran', 'Report\ReportController@cetakBuktiPendaftaran');
+        Route::get('report/cetak-bukti-registrasi-dom', 'Report\ReportController@cetakBuktiRegistrasiDom');
         Route::get('report/cetak-visum-new', 'Report\ReportController@cetakVisumNew');
         Route::get('report/cetak-ttd-anestesi-lokal', 'Report\ReportController@cetakTTDAnestesiLokal');
         Route::get('report/cetak-ttd-anestesi-lokal-2', 'Report\ReportController@cetakTTDAnestesiLokal2');
@@ -2738,7 +2739,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-kecamatanbydesa/{idDesa}', 'Registrasi\RegistrasiController@getKecamatanByDesaKelurahan');
 
             Route::get('identifikasi-label', 'Registrasi\RegistrasiController@IdentifikasiLabel');
-            Route::get('identifikasi-buktiLayanan', 'Registrasi\RegistrasiController@IdentifikasiBuktiLayanan');
             Route::get('identifikasi-buktiLayanan', 'Registrasi\RegistrasiController@IdentifikasiBuktiLayanan');
             Route::get('identifikasi-sum-list', 'Registrasi\RegistrasiController@IdentifikasiSummaryList');
             Route::get('identifikasi-tracer', 'Registrasi\RegistrasiController@IdentifikasiTracer');
