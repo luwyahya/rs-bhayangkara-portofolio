@@ -1590,6 +1590,18 @@ define(['initialize'], function (initialize) {
                     }
                   })
             }
+            $scope.cetakBuktiRegistrasi = function () {
+                if ($scope.dataPasienSelected.noregistrasi == undefined) {
+                    window.messageContainer.error('Pilih Pasien Terlebih Dahulu');
+                    return;
+                }
+                var baseUrl = 'http://localhost:8000/service/medifirst2000/';
+                if (window.location.hostname.indexOf('localhost') === -1) {
+                    baseUrl = window.location.protocol + '//' + window.location.hostname + '/service/medifirst2000/';
+                }
+                var fixUrlLaporan = baseUrl + "report/cetak-bukti-registrasi-dom?noregistrasi=" + $scope.dataPasienSelected.noregistrasi + "&kdprofile=1";
+                window.open(fixUrlLaporan, '_blank');
+            }
             $scope.cetakRMK = function () {
                 var norReg = ""
                 if ($scope.dataPasienSelected.noregistrasi != undefined) {
