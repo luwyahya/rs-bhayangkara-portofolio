@@ -70,7 +70,7 @@
         style="border-bottom: 2px solid black; margin-left: -30px; margin-top: -30px;">
         <tr>
             <th align="center">
-                <img src="{{ asset('img/logodokesnew.png') }}" width="50px">
+                <img src="{{ asset('service/img/logodokesnew.png') }}" width="50px">
             </th>
             <th width="90%" align="center">
                 <table width="100%" style="position:relative">
@@ -239,7 +239,7 @@
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <tr>
                             <th>
-                                <img src="{{ asset('img/logodokesnew.png') }}" width="50px">
+                                <img src="{{ asset('service/img/logodokesnew.png') }}" width="50px">
                             </th>
                             <th width="90%">
                                 <table width="100%" style="position:relative">
@@ -372,3 +372,4 @@
 </body>
 
 </html>
+
