@@ -3159,6 +3159,10 @@
         {
             "nameDep": "CatatanPemberianObatCtrl",
             "urlDep": "module/EMR/CatatanPemberianObatCtrl"
+        },
+        {
+            "nameDep": "AsesmenEdukasiCtrl",
+            "urlDep": "module/EMR/AsesmenEdukasiCtrl"
         }
     ]
 }
