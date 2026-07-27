@@ -3163,6 +3163,10 @@
         {
             "nameDep": "AsesmenRisikoJatuhHumptyDumptyCtrl",
             "urlDep": "module/EMR/AsesmenRisikoJatuhHumptyDumptyCtrl"
+        },
+        {
+            "nameDep": "AsesmenEdukasiCtrl",
+            "urlDep": "module/EMR/AsesmenEdukasiCtrl"
         }
     ]
 }
