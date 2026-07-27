@@ -17831,8 +17831,8 @@
                 "define": "ModulTindakanCtrl"
             }
         ]
-    }
-     {
+    },
+    {
         "name": "RekamMedis.AsesmenEdukasi",
         "url": "/AsesmenEdukasi",
         "templateurl": "module/EMR/AsesmenEdukasi.html",
