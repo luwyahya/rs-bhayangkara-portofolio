@@ -1942,7 +1942,21 @@ define(['initialize'], function (initialize) {
                                 $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
                             }
                             if (dataLoad[i].type == "text") {
-                                $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
+                                var strValue = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
+                                if ((dataLoad[i].emrdfk >= 7720 && dataLoad[i].emrdfk <= 7727) || (dataLoad[i].emrdfk >= 7712 && dataLoad[i].emrdfk <= 7719)) {
+                                    if (strValue) {
+                                        var pDate = new Date(strValue);
+                                        if (!isNaN(pDate.getTime())) {
+                                            $scope.item.obj[dataLoad[i].emrdfk] = pDate;
+                                        } else {
+                                            $scope.item.obj[dataLoad[i].emrdfk] = strValue;
+                                        }
+                                    } else {
+                                        $scope.item.obj[dataLoad[i].emrdfk] = strValue;
+                                    }
+                                } else {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = strValue;
+                                }
                             }
                             if (dataLoad[i].type == "combobox") {
                                 var str = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
