@@ -3159,6 +3159,10 @@
         {
             "nameDep": "CatatanPemberianObatCtrl",
             "urlDep": "module/EMR/CatatanPemberianObatCtrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoJatuhHumptyDumptyCtrl",
+            "urlDep": "module/EMR/AsesmenRisikoJatuhHumptyDumptyCtrl"
         }
     ]
 }
