@@ -3163,6 +3163,10 @@
         {
             "nameDep": "AsesmenEdukasiCtrl",
             "urlDep": "module/EMR/AsesmenEdukasiCtrl"
+        },
+        {
+            "nameDep": "SkriningRanapGeriatriCtrl",
+            "urlDep": "module/EMR/SkriningRanapGeriatriCtrl"
         }
     ]
 }

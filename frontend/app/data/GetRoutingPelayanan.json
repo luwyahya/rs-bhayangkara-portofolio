@@ -17831,5 +17831,37 @@
         "define": "ModulTindakanCtrl"
       }
     ]
+  },
+     {
+    "name": "RekamMedis.SkriningRanapGeriatri",
+    "url": "/SkriningRanapGeriatri",
+    "templateurl": "module/EMR/SkriningRanapGeriatri.html",
+    "controller": "SkriningRanapGeriatriCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "RekamMedisCtrl"
+      },
+      {
+        "define": "ModulEmrCtrl"
+      },
+      {
+        "define": "ModulDiagnosaCtrl"
+      },
+      {
+        "define": "ModulTindakanCtrl"
+      }
+    ]
   }
 ]
