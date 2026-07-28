@@ -4,13 +4,13 @@
         text-align: center;
         width: 100%;
     }
-    
+
     .style-right {
         display: inline-block;
         text-align: right;
         width: 100%;
     }
-    
+
     .k-multiselect-wrap {
         position: relative;
         /* border-width: 0; */
@@ -23,39 +23,39 @@
         border-style: solid;
         border-color: #228be6;
     }
-    
+
     #customers {
         /* font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; */
         border-collapse: collapse;
         width: 100%;
     }
-    
+
     #customers td,
     #customers th {
         border: 1px solid #ddd;
         padding: 8px;
     }
-    
+
     #customers tr:nth-child(even) {
         background-color: #f2f2f2;
     }
-    
+
     #customers tr:hover {
         background-color: #ddd;
     }
-    
+
     .k-grid-header .k-header .k-link {
         height: auto;
     }
-    
+
     .k-grid .k-grid-header .k-header {
         white-space: normal;
     }
-    
+
     .k-grid .k-grid-header .k-header {
         text-align: center;
     }
-    
+
     #customers th {
         padding-top: 12px;
         padding-bottom: 12px;
@@ -63,31 +63,31 @@
         background-color: #41abf2;
         color: white;
     }
-    
+
     .red {
         background-color: #ff3860;
         color: #FFFFFF;
         /*font-weight: bold;*/
     }
-    
+
     .blue {
         background-color: #1E90FF;
         color: #191970;
         /*font-weight: bold;*/
     }
-    
+
     .koneng {
         background-color: #FFFF00;
         color: #191970;
         /*font-weight: bold;*/
     }
-    
+
     .hejo {
         background-color: #98FB98;
         color: #000000;
         /*font-weight: bold;*/
     }
-    
+
     fieldset {
         border-radius: 5px;
         border: 1px solid #228be6;
@@ -108,7 +108,9 @@
                         </div>
                         <div class="grid_1">
                             <label c-label c-label-text=""></label>
-                            <em style="margin-top:6px;" ng-click='resetFilter()' id="iconButton" data-role="button" class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0">
+                            <em style="margin-top:6px;" ng-click='resetFilter()' id="iconButton" data-role="button"
+                                class="k-button k-button-icon k-primary" role="button" aria-disabled="false"
+                                tabindex="0">
                                 <span class="k-sprite k-icon k-i-search"></span>Cari </em>
                         </div>
                     </fieldset>
@@ -116,40 +118,47 @@
             </md-content>
         </div>
         <div class="grid_12">
-            <div id="gridResumeHead" kendo-grid k-data-source="sourceResumeHead" options="resumeOptHead" k-ng-model="modelGrid" ng-click="klik(modelGrid)" ng-dblclick="editGrid(modelGrid)">
+            <div id="gridResumeHead" kendo-grid k-data-source="sourceResumeHead" options="resumeOptHead"
+                k-ng-model="modelGrid" ng-click="klik(modelGrid)" ng-dblclick="editGrid(modelGrid)">
             </div>
         </div>
         <div class="grid_12">
-            <p style="font-size:1.2em"><b>Keterangan :</b><br>Klik 2x untuk melakukan Edit Pengkajian</p> 
+            <p style="font-size:1.2em"><b>Keterangan :</b><br>Klik 2x untuk melakukan Edit Pengkajian</p>
         </div>
-        <div class="grid_4"></div>
-        <div class="grid_2">
-            <!-- <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-plus"></i>Kembali
-            
-            </button> -->
+        <div class="grid_4">
         </div>
         <div class="grid_2">
-            <button class="btnTemplate1" ng-click="showInput()"><i class="fa fa-plus"></i>Tambah
-            
+            <button class="btnTemplate1" ng-click="showInput('Pasien Baru')"><i class="fa fa-plus"></i>Tambah Pasien
+                Baru
+            </button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="showInput('Antar Ruangan')"><i class="fa fa-plus"></i>Tambah Antar
+                Ruangan
+            </button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="showInput('Pasien Pulang')"><i class="fa fa-plus"></i>Tambah Pasien
+                Pulang
             </button>
         </div>
         <div class="grid_2">
             <button class="btnTemplate1 cancel" ng-click="hapusGrid()"><i class="fa fa-trash"></i>Hapus
             </button>
         </div>
-        <div class="grid_2">
+        <!-- <div class="grid_2">
             <button class="btnTemplate1" ng-click="cetakjs()"><i class="fa fa-print"></i>Cetak
             </button>
-        </div>
+        </div> -->
     </div>
 
-    <md-content class="md-padding" ng-show="isEdit">
+    <md-content class="md-padding" ng-show="isEditPB">
         <div class="grid_12" style="margin-top:10px">
             <div class="grid_10"></div>
             <div class="grid_2">
                 <button class="btnTemplate1" ng-click="Back()"><i class="fa fa-arrow-left"></i>Kembali
-        
-                    </button>
+
+                </button>
             </div>
         </div>
         <div class="grid_12" style="margin-top:10px">
@@ -159,19 +168,23 @@
                         <label c-label item="item">Pasien :</label>
                     </div>
                     <div class="grid_3">
-                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.pasien" k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listPasien" />
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.pasien" k-data-text-field="'nama'"
+                            k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                            k-data-source="listPasien" />
                     </div>
-                </div>                
+                </div>
             </div>
             <hr>
         </div>
-            
+
         <div class="grid_6">
             <div class="grid_12">
                 <label c-label item="item">Ruangan Asal</label>
             </div>
             <div class="grid_8" style="padding: 5pt">
-                <input style="width: 100%; " kendo-combo-box k-ng-model="item.ruanganasal" k-data-text-field=" 'nama' " k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false " k-data-source="listRuanganAsal" />
+                <input style="width: 100%; " kendo-combo-box k-ng-model="item.ruanganasal" k-data-text-field=" 'nama' "
+                    k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false "
+                    k-data-source="listRuanganAsal" />
             </div>
         </div>
         <div class="grid_6">
@@ -179,58 +192,67 @@
                 <label c-label item="item">Ruangan Baru</label>
             </div>
             <div class="grid_8" style="padding: 5pt">
-                <input style="width: 100%; " kendo-combo-box k-ng-model="item.ruanganbaru" k-data-text-field=" 'nama' " k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false " k-data-source="listRuanganBaru" />
+                <input style="width: 100%; " kendo-combo-box k-ng-model="item.ruanganbaru" k-data-text-field=" 'nama' "
+                    k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false "
+                    k-data-source="listRuanganBaru" />
             </div>
         </div>
         <div class="grid_6" style="margin-top:10px">
-                <div class="grid_12">
-                    <label c-label item="item">Tanggal Masuk</label>
-                </div>
-                <div class="grid_4">
-                    <input style="width: 100%" k-ng-model="item.tglmasuk" kendo-datetimepicker
-                        placeholer="yyyy-MM-dd hh:mm" k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
-                </div>           
+            <div class="grid_12">
+                <label c-label item="item">Tanggal Masuk</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.tglmasuk" kendo-datetimepicker placeholer="yyyy-MM-dd hh:mm"
+                    k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
+            </div>
         </div>
         <div class="grid_6" style="margin-top:10px">
-                <div class="grid_12">
-                    <label c-label item="item">Tanggal dan Jam Pengkajian</label>
-                </div>
-                <div class="grid_4">
-                    <input style="width: 100%" k-ng-model="item.tglpengkajian" kendo-datetimepicker
-                        placeholer="yyyy-MM-dd hh:mm" k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
-                </div>           
+            <div class="grid_12">
+                <label c-label item="item">Tanggal dan Jam Pengkajian</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.tglpengkajian" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd hh:mm" k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
+            </div>
         </div>
-        <div class="grid_12"><hr></div>
+        <div class="grid_12">
+            <hr>
+        </div>
 
 
         <div class="grid_12">
-                    <div class="grid_12">
-                        <label c-label item="item">Apakah Pasien Memiliki Riwayat Alergi Obat</label>
-                    </div>
-                    <div class="grid_3">
-                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.riwayatalergi"  k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRiwayatAlergi" />
-                    </div>
-                    <div class="grid_9" ng-show="isAlergi">
-                        <input required c-text-box type="input"  class="k-textbox" ng-model="item.keteranganalergi"/>
-                    </div>
-        </div>
-        
-        <div class="grid_12" style="margin-top:10px">
-                    <div class="grid_12">
-                        <label c-label item="item">Apakah Menggunakan Obat Sebelum Dirawat</label>
-                    </div>
-                    <div class="grid_6" style="margin-top:5px">
-                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.obatdirawat" k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listObatDirawat" />
-                    </div>
+            <div class="grid_12">
+                <label c-label item="item">Apakah Pasien Memiliki Riwayat Alergi Obat</label>
+            </div>
+            <div class="grid_3">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.riwayatalergi" k-data-text-field="'nama'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listRiwayatAlergi" />
+            </div>
+            <div class="grid_9" ng-show="isAlergi">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.keteranganalergi" />
+            </div>
         </div>
 
-       
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12">
+                <label c-label item="item">Apakah Menggunakan Obat Sebelum Dirawat</label>
+            </div>
+            <div class="grid_6" style="margin-top:5px">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obatdirawat" k-data-text-field="'nama'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listObatDirawat" />
+            </div>
+        </div>
+
+
 
         <div class="grid_12" style="margin-top:10px" ng-show="isObatDirawat">
-            
+
             <div class="grid_12">
                 <div class="grid_12 headerBox">
-                    <p>Daftar Obat ( Obat yang dikonsumsi di rumah, termasuk yang diresepkan, vitamin, suplemen, dll )</p>
+                    <p>Daftar Obat ( Obat yang dikonsumsi di rumah, termasuk yang diresepkan, vitamin, suplemen, dll )
+                    </p>
                 </div>
                 <div class="clear"></div>
                 <div class="grid_12 borderBox">
@@ -243,47 +265,52 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12">
                 <div class="grid_12">
-                    <div class="grid_12">
-                        <label c-label item="item">Pasien Membawa Obat dari Rumah?</label>
-                    </div>
-                    <div class="grid_2" style="margin-top:5px">
-                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.bawaobat" k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listBawaObat" />
-                    </div>
-                </div>   
+                    <label c-label item="item">Pasien Membawa Obat dari Rumah?</label>
+                </div>
+                <div class="grid_2" style="margin-top:5px">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.bawaobat" k-data-text-field="'nama'"
+                        k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                        k-data-source="listBawaObat" />
+                </div>
+            </div>
         </div>
 
 
         <div class="grid_12" style="margin-top:10px">
-                    <div class="grid_12">
-                        <label c-label item="item">Obat yang Dibawa pasien layak digunakan?</label>
-                    </div>
-                    <div class="grid_2" style="margin-top:5px">
-                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.obatlayak" k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listObatLayak" />
-                    </div>
+            <div class="grid_12">
+                <label c-label item="item">Obat yang Dibawa pasien layak digunakan?</label>
+            </div>
+            <div class="grid_2" style="margin-top:5px">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obatlayak" k-data-text-field="'nama'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listObatLayak" />
+            </div>
         </div>
-        
+
         <div class="grid_12" style="margin-bottom:10px">
             <hr>
             <div class="grid_12">
-                <label c-label item="item">Rekomendasi DPJP Terkait Obat yang Dibawa dari Rumah</label>
+                <label c-label item="item">Rekomendasi Apoteker Terkait Obat yang Dibawa dari Rumah</label>
             </div>
 
             <div class="grid_12" style="margin-top:5px">
-                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; " ng-model="item.rekomendasidpjp"></textarea>
+                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.rekomendasidpjp"></textarea>
             </div>
         </div>
 
         <div class="grid_12" style="margin-bottom:10px">
-            
+
             <div class="grid_12">
                 <label c-label item="item">Edukasi Apoteker Terkait Obat yang Dibawa dari Rumah</label>
             </div>
 
             <div class="grid_12" style="margin-top:5px">
-                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; " ng-model="item.edukasiapoteker"></textarea>
+                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.edukasiapoteker"></textarea>
             </div>
         </div>
 
@@ -296,51 +323,498 @@
                 <div class="clear"></div>
                 <div class="grid_12 borderBox">
 
-                    <div kendo-grid k-data-source="dataGridObatMandiri" options="GridObatMandiri" k-ng-model="modelObatMandiri"></div>
+                    <div kendo-grid k-data-source="dataGridObatMandiri" options="GridObatMandiri"
+                        k-ng-model="modelObatMandiri"></div>
                 </div>
                 <div class="grid_10"></div>
                 <div class="grid_2">
-                    <button class="btnTemplate1" ng-click="hapusObatMandiri()"><i class="fa fa-trash"></i>Hapus Obat Mandiri</button>
+                    <button class="btnTemplate1" ng-click="hapusObatMandiri()"><i class="fa fa-trash"></i>Hapus Obat
+                        Mandiri</button>
                 </div>
             </div>
         </div>
-        
-            
-            <hr>
-            <div class="grid_12">
-                <div class="grid_4">
-                    <b>Apoteker</b>
-                    <div class="grid_12" style="padding: 5pt">
-                        <div>
-                            <div class="grid_12">
-                                <input style="width: 100%; " kendo-combo-box k-ng-model="item.apoteker" k-data-text-field=" 'nama' " k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false " k-data-source="listDokter " />
-                            </div>
+
+
+        <hr>
+        <div class="grid_12">
+            <div class="grid_4">
+                <b>Apoteker</b>
+                <div class="grid_12" style="padding: 5pt">
+                    <div>
+                        <div class="grid_12">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.apoteker"
+                                k-data-text-field=" 'nama' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listDokter " />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="grid_12">
-                <div class="grid_8"></div>
-                <div class="grid_2" ng-show="isButtonTambah">
-                    <button class="btnTemplate1" ng-click="simpanRekonsiliasi()"><i class="fa fa-save"></i>Simpan
-            
-                        </button>
-                </div>
-                <div class="grid_2" ng-show="isButtonEdit">
-                    <button class="btnTemplate1" ng-click="UpdateRekonsiliasi()"><i class="fa fa-save"></i>Update
-            
-                        </button>
-                </div>
-                <div class="grid_2">
-                    <button class="btnTemplate1" ng-click="Back()"><i class="fa fa-arrow-left"></i>Kembali
-            
-                        </button>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <b>Dokter</b>
+                <div class="grid_12" style="padding: 5pt">
+                    <div>
+                        <div class="grid_12">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.dokter"
+                                k-data-text-field=" 'nama' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listDokterAsli " />
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_6"></div>
+            <div class="grid_2" ng-show="isButtonTambah">
+                <button class="btnTemplate1" ng-click="simpanRekonsiliasi()"><i class="fa fa-save"></i>Simpan
+
+                </button>
+            </div>
+            <div class="grid_2" ng-show="isButtonEdit">
+                <button id="btnCetak" class="btnTemplate1 btnHijau" onclick="printDiv()"><i
+                        class="fa fa-print"></i>Cetak
+                </button>
+            </div>
+            <div class="grid_2" ng-show="isButtonEdit">
+                <button class="btnTemplate1" ng-click="UpdateRekonsiliasi()"><i class="fa fa-save"></i>Update
+                </button>
+            </div>
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="Back()"><i class="fa fa-arrow-left"></i>Kembali
+
+                </button>
+            </div>
+        </div>
     </md-content>
 
-    <div kendo-window="popUpTambah" k-title="'Daftar Obat'" k-width="700" k-height="500" k-visible="false" k-on-open="win2visible = true"
-        k-on-close="win2visible = false">
+    <md-content class="md-padding" ng-show="isEditAR">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_10"></div>
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="Back()"><i class="fa fa-arrow-left"></i>Kembali
+
+                </button>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12">
+                <div class="grid_12">
+                    <div class="grid_12">
+                        <label c-label item="item">Pasien :</label>
+                    </div>
+                    <div class="grid_3">
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.pasien" k-data-text-field="'nama'"
+                            k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                            k-data-source="listPasien" />
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <div class="grid_6">
+            <div class="grid_12">
+                <label c-label item="item">Ruangan Asal</label>
+            </div>
+            <div class="grid_8" style="padding: 5pt">
+                <input style="width: 100%; " kendo-combo-box k-ng-model="item.ruanganasal" k-data-text-field=" 'nama' "
+                    k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false "
+                    k-data-source="listRuanganAsal" />
+            </div>
+        </div>
+        <div class="grid_6">
+            <div class="grid_12">
+                <label c-label item="item">Ruangan Baru</label>
+            </div>
+            <div class="grid_8" style="padding: 5pt">
+                <input style="width: 100%; " kendo-combo-box k-ng-model="item.ruanganbaru" k-data-text-field=" 'nama' "
+                    k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false "
+                    k-data-source="listRuanganBaru" />
+            </div>
+        </div>
+        <div class="grid_6" style="margin-top:10px">
+            <div class="grid_12">
+                <label c-label item="item">Tanggal Masuk</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.tglmasuk" kendo-datetimepicker placeholer="yyyy-MM-dd hh:mm"
+                    k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
+            </div>
+        </div>
+        <div class="grid_6" style="margin-top:10px">
+            <div class="grid_12">
+                <label c-label item="item">Tanggal dan Jam Pengkajian</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.tglpengkajian" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd hh:mm" k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <hr>
+        </div>
+
+
+        <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item">Apakah Pasien Memiliki Riwayat Alergi Obat</label>
+            </div>
+            <div class="grid_3">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.riwayatalergi" k-data-text-field="'nama'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listRiwayatAlergi" />
+            </div>
+            <div class="grid_9" ng-show="isAlergi">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.keteranganalergi" />
+            </div>
+        </div>
+
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12">
+                <label c-label item="item">Apakah Menggunakan Obat Sebelum Dirawat</label>
+            </div>
+            <div class="grid_6" style="margin-top:5px">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obatdirawat" k-data-text-field="'nama'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listObatDirawat" />
+            </div>
+        </div>
+
+
+
+        <div class="grid_12" style="margin-top:10px" ng-show="isObatDirawat">
+
+            <div class="grid_12">
+                <div class="grid_12 headerBox">
+                    <p>Daftar Obat (dari Ruangan Sebelumnya)</p>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12 borderBox">
+
+                    <div kendo-grid k-data-source="dataGridObat" options="GridObat" k-ng-model="modelObat"></div>
+                </div>
+                <div class="grid_10"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="hapusObat()"><i class="fa fa-trash"></i>Hapus Obat</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item">Pasien Membawa Obat dari Ruangan Sebelumnya?</label>
+                </div>
+                <div class="grid_2" style="margin-top:5px">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.bawaobat" k-data-text-field="'nama'"
+                        k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                        k-data-source="listBawaObat" />
+                </div>
+            </div>
+        </div>
+
+        <div class="grid_12" style="margin-bottom:10px">
+            <hr>
+            <div class="grid_12">
+                <label c-label item="item">Rekomendasi Apoteker Terkait Obat yang Dibawa dari Ruangan Sebelumnya</label>
+            </div>
+
+            <div class="grid_12" style="margin-top:5px">
+                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.rekomendasidpjp"></textarea>
+            </div>
+        </div>
+
+        <div class="grid_12" style="margin-top:10px">
+            <hr>
+            <div class="grid_12">
+                <div class="grid_12 headerBox">
+                    <p>Pemantauan Penggunaan Obat Mandiri</p>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12 borderBox">
+
+                    <div kendo-grid k-data-source="dataGridObatMandiri" options="GridObatMandiri"
+                        k-ng-model="modelObatMandiri"></div>
+                </div>
+                <div class="grid_10"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="hapusObatMandiri()"><i class="fa fa-trash"></i>Hapus Obat
+                        Mandiri</button>
+                </div>
+            </div>
+        </div>
+
+
+        <hr>
+        <div class="grid_12">
+            <div class="grid_4">
+                <b>Apoteker</b>
+                <div class="grid_12" style="padding: 5pt">
+                    <div>
+                        <div class="grid_12">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.apoteker"
+                                k-data-text-field=" 'nama' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listDokter " />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <b>Dokter</b>
+                <div class="grid_12" style="padding: 5pt">
+                    <div>
+                        <div class="grid_12">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.dokter"
+                                k-data-text-field=" 'nama' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listDokterAsli " />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_6"></div>
+            <div class="grid_2" ng-show="isButtonTambah">
+                <button class="btnTemplate1" ng-click="simpanRekonsiliasi()"><i class="fa fa-save"></i>Simpan
+
+                </button>
+            </div>
+            <div class="grid_2" ng-show="isButtonEdit">
+                <button id="btnCetak" class="btnTemplate1 btnHijau" onclick="printDiv()"><i
+                        class="fa fa-print"></i>Cetak
+                </button>
+            </div>
+            <div class="grid_2" ng-show="isButtonEdit">
+                <button class="btnTemplate1" ng-click="UpdateRekonsiliasi()"><i class="fa fa-save"></i>Update
+
+                </button>
+            </div>
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="Back()"><i class="fa fa-arrow-left"></i>Kembali
+
+                </button>
+            </div>
+        </div>
+    </md-content>
+
+    <md-content class="md-padding" ng-show="isEditPP">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_10"></div>
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="Back()"><i class="fa fa-arrow-left"></i>Kembali
+
+                </button>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12">
+                <div class="grid_12">
+                    <div class="grid_12">
+                        <label c-label item="item">Pasien :</label>
+                    </div>
+                    <div class="grid_3">
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.pasien" k-data-text-field="'nama'"
+                            k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                            k-data-source="listPasien" />
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <div class="grid_6">
+            <div class="grid_12">
+                <label c-label item="item">Ruangan Asal</label>
+            </div>
+            <div class="grid_8" style="padding: 5pt">
+                <input style="width: 100%; " kendo-combo-box k-ng-model="item.ruanganasal" k-data-text-field=" 'nama' "
+                    k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false "
+                    k-data-source="listRuanganAsal" />
+            </div>
+        </div>
+        <div class="grid_6">
+            <div class="grid_12">
+                <label c-label item="item">Ruangan Baru</label>
+            </div>
+            <div class="grid_8" style="padding: 5pt">
+                <input style="width: 100%; " kendo-combo-box k-ng-model="item.ruanganbaru" k-data-text-field=" 'nama' "
+                    k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false "
+                    k-data-source="listRuanganBaru" />
+            </div>
+        </div>
+        <div class="grid_6" style="margin-top:10px">
+            <div class="grid_12">
+                <label c-label item="item">Tanggal Masuk</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.tglmasuk" kendo-datetimepicker placeholer="yyyy-MM-dd hh:mm"
+                    k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
+            </div>
+        </div>
+        <div class="grid_6" style="margin-top:10px">
+            <div class="grid_12">
+                <label c-label item="item">Tanggal dan Jam Pengkajian</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.tglpengkajian" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd hh:mm" k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <hr>
+        </div>
+
+
+        <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item">Apakah Pasien Memiliki Riwayat Alergi Obat</label>
+            </div>
+            <div class="grid_3">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.riwayatalergi" k-data-text-field="'nama'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listRiwayatAlergi" />
+            </div>
+            <div class="grid_9" ng-show="isAlergi">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.keteranganalergi" />
+            </div>
+        </div>
+
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12">
+                <label c-label item="item">Apakah Menggunakan Obat Sebelum Dirawat</label>
+            </div>
+            <div class="grid_6" style="margin-top:5px">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obatdirawat" k-data-text-field="'nama'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listObatDirawat" />
+            </div>
+        </div>
+
+
+
+        <div class="grid_12" style="margin-top:10px" ng-show="isObatDirawat">
+
+            <div class="grid_12">
+                <div class="grid_12 headerBox">
+                    <p>Daftar Obat (yang akan dibawa pulang)</p>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12 borderBox">
+
+                    <div kendo-grid k-data-source="dataGridObat" options="GridObat" k-ng-model="modelObat"></div>
+                </div>
+                <div class="grid_10"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="hapusObat()"><i class="fa fa-trash"></i>Hapus Obat</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid_12" style="margin-bottom:10px">
+            <hr>
+            <div class="grid_12">
+                <label c-label item="item">Rekomendasi Apoteker Terkait Obat yang Dibawa Pulang</label>
+            </div>
+
+            <div class="grid_12" style="margin-top:5px">
+                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.rekomendasidpjp"></textarea>
+            </div>
+        </div>
+
+        <div class="grid_12" style="margin-bottom:10px">
+
+            <div class="grid_12">
+                <label c-label item="item">Edukasi Apoteker Terkait Obat yang Dibawa Pulang</label>
+            </div>
+
+            <div class="grid_12" style="margin-top:5px">
+                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.edukasiapoteker"></textarea>
+            </div>
+        </div>
+
+        <div class="grid_12" style="margin-top:10px">
+            <hr>
+            <div class="grid_12">
+                <div class="grid_12 headerBox">
+                    <p>Pemantauan Penggunaan Obat Mandiri</p>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12 borderBox">
+
+                    <div kendo-grid k-data-source="dataGridObatMandiri" options="GridObatMandiri"
+                        k-ng-model="modelObatMandiri"></div>
+                </div>
+                <div class="grid_10"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="hapusObatMandiri()"><i class="fa fa-trash"></i>Hapus Obat
+                        Mandiri</button>
+                </div>
+            </div>
+        </div>
+
+
+        <hr>
+        <div class="grid_12">
+            <div class="grid_4">
+                <b>Apoteker</b>
+                <div class="grid_12" style="padding: 5pt">
+                    <div>
+                        <div class="grid_12">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.apoteker"
+                                k-data-text-field=" 'nama' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listDokter " />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <b>Dokter</b>
+                <div class="grid_12" style="padding: 5pt">
+                    <div>
+                        <div class="grid_12">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.dokter"
+                                k-data-text-field=" 'nama' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listDokterAsli " />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_6"></div>
+            <div class="grid_2" ng-show="isButtonTambah">
+                <button class="btnTemplate1" ng-click="simpanRekonsiliasi()"><i class="fa fa-save"></i>Simpan
+
+                </button>
+            </div>
+            <div class="grid_2" ng-show="isButtonEdit">
+                <button id="btnCetak" class="btnTemplate1 btnHijau" onclick="printDiv()"><i
+                        class="fa fa-print"></i>Cetak
+                </button>
+            </div>
+            <div class="grid_2" ng-show="isButtonEdit">
+                <button class="btnTemplate1" ng-click="UpdateRekonsiliasi()"><i class="fa fa-save"></i>Update
+
+                </button>
+            </div>
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="Back()"><i class="fa fa-arrow-left"></i>Kembali
+
+                </button>
+            </div>
+        </div>
+    </md-content>
+
+    <div kendo-window="popUpTambah" k-title="'Daftar Obat'" k-width="700" k-height="500" k-visible="false"
+        k-on-open="win2visible = true" k-on-close="win2visible = false">
         <div class="panel panel-default container_12" style="padding: 0px 10px;">
             <div class="grid_12">
                 <div class="grid_10">
@@ -348,20 +822,18 @@
                     <!-- <input  required style="width: 100%;"  kendo-combo-box k-ng-model="item.obatobat"
                             k-data-text-field="'namaproduk'" k-data-value-field="'id'" k-filter="'contains'"
                             k-auto-bind="false" k-data-source="listobatobat" k-on-change='getSatuan()' /> -->
-                    <input required c-text-box type="input" class="k-textbox"
-                    ng-model="item.obatobat" />
+                    <input required c-text-box type="input" class="k-textbox" ng-model="item.obatobat" />
 
                 </div>
             </div>
-            <div class="grid_12">  
-                
+            <div class="grid_12">
+
                 <div class="grid_6">
                     <label c-label item="item" required>Dosis</label>
-                    <input required c-text-box type="input" class="k-textbox"
-                        ng-model="item.obatdosis" />
+                    <input required c-text-box type="input" class="k-textbox" ng-model="item.obatdosis" />
                 </div>
             </div>
-            <div class="grid_12">   
+            <div class="grid_12">
                 <hr>
                 <div class="grid_6">
                     <label c-label item="item" required>Waktu Pemberian</label>
@@ -369,20 +841,25 @@
                         placeholer="yyyy-MM-dd hh:mm" k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
                 </div>
             </div>
-            <div class="grid_12">   
+            <div class="grid_12">
                 <div class="grid_6">
                     <label c-label item="item" required>Tindak Lanjut oleh DPJP</label>
-                    <input  required style="width: 100%;"  kendo-combo-box k-ng-model="item.tindaklanjut"
-                            k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'"
-                            k-auto-bind="false" k-data-source="listTindakLanjut" />
+                    <input required style="width: 100%;" kendo-combo-box k-ng-model="item.tindaklanjut"
+                        k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                        k-data-source="listTindakLanjut" />
                 </div>
             </div>
-            <div class="grid_12">   
+            <div class="grid_12">
                 <hr>
                 <div class="grid_12">
                     <label c-label item="item" required>Perubahan Aturan Pakai</label>
-                    <input required c-text-box type="input" class="k-textbox"
-                        ng-model="item.pemberiaturanpakai" />
+                    <input required c-text-box type="input" class="k-textbox" ng-model="item.pemberiaturanpakai" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item" required>Sumber Obat</label>
+                    <input required c-text-box type="input" class="k-textbox" ng-model="item.sumberobat" />
                 </div>
             </div>
             <div class="grid_12">
@@ -393,113 +870,432 @@
                 <div class="grid_2" style="margin-left: 2.5%;">
                     <button class="btnTemplate1 cancel" ng-click="tutupObat()">Tutup</button>
                 </div>
+            </div>
         </div>
-    </div>
 
 
-    
-    <div kendo-window="popUpTambahMandiri" k-title="'Daftar Obat'" k-width="700" k-height="500" k-visible="false" k-on-open="win2visible = true"
-        k-on-close="win2visible = false">
-        <div class="panel panel-default container_12" style="padding: 0px 10px;">
-            <div class="grid_12">
-                <div class="grid_10">
-                    <label c-label item="item" required>Nama Obat</label>
-                    <!-- <input  required style="width: 100%;"  kendo-combo-box k-ng-model="item.obatobat"
+
+        <div kendo-window="popUpTambahMandiri" k-title="'Daftar Obat'" k-width="700" k-height="500" k-visible="false"
+            k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                <div class="grid_12">
+                    <div class="grid_10">
+                        <label c-label item="item" required>Nama Obat</label>
+                        <!-- <input  required style="width: 100%;"  kendo-combo-box k-ng-model="item.obatobat"
                             k-data-text-field="'namaproduk'" k-data-value-field="'id'" k-filter="'contains'"
                             k-auto-bind="false" k-data-source="listobatobat" k-on-change='getSatuan()' /> -->
-                    <input required c-text-box type="input" class="k-textbox"
-                    ng-model="item.obatobatmandiri" />
+                        <input required c-text-box type="input" class="k-textbox" ng-model="item.obatobatmandiri" />
 
+                    </div>
+                </div>
+                <div class="grid_12">
+
+                    <div class="grid_6">
+                        <label c-label item="item" required>Dosis</label>
+                        <input required c-text-box type="input" class="k-textbox" ng-model="item.obatdosismandiri" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <hr>
+                    <div class="grid_6">
+                        <label c-label item="item" required>Waktu Pemberian</label>
+                        <input style="width: 100%" k-ng-model="item.waktupemberianmandiri" kendo-datetimepicker
+                            placeholer="yyyy-MM-dd hh:mm" k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <hr>
+                    <div class="grid_2">
+                        <div class="grid_12" style="margin-bottom: 10px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.hari1" id="item.hari1">
+                            <label class="c-label k-checkbox-label" for="item.hari1" required>Hari Ke 1</label>
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <div class="grid_12" style="margin-bottom: 10px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.hari2" id="item.hari2">
+                            <label class="c-label k-checkbox-label" for="item.hari2" required>Hari Ke 2</label>
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <div class="grid_12" style="margin-bottom: 10px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.hari3" id="item.hari3">
+                            <label class="c-label k-checkbox-label" for="item.hari3" required>Hari Ke 3</label>
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <div class="grid_12" style="margin-bottom: 10px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.hari4" id="item.hari4">
+                            <label class="c-label k-checkbox-label" for="item.hari4" required>Hari Ke 4</label>
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <div class="grid_12" style="margin-bottom: 10px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.hari5" id="item.hari5">
+                            <label class="c-label k-checkbox-label" for="item.hari5" required>Hari Ke 5</label>
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <div class="grid_12" style="margin-bottom: 10px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.hari6" id="item.hari6">
+                            <label class="c-label k-checkbox-label" for="item.hari6" required>Hari Ke 6</label>
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <div class="grid_12" style="margin-bottom: 10px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.hari7" id="item.hari7">
+                            <label class="c-label k-checkbox-label" for="item.hari7" required>Hari Ke 7</label>
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <div class="grid_12" style="margin-bottom: 10px;">
+                            <input type="checkbox" class="k-checkbox" ng-model="item.hari8" id="item.hari8">
+                            <label class="c-label k-checkbox-label" for="item.hari8" required>Hari Ke 8</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_8"></div>
+                    <div class="grid_2" style="margin-left: -5.5%;">
+                        <button class="btnTemplate1" ng-click="simpanObatMandiri()">Simpan</button>
+                    </div>
+                    <div class="grid_2" style="margin-left: 2.5%;">
+                        <button class="btnTemplate1 cancel" ng-click="tutupObatMandiri()">Tutup</button>
+                    </div>
                 </div>
             </div>
-            <div class="grid_12">  
-                
-                <div class="grid_6">
-                    <label c-label item="item" required>Dosis</label>
-                    <input required c-text-box type="input" class="k-textbox"
-                        ng-model="item.obatdosismandiri" />
-                </div>
-            </div>
-            <div class="grid_12">   
-                <hr>
-                <div class="grid_6">
-                    <label c-label item="item" required>Waktu Pemberian</label>
-                    <input style="width: 100%" k-ng-model="item.waktupemberianmandiri" kendo-datetimepicker
-                        placeholer="yyyy-MM-dd hh:mm" k-format="'yyyy-MM-dd hh:mm'" parsedate="yyyy-MM-dd hh:mm" />
-                </div>
-            </div>
-            <div class="grid_12">
-                <hr>
-                <div class="grid_2">
-                    <div class="grid_12" style="margin-bottom: 10px;">
-                        <input type="checkbox" class="k-checkbox" ng-model="item.hari1"
-                            id="item.hari1">
-                        <label class="c-label k-checkbox-label" for="item.hari1" required>Hari Ke 1</label>
-                    </div>
-                </div>
-                <div class="grid_2">
-                    <div class="grid_12" style="margin-bottom: 10px;">
-                        <input type="checkbox" class="k-checkbox" ng-model="item.hari2"
-                            id="item.hari2">
-                        <label class="c-label k-checkbox-label" for="item.hari2" required>Hari Ke 2</label>
-                    </div>
-                </div>
-                <div class="grid_2">
-                    <div class="grid_12" style="margin-bottom: 10px;">
-                        <input type="checkbox" class="k-checkbox" ng-model="item.hari3"
-                            id="item.hari3">
-                        <label class="c-label k-checkbox-label" for="item.hari3" required>Hari Ke 3</label>
-                    </div>
-                </div>
-                <div class="grid_2">
-                    <div class="grid_12" style="margin-bottom: 10px;">
-                        <input type="checkbox" class="k-checkbox" ng-model="item.hari4"
-                            id="item.hari4">
-                        <label class="c-label k-checkbox-label" for="item.hari4" required>Hari Ke 4</label>
-                    </div>
-                </div>
-                <div class="grid_2">
-                    <div class="grid_12" style="margin-bottom: 10px;">
-                        <input type="checkbox" class="k-checkbox" ng-model="item.hari5"
-                            id="item.hari5">
-                        <label class="c-label k-checkbox-label" for="item.hari5" required>Hari Ke 5</label>
-                    </div>
-                </div>
-                <div class="grid_2">
-                    <div class="grid_12" style="margin-bottom: 10px;">
-                        <input type="checkbox" class="k-checkbox" ng-model="item.hari6"
-                            id="item.hari6">
-                        <label class="c-label k-checkbox-label" for="item.hari6" required>Hari Ke 6</label>
-                    </div>
-                </div>
-                <div class="grid_2">
-                    <div class="grid_12" style="margin-bottom: 10px;">
-                        <input type="checkbox" class="k-checkbox" ng-model="item.hari7"
-                            id="item.hari7">
-                        <label class="c-label k-checkbox-label" for="item.hari7" required>Hari Ke 7</label>
-                    </div>
-                </div>
-                <div class="grid_2">
-                    <div class="grid_12" style="margin-bottom: 10px;">
-                        <input type="checkbox" class="k-checkbox" ng-model="item.hari8"
-                            id="item.hari8">
-                        <label class="c-label k-checkbox-label" for="item.hari8" required>Hari Ke 8</label>
-                    </div>
-                </div>
-            </div>
-            <div class="grid_12">
-                <div class="grid_8"></div>
-                <div class="grid_2" style="margin-left: -5.5%;">
-                    <button class="btnTemplate1" ng-click="simpanObatMandiri()">Simpan</button>
-                </div>
-                <div class="grid_2" style="margin-left: 2.5%;">
-                    <button class="btnTemplate1 cancel" ng-click="tutupObatMandiri()">Tutup</button>
-                </div>
-        </div>
-    </div>
-   <!--
+            <!--
     <div class="grid_12" style="margin-top:100px">
         <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
     </div>
     <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
     </div>-->
+            <div kendo-window="popUpCetakS" k-title="'Cetak Rekonsiliasi Obat'" k-width="1000" k-height="600"
+                k-visible="false" k-on-close="customClicked()">
+                <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                    <div style="width: 100%" id="cetakRm">
+                        <table width="100%" style="border: none;">
+                            <tr style="border:none">
+                                <td style="width: 70px; border: none;">
+                                    <img src="{{ logo }}" width="100%">
+                                </td>
+                                <td style="border:none">
+                                    <div style="text-align: center;">
+                                        <h2 style="font-size:13.0pt; margin-bottom: -10px;">RS BHAYANGKARA SARTIKA ASIH
+                                        </h2>
+                                        <p style="font-size:15px; font-weight: bold;">Jl. Moh. Toha No.369, Ciseureuh,
+                                            Kec. Regol, Kota Bandung, Jawa Barat 40256</p>
+                                    </div>
+                                </td>
+                                <td style="width: 300px;border: none;">
+                                    <table style="width: 100%; border: none;">
+                                        <tr style="border:none">
+                                            <td style="border:none">Pasien</td>
+                                            <td style="border:none">:</td>
+                                            <td style="border:none">{{ cc.nocm }}/{{cc.noregistrasi}}/{{cc.namapasien}}
+                                            </td>
+                                        </tr>
+                                        <tr style="border:none">
+                                            <td style="border:none">Ruangan</td>
+                                            <td style="border:none">:</td>
+                                            <td style="border:none">{{ cc.namaruangan }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <p style="width: 100%; border-bottom: 0.5px solid; margin-bottom: -12px;"></p>
+                        <p style="width: 100%; border-bottom: 1px solid #000;margin: none"></p>
+                        <div style="text-align:center;">
+                            <h3 style="margin-top: 10px; margin-bottom: 15px; font-size: 13pt;">
+                                <span>Rekonsiliasi Obat</span>
+                            </h3>
+                        </div>
+                        <hr>
+                        <table width="100%" class="print-table" style="border: none;">
+                            <tr style="border: none;">
+                                <td style="border: none; width: 10%;">
+                                    <b>Pasien : </b>
+                                </td>
+                                <td style="border: none; width: 25%;">
+                                    <p>{{ item.pasien ? item.pasien.nama : '-' }}</p>
+                                </td>
+                                <td style="border: none; width: 65%;">
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%" class="print-table" style="border: none;">
+                            <tr style="border: none;">
+                                <td style="border: none; width: 25%;">
+                                    <b>Ruangan Asal</b>
+                                </td>
+                                <td style="border: none;">
+                                    : {{ item.ruanganasal ? item.ruanganasal.nama : '-' }}
+                                </td>
+                                <td style="border: none; width: 25%;">
+                                    <b>Ruangan Baru</b>
+                                </td>
+                                <td style="border: none;">
+                                    : {{ item.ruanganbaru ? item.ruanganbaru.nama : '-' }}
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%" class="print-table" style="border: none;">
+                            <tr style="border: none;">
+                                <td style="border: none; width: 25%;">
+                                    <b>Tanggal Masuk</b>
+                                </td>
+                                <td style="border: none;">
+                                    : {{item.tglmasuk | date:'yyyy-MM-dd HH:mm'}}
+                                </td>
+                                <td style="border: none; width: 25%;">
+                                    <b>Tanggal dan Jam Pengkajian</b>
+                                </td>
+                                <td style="border: none;">
+                                    : {{ item.tglpengkajian }}
+                                </td>
+                            </tr>
+                        </table>
+                        <hr>
+                        <table width="100%" class="print-table" style="border: none;">
+                            <tr style="border: none;">
+                                <td style="border: none" width="50%">
+                                    <b>Apakah Pasien Memiliki Riwayat Alergi Obat</b>
+                                </td>
+                                <td style="border: none" width="5%">
+                                    <b>:</b>
+                                </td>
+                                <td style="border: none" width="45%">
+                                    <p>{{ item.riwayatalergi ? item.riwayatalergi.nama : '-' }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%" class="print-table" style="border: none;">
+                            <tr style="border: none;">
+                                <td style="border: none" width="50%">
+                                    <b>Apakah Menggunakan Obat Sebelum Dirawat</b>
+                                </td>
+                                <td style="border: none" width="5%">
+                                    <b>:</b>
+                                </td>
+                                <td style="border: none" width="45%">
+                                    <p>{{ item.obatdirawat ? item.obatdirawat.nama : '-' }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%" class="print-table" style="border: none; margin-top: 20px;">
+                            <tr style="border: none;">
+                                <td ng-if="item.pasien.id == 1" style="border: none">
+                                    <b>Daftar Obat ( Obat yang dikonsumsi di rumah, termasuk yang diresepkan, vitamin,
+                                        suplemen, dll)</b>
+                                </td>
+                                <td ng-if="item.pasien.id == 2" style="border: none">
+                                    <b>Daftar Obat (dari Ruangan Sebelumnya)</b>
+                                </td>
+                                <td ng-if="item.pasien.id == 3" style="border: none">
+                                    <b>Daftar Obat (yang akan dibawa pulang)</b>
+                                </td>
+                            </tr>
+                        </table>
+                        <table ng-if="item.obatdirawat && item.obatdirawat.id == 2" width="100%" class="print-table"
+                            style="border: 1px solid #ddd; border-collapse: collapse; margin-bottom: 20px;">
+                            <thead>
+                                <tr style="background-color: #f2f2f2;">
+                                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center; width: 5%;">No
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 20%;">Nama Obat</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 15%;">Dosis</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 15%;">Waktu Pemberian</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 15%;">Tindak Lanjut Oleh
+                                        DPJP</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 15%;">Perubahan Aturan Pakai
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 15%;">Sumber Obat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="obat in dataGridObat.data()" style="border: 1px solid #ddd;">
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{ obat.no }}
+                                    </td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ obat.obat }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ obat.dosis }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ obat.waktupemberian }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ obat.tindaklanjut }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ obat.perubahanaturanpakai }}
+                                    </td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ obat.sumberobat }}</td>
+                                </tr>
+                                <tr ng-if="dataGridObat.data().length == 0">
+                                    <td colspan="7" style="border: 1px solid #ddd; padding: 8px; text-align: center;">
+                                        Tidak ada data obat.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table ng-if="item.pasien.id != 3" width="100%" class="print-table" style="border: none;">
+                            <tr style="border: none;">
+                                <td ng-if="item.pasien.id == 1" style="border: none" width="50%">
+                                    <b>Pasien Membawa Obat dari Rumah</p>
+                                </td>
+                                <td ng-if="item.pasien.id == 2" style="border: none" width="50%">
+                                    <b>Pasien Membawa Obat dari Ruangan Sebelumnya</p>
+                                </td>
+                                <td style="border: none" width="5%">
+                                    <b>:</b>
+                                </td>
+                                <td style="border: none" width="45%">
+                                    <p>{{ item.bawaobat ? item.bawaobat.nama : '-' }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <table ng-if="item.pasien.id == 1" width="100%" class="print-table" style="border: none;">
+                            <tr style="border: none;">
+                                <td style="border: none" width="50%">
+                                    <b>Obat yang Dibawa pasien layak digunakan</b>
+                                </td>
+                                <td style="border: none" width="5%">
+                                    <b>:</b>
+                                </td>
+                                <td style="border: none" width="45%">
+                                    <p>{{ item.obatlayak ? item.obatlayak.nama : '-' }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr>
+                        <table width="100%" class="print-table" style="border: none;">
+                            <tr style="border: none;">
+                                <td ng-if="item.pasien.id == 1" style="border: none">
+                                    <b>Rekomendasi Apoteker Terkait Obat yang Dibawa dari Rumah</b>
+                                </td>
+                                <td ng-if="item.pasien.id == 2" style="border: none">
+                                    <b>Rekomendasi Apoteker Terkait Obat yang Dibawa dari Ruangan Sebelumnya</b>
+                                </td>
+                                <td ng-if="item.pasien.id == 3" style="border: none">
+                                    <b>Rekomendasi Apoteker Terkait Obat yang Dibawa Pulang</b>
+                                </td>
+                            </tr>
+                            <tr style="border: none;">
+                                <td style="border: none">
+                                    <p>{{ item.rekomendasidpjp ? item.rekomendasidpjp : '-' }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <table ng-if="item.pasien.id != 2" width="100%" class="print-table" style="border: none;">
+                            <tr style="border: none;">
+                                <td ng-if="item.pasien.id == 1" style="border: none">
+                                    <b>Edukasi Apoteker Terkait Obat yang Dibawa dari Rumah</b>
+                                </td>
+                                <td ng-if="item.pasien.id == 3" style="border: none">
+                                    <b>Edukasi Apoteker Terkait Obat yang Dibawa Pulang</b>
+                                </td>
+                            </tr>
+                            <tr style="border: none;">
+                                <td style="border: none">
+                                    <p>{{ item.edukasiapoteker ? item.edukasiapoteker : '-' }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr>
+                        <table width="100%" class="print-table"
+                            style="border: 1px solid #ddd; border-collapse: collapse; margin-top: 20px;">
+                            <thead>
+                                <tr style="background-color: #f2f2f2;">
+                                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center; width: 5%;">No
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 15%;">Nama Obat</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 10%;">Dosis</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 10%;">Waktu Pemberian</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 8%;">Hari ke 1</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 8%;">Hari ke 2</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 8%;">Hari ke 3</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 8%;">Hari ke 4</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 8%;">Hari ke 5</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 8%;">Hari ke 6</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 8%;">Hari ke 7</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px; width: 8%;">Hari ke 8</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="dataGridObatMandiri.data().length > 0"
+                                    ng-repeat="obat in dataGridObatMandiri.data()" style="border: 1px solid #ddd;">
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{ obat.no }}
+                                    </td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ obat.obat }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ obat.dosis }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ obat.waktupemberian }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{
+                                        formatHariKe1(obat.hari1) }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{
+                                        formatHariKe2(obat.hari2) }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{
+                                        formatHariKe3(obat.hari3) }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{
+                                        formatHariKe4(obat.hari4) }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{
+                                        formatHariKe5(obat.hari5) }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{
+                                        formatHariKe6(obat.hari6) }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{
+                                        formatHariKe7(obat.hari7) }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{
+                                        formatHariKe8(obat.hari8) }}</td>
+                                </tr>
+                                <tr ng-if="dataGridObatMandiri.data().length == 0">
+                                    <td colspan="12" style="border: 1px solid #ddd; padding: 8px; text-align: center;">
+                                        Tidak ada data obat mandiri.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <table
+                            style="border: none; width: 100%; text-align: center; margin-top: 40px; font-size: 10pt;">
+                            <tr style="border: none;">
+                                <td style="border: none; text-align: center;">
+                                    <b>Apoteker</b>
+                                </td>
+                                <td style="border: none; text-align: center;">
+                                    <b>Dokter</b>
+                                </td>
+                            </tr>
+                            <tr style="border: none;">
+                                <td style="border: none; height: 100px; vertical-align: bottom; text-align: center;">
+                                    <img ng-if="item.qr" ng-src="{{ item.qr }}" alt="QR Code"
+                                        style="max-width: 100px; max-height: 100px;" /><br>
+                                    <span>{{ item.apoteker.nama }}</span>
+                                </td>
+                                <td style="border: none; height: 100px; vertical-align: bottom; text-align: center;">
+                                    <img ng-if="item.qr2" ng-src="{{ item.qr2 }}" alt="QR Code"
+                                        style="max-width: 100px; max-height: 100px;" /><br>
+                                    <span>{{ item.dokter.nama }}</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <textarea id="printing-css" style="display:none;">
+        #newPage {page-break-before: always;} 
+        #tdImage {width:50%; text-align: center;} #tdImageText {margin-top:10px; text-align:left;  }  
+        table, tr, th, td { border: 1px solid #000; border-collapse: collapse;} td { border-top : none; border-bottom: none;
+        padding: 5px;}
+        @page { size: potrait; }
+    </textarea>
+            <iframe id="printing-frame" name="print_frame" src="about:blank" style="display:none;"></iframe>
+            <script>
+                function printDiv() {
+                    debugger;
+                    var cek = document.querySelectorAll("#cetakRm input[type='checkbox']");
+                    for (let i = 0; i < cek.length; i++) {
+                        if (cek[i].checked) {
+                            cek[i].setAttribute("checked", "checked");
+                        } else {
+                            cek[i].removeAttribute("checked", "checked");
+                        }
+                    }
+                    var a = document.getElementById('printing-css').value;
+                    var b = document.getElementById('cetakRm').innerHTML;
+                    window.frames["print_frame"].document.title = document.title;
+                    window.frames["print_frame"].document.body.innerHTML = '<style>' + a + '</style>' + b;
+                    window.frames["print_frame"].window.focus();
+                    window.frames["print_frame"].window.print();
+                }
+            </script>
