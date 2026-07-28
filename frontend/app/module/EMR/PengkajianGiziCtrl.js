@@ -136,7 +136,6 @@ define(['initialize'], function (initialize) {
                 $scope.item.obj[1501] = defaultDokter;
             }
             });
-            
         }
 
         function LoadCacheHelper() {
@@ -243,7 +242,7 @@ define(['initialize'], function (initialize) {
             // loadData()
         }
         function setobjectToModel(nomorEMRSS, emrfk) {
-            medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
+            medifirstService.get("emr/get-emr-transaksi-detail-new?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
                 debugger
                 $scope.isLoading = false
                 var chekedd = false
@@ -371,6 +370,13 @@ define(['initialize'], function (initialize) {
                     }
 
                 }
+                console.log($scope.item.obj[1501])
+                medifirstService.get('report/create-qr?idPegawai=' + $scope.item.obj[1501].id).then(function (et) {
+                    console.log(et.data); // Tambahkan ini untuk melihat respons
+                    $scope.item.qr = et.data.data;
+                }).catch(function (error) {
+                    console.error('Error:', error); // Tangani kesalahan
+                });
             })
             cekVitalSign()
         }
@@ -404,7 +410,7 @@ define(['initialize'], function (initialize) {
                     head: $scope.cc,
                     data: arrSave
                 }
-                medifirstService.post('emr/save-emr-dinamis', jsonSave).then(function (e) {
+                medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
                     nomorEMR = e.data.data.noemr
                     medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
                         'Emr IGD ' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi '
@@ -570,7 +576,7 @@ define(['initialize'], function (initialize) {
         }
         loadVitalSign()
             function loadVitalSign() {
-                medifirstService.get("emr/get-emr-transaksi-detail?noemr=" + nomorEMR, true).then(function (dat) {
+                medifirstService.get("emr/get-emr-transaksi-detail-new?noemr=" + nomorEMR, true).then(function (dat) {
                     dataLoad = dat.data.data
                     for (var i = 0; i <= dataLoad.length - 1; i++) {
                         if (dataLoad[i].emrdfk == 4241) {

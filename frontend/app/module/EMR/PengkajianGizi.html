@@ -1269,7 +1269,7 @@
                     </div>
                     <div class="grid_7">
                         <input required style="width: 100%;" kendo-combo-box k-ng-model="item.obj[1501]" 
-                        k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listDokter" />
+                        k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listDokter" disabled/>
                     </div>
                 </div>
         </div>
@@ -1350,12 +1350,12 @@
                 <table width="100%" style="border: none">
                     <tr style="border:none">
                         <td style="width: 70px; border: none;">
-                            <img src="{{ logo }}" width="100%">
+                            <img src="images/logodokesnew.png" width="100%">
                         </td>
                         <td style="border:none">
                             <div style="text-align: center;">
-                                <h2 style="font-size:13.0pt; margin-bottom: -10px;">RS BHAYANGKARA CIANJUR</h2>
-                                <p style="font-size:15px; font-weight: bold;">Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256</p>
+                                <h3 style="margin: 0; font-size:12.0pt;">POLRI DAERAH JAWA BARAT</h3>
+                                <h2 style="font-size:13.0pt; margin: 0px;">RUMAH SAKIT BHAYANGKARA TK IV CIANJUR</h2>
                             </div>
     
                         </td>
@@ -1758,8 +1758,9 @@
                     <tr style="border: none;">
                         <td style="border: none;"><span>Waktu (Selesai Asesmen) : {{item.obj[1499]}}</span><br></td>
                         <td style="border: none;width: 200px;"></td>
-                        <td style="border: none;">
+                        <td style="border: none; text-align: center;">
                             <span>DOKTER YANG MEMERIKSA</span><br>
+                            <img ng-src="{{item.qr}}" alt="QR Code" style="max-width: 100px; max-height: 100px;"/><br>
                     {{ item.obj[1501].namalengkap }}
                         </td>
                     </tr>
