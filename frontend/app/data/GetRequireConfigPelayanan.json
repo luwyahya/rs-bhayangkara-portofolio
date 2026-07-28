@@ -3179,6 +3179,14 @@
         {
             "nameDep": "CatatanImplementasiMPPCtrl",
             "urlDep": "module/EMR/CatatanImplementasiMPPCtrl"
+        },
+        {
+            "nameDep": "DokumenPenunjangCtrl",
+            "urlDep": "module/EMR/DokumenPenunjangCtrl"
+        },
+        {
+            "nameDep": "DokumenSuratKontrolCtrl",
+            "urlDep": "module/EMR/DokumenSuratKontrolCtrl"
         }
     ]
 }

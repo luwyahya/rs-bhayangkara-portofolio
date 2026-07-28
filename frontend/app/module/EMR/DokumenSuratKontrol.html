@@ -1,0 +1,43 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Upload Dokumen Surat Kontrol/Rujukan</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <label c-label item="item">Ruangan</label>
+            <input required c-text-box type="input"  class="k-textbox" ng-model="item.ruanganAsal" disabled/>
+        </div>
+        <div class="grid_4">
+            <label c-label item="item">Nama Dokumen</label>
+            <input required c-text-box type="input"  class="k-textbox" ng-model="item.namaPemeriksaan"/>
+        </div>
+        <div class="grid_4">
+            <label c-label item="item">Keterangan</label>
+            <input required c-text-box type="input"  class="k-textbox" ng-model="item.keterangan"/>
+        </div>
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item">Upload File</label>
+            </div>
+            <div class="grid_12">
+                <input type="file" class="custom-file-input" id="filePicker" accept="application/pdf">
+            </div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_10"></div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="simpan()">Save</button>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12 headerBox">
+            <div class="panel-heading" style="font-size: 18px;font-weight: bold;color: white" c-translate>Dokumen Surat Kontrol/Rujukan</div>
+        </div>
+        <div class="clear"></div>
+        <div class="grid_12 borderBox">
+            <div id="gridEkg" kendo-grid k-data-source="sourceEkg" options="gridEkg" k-ng-model="dataSelected" ng-click="klik(dataSelected)" k-selectable="'row'"></div>
+        </div>
+    </div>
+</div>
+</div>
