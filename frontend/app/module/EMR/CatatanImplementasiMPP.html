@@ -1,0 +1,148 @@
+<style type="text/css">
+    /* Ubah ukuran font di sini dari 11px menjadi 14px */
+    .form-container { background-color: #fff; padding: 10px; font-family: sans-serif; font-size: 14px; }
+    
+    /* Styling Fieldset agar rapi */
+    fieldset { 
+        border-radius: 4px; 
+        border: 1px solid #7ebaff; 
+        padding: 10px; 
+        margin-bottom: 15px; 
+        background-color: #fdfdfd;
+    }
+    legend {
+        font-weight: bold;
+        /* Ubah ukuran font di sini dari 12px menjadi 16px agar judul lebih jelas */
+        font-size: 16px; 
+        color: #004d99;
+        background: #fff;
+        padding: 0 5px;
+        border: 1px solid #7ebaff;
+        border-radius: 3px;
+        width: auto;
+        margin-bottom: 0;
+    }
+
+    .table-border { width: 100%; border-collapse: collapse; margin-bottom: 10px; background-color: #fff; }
+    .table-border th, .table-border td { border: 1px solid #ccc; padding: 4px; vertical-align: top; }
+    .table-border th { background-color: #f2f2f2; }
+    
+    .table-noborder { width: 100%; border-collapse: collapse; }
+    .table-noborder td { padding: 4px 5px; vertical-align: top; border: none; }
+    
+    .style-center { text-align: center; }
+    
+    /* Ubah ukuran font di sini dari 11px menjadi 14px */
+    .k-textbox, .k-checkbox { margin-top: 2px; margin-bottom: 2px; font-size: 14px; }
+    .k-checkbox-label { font-size: 14px; margin-right: 5px; cursor: pointer; }
+    
+    .bold { font-weight: bold; }
+    @media print {
+        .no-print { display: none !important; }
+        .print-only { display: table !important; }
+    }
+    @media screen {
+        .print-only { display: none !important; }
+    }
+</style>
+
+<div class="grid_12 form-container" id="cetakRm">
+    <div class="grid_12">
+        <!-- HEADER CETAK -->
+        <table style="width: 100%; border-bottom: 2px solid black; margin-bottom: 10px;" class="print-only">
+            <tr>
+                <td style="width: 10%; text-align: center; vertical-align: middle;">
+                    <img src="images/logodokesnew.png" style="width: 80px;">
+                </td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <h3 style="margin: 0;">POLRI DAERAH JAWA BARAT</h3>
+                    <h2 style="margin: 0;">RUMAH SAKIT BHAYANGKARA TK IV CIANJUR</h2>
+                </td>
+                <td style="width: 10%;"></td>
+            </tr>
+        </table>
+        <!-- END HEADER CETAK -->
+        
+        <div style="margin-bottom: 10px" class="panel panel-default container_12">
+            <div class="panel-heading" c-translate="">Form B - Catatan Implementasi MPP</div>
+        </div>
+
+        <div style="margin-top: 15px; margin-bottom: 10px; text-align: right;">
+            <span class="bold">Tanggal Implementasi :</span> 
+            <input style="width: 200px;" k-ng-model="item.obj[1901308763]" kendo-datetimepicker="" k-format="'yyyy-MM-dd HH:mm'">
+        </div>
+
+        <table class="table-border" style="border: 1px solid #000;">
+            <tbody>
+                <tr>
+                    <th style="width: 5%; text-align: center; border: 1px solid #000;" class="bold">No</th>
+                    <th style="width: 35%; text-align: center; border: 1px solid #000;" class="bold">Tahapan / Uraian</th>
+                    <th style="width: 60%; text-align: center; border: 1px solid #000;" class="bold">Catatan</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border: 1px solid #ccc;">1</td>
+                    <td class="bold" style="border: 1px solid #ccc; vertical-align: middle;">Pelaksanaan Rencana Manajemen Pelayanan Pasien</td>
+                    <td style="border: 1px solid #ccc;"><textarea class="k-textbox" ng-model="item.obj[1901308764]"></textarea></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border: 1px solid #ccc;">2</td>
+                    <td class="bold" style="border: 1px solid #ccc; vertical-align: middle;">Monitoring</td>
+                    <td style="border: 1px solid #ccc;"><textarea class="k-textbox" ng-model="item.obj[1901308765]"></textarea></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border: 1px solid #ccc;">3</td>
+                    <td class="bold" style="border: 1px solid #ccc; vertical-align: middle;">Fasilitasi, Koordinasi, Komunikasi, dan Kolaborasi</td>
+                    <td style="border: 1px solid #ccc;"><textarea class="k-textbox" ng-model="item.obj[1901308766]"></textarea></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border: 1px solid #ccc;">4</td>
+                    <td class="bold" style="border: 1px solid #ccc; vertical-align: middle;">Advokasi</td>
+                    <td style="border: 1px solid #ccc;"><textarea class="k-textbox" ng-model="item.obj[1901308767]"></textarea></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border: 1px solid #ccc;">5</td>
+                    <td class="bold" style="border: 1px solid #ccc; vertical-align: middle;">Hasil Pelayanan</td>
+                    <td style="border: 1px solid #ccc;"><textarea class="k-textbox" ng-model="item.obj[1901308768]"></textarea></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border: 1px solid #ccc;">6</td>
+                    <td class="bold" style="border: 1px solid #ccc; vertical-align: middle;">Terminasi Manajemen Pelayanan Pasien</td>
+                    <td style="border: 1px solid #ccc;"><textarea class="k-textbox" ng-model="item.obj[1901308769]"></textarea></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- TANDA TANGAN -->
+        <table class="table-noborder" style="margin-top: 30px;">
+            <tbody>
+                <tr>
+                    <td style="width: 60%;"></td>
+                    <td style="width: 40%; text-align: center;">
+                        <div class="bold">MPP</div>
+                        <div style="height: 70px;"></div>
+                        <input style="width: 80%;" kendo-combo-box="" k-ng-model="item.obj[1901308770]" k-data-text-field=" 'namalengkap' " k-data-value-field=" 'id' " k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai"><br>
+                        Nama Jelas dan Tanda Tangan
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+
+<div class="grid_12">
+    <div class="grid_12" style="margin-top:10px">
+        <div class="grid_6"></div>
+        <div class="grid_2" >
+            <button class="btnTemplate1" ng-click="Save()"><b style="font-size:1.1em"><span class="fa fa-save"></span> SIMPAN</b></button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" onclick="history.back()"><b style="font-size:1.1em"><span class="fa fa-arrow-left"></span> KEMBALI</b></button>
+        </div>
+        <div class="grid_2 no-print">
+            <button class="btnTemplate1" onclick="printDiv('cetakRm')">
+                <b style="font-size:1.1em"><span class="fa fa-print"></span> CETAK</b>
+            </button>
+        </div>
+    </div>
+</div>

@@ -17927,5 +17927,37 @@
                 "define": "ModulTindakanCtrl"
             }
         ]
+    },
+    {
+        "name": "RekamMedis.CatatanImplementasiMPP",
+        "url": "/CatatanImplementasiMPP",
+        "templateurl": "module/EMR/CatatanImplementasiMPP.html",
+        "controller": "CatatanImplementasiMPPCtrl",
+        "deps": [
+            {
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            },
+            {
+                "define": "RekamMedisCtrl"
+            },
+            {
+                "define": "ModulEmrCtrl"
+            },
+            {
+                "define": "ModulDiagnosaCtrl"
+            },
+            {
+                "define": "ModulTindakanCtrl"
+            }
+        ]
     }
 ]
