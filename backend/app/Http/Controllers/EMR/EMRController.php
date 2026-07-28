@@ -21957,6 +21957,8 @@ FROM
             $mesod->edukasiapoteker = $request['edukasiapoteker'];
             $mesod->apotekerfk = $request['apotekerfk'];
             $mesod->apoteker = $request['apoteker'];
+            $mesod->dokterfk = $request['dokterfk'];
+            $mesod->dokter = $request['dokter'];
             $mesod->save();
 
             $transStatus = 'true';
@@ -22016,6 +22018,7 @@ FROM
             $mesod->tindaklanjutfk = $request['tindaklanjutfk'];
             $mesod->tindaklanjut = $request['tindaklanjut'];
             $mesod->perubahanaturanpakai = $request['pemberiaturanpakai'];
+            $mesod->sumberobat = $request['sumberobat'];
             $mesod->save();
 
             $transStatus = 'true';
@@ -22211,7 +22214,9 @@ FROM
                     'rekomendasidpjp' => $request['rekomendasidpjp'],
                     'edukasiapoteker' => $request['edukasiapoteker'],
                     'apotekerfk' => $request['apotekerfk'],
-                    'apoteker' => $request['apoteker']
+                    'apoteker' => $request['apoteker'],
+                    'dokterfk' => $request['dokterfk'],
+                    'dokter' => $request['dokter']
                 ]);
 
             $transStatus = 'true';

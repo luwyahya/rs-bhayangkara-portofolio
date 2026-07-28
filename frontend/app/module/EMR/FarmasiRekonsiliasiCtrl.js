@@ -1,16 +1,16 @@
-define(['initialize', 'Configuration'], function(initialize, config) {
+define(['initialize', 'Configuration'], function (initialize, config) {
     'use strict';
-    initialize.controller('FarmasiRekonsiliasiCtrl', ['$q', '$scope', 'ModelItem', '$state', 'MedifirstService', '$timeout', 'CacheHelper', '$rootScope','$mdDialog',
-        function($q, $scope, ModelItem, $state, medifirstService, $timeout, cacheHelper, $rootScope,$mdDialog) {
+    initialize.controller('FarmasiRekonsiliasiCtrl', ['$q', '$scope', 'ModelItem', '$state', 'MedifirstService', '$timeout', 'CacheHelper', '$rootScope', '$mdDialog',
+        function ($q, $scope, ModelItem, $state, medifirstService, $timeout, cacheHelper, $rootScope, $mdDialog) {
             $scope.isRouteLoading = false;
             $scope.item = {
-                    tglresume: $scope.now
-                } // set defined object
+                tglresume: $scope.now
+            } // set defined object
             $scope.isGrid = true
             $scope.isNext = true
-            $scope.isTambah=0;
-            $scope.isObatDirawat=0;
-
+            $scope.isTambah = 0;
+            $scope.isObatDirawat = 0;
+            $scope.cc = {}
             var noregistrasi = '';
             $scope.item.norec_pp = '';
             // $qrcodedokter = ''
@@ -42,6 +42,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             //--ash 03-08-2023---------------------------
             //INIT---------------------------------------
             loadRekonsialisasi()
+            LoadCacheHelper()
             $scope.item.obj = []
             $scope.now = new Date()
             $scope.item.tglpengkajian = $scope.now
@@ -52,49 +53,67 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
 
             function loadRmPp(norec_pp) {
-                medifirstService.get("registrasi/daftar-registrasi/get-status-rm-pp?norec_pp=" + norec_pp).then(function(rmpp) {
+                medifirstService.get("registrasi/daftar-registrasi/get-status-rm-pp?norec_pp=" + norec_pp).then(function (rmpp) {
                     $scope.statusSelesaiPeriksaRm = rmpp.data.isrm;
                 });
             }
 
-            
-
-
+            function LoadCacheHelper() {
+                var chacePeriode = cacheHelper.get('cacheRMelektronik');
+                if (chacePeriode != undefined) {
+                    $scope.cc.nocm = chacePeriode[0]
+                    $scope.cc.namapasien = chacePeriode[1]
+                    $scope.cc.jeniskelamin = chacePeriode[2]
+                    $scope.cc.noregistrasi = chacePeriode[3]
+                    $scope.cc.umur = chacePeriode[4]
+                    $scope.cc.kelompokpasien = chacePeriode[5]
+                    $scope.cc.tglregistrasi = chacePeriode[6]
+                    $scope.cc.norec = chacePeriode[7]
+                    $scope.cc.norec_pd = chacePeriode[8]
+                    $scope.cc.objectkelasfk = chacePeriode[9]
+                    $scope.cc.namakelas = chacePeriode[10]
+                    $scope.cc.objectruanganfk = chacePeriode[11]
+                    $scope.cc.namaruangan = chacePeriode[12]
+                    $scope.cc.DataNoregis = chacePeriode[13]
+                    $scope.cc.objectkelompokpasienfk = chacePeriode[19]
+                    $scope.cc.norec_emr = '-'
+                }
+            }
 
             //ash -- 03-08-2023
             $scope.listPasien = [
-                    { "id": 1, "nama": "PASIEN BARU" },
-                    { "id": 2, "nama": "ANTAR RUANGAN" },
-                    { "id": 3, "nama": "PASIEN PULANG" }
+                { "id": 1, "nama": "PASIEN BARU" },
+                { "id": 2, "nama": "ANTAR RUANGAN" },
+                { "id": 3, "nama": "PASIEN PULANG" }
             ]
 
             $scope.listRiwayatAlergi = [
-                    { "id": 1, "nama": "TIDAK MEMILIKI RIWAYAT ALERGI" },
-                    { id: '2', nama: 'YA' }
+                { "id": 1, "nama": "TIDAK MEMILIKI RIWAYAT ALERGI" },
+                { id: '2', nama: 'YA' }
             ]
 
             $scope.listObatDirawat = [
                 { "id": 1, "nama": "TIDAK MENGGUNAKAN OBAT SEBELUM DIRAWAT" },
                 { "id": 2, "nama": "YA, DENGAN RINCIAN SEBAGAI BERIKUT" }
-            ]            
+            ]
 
             $scope.listBawaObat = [
                 { "id": 1, "nama": "YA" },
                 { "id": 2, "nama": "TIDAK" }
             ]
             $scope.listObatLayak = [
-                    { "id": 1, "nama": "YA" },
-                    { "id": 2, "nama": "TIDAK" }
+                { "id": 1, "nama": "YA" },
+                { "id": 2, "nama": "TIDAK" }
             ]
 
             $scope.listTindakLanjut = [
-                    { "id": 1, "nama": "LANJUT ATURAN PAKAI SAMA" },
-                    { "id": 2, "nama": "LANJUT ATURAN PAKAI BERUBAH" },
-                    { "id": 3, "nama": "STOP" }
+                { "id": 1, "nama": "LANJUT ATURAN PAKAI SAMA" },
+                { "id": 2, "nama": "LANJUT ATURAN PAKAI BERUBAH" },
+                { "id": 3, "nama": "STOP" }
             ]
             function loadRekonsialisasi() {
-                medifirstService.get('emr/get-rekonsiliasi-pasien?norec=' + $scope.norecPd).then(function(dat) {
-                    for(let i = 0; i < dat.data.length; i++) {
+                medifirstService.get('emr/get-rekonsiliasi-pasien?norec=' + $scope.norecPd).then(function (dat) {
+                    for (let i = 0; i < dat.data.length; i++) {
                         dat.data[i].no = i + 1
                     }
                     $scope.sourceResumeHead = new kendo.data.DataSource({
@@ -106,86 +125,86 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             }
             function loadObat() {
                 //if($scope.modelGrid!=undefined || $scope.modelGrid!=null ) {
-                    var norec=""
-                    if($scope.modelGrid!=undefined || $scope.modelGrid!="") var norec = $scope.modelGrid.norec
-                    else if($scope.norecmeso!=undefined || $scope.norecmeso!="") var norec = $scope.norecmeso
-                    
-                    if(norec!="") {
-                        medifirstService.get('emr/get-rekonsiliasi-obat-pasien?norec=' + norec).then(function(dat) {
-                            for(let i = 0; i < dat.data.length; i++) {
-                                dat.data[i].no = i + 1
-                            }
-                            $scope.dataGridObat = new kendo.data.DataSource({
-                                data: dat.data,
-                                length: dat.data.length,
-                                pageSize: 20
-                            });
-                        })
-                    } else {
+                var norec = ""
+                if ($scope.modelGrid != undefined || $scope.modelGrid != "") var norec = $scope.modelGrid.norec
+                else if ($scope.norecmeso != undefined || $scope.norecmeso != "") var norec = $scope.norecmeso
+
+                if (norec != "") {
+                    medifirstService.get('emr/get-rekonsiliasi-obat-pasien?norec=' + norec).then(function (dat) {
+                        for (let i = 0; i < dat.data.length; i++) {
+                            dat.data[i].no = i + 1
+                        }
                         $scope.dataGridObat = new kendo.data.DataSource({
-                            data: "",
-                            length: 0,
+                            data: dat.data,
+                            length: dat.data.length,
                             pageSize: 20
                         });
+                    })
+                } else {
+                    $scope.dataGridObat = new kendo.data.DataSource({
+                        data: "",
+                        length: 0,
+                        pageSize: 20
+                    });
 
-                    }
+                }
                 //}
             }
 
             function loadObatAfter(norecAfterSave) {
                 //if($scope.modelGrid!=undefined || $scope.modelGrid!=null ) {
-                    var norec=""
-                    if($scope.modelGrid!=undefined || $scope.modelGrid!="") var norec = $scope.modelGrid.norec
-                    else if($scope.norecmeso!=undefined || $scope.norecmeso!="") var norec = $scope.norecmeso
-                    
-                    if(norec!="") {
-                        medifirstService.get('emr/get-rekonsiliasi-obat-pasien?norec=' + norecAfterSave).then(function(dat) {
-                            for(let i = 0; i < dat.data.length; i++) {
-                                dat.data[i].no = i + 1
-                            }
-                            $scope.dataGridObat = new kendo.data.DataSource({
-                                data: dat.data,
-                                length: dat.data.length,
-                                pageSize: 20
-                            });
-                        })
-                    } else {
+                var norec = ""
+                if ($scope.modelGrid != undefined || $scope.modelGrid != "") var norec = $scope.modelGrid.norec
+                else if ($scope.norecmeso != undefined || $scope.norecmeso != "") var norec = $scope.norecmeso
+
+                if (norec != "") {
+                    medifirstService.get('emr/get-rekonsiliasi-obat-pasien?norec=' + norecAfterSave).then(function (dat) {
+                        for (let i = 0; i < dat.data.length; i++) {
+                            dat.data[i].no = i + 1
+                        }
                         $scope.dataGridObat = new kendo.data.DataSource({
-                            data: "",
-                            length: 0,
+                            data: dat.data,
+                            length: dat.data.length,
                             pageSize: 20
                         });
+                    })
+                } else {
+                    $scope.dataGridObat = new kendo.data.DataSource({
+                        data: "",
+                        length: 0,
+                        pageSize: 20
+                    });
 
-                    }
+                }
                 //}
             }
 
             function loadObatMandiri() {
                 //if($scope.modelGrid!=undefined || $scope.modelGrid!=null ) {
-                    var norec=""
-                    if($scope.modelGrid!=undefined || $scope.modelGrid!="") var norec = $scope.modelGrid.norec
-                    else if($scope.norecmeso!=undefined || $scope.norecmeso!="") var norec = $scope.norecmeso
-                    
-                    if (norec!="") {
-                        medifirstService.get('emr/get-rekonsiliasi-obat-mandiri-pasien?norec=' + norec).then(function(dat) {
-                            console.log("Yang Salah")
-                            for(let i = 0; i < dat.data.length; i++) {
-                                dat.data[i].no = i + 1
-                            }
-                            $scope.dataGridObatMandiri = new kendo.data.DataSource({
-                                data: dat.data,
-                                length: dat.data.length,
-                                pageSize: 20
-                            });
-                        })
-                    } else {
+                var norec = ""
+                if ($scope.modelGrid != undefined || $scope.modelGrid != "") var norec = $scope.modelGrid.norec
+                else if ($scope.norecmeso != undefined || $scope.norecmeso != "") var norec = $scope.norecmeso
+
+                if (norec != "") {
+                    medifirstService.get('emr/get-rekonsiliasi-obat-mandiri-pasien?norec=' + norec).then(function (dat) {
+                        console.log("Yang Salah")
+                        for (let i = 0; i < dat.data.length; i++) {
+                            dat.data[i].no = i + 1
+                        }
                         $scope.dataGridObatMandiri = new kendo.data.DataSource({
-                            data: "",
-                            length: 0,
+                            data: dat.data,
+                            length: dat.data.length,
                             pageSize: 20
                         });
+                    })
+                } else {
+                    $scope.dataGridObatMandiri = new kendo.data.DataSource({
+                        data: "",
+                        length: 0,
+                        pageSize: 20
+                    });
 
-                    }
+                }
                 //}
             }
 
@@ -194,7 +213,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     name: "create",
                     text: "Tambah",
                     template: '<button ng-click="inputBaru()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Tambah Obat</button>'
-                }, ],
+                },],
                 selectable: "row",
                 pageable: true,
                 scrollable: true,
@@ -205,7 +224,8 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     { field: "dosis", title: "Dosis", width: 150 },
                     { field: "waktupemberian", title: "Waktu Pemberian", width: 150 },
                     { field: "tindaklanjut", title: "Tindak Lanjut Oleh DPJP", width: 100 },
-                    { field: "perubahanaturanpakai", title: "Perubahan Aturan Pakai", width: 100 }
+                    { field: "perubahanaturanpakai", title: "Perubahan Aturan Pakai", width: 100 },
+                    { field: "sumberobat", title: "Sumber Obat", width: 100 }
                 ],
 
             };
@@ -214,7 +234,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     name: "create",
                     text: "Tambah",
                     template: '<button ng-click="inputBaruMandiri()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Tambah Obat Mandiri</button>'
-                }, ],
+                },],
                 selectable: "row",
                 pageable: true,
                 scrollable: true,
@@ -235,9 +255,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 ],
             };
 
-            $scope.hapusObat = function() {
+            $scope.hapusObat = function () {
                 debugger
-                if($scope.modelObat==null || $scope.modelObat=='undefined') {
+                if ($scope.modelObat == null || $scope.modelObat == 'undefined') {
                     toastr.error("Pilih data obat yang akan dihapus");
                     return;
                 }
@@ -247,22 +267,22 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
 
                 var confirm = $mdDialog.confirm()
-                                    .title('Peringatan')
-                                    .textContent('Anda yakin akan menghapus data obat yang dipilih?')
-                                    .ariaLabel('Lucky day')
-                                    .cancel('Tidak')
-                                    .ok('Ya')
-                                $mdDialog.show(confirm).then(function () {
-                                    medifirstService.post('emr/delete-rekonsiliasi-detail-pasien/delete', item).then(function(e) {                                        
-                                        loadObat()
-                                    });
-                                })
+                    .title('Peringatan')
+                    .textContent('Anda yakin akan menghapus data obat yang dipilih?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    medifirstService.post('emr/delete-rekonsiliasi-detail-pasien/delete', item).then(function (e) {
+                        loadObat()
+                    });
+                })
 
             };
 
-            $scope.hapusObatMandiri = function() {
+            $scope.hapusObatMandiri = function () {
                 debugger
-                if($scope.modelObatMandiri==null || $scope.modelObatMandiri=='undefined') {
+                if ($scope.modelObatMandiri == null || $scope.modelObatMandiri == 'undefined') {
                     toastr.error("Pilih data obat mandiri yang akan dihapus");
                     return;
                 }
@@ -272,32 +292,32 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
 
                 var confirm = $mdDialog.confirm()
-                                    .title('Peringatan')
-                                    .textContent('Anda yakin akan menghapus data obat mandiri yang dipilih?')
-                                    .ariaLabel('Lucky day')
-                                    .cancel('Tidak')
-                                    .ok('Ya')
-                                $mdDialog.show(confirm).then(function () {
-                                    medifirstService.post('emr/delete-rekonsiliasi-detail-mandiri-pasien/delete', item).then(function(e) {                                        
-                                        loadObatMandiri()
-                                    });
-                                })
+                    .title('Peringatan')
+                    .textContent('Anda yakin akan menghapus data obat mandiri yang dipilih?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    medifirstService.post('emr/delete-rekonsiliasi-detail-mandiri-pasien/delete', item).then(function (e) {
+                        loadObatMandiri()
+                    });
+                })
 
             };
 
-            
-            $scope.$watch('item.obatdirawat', function(e) {
+
+            $scope.$watch('item.obatdirawat', function (e) {
                 if (e.id == '2') {
                     $scope.isObatDirawat = true
                 } else {
                     $scope.isObatDirawat = false
-                } 
+                }
             })
 
 
-            $scope.inputBaru = function() {
-                
-                if ($scope.item.tglpengkajian == undefined || $scope.item.tglpengkajian == null || $scope.item.tglpengkajian == "") {                    
+            $scope.inputBaru = function () {
+
+                if ($scope.item.tglpengkajian == undefined || $scope.item.tglpengkajian == null || $scope.item.tglpengkajian == "") {
                     toastr.error("Masukkan tanggal pengkajian");
                     return;
                 }
@@ -305,18 +325,19 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     toastr.error("Pasien harus diisi");
                     return;
                 }
-                
-                $scope.item.obatobat =""
-                $scope.item.obatdosis  =""
-                $scope.item.waktupemberian  =""
-                $scope.item.tindaklanjut  =""
-                $scope.item.pemberiaturanpakai =""
+
+                $scope.item.obatobat = ""
+                $scope.item.obatdosis = ""
+                $scope.item.waktupemberian = ""
+                $scope.item.tindaklanjut = ""
+                $scope.item.pemberiaturanpakai = ""
+                $scope.item.sumberobat = ""
                 $scope.popUpTambah.center().open()
             }
-            
-            $scope.inputBaruMandiri = function() {
-                
-                if ($scope.item.tglpengkajian == undefined || $scope.item.tglpengkajian == null || $scope.item.tglpengkajian == "") {                    
+
+            $scope.inputBaruMandiri = function () {
+
+                if ($scope.item.tglpengkajian == undefined || $scope.item.tglpengkajian == null || $scope.item.tglpengkajian == "") {
                     toastr.error("Masukkan tanggal pengkajian");
                     return;
                 }
@@ -324,10 +345,10 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     toastr.error("Pasien harus diisi");
                     return;
                 }
-                
+
                 $scope.item.obatobatmandiri = ""
-                $scope.item.obatdosismandiri  = ""
-                $scope.item.waktupemberianmandiri  = ""
+                $scope.item.obatdosismandiri = ""
+                $scope.item.waktupemberianmandiri = ""
                 $scope.hari1 = false
                 $scope.hari2 = false
                 $scope.hari3 = false
@@ -339,19 +360,19 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.popUpTambahMandiri.center().open()
             }
 
-            $scope.tutupObat = function() {
+            $scope.tutupObat = function () {
                 $scope.popUpTambah.close()
             }
-            $scope.tutupObatMandiri = function() {
+            $scope.tutupObatMandiri = function () {
                 $scope.popUpTambahMandiri.close()
             }
-            
+
             function clear() {
                 $scope.item = {}
 
             }
 
-            var data2=[]
+            var data2 = []
             $scope.tambah = function () {
                 var nomor = 0
                 if ($scope.dataGridR == undefined) {
@@ -366,8 +387,8 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     rke = data2.length + 1
                 }
 
-                
-                if ($scope.item.namaPaket== undefined || $scope.item.namaPaket == null || $scope.item.namaPaket == "") {
+
+                if ($scope.item.namaPaket == undefined || $scope.item.namaPaket == null || $scope.item.namaPaket == "") {
                     alert("Masukkan Nama Paket terlebih dahulu!!")
                     return;
                 }
@@ -395,18 +416,18 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
                 // debugger
                 var jumlah = null;
-                if($scope.item.jumlah != undefined){
-                    jumlah = $scope.item.jumlah ;
+                if ($scope.item.jumlah != undefined) {
+                    jumlah = $scope.item.jumlah;
                 }
 
                 var dosis = null;
-                if($scope.item.dosis != undefined){
-                    dosis = $scope.item.dosis; 
+                if ($scope.item.dosis != undefined) {
+                    dosis = $scope.item.dosis;
                 }
 
                 var kekuatan = null;
-                if($scope.item.kekuatan != undefined){
-                    kekuatan = $scope.item.kekuatan; 
+                if ($scope.item.kekuatan != undefined) {
+                    kekuatan = $scope.item.kekuatan;
                 }
 
                 $scope.disabledRuangan = true;
@@ -453,13 +474,13 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         satuanview: $scope.item.satuan.satuanstandar,
                         qty: $scope.item.qty,
                         rke: rke,
-                        jeniskemasan : $scope.item.jeniskemasan.jeniskemasan,
-                        jeniskemasanfk : $scope.item.jeniskemasan.id,
+                        jeniskemasan: $scope.item.jeniskemasan.jeniskemasan,
+                        jeniskemasanfk: $scope.item.jeniskemasan.id,
                         keterangan: $scope.item.waktuminum.waktuminum,
                         waktuminumfk: $scope.item.waktuminum.id,
-                        jumlah : jumlah,
-                        dosis : dosis,
-                        kekuatan : kekuatan
+                        jumlah: jumlah,
+                        dosis: dosis,
+                        kekuatan: kekuatan
                     }
                     data2.push(data)
                     $scope.dataGridR = new kendo.data.DataSource({
@@ -470,9 +491,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             }
 
 
-            $scope.hapusGrid = function() {
-                
-                if($scope.modelGrid==null || $scope.modelGrid=='undefined') {
+            $scope.hapusGrid = function () {
+
+                if ($scope.modelGrid == null || $scope.modelGrid == 'undefined') {
                     toastr.error("Pilih data yang akan dihapus");
                     return;
                 }
@@ -482,25 +503,25 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
 
                 var confirm = $mdDialog.confirm()
-                                    .title('Peringatan')
-                                    .textContent('Peringatan, Anda yakin akan menghapus pengkajian yang dipilih?')
-                                    .ariaLabel('Lucky day')
-                                    .cancel('Tidak')
-                                    .ok('Ya')
-                                $mdDialog.show(confirm).then(function () {
-                                    medifirstService.post('emr/delete-rekonsiliasi-pasien/delete', item).then(function(e) {
-                                        clear()
-                                        init();
-                                        loadRekonsialisasi()
-                                    });
-                                })
+                    .title('Peringatan')
+                    .textContent('Peringatan, Anda yakin akan menghapus pengkajian yang dipilih?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    medifirstService.post('emr/delete-rekonsiliasi-pasien/delete', item).then(function (e) {
+                        clear()
+                        init();
+                        loadRekonsialisasi()
+                    });
+                })
 
             }
 
-            
-            $scope.cetakjs = function() {
-                
-                if($scope.modelGrid==null || $scope.modelGrid=='undefined') {
+
+            $scope.cetakjs = function () {
+
+                if ($scope.modelGrid == null || $scope.modelGrid == 'undefined') {
                     toastr.error("Pilih data yang akan dicetak");
                     return;
                 }
@@ -513,70 +534,99 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             }
 
 
-            $scope.editGrid = function() {
+            $scope.editGrid = function () {
                 debugger
-                $scope.norecmeso=""
-                $scope.isTambah=2;               
+                $scope.norecmeso = ""
+                $scope.isTambah = 2;
                 $scope.item.obj = []
-                if($scope.modelGrid==null || $scope.modelGrid=='undefined') {
+                if ($scope.modelGrid == null || $scope.modelGrid == 'undefined') {
                     toastr.error("Pilih data yang akan diedit");
                     return;
                 }
 
                 var norec = $scope.modelGrid.norec
 
-                medifirstService.get('emr/get-edit-rekonsiliasi-pasien?norec=' + norec).then(function(dat) {
+                medifirstService.get('emr/get-edit-rekonsiliasi-pasien?norec=' + norec).then(function (dat) {
                     console.log(dat.data)
                     $scope.item.tglpengkajian = dat.data[0].tglpengkajian
 
-                    if(dat.data[0].pasien==1) $scope.item.pasien = { id: '1', nama: 'PASIEN BARU' }
-                    else if (dat.data[0].pasien==2)  $scope.item.pasien =  { id: '2', nama: 'ANTAR RUANGAN' }
-                    else $scope.item.pasien = {id: '3', nama: 'PASIEN PULANG'}
-                    
+                    if (dat.data[0].pasien == 1) $scope.item.pasien = { id: '1', nama: 'PASIEN BARU' }
+                    else if (dat.data[0].pasien == 2) $scope.item.pasien = { id: '2', nama: 'ANTAR RUANGAN' }
+                    else $scope.item.pasien = { id: '3', nama: 'PASIEN PULANG' }
+
                     $scope.item.ruanganasal = { id: dat.data[0].ruanganasalfk, nama: dat.data[0].ruanganasal }
                     $scope.item.ruanganbaru = { id: dat.data[0].ruanganbarufk, nama: dat.data[0].ruanganbaru }
-            
-                    $scope.item.tglmasuk =dat.data[0].tglmasuk
 
-                    if(dat.data[0].riwayatalergi==1) $scope.item.riwayatalergi = { id: '1', nama: 'TIDAK MEMILIKI RIWAYAT ALERGI OBAT' }
-                    else if(dat.data[0].riwayatalergi==2)  $scope.item.riwayatalergi =  { id: '2', nama: 'YA' }
+                    $scope.item.tglmasuk = dat.data[0].tglmasuk
 
-                    if(dat.data[0].obatsebelumdirawat==1) $scope.item.obatdirawat = { id: '1', nama: 'TIDAK MENGGUNAKAN OBAT SEBELUM DIRAWAT' }
-                    else if(dat.data[0].obatsebelumdirawat==2)  $scope.item.obatdirawat =  { id: '2', nama: 'YA' }
-             
+                    if (dat.data[0].riwayatalergi == 1) $scope.item.riwayatalergi = { id: '1', nama: 'TIDAK MEMILIKI RIWAYAT ALERGI OBAT' }
+                    else if (dat.data[0].riwayatalergi == 2) $scope.item.riwayatalergi = { id: '2', nama: 'YA' }
 
-                    if(dat.data[0].obatdarirumah==1) $scope.item.bawaobat = { id: '1', nama: 'YA' }
-                    else if(dat.data[0].obatdarirumah==2)  $scope.item.bawaobat =  { id: '2', nama: 'TIDAK' }
-             
-                    
-                    if(dat.data[0].obatlayak==1) $scope.item.obatlayak = { id: '1', nama: 'YA' }
-                    else if(dat.data[0].obatlayak==2)  $scope.item.obatlayak =  { id: '2', nama: 'TIDAK' }
-             
-                    
-                    $scope.item.rekomendasidpjp =dat.data[0].rekomendasidpjp
-                    
-                    $scope.item.edukasiapoteker =dat.data[0].edukasiapoteker
+                    if (dat.data[0].obatsebelumdirawat == 1) $scope.item.obatdirawat = { id: '1', nama: 'TIDAK MENGGUNAKAN OBAT SEBELUM DIRAWAT' }
+                    else if (dat.data[0].obatsebelumdirawat == 2) $scope.item.obatdirawat = { id: '2', nama: 'YA' }
+
+
+                    if (dat.data[0].obatdarirumah == 1) $scope.item.bawaobat = { id: '1', nama: 'YA' }
+                    else if (dat.data[0].obatdarirumah == 2) $scope.item.bawaobat = { id: '2', nama: 'TIDAK' }
+
+
+                    if (dat.data[0].obatlayak == 1) $scope.item.obatlayak = { id: '1', nama: 'YA' }
+                    else if (dat.data[0].obatlayak == 2) $scope.item.obatlayak = { id: '2', nama: 'TIDAK' }
+
+
+                    $scope.item.rekomendasidpjp = dat.data[0].rekomendasidpjp
+                    $scope.item.edukasiapoteker = dat.data[0].edukasiapoteker
+                    $scope.item.apoteker = { id: dat.data[0].apotekerfk, nama: dat.data[0].apoteker }
+                    $scope.item.dokter = { id: dat.data[0].dokterfk, nama: dat.data[0].dokter }
+                    if (dat.data[0].pasien == 1) {
+                        $scope.isEditPB = true
+                    } else if (dat.data[0].pasien == 2) {
+                        $scope.isEditAR = true
+                    } else {
+                        $scope.isEditPP = true
+                    }
                 })
-                
+
                 loadObat()
                 loadObatMandiri()
+                loadQr()
 
                 $scope.isGrid = false
-                $scope.isEdit = true
                 $scope.isButtonTambah = false
                 $scope.isButtonEdit = true
             }
 
+            function loadQr() {
+                if ($scope.item.apoteker) {
+                    medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent($scope.item.apoteker.nama))
+                        .then(function (et) {
+                            $scope.item.qr = et.data.data;
+                        })
+                        .catch(function (error) {
+                            console.error("QR Error:", error);
+                        });
+                }
+                if ($scope.item.dokter) {
+                    medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent($scope.item.dokter.nama))
+                        .then(function (et) {
+                            $scope.item.qr2 = et.data.data;
+                        })
+                        .catch(function (error) {
+                            console.error("QR Error:", error);
+                        });
+                }
+            }
 
-            $scope.simpanObat = function() {
+            $scope.simpanObat = function () {
                 $scope.norec = ""
                 let obatobat = ""
-                let obatdosis = "" 
-                let waktupemberian = "" 
-                let tindaklanjutfk = "" 
-                let tindaklanjut = "" 
+                let obatdosis = ""
+                let waktupemberian = ""
+                let tindaklanjutfk = ""
+                let tindaklanjut = ""
                 let pemberiaturanpakai = ""
-debugger
+                let sumberobat = ""
+
                 if ($scope.item.obatobat != undefined) {
                     obatobat = $scope.item.obatobat
                 }
@@ -593,13 +643,13 @@ debugger
                 if ($scope.item.pemberiaturanpakai != undefined) {
                     pemberiaturanpakai = $scope.item.pemberiaturanpakai
                 }
-                
-                
-                if ($scope.isTambah==2) {
-                    if($scope.modelGrid.norec!=undefined) $scope.norec = $scope.modelGrid.norec
-                    else if($scope.norecmeso!=undefined) $scope.norec = $scope.norecmeso
+                if ($scope.item.sumberobat != undefined) {
+                    sumberobat = $scope.item.sumberobat
+                }
+                if ($scope.isTambah == 2) {
+                    if ($scope.modelGrid.norec != undefined) $scope.norec = $scope.modelGrid.norec
+                    else if ($scope.norecmeso != undefined) $scope.norec = $scope.norecmeso
                 } else {
-                    //-----------------------------------------------
                     let tglpengkajian = ''
                     let tglmasuk = ''
                     let pasien = 0
@@ -615,7 +665,7 @@ debugger
                     let edukasiapoteker = ""
                     let apotekerfk = 0
                     let apoteker = ''
-    debugger
+
                     if ($scope.item.tglpengkajian != undefined) {
                         tglpengkajian = moment($scope.item.tglpengkajian).format('YYYY-MM-DD HH:mm')
                     }
@@ -657,67 +707,69 @@ debugger
                         apoteker = $scope.item.apoteker.nama
                     }
                     let objSave = {
-                        tglpengkajian : tglpengkajian,
-                        tglmasuk : tglmasuk,
-                        pasien : pasien,
-                        ruanganasalfk : ruanganasalfk,
-                        ruanganbarufk : ruanganbarufk,
-                        ruanganasal : ruanganasal,
-                        ruanganbaru : ruanganbaru,
-                        riwayatalergi : riwayatalergi,
-                        obatdirawat : obatdirawat,
-                        bawaobat : bawaobat,
-                        obatlayak : obatlayak,
-                        rekomendasidpjp : rekomendasidpjp,
-                        edukasiapoteker : edukasiapoteker,
-                        apotekerfk : apotekerfk,
-                        apoteker : apoteker,
-                        noregistrasifk: $scope.norecPd 
+                        tglpengkajian: tglpengkajian,
+                        tglmasuk: tglmasuk,
+                        pasien: pasien,
+                        ruanganasalfk: ruanganasalfk,
+                        ruanganbarufk: ruanganbarufk,
+                        ruanganasal: ruanganasal,
+                        ruanganbaru: ruanganbaru,
+                        riwayatalergi: riwayatalergi,
+                        obatdirawat: obatdirawat,
+                        bawaobat: bawaobat,
+                        obatlayak: obatlayak,
+                        rekomendasidpjp: rekomendasidpjp,
+                        edukasiapoteker: edukasiapoteker,
+                        apotekerfk: apotekerfk,
+                        apoteker: apoteker,
+                        noregistrasifk: $scope.norecPd
                     }
-                    medifirstService.post('emr/save-rekonsiliasi-pasien', objSave).then(function(e) {
+                    medifirstService.post('emr/save-rekonsiliasi-pasien', objSave).then(function (e) {
                         if (e.status == 201) {
-                            $scope.norecmeso=e.data.nilainorec;
+                            $scope.norecmeso = e.data.nilainorec;
                             var norecObatAfterSave = e.data.nilainorec
                             let objSavex = {
-                                norec : e.data.nilainorec,
-                                obatobat : obatobat,
-                                obatdosis : obatdosis, 
-                                waktupemberian : waktupemberian, 
-                                tindaklanjutfk : tindaklanjutfk, 
-                                tindaklanjut : tindaklanjut,
-                                pemberiaturanpakai : pemberiaturanpakai
+                                norec: e.data.nilainorec,
+                                obatobat: obatobat,
+                                obatdosis: obatdosis,
+                                waktupemberian: waktupemberian,
+                                tindaklanjutfk: tindaklanjutfk,
+                                tindaklanjut: tindaklanjut,
+                                pemberiaturanpakai: pemberiaturanpakai,
+                                sumberobat: sumberobat
                             }
-                            medifirstService.post('emr/save-rekonsiliasi-obat-pasien', objSavex).then(function(ex) {
+                            medifirstService.post('emr/save-rekonsiliasi-obat-pasien', objSavex).then(function (ex) {
                                 if (ex.status == 201) {
                                     loadObatAfter(norecObatAfterSave)
-                                    $scope.isTambah=2
-                                    $scope.isButtonTambah=false
-                                    $scope.isButtonUpdate=true
+                                    $scope.isTambah = 2
+                                    $scope.isButtonTambah = false
+                                    $scope.isButtonEdit = true
                                     $scope.popUpTambah.close()
                                 }
                             })
 
                         }
                     })
-                    $scope.norec=$scope.norecmeso
+                    $scope.norec = $scope.norecmeso
                     //-----------------------------------------------
                 }
 
-                if($scope.isTambah==2) {
-                    if($scope.norec != undefined || $scope.norec != null || $scope.norec != "" ) {
+                if ($scope.isTambah == 2) {
+                    if ($scope.norec != undefined || $scope.norec != null || $scope.norec != "") {
                         let objSave = {
-                            norec :$scope.norec,
-                            obatobat : obatobat,
-                            obatdosis : obatdosis, 
-                            waktupemberian : waktupemberian, 
-                            tindaklanjutfk : tindaklanjutfk, 
-                            tindaklanjut : tindaklanjut, 
-                            pemberiaturanpakai : pemberiaturanpakai
+                            norec: $scope.norec,
+                            obatobat: obatobat,
+                            obatdosis: obatdosis,
+                            waktupemberian: waktupemberian,
+                            tindaklanjutfk: tindaklanjutfk,
+                            tindaklanjut: tindaklanjut,
+                            pemberiaturanpakai: pemberiaturanpakai,
+                            sumberobat: sumberobat
                         }
-                        medifirstService.post('emr/save-rekonsiliasi-obat-pasien', objSave).then(function(e) {
+                        medifirstService.post('emr/save-rekonsiliasi-obat-pasien', objSave).then(function (e) {
                             if (e.status == 201) {
                                 $scope.popUpTambah.close()
-                                $scope.isTambah=2
+                                $scope.isTambah = 2
                                 loadObat()
                             }
                         })
@@ -725,11 +777,11 @@ debugger
                 }
             }
 
-            $scope.simpanObatMandiri = function() {
+            $scope.simpanObatMandiri = function () {
                 $scope.isRouteLoading = true;
                 $scope.norec = ""
                 let obatobatmandiri = ""
-                let obatdosismandiri = "" 
+                let obatdosismandiri = ""
                 let waktupemberianmandiri = ""
                 let hari1 = false
                 let hari2 = false
@@ -774,9 +826,9 @@ debugger
                     hari8 = true
                 }
 
-                if ($scope.isTambah==2) {
-                    if($scope.modelGrid.norec!=undefined) $scope.norec = $scope.modelGrid.norec
-                    else if($scope.norecmeso!=undefined) $scope.norec = $scope.norecmeso
+                if ($scope.isTambah == 2) {
+                    if ($scope.modelGrid.norec != undefined) $scope.norec = $scope.modelGrid.norec
+                    else if ($scope.norecmeso != undefined) $scope.norec = $scope.norecmeso
                 } else {
                     //-----------------------------------------------
                     let tglpengkajian = ''
@@ -836,33 +888,33 @@ debugger
                         apoteker = $scope.item.apoteker.nama
                     }
                     let objSave = {
-                        tglpengkajian : tglpengkajian,
-                        tglmasuk : tglmasuk,
-                        pasien : pasien,
-                        ruanganasalfk : ruanganasalfk,
-                        ruanganbarufk : ruanganbarufk,
-                        ruanganasal : ruanganasal,
-                        ruanganbaru : ruanganbaru,
-                        riwayatalergi : riwayatalergi,
-                        obatdirawat : obatdirawat,
-                        bawaobat : bawaobat,
-                        obatlayak : obatlayak,
-                        rekomendasidpjp : rekomendasidpjp,
-                        edukasiapoteker : edukasiapoteker,
-                        apotekerfk : apotekerfk,
-                        apoteker : apoteker,
-                        noregistrasifk: $scope.norecPd 
+                        tglpengkajian: tglpengkajian,
+                        tglmasuk: tglmasuk,
+                        pasien: pasien,
+                        ruanganasalfk: ruanganasalfk,
+                        ruanganbarufk: ruanganbarufk,
+                        ruanganasal: ruanganasal,
+                        ruanganbaru: ruanganbaru,
+                        riwayatalergi: riwayatalergi,
+                        obatdirawat: obatdirawat,
+                        bawaobat: bawaobat,
+                        obatlayak: obatlayak,
+                        rekomendasidpjp: rekomendasidpjp,
+                        edukasiapoteker: edukasiapoteker,
+                        apotekerfk: apotekerfk,
+                        apoteker: apoteker,
+                        noregistrasifk: $scope.norecPd
                     }
-                    medifirstService.post('emr/save-rekonsiliasi-pasien', objSave).then(function(e) {
+                    medifirstService.post('emr/save-rekonsiliasi-pasien', objSave).then(function (e) {
                         if (e.status == 201) {
                             $scope.norecmeso = e.data.nilainorec;
-            
+
                             var norecAfterSave = e.data.nilainorec
                             let objSavex = {
                                 norec: e.data.nilainorec,
                                 obatobatmandiri: obatobatmandiri,
-                                obatdosismandiri: obatdosismandiri, 
-                                waktupemberianmandiri: waktupemberianmandiri, 
+                                obatdosismandiri: obatdosismandiri,
+                                waktupemberianmandiri: waktupemberianmandiri,
                                 hari1: hari1,
                                 hari2: hari2,
                                 hari3: hari3,
@@ -872,11 +924,11 @@ debugger
                                 hari7: hari7,
                                 hari8: hari8
                             }
-                            medifirstService.post('emr/save-rekonsiliasi-obat-mandiri-pasien', objSavex).then(function(ex) {
+                            medifirstService.post('emr/save-rekonsiliasi-obat-mandiri-pasien', objSavex).then(function (ex) {
                                 if (ex.status == 201) {
                                     $scope.isTambah = 2
                                     $scope.isButtonTambah = false
-                                    $scope.isButtonUpdate = true
+                                    $scope.isButtonEdit = true
                                     $scope.popUpTambahMandiri.close()
                                 }
                                 loadObatMandiriAfter(norecAfterSave)
@@ -888,28 +940,28 @@ debugger
                     //-----------------------------------------------
                 }
 
-                if($scope.isTambah==2) {
-                    if($scope.norec != undefined || $scope.norec != null || $scope.norec != "" ) {
+                if ($scope.isTambah == 2) {
+                    if ($scope.norec != undefined || $scope.norec != null || $scope.norec != "") {
                         let objSave = {
-                            norec :$scope.norec,
-                            obatobatmandiri : obatobatmandiri,
-                            obatdosismandiri : obatdosismandiri, 
-                            waktupemberianmandiri : waktupemberianmandiri, 
-                            hari1 : hari1,
-                            hari2 : hari2,
-                            hari3 : hari3,
-                            hari4 : hari4,
-                            hari5 : hari5,
-                            hari6 : hari6,
-                            hari7 : hari7,
-                            hari8 : hari8
+                            norec: $scope.norec,
+                            obatobatmandiri: obatobatmandiri,
+                            obatdosismandiri: obatdosismandiri,
+                            waktupemberianmandiri: waktupemberianmandiri,
+                            hari1: hari1,
+                            hari2: hari2,
+                            hari3: hari3,
+                            hari4: hari4,
+                            hari5: hari5,
+                            hari6: hari6,
+                            hari7: hari7,
+                            hari8: hari8
                         }
-                        medifirstService.post('emr/save-rekonsiliasi-obat-mandiri-pasien', objSave).then(function(e) {
+                        medifirstService.post('emr/save-rekonsiliasi-obat-mandiri-pasien', objSave).then(function (e) {
                             if (e.status == 201) {
                                 $scope.popUpTambahMandiri.close()
-                                $scope.isTambah=2
+                                $scope.isTambah = 2
                             }
-                        }).then(function() {
+                        }).then(function () {
                             loadObatMandiri()
                         })
                     }
@@ -918,34 +970,34 @@ debugger
 
             function loadObatMandiriAfter(norecSave) {
                 //if($scope.modelGrid!=undefined || $scope.modelGrid!=null ) {
-                    var norec=""
-                    if($scope.modelGrid!=undefined || $scope.modelGrid!="") var norec = $scope.modelGrid.norec
-                    else if($scope.norecmeso!=undefined || $scope.norecmeso!="") var norec = $scope.norecmeso
-                    
-                    if (norecSave != undefined || norecSave != "" || norecSave != null) {
-                        medifirstService.get('emr/get-rekonsiliasi-obat-mandiri-pasien?norec=' + norecSave).then(function(dat) {
-                            console.log("Yang Bener")
-                            for(let i = 0; i < dat.data.length; i++) {
-                                dat.data[i].no = i + 1
-                            }
-                            $scope.dataGridObatMandiri = new kendo.data.DataSource({
-                                data: dat.data,
-                                length: dat.data.length,
-                                pageSize: 20
-                            });
-                        })
-                    } else {
+                var norec = ""
+                if ($scope.modelGrid != undefined || $scope.modelGrid != "") var norec = $scope.modelGrid.norec
+                else if ($scope.norecmeso != undefined || $scope.norecmeso != "") var norec = $scope.norecmeso
+
+                if (norecSave != undefined || norecSave != "" || norecSave != null) {
+                    medifirstService.get('emr/get-rekonsiliasi-obat-mandiri-pasien?norec=' + norecSave).then(function (dat) {
+                        console.log("Yang Bener")
+                        for (let i = 0; i < dat.data.length; i++) {
+                            dat.data[i].no = i + 1
+                        }
                         $scope.dataGridObatMandiri = new kendo.data.DataSource({
-                            data: "",
-                            length: 0,
+                            data: dat.data,
+                            length: dat.data.length,
                             pageSize: 20
                         });
+                    })
+                } else {
+                    $scope.dataGridObatMandiri = new kendo.data.DataSource({
+                        data: "",
+                        length: 0,
+                        pageSize: 20
+                    });
 
-                    }
+                }
                 //}
             }
 
-            $scope.simpanRekonsiliasi = function() {
+            $scope.simpanRekonsiliasi = function () {
                 let tglpengkajian = ''
                 let tglmasuk = ''
                 let pasien = 0
@@ -961,7 +1013,8 @@ debugger
                 let edukasiapoteker = ""
                 let apotekerfk = 0
                 let apoteker = ''
-debugger
+                let dokterfk = 0
+                let dokter = ''
                 if ($scope.item.tglpengkajian != undefined) {
                     tglpengkajian = moment($scope.item.tglpengkajian).format('YYYY-MM-DD HH:mm')
                 }
@@ -1002,36 +1055,45 @@ debugger
                     apotekerfk = $scope.item.apoteker.id
                     apoteker = $scope.item.apoteker.nama
                 }
-                let objSave = {
-                    tglpengkajian : tglpengkajian,
-                    tglmasuk : tglmasuk,
-                    pasien : pasien,
-                    ruanganasalfk : ruanganasalfk,
-                    ruanganbarufk : ruanganbarufk,
-                    ruanganasal : ruanganasal,
-                    ruanganbaru : ruanganbaru,
-                    riwayatalergi : riwayatalergi,
-                    obatdirawat : obatdirawat,
-                    bawaobat : bawaobat,
-                    obatlayak : obatlayak,
-                    rekomendasidpjp : rekomendasidpjp,
-                    edukasiapoteker : edukasiapoteker,
-                    apotekerfk : apotekerfk,
-                    apoteker : apoteker,
-                    noregistrasifk: $scope.norecPd 
+                if ($scope.item.dokter != undefined) {
+                    dokterfk = $scope.item.dokter.id
+                    dokter = $scope.item.dokter.nama
                 }
-                medifirstService.post('emr/save-rekonsiliasi-pasien', objSave).then(function(e) {
+                let objSave = {
+                    tglpengkajian: tglpengkajian,
+                    tglmasuk: tglmasuk,
+                    pasien: pasien,
+                    ruanganasalfk: ruanganasalfk,
+                    ruanganbarufk: ruanganbarufk,
+                    ruanganasal: ruanganasal,
+                    ruanganbaru: ruanganbaru,
+                    riwayatalergi: riwayatalergi,
+                    obatdirawat: obatdirawat,
+                    bawaobat: bawaobat,
+                    obatlayak: obatlayak,
+                    rekomendasidpjp: rekomendasidpjp,
+                    edukasiapoteker: edukasiapoteker,
+                    apotekerfk: apotekerfk,
+                    apoteker: apoteker,
+                    dokterfk: dokterfk,
+                    dokter: dokter,
+                    noregistrasifk: $scope.norecPd
+                }
+                medifirstService.post('emr/save-rekonsiliasi-pasien', objSave).then(function (e) {
                     if (e.status == 201) {
-                        $scope.isEdit = false
+                        $scope.isEditPB = false
+                        $scope.isEditAR = false
+                        $scope.isEditPP = false
                         $scope.isGrid = true
                         loadRekonsialisasi()
                         init();
+                        loadQr()
                     }
                 })
             }
 
-            
-            $scope.simpanMesoTambah = function() {
+
+            $scope.simpanMesoTambah = function () {
                 let tglpengkajian = ''
                 let eso = 0
                 let penyakitutama = ''
@@ -1050,7 +1112,7 @@ debugger
                 let reaksieso = 0
                 let asalruangan = 0
                 let apoteker = 0
-debugger
+                debugger
                 if ($scope.item.tglpengkajian != undefined) {
                     tglpengkajian = moment($scope.item.tglpengkajian).format('YYYY-MM-DD hh:mm')
                 }
@@ -1096,7 +1158,7 @@ debugger
                 if ($scope.item.obj[411013] != undefined) {
                     tindakaneso = $scope.item.obj[411013]
                 }
-                
+
                 if ($scope.item.obj[411014] != undefined) {
                     reaksieso = $scope.item.obj[411014].id
                 }
@@ -1107,35 +1169,35 @@ debugger
                     apoteker = $scope.item.obj[411016].id
                 }
                 let objSave = {
-                    tglpengkajian :tglpengkajian,
-                    eso : eso,
-                    penyakitutama : penyakitutama,
-                    kondisi : kondisi,
-                    jeniskelamin : jeniskelamin, 
-                    hamil : hamil,
-                    gangguanginjal : gangguanginjal,
-                    gangguanhati : gangguanhati,
-                    alergi : alergi,
-                    kondisimedis : kondisimedis,
-                    factorindustri : factorindustri,
-                    kimia : kimia,
-                    tgleso : tgleso,
-                    bentukeso : bentukeso,
-                    tindakaneso : tindakaneso,
-                    reaksieso : reaksieso,
-                    asalruangan : asalruangan,
-                    apoteker : apoteker,
-                    noregistrasifk: $scope.norecPd 
+                    tglpengkajian: tglpengkajian,
+                    eso: eso,
+                    penyakitutama: penyakitutama,
+                    kondisi: kondisi,
+                    jeniskelamin: jeniskelamin,
+                    hamil: hamil,
+                    gangguanginjal: gangguanginjal,
+                    gangguanhati: gangguanhati,
+                    alergi: alergi,
+                    kondisimedis: kondisimedis,
+                    factorindustri: factorindustri,
+                    kimia: kimia,
+                    tgleso: tgleso,
+                    bentukeso: bentukeso,
+                    tindakaneso: tindakaneso,
+                    reaksieso: reaksieso,
+                    asalruangan: asalruangan,
+                    apoteker: apoteker,
+                    noregistrasifk: $scope.norecPd
                 }
-                medifirstService.post('emr/save-meso-pasien', objSave).then(function(e) {
+                medifirstService.post('emr/save-meso-pasien', objSave).then(function (e) {
                     if (e.status == 201) {
-                        $scope.norecmeso=e.nilainorec;
+                        $scope.norecmeso = e.nilainorec;
                     }
                 })
             }
 
-            
-            $scope.UpdateRekonsiliasi = function() {
+
+            $scope.UpdateRekonsiliasi = function () {
 
                 let tglpengkajian = ''
                 let tglmasuk = ''
@@ -1152,7 +1214,9 @@ debugger
                 let edukasiapoteker = ""
                 let apotekerfk = 0
                 let apoteker = ''
-debugger
+                let dokterfk = 0
+                let dokter = ''
+                debugger
                 if ($scope.item.tglpengkajian != undefined) {
                     tglpengkajian = moment($scope.item.tglpengkajian).format('YYYY-MM-DD HH:mm')
                 }
@@ -1193,29 +1257,36 @@ debugger
                     apotekerfk = $scope.item.apoteker.id
                     apoteker = $scope.item.apoteker.nama
                 }
-                let objSave = {
-                    tglpengkajian : tglpengkajian,
-                    tglmasuk : tglmasuk,
-                    pasien : pasien,
-                    ruanganasalfk : ruanganasalfk,
-                    ruanganbarufk : ruanganbarufk,
-                    ruanganasal : ruanganasal,
-                    ruanganbaru : ruanganbaru,
-                    riwayatalergi : riwayatalergi,
-                    obatdirawat : obatdirawat,
-                    bawaobat : bawaobat,
-                    obatlayak : obatlayak,
-                    rekomendasidpjp : rekomendasidpjp,
-                    edukasiapoteker : edukasiapoteker,
-                    apotekerfk : apotekerfk,
-                    apoteker : apoteker,
-                    noregistrasifk: $scope.norecPd,
-                    norec: $scope.modelGrid.norec  
+                if ($scope.item.dokter != undefined) {
+                    dokterfk = $scope.item.dokter.id
+                    dokter = $scope.item.dokter.nama
                 }
-                medifirstService.post('emr/update-rekonsiliasi-pasien', objSave).then(function(e) {
+                let objSave = {
+                    tglpengkajian: tglpengkajian,
+                    tglmasuk: tglmasuk,
+                    pasien: pasien,
+                    ruanganasalfk: ruanganasalfk,
+                    ruanganbarufk: ruanganbarufk,
+                    ruanganasal: ruanganasal,
+                    ruanganbaru: ruanganbaru,
+                    riwayatalergi: riwayatalergi,
+                    obatdirawat: obatdirawat,
+                    bawaobat: bawaobat,
+                    obatlayak: obatlayak,
+                    rekomendasidpjp: rekomendasidpjp,
+                    edukasiapoteker: edukasiapoteker,
+                    apotekerfk: apotekerfk,
+                    apoteker: apoteker,
+                    dokterfk: dokterfk,
+                    dokter: dokter,
+                    noregistrasifk: $scope.norecPd,
+                    norec: $scope.norecmeso || $scope.modelGrid.norec,
+                }
+                medifirstService.post('emr/update-rekonsiliasi-pasien', objSave).then(function (e) {
                     if (e.status == 201) {
                         loadRekonsialisasi()
                         init();
+                        loadQr()
                     }
                 })
             }
@@ -1230,14 +1301,14 @@ debugger
                     { field: "tglpengkajian", title: "Tgl Pengkajian", width: 150 },
                     { field: "pasien", title: "Jenis Pasien", width: 150 },
                     { field: "ruanganasal", title: "Ruangan Asal", width: 150 },
-                    { field: "ruanganbaru", title: "Ruangan Baru", width: 150 },                    
+                    { field: "ruanganbaru", title: "Ruangan Baru", width: 150 },
                     { field: "tglmasuk", title: "Tgl Masuk", width: 150 },
                     { field: "apoteker", title: "Apoteker", width: 150 }
                 ],
 
             };
 
-            $scope.data2 = function(dataItem) {
+            $scope.data2 = function (dataItem) {
                 for (var i = 0; i < dataItem.details.length; i++) {
                     dataItem.details[i].no = i + 1
                 }
@@ -1256,50 +1327,92 @@ debugger
                     ]
                 }
             };
-            
-            $scope.batal = function() {
+
+            $scope.batal = function () {
                 $scope.popUp.close()
             }
             init();
 
-            $scope.showInput = function() {
-                $scope.modelGrid=[]
-                $scope.isTambah=1;
-                $scope.iChecked1=false;
-                $scope.iChecked2=false;
-                $scope.iChecked3=false;
-                $scope.iChecked4=false;
-                $scope.iChecked5=false;
-                $scope.iChecked6=false;
-                $scope.item = {}
-                $scope.item.obj = []
-                $scope.item.pasien={id:1, nama:'PASIEN BARU'}
-                $scope.now=new Date();
-                $scope.item.tglpengkajian = $scope.now
-                $scope.item.tglmasuk= $scope.now
-                $scope.item.apoteker = { id: $scope.objectpegawaifk, nama: $scope.namadokter }
-                
-                $scope.item.ruanganasal = { id: $scope.objectruanganfk, nama: $scope.namaruangan }
-                
-                noregistrasi = $scope.noregistrasi
-                //$scope.modelGrid=""
-                loadObat()
-                loadObatMandiri()
-                
-                $scope.isEdit = true
-                $scope.isGrid = false
-                $scope.isButtonTambah = true
-                $scope.isButtonEdit = false
-
-                //init();
-                //$scope.sourceResume = new kendo.data.DataSource({
-                //    data: data2
-                //});
-
+            $scope.showInput = function (flag) {
+                if (flag == 'Pasien Baru') {
+                    $scope.modelGrid = []
+                    $scope.isTambah = 1;
+                    $scope.iChecked1 = false;
+                    $scope.iChecked2 = false;
+                    $scope.iChecked3 = false;
+                    $scope.iChecked4 = false;
+                    $scope.iChecked5 = false;
+                    $scope.iChecked6 = false;
+                    $scope.item = {}
+                    $scope.item.obj = []
+                    $scope.item.pasien = { id: 1, nama: 'PASIEN BARU' }
+                    $scope.now = new Date();
+                    $scope.item.tglpengkajian = $scope.now
+                    $scope.item.tglmasuk = $scope.now
+                    // $scope.item.apoteker = { id: $scope.objectpegawaifk, nama: $scope.namadokter }
+                    $scope.item.ruanganasal = { id: $scope.objectruanganfk, nama: $scope.namaruangan }
+                    noregistrasi = $scope.noregistrasi
+                    loadObat()
+                    loadObatMandiri()
+                    $scope.isEditPB = true
+                    $scope.isGrid = false
+                    $scope.isButtonTambah = true
+                    $scope.isButtonEdit = false
+                } else if (flag == 'Antar Ruangan') {
+                    $scope.modelGrid = []
+                    $scope.isTambah = 1;
+                    $scope.iChecked1 = false;
+                    $scope.iChecked2 = false;
+                    $scope.iChecked3 = false;
+                    $scope.iChecked4 = false;
+                    $scope.iChecked5 = false;
+                    $scope.iChecked6 = false;
+                    $scope.item = {}
+                    $scope.item.obj = []
+                    $scope.item.pasien = { id: 2, nama: 'ANTAR RUANGAN' }
+                    $scope.now = new Date();
+                    $scope.item.tglpengkajian = $scope.now
+                    $scope.item.tglmasuk = $scope.now
+                    // $scope.item.apoteker = { id: $scope.objectpegawaifk, nama: $scope.namadokter }
+                    $scope.item.ruanganasal = { id: $scope.objectruanganfk, nama: $scope.namaruangan }
+                    noregistrasi = $scope.noregistrasi
+                    loadObat()
+                    loadObatMandiri()
+                    $scope.isEditAR = true
+                    $scope.isGrid = false
+                    $scope.isButtonTambah = true
+                    $scope.isButtonEdit = false
+                } else {
+                    $scope.modelGrid = []
+                    $scope.isTambah = 1;
+                    $scope.iChecked1 = false;
+                    $scope.iChecked2 = false;
+                    $scope.iChecked3 = false;
+                    $scope.iChecked4 = false;
+                    $scope.iChecked5 = false;
+                    $scope.iChecked6 = false;
+                    $scope.item = {}
+                    $scope.item.obj = []
+                    $scope.item.pasien = { id: 3, nama: 'PASIEN PULANG' }
+                    $scope.now = new Date();
+                    $scope.item.tglpengkajian = $scope.now
+                    $scope.item.tglmasuk = $scope.now
+                    // $scope.item.apoteker = { id: $scope.objectpegawaifk, nama: $scope.namadokter }
+                    $scope.item.ruanganasal = { id: $scope.objectruanganfk, nama: $scope.namaruangan }
+                    noregistrasi = $scope.noregistrasi
+                    loadObat()
+                    loadObatMandiri()
+                    $scope.isEditPP = true
+                    $scope.isGrid = false
+                    $scope.isButtonTambah = true
+                    $scope.isButtonEdit = false
+                }
             }
 
-            $scope.Back = function() {
-                $scope.isEdit = false
+            $scope.Back = function () {
+                $scope.isEditPB = false
+                $scope.isEditAR = false
+                $scope.isEditPP = false
                 $scope.isGrid = true
                 init()
                 loadRekonsialisasi()
@@ -1308,14 +1421,15 @@ debugger
 
 
 
-            
+
 
             function init() {
                 debugger
                 //$scope.isEdit = false
                 $scope.isRouteLoading = true;
-                medifirstService.get("emr/get-combo-meso").then(function(e) {
+                medifirstService.get("emr/get-combo-meso").then(function (e) {
                     $scope.listDokter = e.data.dokter
+                    $scope.listDokterAsli = e.data.dokterAsli
                     $scope.listRuanganAsal = e.data.ruangan
                     $scope.listRuanganBaru = e.data.ruangan
                     $scope.listobatobat = e.data.dataProduk
@@ -1326,7 +1440,7 @@ debugger
 
 
 
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 debugger
                 $state.go('RekamMedis.HistoryEMR', {
                     noRec: $scope.norecAPD,

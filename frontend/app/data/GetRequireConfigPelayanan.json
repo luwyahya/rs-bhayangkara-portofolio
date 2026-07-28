@@ -3187,6 +3187,11 @@
         {
             "nameDep": "DokumenSuratKontrolCtrl",
             "urlDep": "module/EMR/DokumenSuratKontrolCtrl"
+        },
+        {
+            "nameDep": "IdentifikasiSkriningCtrl",
+            "urlDep": "module/EMR/IdentifikasiSkriningCtrl"
         }
+
     ]
 }
