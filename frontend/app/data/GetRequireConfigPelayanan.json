@@ -3183,6 +3183,10 @@
         {
             "nameDep": "IdentifikasiSkriningCtrl",
             "urlDep": "module/EMR/IdentifikasiSkriningCtrl"
+        },
+        {
+            "nameDep": "FormResikoBundirCtrl",
+            "urlDep": "module/EMR/FormResikoBundirCtrl"
         }
     ]
 }
