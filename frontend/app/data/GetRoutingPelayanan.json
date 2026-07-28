@@ -17959,5 +17959,28 @@
                 "define": "ModulTindakanCtrl"
             }
         ]
+    },
+    {
+        "name": "RekamMedis.IdentifikasiSkrining",
+        "url": "/IdentifikasiSkrining",
+        "templateurl": "module/EMR/IdentifikasiSkrining.html",
+        "controller": "IdentifikasiSkriningCtrl",
+        "deps": [
+            {
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            },
+            {
+                "define": "RekamMedisCtrl"
+            }
+        ]
     }
 ]

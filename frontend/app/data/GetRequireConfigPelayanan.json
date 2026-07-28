@@ -3179,6 +3179,10 @@
         {
             "nameDep": "CatatanImplementasiMPPCtrl",
             "urlDep": "module/EMR/CatatanImplementasiMPPCtrl"
+        },
+        {
+            "nameDep": "IdentifikasiSkriningCtrl",
+            "urlDep": "module/EMR/IdentifikasiSkriningCtrl"
         }
     ]
 }
