@@ -1,0 +1,301 @@
+<style type="text/css">
+    /* Ubah ukuran font di sini dari 11px menjadi 14px */
+    .form-container { background-color: #fff; padding: 10px; font-family: sans-serif; font-size: 14px; }
+    
+    /* Styling Fieldset agar rapi */
+    fieldset { 
+        border-radius: 4px; 
+        border: 1px solid #7ebaff; 
+        padding: 10px; 
+        margin-bottom: 15px; 
+        background-color: #fdfdfd;
+    }
+    legend {
+        font-weight: bold;
+        /* Ubah ukuran font di sini dari 12px menjadi 16px agar judul lebih jelas */
+        font-size: 16px; 
+        color: #004d99;
+        background: #fff;
+        padding: 0 5px;
+        border: 1px solid #7ebaff;
+        border-radius: 3px;
+        width: auto;
+        margin-bottom: 0;
+    }
+
+    .table-border { width: 100%; border-collapse: collapse; margin-bottom: 10px; background-color: #fff; }
+    .table-border th, .table-border td { border: 1px solid #ccc; padding: 4px; vertical-align: top; }
+    .table-border th { background-color: #f2f2f2; }
+    
+    .table-noborder { width: 100%; border-collapse: collapse; }
+    .table-noborder td { padding: 4px 5px; vertical-align: top; border: none; }
+    
+    .style-center { text-align: center; }
+    
+    /* Ubah ukuran font di sini dari 11px menjadi 14px */
+    .k-textbox, .k-checkbox { margin-top: 2px; margin-bottom: 2px; font-size: 14px; }
+    .k-checkbox-label { font-size: 14px; margin-right: 5px; cursor: pointer; }
+    
+    .bold { font-weight: bold; }
+    @media print {
+        .no-print { display: none !important; }
+        .print-only { display: table !important; }
+    }
+    @media screen {
+        .print-only { display: none !important; }
+    }
+</style>
+
+<div class="grid_12 form-container" id="cetakRm">
+    <div class="grid_12">
+        <!-- HEADER CETAK -->
+        <table style="width: 100%; border-bottom: 2px solid black; margin-bottom: 10px;" class="print-only">
+            <tr>
+                <td style="width: 10%; text-align: center; vertical-align: middle;">
+                    <img src="images/logodokesnew.png" style="width: 80px;">
+                </td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <h3 style="margin: 0;">POLRI DAERAH JAWA BARAT</h3>
+                    <h2 style="margin: 0;">RUMAH SAKIT BHAYANGKARA TK IV CIANJUR</h2>
+                </td>
+                <td style="width: 10%;"></td>
+            </tr>
+        </table>
+        <!-- END HEADER CETAK -->
+
+        <div style="margin-bottom: 10px" class="panel panel-default container_12">
+            <div class="panel-heading" c-translate="">Form A - Asesmen Awal Manajemen Pelayanan Pasien</div>
+        </div>
+        <fieldset>
+            <legend>1. Asesmen untuk manajer pelayanan pasien</legend>
+            <table class="table-border">
+                <tbody>
+                <tr>
+                    <td style="width: 50%;" class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308750]" ng-model="item.obj[1901308750]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308750]">Fisik Fungsional, Kognitif, Kekuatan-Kemampuan, Kemandirian.</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308693]" ng-model="item.obj[1901308693]"> <label class="k-checkbox-label" for="item.obj[1901308693]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308694]" ng-model="item.obj[1901308694]"> <label class="k-checkbox-label" for="item.obj[1901308694]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308695]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308751]" ng-model="item.obj[1901308751]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308751]">Riwayat Kesehatan dahulu dan Sekarang.</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308696]" ng-model="item.obj[1901308696]"> <label class="k-checkbox-label" for="item.obj[1901308696]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308697]" ng-model="item.obj[1901308697]"> <label class="k-checkbox-label" for="item.obj[1901308697]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308698]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308752]" ng-model="item.obj[1901308752]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308752]">Perilaku Psiko, Spiritual, Sosio, Kultural, Spiritual</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308699]" ng-model="item.obj[1901308699]"> <label class="k-checkbox-label" for="item.obj[1901308699]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308700]" ng-model="item.obj[1901308700]"> <label class="k-checkbox-label" for="item.obj[1901308700]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308701]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308753]" ng-model="item.obj[1901308753]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308753]">Kesehatan Mental dan Kognitif.</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308702]" ng-model="item.obj[1901308702]"> <label class="k-checkbox-label" for="item.obj[1901308702]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308703]" ng-model="item.obj[1901308703]"> <label class="k-checkbox-label" for="item.obj[1901308703]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308704]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308754]" ng-model="item.obj[1901308754]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308754]">Dukungan Keluarga, Kemampuan merawat dari pemberi asuhan.</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308705]" ng-model="item.obj[1901308705]"> <label class="k-checkbox-label" for="item.obj[1901308705]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308706]" ng-model="item.obj[1901308706]"> <label class="k-checkbox-label" for="item.obj[1901308706]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308707]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308755]" ng-model="item.obj[1901308755]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308755]">Finansial</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308708]" ng-model="item.obj[1901308708]"> <label class="k-checkbox-label" for="item.obj[1901308708]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308709]" ng-model="item.obj[1901308709]"> <label class="k-checkbox-label" for="item.obj[1901308709]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308710]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308756]" ng-model="item.obj[1901308756]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308756]">Penjamin / Asuransi.</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308711]" ng-model="item.obj[1901308711]"> <label class="k-checkbox-label" for="item.obj[1901308711]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308712]" ng-model="item.obj[1901308712]"> <label class="k-checkbox-label" for="item.obj[1901308712]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308713]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308757]" ng-model="item.obj[1901308757]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308757]">Riwayat penggunaan obat alternatif</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308714]" ng-model="item.obj[1901308714]"> <label class="k-checkbox-label" for="item.obj[1901308714]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308715]" ng-model="item.obj[1901308715]"> <label class="k-checkbox-label" for="item.obj[1901308715]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308716]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308758]" ng-model="item.obj[1901308758]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308758]">Riwayat Trauma / Kekerasan</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308717]" ng-model="item.obj[1901308717]"> <label class="k-checkbox-label" for="item.obj[1901308717]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308718]" ng-model="item.obj[1901308718]"> <label class="k-checkbox-label" for="item.obj[1901308718]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308719]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308759]" ng-model="item.obj[1901308759]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308759]">Aspek legal.</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308720]" ng-model="item.obj[1901308720]"> <label class="k-checkbox-label" for="item.obj[1901308720]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308721]" ng-model="item.obj[1901308721]"> <label class="k-checkbox-label" for="item.obj[1901308721]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308722]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308760]" ng-model="item.obj[1901308760]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308760]">Pemahaman tentang kesehatan.</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308723]" ng-model="item.obj[1901308723]"> <label class="k-checkbox-label" for="item.obj[1901308723]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308724]" ng-model="item.obj[1901308724]"> <label class="k-checkbox-label" for="item.obj[1901308724]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308725]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308761]" ng-model="item.obj[1901308761]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308761]">Harapan terhadap hasil asuhan, kemampuan untuk menerima perubahan.</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308726]" ng-model="item.obj[1901308726]"> <label class="k-checkbox-label" for="item.obj[1901308726]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308727]" ng-model="item.obj[1901308727]"> <label class="k-checkbox-label" for="item.obj[1901308727]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308728]" style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold">
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308762]" ng-model="item.obj[1901308762]"> 
+                        <label class="k-checkbox-label" for="item.obj[1901308762]">Discharge Planning.</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308729]" ng-model="item.obj[1901308729]"> <label class="k-checkbox-label" for="item.obj[1901308729]">Tidak ada masalah</label><br>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308730]" ng-model="item.obj[1901308730]"> <label class="k-checkbox-label" for="item.obj[1901308730]">Ada Masalah, Sebutkan :</label> <input type="text" class="k-textbox" ng-model="item.obj[1901308731]" style="width: 60%;">
+                    </td>
+                </tr>
+            </tbody></table>
+        </fieldset>
+
+        <!-- 2. IDENTIFIKASI MASALAH -->
+        <fieldset>
+            <legend>2. Identifikasi Masalah</legend>
+            <table class="table-noborder">
+                <tbody><tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308732]" ng-model="item.obj[1901308732]"> <label class="k-checkbox-label" for="item.obj[1901308732]">Tingkat asuhan yang tidak sesuai dengan panduan, norma yang digunakan.</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308733]" ng-model="item.obj[1901308733]"> <label class="k-checkbox-label" for="item.obj[1901308733]">Over / under utilization pelayanan dengan dasar panduan norma yang digunakan</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308734]" ng-model="item.obj[1901308734]"> <label class="k-checkbox-label" for="item.obj[1901308734]">Ketidakpatuhan Pasien</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308735]" ng-model="item.obj[1901308735]"> <label class="k-checkbox-label" for="item.obj[1901308735]">Edukasi kurang memadai atau pemahamannya yang belum memadai tentang proses penyakit, kondisi terkini, daftar obat.</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308736]" ng-model="item.obj[1901308736]"> <label class="k-checkbox-label" for="item.obj[1901308736]">Kurangnya dukungan keluarga</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308737]" ng-model="item.obj[1901308737]"> <label class="k-checkbox-label" for="item.obj[1901308737]">Penurunan determinasi pasien (ketika tingkat keparahan/komplikasi meningkat)</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308738]" ng-model="item.obj[1901308738]"> <label class="k-checkbox-label" for="item.obj[1901308738]">Pemulangan/rujukan yang belum memenuhi kriteria, atau sebaliknya, pemulangan / rujukan yang ditunda.</label></td>
+                </tr>
+            </tbody></table>
+        </fieldset>
+
+        <!-- 3. PERENCANAAN MANAJEMEN PASIEN -->
+        <fieldset>
+            <legend>3. Perencanaan manajemen pasien</legend>
+            <table class="table-noborder">
+                <tbody><tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308739]" ng-model="item.obj[1901308739]"> <label class="k-checkbox-label" for="item.obj[1901308739]">Pastikan Discharge Planning pasien, prognosis, kebutuhan asuhan sesuai dengan kebutuhan asuhan.</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308740]" ng-model="item.obj[1901308740]"> <label class="k-checkbox-label" for="item.obj[1901308740]">Validasi rencana asuhan, sesuaikan / konsisten dengan panduan.</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308741]" ng-model="item.obj[1901308741]"> <label class="k-checkbox-label" for="item.obj[1901308741]">Lakukan kolaborasi komunikasi dengan PPA dalam akses.</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308742]" ng-model="item.obj[1901308742]"> <label class="k-checkbox-label" for="item.obj[1901308742]">Tentukan rencana pemberian informasi kepada pasien-keluarga untuk untuk pengambilan keputusan.</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308743]" ng-model="item.obj[1901308743]"> <label class="k-checkbox-label" for="item.obj[1901308743]">Tentukan rencana untuk melibatkan pasien dan keluarga dalam menentukan asuhan termasuk kemungkinan perubahan rencana.</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308744]" ng-model="item.obj[1901308744]"> <label class="k-checkbox-label" for="item.obj[1901308744]">Siapkan fasilitas untuk mengatasi masalah dan konflik</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="k-checkbox" id="item.obj[1901308745]" ng-model="item.obj[1901308745]"> <label class="k-checkbox-label" for="item.obj[1901308745]">Bantu dalam alternatif solusi permasalahan keuangan.</label></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="k-checkbox" id="item.obj[1901308746]" ng-model="item.obj[1901308746]"> <label class="k-checkbox-label" for="item.obj[1901308746]">Lain-lain :</label> 
+                        <input type="text" class="k-textbox" ng-model="item.obj[1901308747]" style="width: 80%;">
+                    </td>
+                </tr>
+            </tbody></table>
+        </fieldset>
+
+        <!-- TANDA TANGAN -->
+        <table class="table-noborder" style="margin-top: 30px;">
+            <tbody><tr>
+                <td style="width: 60%;"></td>
+                <td style="width: 40%; text-align: center;">
+                    <div style="margin-bottom: 10px;">
+                        Tanggal, <input style="width: 50%" k-ng-model="item.obj[1901308748]" kendo-datetimepicker="" k-format="'yyyy-MM-dd HH:mm'"><br>
+                    </div>
+                    <div>MPP</div>
+                    <div style="height: 60px;"></div>
+                    <input style="width: 60%;" kendo-combo-box="" k-ng-model="item.obj[1901308749]" k-data-text-field=" 'namalengkap' " k-data-value-field=" 'id' " k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai"><br>
+                </td>
+            </tr>
+        </tbody></table>
+        
+    </div>
+</div>
+
+<div class="grid_12">
+    <div class="grid_12" style="margin-top:10px">
+        <div class="grid_6"></div>
+        <div class="grid_2" >
+            <button class="btnTemplate1" ng-click="Save()"><b style="font-size:1.1em"><span class="fa fa-save"></span> SIMPAN</b></button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" onclick="history.back()"><b style="font-size:1.1em"><span class="fa fa-arrow-left"></span> KEMBALI</b></button>
+        </div>
+        <div class="grid_2 no-print">
+            <button class="btnTemplate1" onclick="printDiv('cetakRm')">
+                <b style="font-size:1.1em"><span class="fa fa-print"></span> CETAK</b>
+            </button>
+        </div>
+    </div>
+</div>

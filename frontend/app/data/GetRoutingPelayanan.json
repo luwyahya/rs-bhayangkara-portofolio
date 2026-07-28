@@ -17800,75 +17800,107 @@
             }
         ]
     },
-     {
-    "name": "RekamMedis.AsesmenEdukasi",
-    "url": "/AsesmenEdukasi",
-    "templateurl": "module/EMR/AsesmenEdukasi.html",
-    "controller": "AsesmenEdukasiCtrl",
-    "deps": [
-      {
-        "module": "Services",
-        "define": "Service"
-      },
-      {
-        "module": "LoginServices",
-        "define": "LoginService"
-      },
-      {
-        "module": "MedifirstService",
-        "define": "MedifirstService"
-      },
-      {
-        "define": "RekamMedisCtrl"
-      },
-      {
-        "define": "ModulEmrCtrl"
-      },
-      {
-        "define": "ModulDiagnosaCtrl"
-      },
-      {
-        "define": "ModulTindakanCtrl"
-      }
-    ]
-  },
-     {
-    "name": "RekamMedis.SkriningRanapGeriatri",
-    "url": "/SkriningRanapGeriatri",
-    "templateurl": "module/EMR/SkriningRanapGeriatri.html",
-    "controller": "SkriningRanapGeriatriCtrl",
-    "deps": [
-      {
-        "module": "Services",
-        "define": "Service"
-      },
-      {
-        "module": "LoginServices",
-        "define": "LoginService"
-      },
-      {
-        "module": "MedifirstService",
-        "define": "MedifirstService"
-      },
-      {
-        "define": "RekamMedisCtrl"
-      },
-      {
-        "define": "ModulEmrCtrl"
-      },
-      {
-        "define": "ModulDiagnosaCtrl"
-      },
-      {
-        "define": "ModulTindakanCtrl"
-      }
-    ]
-  },
+    {
+        "name": "RekamMedis.AsesmenEdukasi",
+        "url": "/AsesmenEdukasi",
+        "templateurl": "module/EMR/AsesmenEdukasi.html",
+        "controller": "AsesmenEdukasiCtrl",
+        "deps": [
+            {
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            },
+            {
+                "define": "RekamMedisCtrl"
+            },
+            {
+                "define": "ModulEmrCtrl"
+            },
+            {
+                "define": "ModulDiagnosaCtrl"
+            },
+            {
+                "define": "ModulTindakanCtrl"
+            }
+        ]
+    },
+    {
+        "name": "RekamMedis.SkriningRanapGeriatri",
+        "url": "/SkriningRanapGeriatri",
+        "templateurl": "module/EMR/SkriningRanapGeriatri.html",
+        "controller": "SkriningRanapGeriatriCtrl",
+        "deps": [
+            {
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            },
+            {
+                "define": "RekamMedisCtrl"
+            },
+            {
+                "define": "ModulEmrCtrl"
+            },
+            {
+                "define": "ModulDiagnosaCtrl"
+            },
+            {
+                "define": "ModulTindakanCtrl"
+            }
+        ]
+    },
     {
         "name": "RekamMedis.AsesmenRisikoJatuhHumptyDumpty",
         "url": "/AsesmenRisikoJatuhHumptyDumpty",
         "templateurl": "module/EMR/AsesmenRisikoJatuhHumptyDumpty.html",
         "controller": "AsesmenRisikoJatuhHumptyDumptyCtrl",
+        "deps": [
+            {
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            },
+            {
+                "define": "RekamMedisCtrl"
+            },
+            {
+                "define": "ModulEmrCtrl"
+            },
+            {
+                "define": "ModulDiagnosaCtrl"
+            },
+            {
+                "define": "ModulTindakanCtrl"
+            }
+        ]
+    },
+    {
+        "name": "RekamMedis.PengkajianAwalMPP",
+        "url": "/PengkajianAwalMPP",
+        "templateurl": "module/EMR/PengkajianAwalMPP.html",
+        "controller": "PengkajianAwalMPPCtrl",
         "deps": [
             {
                 "module": "Services",

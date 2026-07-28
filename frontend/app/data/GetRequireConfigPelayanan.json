@@ -3171,6 +3171,10 @@
         {
             "nameDep": "SkriningRanapGeriatriCtrl",
             "urlDep": "module/EMR/SkriningRanapGeriatriCtrl"
+        },
+        {
+            "nameDep": "PengkajianAwalMPPCtrl",
+            "urlDep": "module/EMR/PengkajianAwalMPPCtrl"
         }
     ]
 }
