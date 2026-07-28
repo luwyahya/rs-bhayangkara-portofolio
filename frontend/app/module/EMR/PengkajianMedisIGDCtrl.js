@@ -1795,14 +1795,14 @@ define(['initialize'], function (initialize) {
                     toastr.warning('Keadaan Umum belum diisi!')
                     return
                 }
-                // if ($scope.item.obj[2425] == '' || $scope.item.obj[2425] == null || $scope.item.obj[2425] == undefined) {
-                //     toastr.warning('Masalah Medis belum diisi!')
-                //     return
-                // }
-                // if ($scope.item.obj[1901300314] == '' || $scope.item.obj[1901300314] == null || $scope.item.obj[1901300314] == undefined) {
-                //     toastr.warning('Masalah Keperawatan belum diisi!')
-                //     return
-                // }
+                if ($scope.item.obj[2425] == '' || $scope.item.obj[2425] == null || $scope.item.obj[2425] == undefined) {
+                    toastr.warning('Masalah Medis belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[1901300314] == '' || $scope.item.obj[1901300314] == null || $scope.item.obj[1901300314] == undefined) {
+                    toastr.warning('Masalah Keperawatan belum diisi!')
+                    return
+                }
                 if ($scope.item.obj[2426] == '' || $scope.item.obj[2426] == null || $scope.item.obj[2426] == undefined) {
                     toastr.warning('Diagnosa Kerja belum diisi!')
                     return

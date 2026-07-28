@@ -1761,7 +1761,14 @@ define(['initialize'], function (initialize) {
                 for (var i = arrobj.length - 1; i >= 0; i--) {
                     var currentId = arrobj[i];
                     var currentObj = $scope.item.obj[parseInt(currentId)];
-                    arrSave.push({ id: currentId, values: currentObj });
+
+                    if (currentObj !== undefined && currentObj !== "") {
+                        if (currentObj !== null && typeof currentObj === 'object' && currentObj.hasOwnProperty('id') && currentObj.hasOwnProperty('namalengkap')) {
+                            arrSave.push({ id: currentId, values: { value: currentObj.id, text: currentObj.namalengkap } });
+                        } else {
+                            arrSave.push({ id: currentId, values: currentObj });
+                        }
+                    }
                 }
 
                 var method = 'new';
@@ -1933,6 +1940,30 @@ define(['initialize'], function (initialize) {
                             }
                             if (dataLoad[i].type == "textarea") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
+                            }
+                            if (dataLoad[i].type == "text") {
+                                var strValue = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
+                                if ((dataLoad[i].emrdfk >= 7720 && dataLoad[i].emrdfk <= 7727) || (dataLoad[i].emrdfk >= 7712 && dataLoad[i].emrdfk <= 7719)) {
+                                    if (strValue) {
+                                        var pDate = new Date(strValue);
+                                        if (!isNaN(pDate.getTime())) {
+                                            $scope.item.obj[dataLoad[i].emrdfk] = pDate;
+                                        } else {
+                                            $scope.item.obj[dataLoad[i].emrdfk] = strValue;
+                                        }
+                                    } else {
+                                        $scope.item.obj[dataLoad[i].emrdfk] = strValue;
+                                    }
+                                } else {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = strValue;
+                                }
+                            }
+                            if (dataLoad[i].type == "combobox") {
+                                var str = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;
+                                if (str != null) {
+                                    var res = str.split("~");
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: res[1] !== undefined ? res[1] : res[0] };
+                                }
                             }
 
                             let val = dataLoad[i].nilai != null ? dataLoad[i].nilai : dataLoad[i].value;

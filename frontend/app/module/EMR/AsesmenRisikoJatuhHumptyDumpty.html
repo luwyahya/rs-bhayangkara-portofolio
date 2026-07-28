@@ -1,0 +1,299 @@
+<style type="text/css">
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+        text-align: center;
+    }
+
+    fieldset {
+        border-radius: 5px;
+        border: 1px solid #228be6;
+        padding: 10px;
+        background-color: white;
+    }
+</style>
+
+<div class="grid_12">
+    <div style="margin-bottom: 10px" class="panel panel-default container_12">
+        <div class="panel-heading text-center">SKALA RISIKO JATUH HUMPTY DUMPTY</div>
+    </div>
+    
+    <fieldset>
+        <div class="grid_12">
+            <table class="tg">
+                <tr>
+                    <th style="width: 20%;">PARAMETER</th>
+                    <th style="width: 60%;">KRITERIA</th>
+                    <th style="width: 10%;">NILAI</th>
+                    <th style="width: 10%;">SKOR</th>
+                </tr>
+                
+                <!-- Usia -->
+                <tr>
+                    <td rowspan="4" style="text-align: center;"><b>Usia</b></td>
+                    <td>&lt; 3 tahun</td>
+                    <td style="text-align: center;">4</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[1]" id="obj1" ng-change="hitungSkor(1, [1,2,3,4])">
+                        <label class="k-checkbox-label" for="obj1"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3 &ndash; 7 tahun</td>
+                    <td style="text-align: center;">3</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[2]" id="obj2" ng-change="hitungSkor(2, [1,2,3,4])">
+                        <label class="k-checkbox-label" for="obj2"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7 &ndash; 13 tahun</td>
+                    <td style="text-align: center;">2</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[3]" id="obj3" ng-change="hitungSkor(3, [1,2,3,4])">
+                        <label class="k-checkbox-label" for="obj3"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&ge; 13 tahun</td>
+                    <td style="text-align: center;">1</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[4]" id="obj4" ng-change="hitungSkor(4, [1,2,3,4])">
+                        <label class="k-checkbox-label" for="obj4"></label>
+                    </td>
+                </tr>
+
+                <!-- Jenis Kelamin -->
+                <tr>
+                    <td rowspan="2" style="text-align: center;"><b>Jenis Kelamin</b></td>
+                    <td>Laki-laki</td>
+                    <td style="text-align: center;">2</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[5]" id="obj5" ng-change="hitungSkor(5, [5,6])">
+                        <label class="k-checkbox-label" for="obj5"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Perempuan</td>
+                    <td style="text-align: center;">1</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[6]" id="obj6" ng-change="hitungSkor(6, [5,6])">
+                        <label class="k-checkbox-label" for="obj6"></label>
+                    </td>
+                </tr>
+
+                <!-- Diagnosis -->
+                <tr>
+                    <td rowspan="4" style="text-align: center;"><b>Diagnosis</b></td>
+                    <td>Diagnosis neurologi</td>
+                    <td style="text-align: center;">4</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[7]" id="obj7" ng-change="hitungSkor(7, [7,8,9,10])">
+                        <label class="k-checkbox-label" for="obj7"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Perubahan oksigenasi (diagnosis respiratorik, dehidrasi, anemia, anoreksia, sinkop, pusing, dsb.)</td>
+                    <td style="text-align: center;">3</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[8]" id="obj8" ng-change="hitungSkor(8, [7,8,9,10])">
+                        <label class="k-checkbox-label" for="obj8"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gangguan perilaku/ psikiatri</td>
+                    <td style="text-align: center;">2</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[9]" id="obj9" ng-change="hitungSkor(9, [7,8,9,10])">
+                        <label class="k-checkbox-label" for="obj9"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Diagnosis lainnya</td>
+                    <td style="text-align: center;">1</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[10]" id="obj10" ng-change="hitungSkor(10, [7,8,9,10])">
+                        <label class="k-checkbox-label" for="obj10"></label>
+                    </td>
+                </tr>
+
+                <!-- Gangguan Kognitif -->
+                <tr>
+                    <td rowspan="3" style="text-align: center;"><b>Gangguan<br>Kognitif</b></td>
+                    <td>Tidak menyadari keterbatasan dirinya</td>
+                    <td style="text-align: center;">3</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[11]" id="obj11" ng-change="hitungSkor(11, [11,12,13])">
+                        <label class="k-checkbox-label" for="obj11"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Lupa akan adanya keterbatasan</td>
+                    <td style="text-align: center;">2</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[12]" id="obj12" ng-change="hitungSkor(12, [11,12,13])">
+                        <label class="k-checkbox-label" for="obj12"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Orientasi baik terhadap diri sendiri</td>
+                    <td style="text-align: center;">1</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[13]" id="obj13" ng-change="hitungSkor(13, [11,12,13])">
+                        <label class="k-checkbox-label" for="obj13"></label>
+                    </td>
+                </tr>
+
+                <!-- Faktor Lingkungan -->
+                <tr>
+                    <td rowspan="4" style="text-align: center;"><b>Faktor<br>Lingkungan</b></td>
+                    <td>Riwayat jatuh / bayi diletakkan di tempat tidur dewasa</td>
+                    <td style="text-align: center;">4</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[14]" id="obj14" ng-change="hitungSkor(14, [14,15,16,17])">
+                        <label class="k-checkbox-label" for="obj14"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Pasien menggunakan alat bantu / bayi diletakkan dalam tempat tidur bayi / perabot rumah</td>
+                    <td style="text-align: center;">3</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[15]" id="obj15" ng-change="hitungSkor(15, [14,15,16,17])">
+                        <label class="k-checkbox-label" for="obj15"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Pasien diletakkan di tempat tidur</td>
+                    <td style="text-align: center;">2</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[16]" id="obj16" ng-change="hitungSkor(16, [14,15,16,17])">
+                        <label class="k-checkbox-label" for="obj16"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Area di luar rumah sakit</td>
+                    <td style="text-align: center;">1</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[17]" id="obj17" ng-change="hitungSkor(17, [14,15,16,17])">
+                        <label class="k-checkbox-label" for="obj17"></label>
+                    </td>
+                </tr>
+
+                <!-- Pembedahan -->
+                <tr>
+                    <td rowspan="3" style="text-align: center;"><b>Pembedahan /<br>Sedasi /<br>Anestesi</b></td>
+                    <td>Dalam 24 jam</td>
+                    <td style="text-align: center;">3</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[18]" id="obj18" ng-change="hitungSkor(18, [18,19,20])">
+                        <label class="k-checkbox-label" for="obj18"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dalam 48 jam</td>
+                    <td style="text-align: center;">2</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[19]" id="obj19" ng-change="hitungSkor(19, [18,19,20])">
+                        <label class="k-checkbox-label" for="obj19"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&gt;48 jam atau tidak menjalani pembedahan/sedasi/anestesi</td>
+                    <td style="text-align: center;">1</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[20]" id="obj20" ng-change="hitungSkor(20, [18,19,20])">
+                        <label class="k-checkbox-label" for="obj20"></label>
+                    </td>
+                </tr>
+
+                <!-- Penggunaan medikamentosa -->
+                <tr>
+                    <td rowspan="3" style="text-align: center;"><b>Penggunaan<br>medikamentosa</b></td>
+                    <td>Penggunaan multiple: sedatif, obat hipnosis, barbiturat, fenotiazin, antidepresan pencahar, diuretik, narkose</td>
+                    <td style="text-align: center;">3</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[21]" id="obj21" ng-change="hitungSkor(21, [21,22,23])">
+                        <label class="k-checkbox-label" for="obj21"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Penggunaan salah satu obat diatas</td>
+                    <td style="text-align: center;">2</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[22]" id="obj22" ng-change="hitungSkor(22, [21,22,23])">
+                        <label class="k-checkbox-label" for="obj22"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Penggunaan medikasi lainnya / tidak ada medikasi</td>
+                    <td style="text-align: center;">1</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[23]" id="obj23" ng-change="hitungSkor(23, [21,22,23])">
+                        <label class="k-checkbox-label" for="obj23"></label>
+                    </td>
+                </tr>
+
+                <!-- Total -->
+                <tr>
+                    <td colspan="3" style="text-align: center; font-weight: bold; font-size: 16px;">JUMLAH SKOR HUMPTY DUMPTY</td>
+                    <td style="text-align: center; font-weight: bold; font-size: 16px;">{{item.totalSkor}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="grid_12">
+            <div class="grid_6">
+                <div style="font-weight: bold; margin-bottom: 5px;">Skor asesment risiko jatuh : (skor minimal 7, maksimal 23)</div>
+                <div style="margin-bottom: 5px;">- Skor 7-11 : risiko rendah</div>
+                <div style="margin-bottom: 5px;">- Skor &ge;12 : risiko tinggi</div>
+                <div style="font-weight: bold; margin-top: 15px; font-size: 14px; color: {{item.kesimpulan == 'Risiko Tinggi' ? 'red' : 'green'}}">Kesimpulan: {{item.kesimpulan}}</div>
+            </div>
+            <div class="grid_6 text-center">
+                <div class="grid_12">
+                    <label style="display: inline-block; margin-right: 10px;">Cianjur, </label>
+                    <input style="width: 200px" k-ng-model="item.obj[98]" kendo-datetimepicker k-format="'dd-MM-yyyy HH:mm'" />
+                </div>
+                <div class="grid_12" style="margin-top: 70px;">
+                    <input style="width: 250px;" kendo-combo-box k-ng-model="item.obj[99]" k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid_12" style="margin-top: 20px;">
+            <div class="grid_8"></div>
+            <div class="grid_4">
+                <button class="btnTemplate1" ng-click="Saveok()"><i class="fa fa-save"></i> Simpan</button>
+            </div>
+        </div>
+    </fieldset>
+</div>
