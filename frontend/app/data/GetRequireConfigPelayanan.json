@@ -3181,6 +3181,14 @@
             "urlDep": "module/EMR/CatatanImplementasiMPPCtrl"
         },
         {
+            "nameDep": "DokumenPenunjangCtrl",
+            "urlDep": "module/EMR/DokumenPenunjangCtrl"
+        },
+        {
+            "nameDep": "DokumenSuratKontrolCtrl",
+            "urlDep": "module/EMR/DokumenSuratKontrolCtrl"
+        },
+        {
             "nameDep": "IdentifikasiSkriningCtrl",
             "urlDep": "module/EMR/IdentifikasiSkriningCtrl"
         },
@@ -3192,5 +3200,6 @@
             "nameDep": "RencanaPenatalaksanaanTerpaduCtrl",
             "urlDep": "module/EMR/RencanaPenatalaksanaanTerpaduCtrl"
         }
+
     ]
 }

@@ -4,8 +4,17 @@
 .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:bold;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aabcfe;color:#039;background-color:#b9c9fe;text-align:center;}
 .tg .tg-center{text-align:center;vertical-align:middle;}
 .tg .nilai{vertical-align:middle;text-align:center;font-weight:bold;background-color:#e8edff;}
-.radio-container {display: inline-block; margin-right: 15px; cursor: pointer;}
-.radio-container input {cursor: pointer;}
+.checkbox-inline-custom {
+    display: inline-block;
+    margin-right: 15px;
+    cursor: pointer;
+    user-select: none;
+}
+.checkbox-inline-custom input {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 4px;
+}
 </style>
 
 <div class="grid_12" style="margin-bottom: 60px">
@@ -13,7 +22,7 @@
         <div class="panel-heading" c-translate>Formulir Skrining Rawat Inap Geriatri</div>
         <div class="panel-body">
             
-            <p style="font-weight: bold; margin-bottom: 10px;">Berikan tanda (v) pada kolom dibawah ini yang sesuai dengan kondisi pasien :</p>
+            <p style="font-weight: bold; margin-bottom: 10px;">Berikan tanda centang (&check;) pada kolom dibawah ini yang sesuai dengan kondisi pasien :</p>
             
             <div class="grid_12">
                 <table class="tg">
@@ -21,41 +30,35 @@
                         <tr>
                             <th style="width: 50px;">NO</th>
                             <th>SINDROM GERIATRI</th>
-                            <th style="width: 200px;">JAWABAN</th>
+                            <th style="width: 220px;">JAWABAN</th>
                         </tr>
                     </thead>
                     <tbody>
-                       <tr ng-repeat="itemSoal in listPertanyaanGeriatri">
+                        <tr ng-repeat="itemSoal in listPertanyaanGeriatri">
                             <td class="tg-center">{{itemSoal.id}}</td>
                             <td>{{itemSoal.nama}}</td>
                             <td class="tg-center">
-                                <span class="radio-container">
-    <input
-        type="radio"
-        id="radio_ya_{{itemSoal.emrdfk}}"
-        name="radio_group_{{itemSoal.emrdfk}}"
-        ng-model="item.obj[itemSoal.emrdfk]"
-        ng-value="true"
-        ng-change="hitungTotal()">
+                                <!-- Checkbox YA -->
+                                <label class="checkbox-inline-custom">
+                                    <input 
+                                        type="checkbox" 
+                                        class="k-checkbox" 
+                                        id="ya_{{itemSoal.emrdfk_ya}}" 
+                                        ng-model="item.obj[itemSoal.emrdfk_ya]" 
+                                        ng-change="toggleSwitch(itemSoal.emrdfk_ya, [itemSoal.emrdfk_ya, itemSoal.emrdfk_tidak])">
+                                    <label class="k-checkbox-label" for="ya_{{itemSoal.emrdfk_ya}}"></label> Ya
+                                </label>
 
-    <label for="radio_ya_{{itemSoal.emrdfk}}">
-        Ya
-    </label>
-</span>
-
-<span class="radio-container">
-    <input
-        type="radio"
-        id="radio_tidak_{{itemSoal.emrdfk}}"
-        name="radio_group_{{itemSoal.emrdfk}}"
-        ng-model="item.obj[itemSoal.emrdfk]"
-        ng-value="false"
-        ng-change="hitungTotal()">
-
-    <label for="radio_tidak_{{itemSoal.emrdfk}}">
-        Tidak
-    </label>
-</span>
+                                <!-- Checkbox TIDAK -->
+                                <label class="checkbox-inline-custom">
+                                    <input 
+                                        type="checkbox" 
+                                        class="k-checkbox" 
+                                        id="tidak_{{itemSoal.emrdfk_tidak}}" 
+                                        ng-model="item.obj[itemSoal.emrdfk_tidak]" 
+                                        ng-change="toggleSwitch(itemSoal.emrdfk_tidak, [itemSoal.emrdfk_ya, itemSoal.emrdfk_tidak])">
+                                    <label class="k-checkbox-label" for="tidak_{{itemSoal.emrdfk_tidak}}"></label> Tidak
+                                </label>
                             </td>
                         </tr>
                         <tr>

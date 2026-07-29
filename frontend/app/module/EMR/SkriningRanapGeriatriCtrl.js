@@ -29,18 +29,15 @@ define(["initialize"], function (initialize) {
             // ============================================================
 
             $scope.item = {};
+            $scope.item.obj = [];
             $scope.user = {};
 
             $scope.noCM = $state.params.noCM;
-
             $scope.tombolSimpanVis = true;
             $scope.isCetak = true;
             $scope.isKembali = true;
 
-            $scope.noRecPap = cacheHelper.get("noRecPap");
-
             $scope.totalJawabanYa = 0;
-
             $scope.cc = {};
 
             var nomorEMR = "-";
@@ -52,112 +49,52 @@ define(["initialize"], function (initialize) {
             $scope.isUpdate = false;
             $scope.isUpdateCetak = false;
 
+            $scope.Back = function () {
+
+                var confirm = $mdDialog.confirm()
+                    .title("Konfirmasi")
+                    .textContent("Yakin ingin mengosongkan semua jawaban?")
+                    .ok("Ya")
+                    .cancel("Tidak");
+
+                $mdDialog.show(confirm).then(function () {
+
+                    $scope.item.obj = {};
+                    $scope.totalJawabanYa = 0;
+
+                });
+
+            };
+
             // ============================================================
             // SETTING EMR
             // ============================================================
 
             $scope.cc.emrfk = 2108;
             $scope.cc.jenisemr = "skrininggeriatri";
-
             $scope.now = new Date();
-
-            $scope.item.obj = {};
-            $scope.item.obj2 = {};
-
-            $scope.item.image = "../app/images/svg/no-image.svg";
-
             $scope.tipemodul = "skrininggeriatri";
 
             // ============================================================
             // LIST PERTANYAAN GERIATRI
+            // Pemetaan emrdfk_ya (Jawaban Ya) & emrdfk_tidak (Jawaban Tidak)
             // ============================================================
 
             $scope.listPertanyaanGeriatri = [
-
-                {
-                    id: 1,
-                    emrdfk: 1368,
-                    nama: "Berkurangnya Kemampuan Gerak (Immobilisation)"
-                },
-
-                {
-                    id: 2,
-                    emrdfk: 1369,
-                    nama: "Jatuh dan Patah Tulang (Instabilitas Postural)"
-                },
-
-                {
-                    id: 3,
-                    emrdfk: 1362,
-                    nama: "Mengompol (Inkontinensia Urin)"
-                },
-
-                {
-                    id: 4,
-                    emrdfk: 1367,
-                    nama: "Infeksi (Infection)"
-                },
-
-                {
-                    id: 5,
-                    emrdfk: 1364,
-                    nama: "Gangguan Fungsi Indera (Impairment Of Senses)"
-                },
-
-                {
-                    id: 6,
-                    emrdfk: 1365,
-                    nama: "Kekurangan Gizi (Inanition)"
-                },
-
-                {
-                    id: 7,
-                    emrdfk: 1370,
-                    nama: "Masalah Akibat Tindakan Medis (Iatrogenik)"
-                },
-
-                {
-                    id: 8,
-                    emrdfk: 1371,
-                    nama: "Gangguan Tidur (Insomnia)"
-                },
-
-                {
-                    id: 9,
-                    emrdfk: 1372,
-                    nama: "Gangguan Fungsi Kognitif (Intellectual Impairment)"
-                },
-
-                {
-                    id: 10,
-                    emrdfk: 1373,
-                    nama: "Isolasi atau Menarik Diri (Isolation)"
-                },
-
-                {
-                    id: 11,
-                    emrdfk: 1374,
-                    nama: "Berkurangnya Kemampuan Keuangan (Impecunity)"
-                },
-
-                {
-                    id: 12,
-                    emrdfk: 1363,
-                    nama: "Konstipasi (Impaction)"
-                },
-
-                {
-                    id: 13,
-                    emrdfk: 1366,
-                    nama: "Gangguan Sistem Imun (Immune Deficiency)"
-                },
-
-                {
-                    id: 14,
-                    emrdfk: 1375,
-                    nama: "Gangguan Fungsi Seksual (Impotence)"
-                }
-
+                { id: 1,  emrdfk_ya: 1368, emrdfk_tidak: 2368, nama: "Berkurangnya Kemampuan Gerak (Immobilisation)" },
+                { id: 2,  emrdfk_ya: 1369, emrdfk_tidak: 2369, nama: "Jatuh dan Patah Tulang (Instabilitas Postural)" },
+                { id: 3,  emrdfk_ya: 1362, emrdfk_tidak: 2362, nama: "Mengompol (Inkontinensia Urin)" },
+                { id: 4,  emrdfk_ya: 1367, emrdfk_tidak: 2367, nama: "Infeksi (Infection)" },
+                { id: 5,  emrdfk_ya: 1364, emrdfk_tidak: 2364, nama: "Gangguan Fungsi Indera (Impairment Of Senses)" },
+                { id: 6,  emrdfk_ya: 1365, emrdfk_tidak: 2365, nama: "Kekurangan Gizi (Inanition)" },
+                { id: 7,  emrdfk_ya: 1370, emrdfk_tidak: 2370, nama: "Masalah Akibat Tindakan Medis (Iatrogenik)" },
+                { id: 8,  emrdfk_ya: 1371, emrdfk_tidak: 2371, nama: "Gangguan Tidur (Insomnia)" },
+                { id: 9,  emrdfk_ya: 1372, emrdfk_tidak: 2372, nama: "Gangguan Fungsi Kognitif (Intellectual Impairment)" },
+                { id: 10, emrdfk_ya: 1373, emrdfk_tidak: 2373, nama: "Isolasi atau Menarik Diri (Isolation)" },
+                { id: 11, emrdfk_ya: 1374, emrdfk_tidak: 2374, nama: "Berkurangnya Kemampuan Keuangan (Impecunity)" },
+                { id: 12, emrdfk_ya: 1363, emrdfk_tidak: 2363, nama: "Konstipasi (Impaction)" },
+                { id: 13, emrdfk_ya: 1366, emrdfk_tidak: 2366, nama: "Gangguan Sistem Imun (Immune Deficiency)" },
+                { id: 14, emrdfk_ya: 1375, emrdfk_tidak: 2375, nama: "Gangguan Fungsi Seksual (Impotence)" }
             ];
 
             // ============================================================
@@ -167,11 +104,9 @@ define(["initialize"], function (initialize) {
             LoadCacheHelper();
 
             function LoadCacheHelper() {
-
                 var chacePeriode = cacheHelper.get("cacheRMelektronik");
 
                 if (chacePeriode != undefined) {
-
                     $scope.cc.nocm = chacePeriode[0];
                     $scope.cc.namapasien = chacePeriode[1];
                     $scope.cc.jeniskelamin = chacePeriode[2];
@@ -193,10 +128,7 @@ define(["initialize"], function (initialize) {
                     $scope.cc.ruangakakhir = chacePeriode[24];
 
                     $scope.cc.norec_emr = "-";
-
-                    paramSearch =
-                        "noregistrasi=" +
-                        $scope.cc.noregistrasi;
+                    paramSearch = "noregistrasi=" + $scope.cc.noregistrasi;
 
                     init();
                 }
@@ -205,11 +137,8 @@ define(["initialize"], function (initialize) {
                     medifirstService.getKelompokUser() == "admin" ||
                     medifirstService.getKelompokUser() == "operator"
                 ) {
-
                     $scope.isAdmin = true;
-
                 }
-
             }
 
             // ============================================================
@@ -217,11 +146,8 @@ define(["initialize"], function (initialize) {
             // ============================================================
 
             function init() {
-
                 $scope.isLoading = true;
-
-                // Reset data
-                $scope.item.obj = {};
+                $scope.item.obj = [];
 
                 medifirstService
                     .get(
@@ -231,320 +157,116 @@ define(["initialize"], function (initialize) {
                         $scope.cc.jenisemr,
                         true
                     )
-
                     .then(function (dat) {
-
                         $scope.isRouteLoading = false;
 
-                        nomorEMRSS = "";
+                        if (dat.data && dat.data.data && dat.data.data.length > 0) {
+                            $scope.isSave = false;
+                            $scope.isUpdate = true;
+                            $scope.isUpdateCetak = true;
 
-                        if (
-                            dat.data &&
-                            dat.data.data &&
-                            dat.data.data.length > 0
-                        ) {
+                            $scope.cc.noemr = dat.data.data[0].noemr;
+                            $scope.cc.norec_emr = dat.data.data[0].noemr;
+                            nomorEMRSS = dat.data.data[0].noemr;
 
-                            var isExist = false;
-
-                            for (
-                                var i = 0;
-                                i < dat.data.data.length;
-                                i++
-                            ) {
-
-                                if (
-                                    dat.data.data[i].jenisemr ==
-                                    $scope.cc.jenisemr
-                                ) {
-
-                                    isExist = true;
-
-                                    nomorEMRSS =
-                                        dat.data.data[i].noemr;
-
-                                    break;
-
-                                }
-
-                            }
-
-                            if (
-                                isExist &&
-                                nomorEMRSS !== ""
-                            ) {
-
-                                $scope.isSave = false;
-                                $scope.isUpdate = true;
-                                $scope.isUpdateCetak = true;
-
-                                $scope.cc.noemr =
-                                    nomorEMRSS;
-
-                                $scope.cc.norec_emr =
-                                    nomorEMRSS;
-
-                                nomorEMR =
-                                    nomorEMRSS;
-
-                                setobjectToModel(
-                                    nomorEMRSS,
-                                    $scope.cc.emrfk
-                                );
-
-                            } else {
-
-                                $scope.isLoading = false;
-
-                            }
-
+                            setobjectToModel(nomorEMRSS, $scope.cc.emrfk);
                         } else {
-
                             $scope.isLoading = false;
-
                         }
-
                     })
-
                     .catch(function (err) {
-
-                        console.error(
-                            "ERROR GET EMR TRANSAKSI:",
-                            err
-                        );
-
+                        console.error("ERROR GET EMR TRANSAKSI:", err);
                         $scope.isLoading = false;
-
                     });
-
             }
 
             // ============================================================
-            // LOAD DETAIL EMR
+            // LOAD DETAIL EMR TRANSAKSI NEW
             // ============================================================
 
-            function setobjectToModel(
-                nomorEMRSS,
-                emrfk
-            ) {
-
-                console.log(
-                    "=== START LOAD DETAIL EMR ==="
-                );
-
-                console.log(
-                    "Nomor EMR:",
-                    nomorEMRSS
-                );
-
-                console.log(
-                    "EMRFK:",
-                    emrfk
-                );
-
+            function setobjectToModel(nomorEMRSS, emrfk) {
                 medifirstService
-
                     .get(
-                        "emr/get-emr-transaksi-detail-new" +
-                        "?noemr=" +
+                        "emr/get-emr-transaksi-detail-new?noemr=" +
                         nomorEMRSS +
                         "&emrfk=" +
                         emrfk,
                         true
                     )
-
                     .then(function (dat) {
-
                         $scope.isLoading = false;
+                        var dataLoad = dat.data && dat.data.data ? dat.data.data : [];
 
-                        var dataLoad =
-                            dat.data &&
-                            dat.data.data
-                                ? dat.data.data
-                                : [];
-
-                        console.log(
-                            "=== RESPONSE DETAIL EMR ==="
-                        );
-
-                        console.log(
-                            "Total Data:",
-                            dataLoad.length
-                        );
-
-                        var tempObj = {};
-
-                        for (
-                            var i = 0;
-                            i < dataLoad.length;
-                            i++
-                        ) {
-
-                            var itemData =
-                                dataLoad[i];
-
-                            if (
-                                parseInt(
-                                    $scope.cc.emrfk
-                                ) ===
-                                parseInt(
-                                    itemData.emrfk
-                                )
-                            ) {
-
-                                var emrdfkInt =
-                                    parseInt(
-                                        itemData.emrdfk
-                                    );
-
-                                var val =
-                                    itemData.value;
-
-                                console.log(
-                                    "DATA EMR:",
-                                    {
-                                        emrdfk:
-                                            emrdfkInt,
-
-                                        value:
-                                            val,
-
-                                        type:
-                                            typeof val
-                                    }
-                                );
-
-                                if (
-                                    val !== null &&
-                                    val !== undefined &&
-                                    val !== ""
-                                ) {
-
-                                    // ====================================================
-                                    // KONVERSI VALUE MENJADI BOOLEAN
-                                    // ====================================================
-
+                        for (var i = 0; i <= dataLoad.length - 1; i++) {
+                            if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
+                                if (dataLoad[i].type == "checkbox") {
+                                    var checkedd = false;
                                     if (
-                                        val === true ||
-                                        val === "true" ||
-                                        val === "1" ||
-                                        val === 1
+                                        dataLoad[i].value == "1" ||
+                                        dataLoad[i].value == "true" ||
+                                        dataLoad[i].value === true
                                     ) {
-
-                                        tempObj[
-                                            emrdfkInt
-                                        ] = true;
-
+                                        checkedd = true;
                                     }
-
-                                    else if (
-                                        val === false ||
-                                        val === "false" ||
-                                        val === "0" ||
-                                        val === 0
-                                    ) {
-
-                                        tempObj[
-                                            emrdfkInt
-                                        ] = false;
-
+                                    $scope.item.obj[dataLoad[i].emrdfk] = checkedd;
+                                } else if (dataLoad[i].type == "combobox") {
+                                    var str = dataLoad[i].value;
+                                    if (str != null) {
+                                        var res = str.split("~");
+                                        $scope.item.obj[dataLoad[i].emrdfk] = {
+                                            id: res[0],
+                                            namalengkap: res[1] !== undefined ? res[1] : res[0]
+                                        };
                                     }
-
-                                    else {
-
-                                        tempObj[
-                                            emrdfkInt
-                                        ] = val;
-
-                                    }
-
+                                } else if (dataLoad[i].type == "datetime") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = moment(dataLoad[i].value).toDate();
+                                } else {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value;
                                 }
-
                             }
-
                         }
 
-                        console.log(
-                            "=== DATA FINAL YANG DILOAD ==="
-                        );
-
-                        console.log(
-                            tempObj
-                        );
-
-                        $scope.$evalAsync(function () {
-
-                            $scope.item.obj =
-                                tempObj;
-
-                            $scope.hitungTotal();
-
-                        });
-
+                        // Hitung total skor berdasarkan data yang di-load
+                        $scope.hitungTotal();
                     })
-
                     .catch(function (err) {
-
-                        console.error(
-                            "ERROR LOAD DETAIL EMR:",
-                            err
-                        );
-
+                        console.error("ERROR LOAD DETAIL EMR:", err);
                         $scope.isLoading = false;
-
                     });
-
             }
+
+            // ============================================================
+            // FUNGSI SWITCH UNCHECK DUA CHECKBOX DALAM SATU GRUP
+            // ============================================================
+
+            $scope.toggleSwitch = function (idChecked, arrGroup) {
+                if ($scope.item.obj[idChecked]) {
+                    // Uncheck opsi lain dalam grup yang sama
+                    for (var i = 0; i < arrGroup.length; i++) {
+                        if (arrGroup[i] !== idChecked) {
+                            $scope.item.obj[arrGroup[i]] = false;
+                        }
+                    }
+                }
+                $scope.hitungTotal();
+            };
 
             // ============================================================
             // HITUNG TOTAL JAWABAN YA
             // ============================================================
 
             $scope.hitungTotal = function () {
-
                 var countYa = 0;
 
-                if (
-                    $scope.listPertanyaanGeriatri &&
-                    $scope.listPertanyaanGeriatri.length > 0
-                ) {
-
-                    $scope.listPertanyaanGeriatri
-                        .forEach(function (q) {
-
-                            var val =
-                                $scope.item.obj[
-                                    q.emrdfk
-                                ];
-
-                            console.log(
-                                "Checking Soal ID:",
-                                q.id,
-                                "| emrdfk:",
-                                q.emrdfk,
-                                "| Current Value:",
-                                val
-                            );
-
-                            if (
-                                val === true
-                            ) {
-
-                                countYa++;
-
-                            }
-
-                        });
-
+                if ($scope.listPertanyaanGeriatri && $scope.listPertanyaanGeriatri.length > 0) {
+                    $scope.listPertanyaanGeriatri.forEach(function (q) {
+                        if ($scope.item.obj[q.emrdfk_ya] === true) {
+                            countYa++;
+                        }
+                    });
                 }
 
-                $scope.totalJawabanYa =
-                    countYa;
-
-                console.log(
-                    "TOTAL JAWABAN YA:",
-                    $scope.totalJawabanYa
-                );
-
+                $scope.totalJawabanYa = countYa;
             };
 
             // ============================================================
@@ -552,9 +274,7 @@ define(["initialize"], function (initialize) {
             // ============================================================
 
             $scope.kembali = function () {
-
                 $rootScope.showRiwayat();
-
             };
 
             // ============================================================
@@ -562,42 +282,17 @@ define(["initialize"], function (initialize) {
             // ============================================================
 
             $scope.Save = function () {
+                var confirm = $mdDialog
+                    .confirm()
+                    .title("Konfirmasi")
+                    .textContent("Apakah Anda yakin akan menyimpan data?")
+                    .ariaLabel("Konfirmasi Simpan")
+                    .cancel("Tidak")
+                    .ok("Ya");
 
-                var confirm =
-                    $mdDialog
-
-                        .confirm()
-
-                        .title(
-                            "Konfirmasi"
-                        )
-
-                        .textContent(
-                            "Apakah Anda yakin akan menyimpan data?"
-                        )
-
-                        .ariaLabel(
-                            "Konfirmasi Simpan"
-                        )
-
-                        .cancel(
-                            "Tidak"
-                        )
-
-                        .ok(
-                            "Ya"
-                        );
-
-                $mdDialog
-
-                    .show(confirm)
-
-                    .then(function () {
-
-                        $scope.Saveok();
-
-                    });
-
+                $mdDialog.show(confirm).then(function () {
+                    $scope.Saveok();
+                });
             };
 
             // ============================================================
@@ -605,366 +300,68 @@ define(["initialize"], function (initialize) {
             // ============================================================
 
             $scope.Saveok = function () {
-
-                $scope.isUpdateCetak = false;
-
                 $scope.isLoading = true;
-
-                var photo = "";
-
-                if (
-                    $(".surface").length > 0
-                ) {
-
-                    kendo.drawing
-
-                        .drawDOM(
-                            $(".surface")
-                        )
-
-                        .then(function (group) {
-
-                            return kendo.drawing.exportImage(
-                                group
-                            );
-
-                        })
-
-                        .done(function (data) {
-
-                            photo = data;
-
-                        });
-
-                }
-
-                var photo2 = "";
-
-                if (
-                    $(".surface2").length > 0
-                ) {
-
-                    kendo.drawing
-
-                        .drawDOM(
-                            $(".surface2")
-                        )
-
-                        .then(function (group) {
-
-                            return kendo.drawing.exportImage(
-                                group
-                            );
-
-                        })
-
-                        .done(function (data2) {
-
-                            photo2 = data2;
-
-                        });
-
-                }
-
-                // ========================================================
-                // SIAPKAN DATA
-                // ========================================================
-
-                var arrobj =
-                    Object.keys(
-                        $scope.item.obj
-                    );
-
                 var arrSave = [];
 
-                for (
-                    var i =
-                        arrobj.length - 1;
-                    i >= 0;
-                    i--
-                ) {
-
-                    var currentId =
-                        parseInt(
-                            arrobj[i]
-                        );
-
-                    var currentValue =
-                        $scope.item.obj[
-                            currentId
-                        ];
+                var arrobj = Object.keys($scope.item.obj);
+                for (var i = arrobj.length - 1; i >= 0; i--) {
+                    var currentId = arrobj[i];
+                    var currentObj = $scope.item.obj[parseInt(currentId)];
 
                     if (
-                        currentValue !== undefined &&
-                        currentValue !== null &&
-                        currentValue !== ""
+                        currentObj !== undefined &&
+                        currentObj !== "" &&
+                        currentObj !== false &&
+                        currentObj !== null
                     ) {
-
-                        var formattedValue =
-                            "";
-
-                        // ====================================================
-                        // VALUE BOOLEAN
-                        // ====================================================
-
-                        if (
-                            typeof currentValue ===
-                            "boolean"
-                        ) {
-
-                            formattedValue =
-                                currentValue
-                                    ? "true"
-                                    : "false";
-
+                        if (typeof currentObj === 'object' && currentObj.id) {
+                            arrSave.push({
+                                id: currentId,
+                                values: { value: currentObj.id, text: currentObj.namalengkap }
+                            });
+                        } else {
+                            arrSave.push({
+                                id: currentId,
+                                values: currentObj
+                            });
                         }
-
-                        // ====================================================
-                        // VALUE OBJECT
-                        // ====================================================
-
-                        else if (
-                            typeof currentValue ===
-                            "object"
-                        ) {
-
-                            var valId =
-                                currentValue.id ||
-                                currentValue.value ||
-                                "";
-
-                            var valText =
-                                currentValue.namalengkap ||
-                                currentValue.text ||
-                                "";
-
-                            formattedValue =
-                                valId &&
-                                valText
-                                    ? valId +
-                                      "~" +
-                                      valText
-                                    : valId ||
-                                      valText;
-
-                        }
-
-                        // ====================================================
-                        // VALUE LAIN
-                        // ====================================================
-
-                        else {
-
-                            formattedValue =
-                                currentValue.toString();
-
-                        }
-
-                        arrSave.push({
-
-                            id:
-                                arrobj[i],
-
-                            values:
-                                formattedValue
-
-                        });
-
                     }
-
                 }
 
-                // ========================================================
-                // TAMBAH IMAGE
-                // ========================================================
-
-                if (
-                    photo
-                ) {
-
-                    arrSave.push({
-
-                        id:
-                            "2421",
-
-                        values:
-                            photo
-
-                    });
-
-                }
-
-                if (
-                    photo2
-                ) {
-
-                    arrSave.push({
-
-                        id:
-                            "2422",
-
-                        values:
-                            photo2
-
-                    });
-
-                }
-
-                // ========================================================
-                // JSON SAVE
-                // ========================================================
-
+                $scope.cc.jenisemr = "skrininggeriatri";
                 var jsonSave = {
-
-                    head:
-                        $scope.cc,
-
-                    data:
-                        arrSave,
-
-                    image:
-                        $scope.item.image !==
-                        undefined &&
-                        $scope.item.image !==
-                        "../app/images/svg/no-image.svg"
-                            ? $scope.item.image
-                            : null
-
+                    head: $scope.cc,
+                    data: arrSave
                 };
 
-                console.log(
-                    "===================================="
-                );
-
-                console.log(
-                    "JSON YANG AKAN DISIMPAN:"
-                );
-
-                console.log(
-                    jsonSave
-                );
-
-                console.log(
-                    "ARR SAVE:"
-                );
-
-                console.log(
-                    arrSave
-                );
-
-                console.log(
-                    "===================================="
-                );
-
-                // ========================================================
-                // POST SIMPAN EMR
-                // ========================================================
-
                 medifirstService
-
-                    .post(
-                        "emr/save-emr-new",
-                        jsonSave
-                    )
-
+                    .post("emr/save-emr-new", jsonSave)
                     .then(function (e) {
+                        $scope.noemr = e.data.data.noemr;
 
-                        console.log(
-                            "=== SAVE EMR BERHASIL ==="
-                        );
-
-                        console.log(
-                            e
-                        );
-
-                        $scope.isSave =
-                            false;
-
-                        $scope.isUpdate =
-                            true;
-
-                        $scope.isUpdateCetak =
-                            true;
-
-                        nomorEMR =
-                            e.data.data.noemr;
-
-                        $scope.noemr =
-                            e.data.data.noemr;
-
-                        $scope.cc.norec_emr =
-                            e.data.data.noemr;
-
-                        // ====================================================
-                        // POST LOGGING DIHAPUS
-                        // Karena error:
-                        // postLoggingEMR is not a function
-                        // ====================================================
-
-                        console.log(
-                            "Logging EMR dilewati karena fungsi postLoggingEMR tidak tersedia"
-                        );
-
-                        var arrStr = {
-
-                            0:
-                                e.data.data.noemr
-
-                        };
-
-                        cacheHelper.set(
-
-                            "cacheNomorEMR",
-
-                            arrStr
-
-                        );
-
-                        // ====================================================
-                        // LOAD ULANG DATA SETELAH SAVE
-                        // ====================================================
-
-                        if (
-                            typeof LoadCacheHelper ===
-                            "function"
-                        ) {
-
-                            LoadCacheHelper();
-
-                        }
-
-                        $scope.isLoading =
-                            false;
-
+                        medifirstService
+                            .postLogging(
+                                "EMR",
+                                "norec emrpasien_t",
+                                e.data.data.norec,
+                                "Skrining Rawat Inap Geriatri dengan No EMR - " +
+                                e.data.data.noemr +
+                                " pada No Registrasi " +
+                                $scope.cc.noregistrasi
+                            )
+                            .then(function () {
+                                var arrStr = { 0: $scope.noemr };
+                                cacheHelper.set("cacheNomorEMR", arrStr);
+                                $scope.isLoading = false;
+                                $rootScope.showRiwayat();
+                            });
                     })
-
                     .catch(function (err) {
-
-                        console.error(
-                            "===================================="
-                        );
-
-                        console.error(
-                            "ERROR SAVE EMR:"
-                        );
-
-                        console.error(
-                            err
-                        );
-
-                        console.error(
-                            "===================================="
-                        );
-
-                        $scope.isLoading =
-                            false;
-
+                        console.error("ERROR SAVE EMR:", err);
+                        $scope.isLoading = false;
                     });
-
             };
 
         }
-
     ]);
-
 });
