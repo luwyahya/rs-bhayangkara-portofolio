@@ -18014,5 +18014,37 @@
                 "define": "ModulTindakanCtrl"
             }
         ]
+    },
+    {
+        "name": "RekamMedis.RencanaPenatalaksanaanTerpadu",
+        "url": "/RencanaPenatalaksanaanTerpadu",
+        "templateurl": "module/EMR/RencanaPenatalaksanaanTerpadu.html",
+        "controller": "RencanaPenatalaksanaanTerpaduCtrl",
+        "deps": [
+            {
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            },
+            {
+                "define": "RekamMedisCtrl"
+            },
+            {
+                "define": "ModulEmrCtrl"
+            },
+            {
+                "define": "ModulDiagnosaCtrl"
+            },
+            {
+                "define": "ModulTindakanCtrl"
+            }
+        ]
     }
 ]

@@ -1,0 +1,248 @@
+<style type="text/css">
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+
+    fieldset {
+        border-radius: 5px;
+        border: 1px solid #228be6;
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+
+    .tg .tg-yw4l {
+        vertical-align: top;
+        font-weight: bold;
+    }
+</style>
+<div class="grid_12">
+    <div class="grid_12">
+        <div style="margin-bottom: 10px" class="panel panel-default container_12">
+            <div class="panel-heading text-center">Rencana Penatalaksanaan Terpadu</div>
+        </div>
+        <div class="grid_12">
+            <fieldset>
+                <div class="grid_12">
+                    <div style="overflow-x: auto;">
+                        <table class="tg" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th class="tg-yw4l" style="width: 3%; text-align: center;">No</th>
+                                    <th class="tg-yw4l" style="width: 15%; text-align: center;">Tanggal<br>Jam<br>Profesi</th>
+                                    <th class="tg-yw4l" style="width: 17%; text-align: center;">Masalah</th>
+                                    <th class="tg-yw4l" style="width: 15%; text-align: center;">Tujuan dan Target Pengukur</th>
+                                    <th class="tg-yw4l" style="width: 20%; text-align: center;">Rencana Penatalaksanaan<br><span style="font-size:10px;">Tulis Nama, Tanda Tangan di akhir catatan</span></th>
+                                    <th class="tg-yw4l" style="width: 15%; text-align: center;">Nama<br>TTD<br>DPJP</th>
+                                    <th class="tg-yw4l" style="width: 15%; text-align: center;">Tanggal<br>Masalah<br>Teratasi<br><span style="font-size:10px;">Tulis Nama, Tanda Tangan di Akhir Catatan</span></th>
+                                    <th class="tg-yw4l" style="width: 5%; text-align: center;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="baris in listBaris track by $index">
+                                    <td style="text-align: center;">{{ $index + 1 }}</td>
+                                    <td>
+                                        <div class="grid_12">
+                                            <input style="width: 100%" k-ng-model="item.obj[baris.idTglJam]"
+                                                kendo-datetimepicker="" placeholder="yyyy-MM-dd HH:mm"
+                                                k-format="'yyyy-MM-dd HH:mm'">
+                                        </div>
+                                        <div class="grid_12" style="margin-top: 5px;">
+                                            <input c-text-box="" type="text" class="k-textbox" placeholder="Profesi" ng-model="item.obj[baris.idProfesi]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <textarea c-text-area="" type="input" class="k-textbox" style="height: 80px; width: 100%;" ng-model="item.obj[baris.idMasalah]"></textarea>
+                                    </td>
+                                    <td>
+                                        <textarea c-text-area="" type="input" class="k-textbox" style="height: 80px; width: 100%;" ng-model="item.obj[baris.idTujuan]"></textarea>
+                                    </td>
+                                    <td>
+                                        <textarea c-text-area="" type="input" class="k-textbox" style="height: 80px; width: 100%;" ng-model="item.obj[baris.idRencana]"></textarea>
+                                    </td>
+                                    <td>
+                                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[baris.idDpjp]" k-data-text-field="'text'" k-data-value-field="'value'" k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai" />
+                                    </td>
+                                    <td>
+                                        <div class="grid_12">
+                                            <input style="width: 100%" k-ng-model="item.obj[baris.idTglTeratasi]"
+                                                kendo-datetimepicker="" placeholder="yyyy-MM-dd HH:mm"
+                                                k-format="'yyyy-MM-dd HH:mm'">
+                                        </div>
+                                        <div class="grid_12" style="margin-top: 5px;">
+                                            <textarea c-text-area="" type="input" class="k-textbox" placeholder="Masalah Teratasi" style="height: 50px; width: 100%;" ng-model="item.obj[baris.idMasalahTeratasi]"></textarea>
+                                        </div>
+                                        <div class="grid_12" style="margin-top: 5px;">
+                                            <input c-text-box="" type="text" class="k-textbox" style="width: 100%;" ng-model="cc.namapasien" disabled>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center; vertical-align: middle;">
+                                        <button class="k-button k-button-icontext" ng-click="hapusBaris($index)" style="min-width: 30px; padding: 5px;" title="Hapus Baris">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="grid_12" style="margin-top: 10px; margin-bottom: 20px;">
+                            <button class="k-button k-primary" ng-click="tambahBarisManual()" style="padding: 5px 15px;">
+                                <i class="fa fa-plus"></i> Tambah Baris
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="grid_12" style="margin-top: 15px;">
+            <div class="grid_6"></div>
+            <div class="grid_2">
+                <button class="k-button k-primary btnHijau" style="width: 100%; font-size: 14px;" onclick="printDiv('cetakRm')">Cetak</button>
+            </div>
+            <div class="grid_2">
+                <button class="k-button k-primary" style="width: 100%; font-size: 14px;" ng-click="Kembali()">Kembali</button>
+            </div>
+            <div class="grid_2">
+                <button class="k-button k-primary btnHijau" style="width: 100%; font-size: 14px;" ng-click="Save()">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div id="cetakRm" style="display: none;">
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-family: Arial, sans-serif; font-size: 11px;">
+                        <tr>
+                            <td style="width: 40%; padding: 5px; border: 1px solid #000; vertical-align: middle;">
+                                <table style="width: 100%; border: none;">
+                                    <tr>
+                                        <td style="width: 20%; text-align: center; vertical-align: middle; border: none; padding: 0;">
+                                            <img src="images/logodokesnew.png" alt="Logo" style="width: 45px;">
+                                        </td>
+                                        <td style="width: 80%; text-align: center; vertical-align: middle; border: none; padding: 0;">
+                                            <div style="font-weight: bold; font-size: 10px;">
+                                                POLRI DAERAH JAWA BARAT<br>
+                                                BIDANG KEDOKTERAN DAN KESEHATAN<br>
+                                                RUMAH SAKIT BHAYANGKARA TK IV CIANJUR<br>
+                                                <span style="font-weight: normal; font-size: 9px;">JL. Suroso No. 21 Pamoyanan, Cianjur<br>Telp. 0263-285299</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width: 30%; padding: 5px; border: 1px solid #000; text-align: center; vertical-align: middle; font-weight: bold; font-size: 14px;">
+                                RENCANA<br>PENATALAKSANAAN<br>TERPADU
+                            </td>
+                            <td style="width: 30%; padding: 5px; border: 1px solid #000; vertical-align: top;">
+                                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                                    <tr>
+                                        <td style="width: 25%; vertical-align: top; padding: 2px 0;">No. RM</td>
+                                        <td style="width: 5%; vertical-align: top; padding: 2px 0;">:</td>
+                                        <td style="width: 70%; vertical-align: top; padding: 2px 0;">{{ cc.nocm }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: top; padding: 2px 0;">Nama</td>
+                                        <td style="vertical-align: top; padding: 2px 0;">:</td>
+                                        <td style="vertical-align: top; padding: 2px 0;">{{ cc.namapasien }} &nbsp;&nbsp;&nbsp; <span ng-style="isPerempuan() ? {'text-decoration':'line-through'} : {}">L</span> / <span ng-style="isLakiLaki() ? {'text-decoration':'line-through'} : {}">P</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: top; padding: 2px 0;">Tgl. Lahir</td>
+                                        <td style="vertical-align: top; padding: 2px 0;">:</td>
+                                        <td style="vertical-align: top; padding: 2px 0;">{{ cc.tglLahir | date:'dd-MM-yyyy' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: top; padding: 2px 0;">Kelas/ Ruangan</td>
+                                        <td style="vertical-align: top; padding: 2px 0;">:</td>
+                                        <td style="vertical-align: top; padding: 2px 0;">{{ cc.namakelas }} / {{ cc.namaruangan }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-family: Arial, sans-serif; font-size: 11px; margin-top: 5px;">
+                        <thead>
+                            <tr style="text-align: center; font-weight: bold; vertical-align: middle;">
+                                <th style="border: 1px solid #000; padding: 5px; width: 10%; text-align: center; vertical-align: middle;">Tanggal<br>Jam<br>Profesi</th>
+                                <th style="border: 1px solid #000; padding: 5px; width: 20%; text-align: center; vertical-align: middle;">Masalah</th>
+                                <th style="border: 1px solid #000; padding: 5px; width: 15%; text-align: center; vertical-align: middle;">Tujuan dan Target<br>Pengukur</th>
+                                <th style="border: 1px solid #000; padding: 5px; width: 25%; text-align: center; vertical-align: middle;">Rencana Penatalaksanaan<br><span style="font-size: 9px; font-weight: normal;">Tulis Nama, Tanda Tangan di akhir catatan</span></th>
+                                <th style="border: 1px solid #000; padding: 5px; width: 15%; text-align: center; vertical-align: middle;">Nama<br>TTD<br>DPJP</th>
+                                <th style="border: 1px solid #000; padding: 5px; width: 15%; text-align: center; vertical-align: middle;">Tanggal<br>Masalah<br>Teratasi<br><span style="font-size: 9px; font-weight: normal;">Tulis Nama, Tanda Tangan di Akhir Catatan</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="baris in listBaris" style="vertical-align: top; height: 100px;">
+                                <td style="border: 1px solid #000; padding: 5px;">
+                                    {{ formatTanggal(item.obj[baris.idTglJam]) }}<br>
+                                    {{ item.obj[baris.idProfesi] }}
+                                </td>
+                                <td style="border: 1px solid #000; padding: 5px;">{{ item.obj[baris.idMasalah] }}</td>
+                                <td style="border: 1px solid #000; padding: 5px;">{{ item.obj[baris.idTujuan] }}</td>
+                                <td style="border: 1px solid #000; padding: 5px;">{{ item.obj[baris.idRencana] }}</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center; vertical-align: bottom;">
+                                    <span style="text-decoration: underline;">{{ item.obj[baris.idDpjp].text || item.obj[baris.idDpjp] || '....................................' }}</span>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center; vertical-align: top;">
+                                    {{ formatTanggal(item.obj[baris.idTglTeratasi]) }}<br>
+                                    {{ item.obj[baris.idMasalahTeratasi] }}<br>
+                                    <div style="margin-top: 40px;">
+                                        <span style="text-decoration: underline;">{{ cc.namapasien || '....................................' }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+        </tbody>
+    </table>
+</div>
+
+<textarea id="printing-css" style="display:none;">
+    @page { size: A4 portrait; margin: 1cm; }
+    body { font-family: 'Times New Roman', Times, serif; }
+    .no-print { display:none } 
+    #newPage { page-break-before: always; } 
+    -webkit-print-color-adjust: exact !important;
+    .ng-hide { display: none !important; }
+    
+    table { page-break-inside: auto; }
+    tr    { page-break-inside: avoid; page-break-after: auto; }
+    thead { display: table-header-group; }
+    tfoot { display: table-footer-group; }
+</textarea>
+<iframe id="printing-frame" name="print_frame" src="about:blank" style="display:none;"></iframe>
+
+<script type="text/javascript">
+    function printDiv(divName) {
+        var a = document.getElementById('printing-css').value;
+        var b = document.getElementById(divName).innerHTML;
+        window.frames["print_frame"].document.title = "Rencana Penatalaksanaan Terpadu PDF";
+        window.frames["print_frame"].document.body.innerHTML = '<style>' + a + '</style>' + b;
+        window.frames["print_frame"].window.focus();
+        window.frames["print_frame"].window.print();
+    }
+</script>

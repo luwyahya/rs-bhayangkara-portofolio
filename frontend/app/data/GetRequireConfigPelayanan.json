@@ -3187,6 +3187,10 @@
         {
             "nameDep": "FormResikoBundirCtrl",
             "urlDep": "module/EMR/FormResikoBundirCtrl"
+        },
+        {
+            "nameDep": "RencanaPenatalaksanaanTerpaduCtrl",
+            "urlDep": "module/EMR/RencanaPenatalaksanaanTerpaduCtrl"
         }
     ]
 }
