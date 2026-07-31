@@ -497,7 +497,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Justified"/>
-					<textFieldExpression><![CDATA["Systole " + $F{systole} + " Diastole " + $F{diastole}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{systole} != null && !$F{systole}.isEmpty() ? $F{systole} : "") + ($F{diastole} != null && !$F{diastole}.isEmpty() ? ( ($F{systole} != null && !$F{systole}.isEmpty()) ? "/" + $F{diastole} : $F{diastole} ) : "")]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="4" y="73" width="120" height="20" uuid="a29b8b21-6f94-4b8e-bbab-ae2289d17c78"/>

@@ -133,6 +133,13 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.item.tempatLahir = $scope.cc.tempatlahir
             $scope.item.penjamin = $scope.cc.namarekanan
             $scope.item.noTelpPenjamin = $scope.cc.notelepon
+            if (!$scope.item.noTelpPenjamin) {
+                medifirstService.get('registrasi/get-pasienbynocm?noCm=' + $scope.cc.nocm).then(function(res) {
+                    if (res.data && res.data.data && res.data.data.length > 0) {
+                        $scope.item.noTelpPenjamin = res.data.data[0].nohp;
+                    }
+                });
+            }
             $scope.item.dpjp = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
             if (medifirstService.getKelompokUser() == 'admin' || medifirstService.getKelompokUser() == 'operator') {
                 $scope.isAdmin = true
@@ -187,8 +194,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         norec_emrr = result[0].emrpasienfk
                         // untuk cek obat, karena ada obat yang dihapus
                         loadDiagnosa()
-                        // cekYangBisaOtomatis()
-                        // valueOtomatis()
+                        cekYangBisaOtomatis()
+                        valueOtomatis()
+                        vitalSignOtomatis()
                     } else {
                         $scope.item.tglMasuk = $scope.cc.tglregistrasi
                         $scope.item.tglPulang = $scope.cc.tglpulang
@@ -202,6 +210,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         //Pulang Atas Persetujuan Dokter
                         cekYangBisaOtomatis()
                         valueOtomatis()
+                        vitalSignOtomatis()
                     }
                     inputOtomatisSegelaPenunjang()
                     $scope.sourceResume = new kendo.data.DataSource({
@@ -276,28 +285,34 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var value = e.data.data
                         for (let i = 0; i < value.length; i++) {
                             if (value[i].emrdfk == 1901300130) {
-                                $scope.item.keadaanUmum = value[i].value
+                                if (!$scope.item.keadaanUmum) {
+                                    $scope.item.keadaanUmum = value[i].value;
+                                }
                             }
                             if (value[i].emrdfk == 1901300127) {
-                                $scope.item.pernapasan = value[i].value
+                                if (!$scope.item.pernapasan) {
+                                    $scope.item.pernapasan = value[i].value;
+                                }
                             }
                             if (value[i].emrdfk == 1901300125) {
-                                $scope.item.suhu = value[i].value
+                                if (!$scope.item.suhu) {
+                                    $scope.item.suhu = value[i].value;
+                                }
                             }
                             if (value[i].emrdfk == 1901300122) {
-                                let tekananDarah = value[i].value.split('/')
-                                if (tekananDarah.length === 2) {
-                                    $scope.item.systole = tekananDarah[0]
-                                    $scope.item.diastole = tekananDarah[1]
-                                } else {
-                                    $scope.item.systole = value[i].value
+                                if (!$scope.item.systole && !$scope.item.diastole) {
+                                    $scope.item.systole = value[i].value; // Menyimpan full value 120/80
                                 }
                             }
                             if (value[i].emrdfk == 1901300126) {
-                                $scope.item.denyutJantung = value[i].value
+                                if (!$scope.item.denyutJantung) {
+                                    $scope.item.denyutJantung = value[i].value;
+                                }
                             }
                             if (value[i].emrdfk == 1901300128) {
-                                $scope.item.tingkatKesadaran = value[i].value.split('~')[1]
+                                if (!$scope.item.tingkatKesadaran) {
+                                    $scope.item.tingkatKesadaran = value[i].value.split('~')[1];
+                                }
                             }
                         }
                     }
@@ -352,6 +367,61 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     }
                 })
             }
+        }
+
+        function vitalSignOtomatis() {
+            if ($scope.cc.noregistrasi != null && $scope.cc.noregistrasi != undefined && $scope.cc.noregistrasi != '') {
+                medifirstService.get('emr/get-vital-sign-terakhir?noRegistrasi=' + $scope.cc.noregistrasi).then(function (e) {
+                    if (e.data && e.data.length > 0) {
+                        var value = e.data;
+                        for (let i = 0; i < value.length; i++) {
+                            if (value[i].emrdfk == 116064) {
+                                if (!$scope.item.tingkatKesadaran) {
+                                    if (value[i].value && value[i].value.indexOf('~') !== -1) {
+                                        $scope.item.tingkatKesadaran = value[i].value.split('~')[1];
+                                    } else {
+                                        $scope.item.tingkatKesadaran = value[i].value;
+                                    }
+                                }
+                            }
+                            // Keadaan Umum
+                            if (value[i].emrdfk == 1901303154) {
+                                if (!$scope.item.keadaanUmum) {
+                                    $scope.item.keadaanUmum = value[i].value;
+                                }
+                            }
+                            // Tekanan Darah (mmHg)
+                            if (value[i].emrdfk == 4241) {
+                                if (!$scope.item.systole && !$scope.item.diastole) {
+                                    $scope.item.systole = value[i].value;
+                                }
+                            }
+                            // Pernapasan
+                            if (value[i].emrdfk == 4246) {
+                                if (!$scope.item.pernapasan) {
+                                    $scope.item.pernapasan = value[i].value;
+                                }
+                            }
+                            // Suhu
+                            if (value[i].emrdfk == 4244) {
+                                if (!$scope.item.suhu) {
+                                    $scope.item.suhu = value[i].value;
+                                }
+                            }
+                            // Nadi
+                            if (value[i].emrdfk == 4245) {
+                                if (!$scope.item.denyutJantung) {
+                                    $scope.item.denyutJantung = value[i].value;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        $scope.loadKonsul = function () {
+            
         }
 
         function hapus(e) {
@@ -481,30 +551,45 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         if (data[i].emrdfk == 2405) {
                             $scope.item.alergi = data[i].value
                         }
-                        // if (data[i].emrdfk == 2408) {
-                        //     $scope.item.keluhanUtama = data[i].value
-                        // }
-                        // if (data[i].emrdfk == 2409) {
-                        //     var str = data[i].value
-                        //     var res = str.split("/");
-                        //     $scope.item.systole = res[0]
-                        //     $scope.item.diastole = res[1]
-                        // }
-                        // if (data[i].emrdfk == 2410) {
-                        //     $scope.item.pernapasan = data[i].value
-                        // }
-                        // if (data[i].emrdfk == 2411) {
-                        //     $scope.item.suhu = data[i].value
-                        // }
-                        // if (data[i].emrdfk == 2412) {
-                        //     $scope.item.denyutJantung = data[i].value
-                        // }
-                        // if (data[i].emrdfk == 2414) {
-                        //     $scope.item.tingkatKesadaran = data[i].value
-                        // }
-                        // if (data[i].emrdfk == 2415) {
-                        //     $scope.item.keadaanUmum = { id: data[i].value, keadaanumum: data[i].value }
-                        // } 
+                        if (data[i].emrdfk == 2408) {
+                            if (!$scope.item.keluhanUtama) {
+                                $scope.item.keluhanUtama = data[i].value;
+                            }
+                        }
+                        if (data[i].emrdfk == 2409) {
+                            if (!$scope.item.systole && !$scope.item.diastole) {
+                                $scope.item.systole = data[i].value; // Disimpan full (misal 120/80) di satu property
+                            }
+                        }
+                        if (data[i].emrdfk == 2410) {
+                            if (!$scope.item.pernapasan) {
+                                $scope.item.pernapasan = data[i].value;
+                            }
+                        }
+                        if (data[i].emrdfk == 2411) {
+                            if (!$scope.item.suhu) {
+                                $scope.item.suhu = data[i].value;
+                            }
+                        }
+                        if (data[i].emrdfk == 2412) {
+                            if (!$scope.item.denyutJantung) {
+                                $scope.item.denyutJantung = data[i].value;
+                            }
+                        }
+                        if (data[i].emrdfk == 2414) {
+                            if (!$scope.item.tingkatKesadaran) {
+                                if (data[i].value && data[i].value.indexOf('~') !== -1) {
+                                    $scope.item.tingkatKesadaran = data[i].value.split('~')[1];
+                                } else {
+                                    $scope.item.tingkatKesadaran = data[i].value;
+                                }
+                            }
+                        }
+                        if (data[i].emrdfk == 2415) {
+                            if (!$scope.item.keadaanUmum) {
+                                $scope.item.keadaanUmum = data[i].value; // { id: data[i].value, keadaanumum: data[i].value }
+                            }
+                        } 
                         // if (data[i].emrdfk == 2618) {
                         //     if (data[i].value == "1") {
 
