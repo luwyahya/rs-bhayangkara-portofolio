@@ -727,11 +727,13 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     }
                 })
                 medifirstService.get("emr/get-edukasi-pasien?norec=" + $scope.cc.norec_pd).then(function (dat) {
-                    let no = 0;
-                    $scope.item.edukasi = '';
-                    for (let i = 0; i < dat.data.length; i++) {
-                        no = no + 1;
-                        $scope.item.edukasi = $scope.item.edukasi + no + ". " + dat.data[i].materiedukasi + "\n";
+                    if (!$scope.item.edukasi && dat.data.length > 0) {
+                        let no = 0;
+                        $scope.item.edukasi = '';
+                        for (let i = 0; i < dat.data.length; i++) {
+                            no = no + 1;
+                            $scope.item.edukasi = $scope.item.edukasi + no + ". " + dat.data[i].materiedukasi + "\n";
+                        }
                     }
                 })
                 medifirstService.get("emr/get-order-konsul?noregistrasi=" + $scope.cc.noregistrasi).then(function (res) {
