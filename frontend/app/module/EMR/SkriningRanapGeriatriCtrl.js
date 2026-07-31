@@ -184,6 +184,9 @@ define(["initialize"], function (initialize) {
             // LOAD DETAIL EMR TRANSAKSI NEW
             // ============================================================
 
+            // ============================================================
+            // LOAD DETAIL EMR TRANSAKSI
+            // ============================================================
             function setobjectToModel(nomorEMRSS, emrfk) {
                 medifirstService
                     .get(
@@ -197,36 +200,41 @@ define(["initialize"], function (initialize) {
                         $scope.isLoading = false;
                         var dataLoad = dat.data && dat.data.data ? dat.data.data : [];
 
-                        for (var i = 0; i <= dataLoad.length - 1; i++) {
+                        // 1. Reset item.obj ke objek kosong dulu
+                        $scope.item.obj = {};
+
+                        // 2. Buat Map dari data API agar gampang di-lookup
+                        var apiDataMap = {};
+                        for (var i = 0; i < dataLoad.length; i++) {
                             if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
-                                if (dataLoad[i].type == "checkbox") {
-                                    var checkedd = false;
-                                    if (
-                                        dataLoad[i].value == "1" ||
-                                        dataLoad[i].value == "true" ||
-                                        dataLoad[i].value === true
-                                    ) {
-                                        checkedd = true;
-                                    }
-                                    $scope.item.obj[dataLoad[i].emrdfk] = checkedd;
-                                } else if (dataLoad[i].type == "combobox") {
-                                    var str = dataLoad[i].value;
-                                    if (str != null) {
-                                        var res = str.split("~");
-                                        $scope.item.obj[dataLoad[i].emrdfk] = {
-                                            id: res[0],
-                                            namalengkap: res[1] !== undefined ? res[1] : res[0]
-                                        };
-                                    }
-                                } else if (dataLoad[i].type == "datetime") {
-                                    $scope.item.obj[dataLoad[i].emrdfk] = moment(dataLoad[i].value).toDate();
-                                } else {
-                                    $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value;
-                                }
+                                var val = dataLoad[i].value;
+                                var isChecked = (val === "1" || val === "true" || val === true);
+                                apiDataMap[dataLoad[i].emrdfk] = isChecked;
                             }
                         }
 
-                        // Hitung total skor berdasarkan data yang di-load
+                        // 3. Validasi & kunci agar HANYA 1 PILIHAN (Ya atau Tidak) per nomor soal
+                        if ($scope.listPertanyaanGeriatri && $scope.listPertanyaanGeriatri.length > 0) {
+                            $scope.listPertanyaanGeriatri.forEach(function (soal) {
+                                var idYa = soal.emrdfk_ya;
+                                var idTidak = soal.emrdfk_tidak;
+
+                                var isYaChecked = apiDataMap[idYa] === true;
+                                var isTidakChecked = apiDataMap[idTidak] === true;
+
+                                if (isYaChecked && isTidakChecked) {
+                                    // Jika di database tidak sengaja tersimpan dua-duanya, 
+                                    // prioritaskan Ya (atau sesuaikan dengan kebutuhan)
+                                    $scope.item.obj[idYa] = true;
+                                    $scope.item.obj[idTidak] = false;
+                                } else {
+                                    $scope.item.obj[idYa] = isYaChecked;
+                                    $scope.item.obj[idTidak] = isTidakChecked;
+                                }
+                            });
+                        }
+
+                        // 4. Hitung ulang total "Ya"
                         $scope.hitungTotal();
                     })
                     .catch(function (err) {
@@ -311,7 +319,6 @@ define(["initialize"], function (initialize) {
                     if (
                         currentObj !== undefined &&
                         currentObj !== "" &&
-                        currentObj !== false &&
                         currentObj !== null
                     ) {
                         if (typeof currentObj === 'object' && currentObj.id) {
