@@ -567,7 +567,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 			</band>
 		</groupHeader>
 	</group>
-	<group name="Temuan Penting">
+	<!-- <group name="Temuan Penting">
 		<groupHeader>
 			<band height="74">
 				<staticText>
@@ -601,7 +601,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 				</textField>
 			</band>
 		</groupHeader>
-	</group>
+	</group> -->
 	<!-- <group name="konsul">
 		<groupHeader>
 			<band height="37">
