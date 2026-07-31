@@ -602,7 +602,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 			</band>
 		</groupHeader>
 	</group>
-	<group name="konsul">
+	<!-- <group name="konsul">
 		<groupHeader>
 			<band height="37">
 				<staticText>
@@ -622,7 +622,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 				</textField>
 			</band>
 		</groupHeader>
-	</group>
+	</group> -->
 	<group name="Diagnosa">
 		<groupHeader>
 			<band height="74">
