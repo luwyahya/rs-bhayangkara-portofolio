@@ -156,6 +156,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     };
                 })
 
+                medifirstService.get('emr/get-combo').then(function (dat) {
+                    $scope.listDokter = dat.data.dokter
+                })
+
                 medifirstService.get("emr/get-combo-penunjang?departemenfk=27", true).then(function (dat) {
                     // for (var i = 0; i < dat.data.length; i++) {
                     //     dat.data[i].no = i+1
@@ -1868,7 +1872,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     objectruanganfk: namaRuanganFk,
                     objectruangantujuanfk: $scope.item.ruangantujuan.id,
                     departemenfk: 27,
-                    pegawaiorderfk: $scope.PegawaiLogin2.id,
+                    pegawaiorderfk: $scope.item.dokterPengorder ? $scope.item.dokterPengorder.id : null,
                     keterangan: $scope.item.keterangan != undefined ? $scope.item.keterangan : null,
                     iscito: $scope.item.iscito != undefined && $scope.item.iscito == true ? $scope.item.iscito : false,
                     details: data2

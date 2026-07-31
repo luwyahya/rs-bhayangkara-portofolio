@@ -179,6 +179,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="grid_12" style="margin-top: 10px;">
+                                        <div class="grid_12">
+                                            <label c-label item="item">Dokter Pengorder</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <input kendo-combo-box k-ng-model="item.dokterPengorder"
+                                                k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false"
+                                                k-data-source="listDokter" />
+                                        </div>
+                                    </div>
+
 
                                     <div class="grid_12" style="margin-top: 10px;">
                                         <div class="grid_12">
