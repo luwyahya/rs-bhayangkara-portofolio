@@ -170,9 +170,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             $scope.item.suhu = result[0].suhu
                             $scope.item.pemeriksaanFisik = result[0].pemeriksaandisik
                             $scope.item.diet = { diet: result[0].diet }
-                            $scope.item.keterangandiet = result[0].keterangandiet,
-                                $scope.item.edukasi = result[0].edukasi,
-                                $scope.item.prognosis = { prognosis: result[0].prognosis }
+                            $scope.item.keterangandiet = result[0].keterangandiet
+                            $scope.item.edukasi = result[0].edukasi
+                            $scope.item.prognosis = { prognosis: result[0].prognosis }
                             $scope.item.diagnosaDokter = result[0].diagdok
                             $scope.item.pengobatan = result[0].pengobatan
                             $scope.item.hasilKonsul = result[0].hasilkonsultasi
