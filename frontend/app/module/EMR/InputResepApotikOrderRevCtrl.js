@@ -1488,10 +1488,10 @@ define(['initialize'], function (initialize) {
                     return;
                 }
                 debugger
-                if ($scope.item.aturanPakai == undefined) {
-                    alert("Aturan Pakai Belum diisi!!")
-                    return;
-                }
+                // if ($scope.item.aturanPakai == undefined) {
+                //     alert("Aturan Pakai Belum diisi!!")
+                //     return;
+                // }
                 if ($scope.item.stok < $scope.item.jumlah) {
                     alert("Stok tidak cukup!!")
                     return;
