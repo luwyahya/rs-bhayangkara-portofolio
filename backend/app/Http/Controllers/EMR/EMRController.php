@@ -26413,7 +26413,8 @@ FROM
                 'rm.namadokter',
                 'rm.pegawaifk',
                 'rm.tglcetak',
-                'rm.emrpasienfk'
+                'rm.emrpasienfk',
+                'rm.pengobatan'
             )
             ->Join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
             ->Join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
