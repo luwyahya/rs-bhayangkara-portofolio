@@ -4203,10 +4203,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     alert("Jumlah harus di isi!")
                     return;
                 }
-                if ($scope.item.aturanPakai == null || $scope.item.aturanPakai == undefined || $scope.item.aturanPakai == 'null' || $scope.item.aturanPakai == 'undefined' || $scope.item.aturanPakai == '') {
-                    alert("Aturan pakai harus di isi walaupun hanya '-/strip'!")
-                    return;
-                }
+                // if ($scope.item.aturanPakai == null || $scope.item.aturanPakai == undefined || $scope.item.aturanPakai == 'null' || $scope.item.aturanPakai == 'undefined' || $scope.item.aturanPakai == '') {
+                //     alert("Aturan pakai harus di isi walaupun hanya '-/strip'!")
+                //     return;
+                // }
                 //penjgaan stok
                 // if ($scope.item.stok == 0) {
                 //     alert("Stok tidak ada harus di isi!")

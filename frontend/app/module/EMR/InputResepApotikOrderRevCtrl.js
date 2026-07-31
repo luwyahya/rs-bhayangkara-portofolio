@@ -47,8 +47,8 @@ define(['initialize'], function (initialize) {
 
             LoadCacheHelper();
 
-            
-            
+
+
             //ash
             $scope.SearchPaket = function () {
                 loadDataPaket()
@@ -93,7 +93,7 @@ define(['initialize'], function (initialize) {
 
             //ash 06-06-2023
             $scope.lihatMasterObat = function () {
-                if($scope.item.ruangan == undefined){
+                if ($scope.item.ruangan == undefined) {
                     debugger
                     alert("Pilih Ruangan terlebih dahulu!!")
                     return
@@ -108,96 +108,96 @@ define(['initialize'], function (initialize) {
             $scope.unggahResepMasterObat = function () {
                 var resepmaster = $scope.item.paketId;
                 var ruangan = $scope.item.ruangan.id;
-                
-                
+
+
                 medifirstService.get("sysadminpaket/get-detail-master-paket?objectresepmaster=" + resepmaster + "&objectruangan=" + ruangan, true)
                     .then(function (dat) {
 
-                        
-                        
-                                //init()
+
+
+                        //init()
 
                         $scope.tinggiDetailResep = 450
                         var num = 1
                         var data = {};
 
 
-                        if($scope.item.totalSubTotal!=undefined) var subtotal=$scope.item.totalSubTotal;
-                        else var subtotal=0;
-                        
+                        if ($scope.item.totalSubTotal != undefined) var subtotal = $scope.item.totalSubTotal;
+                        else var subtotal = 0;
+
 
 
                         dat.data.results.forEach(element => {
-                                
-                                
-                                var total = (parseFloat(element.qty * (element.hargajual - element.hargadiscount)));
-                                subtotal=subtotal+total;
 
-                                data = {
-                                    asalproduk: "",
-                                    aturanpakai: element.aturanpakai,
-                                    // aturanpakaifk: "",
-                                    dosis: element.dosis,
-                                    generik: null,
-                                    hargadiscount: element.hargadiscount,
-                                    hargajual: element.hargajual,
-                                    harganetto: element.harganetto,
-                                    hargasatuan: element.hargajual,
-                                    ismalam: 0,
-                                    ispagi: 0,
-                                    issiang: 0,
-                                    issore: 0,
-                                    jeniskemasan: element.jeniskemasan,
-                                    jeniskemasanfk: element.jeniskemasanfk,
-                                    jenisobatfk: 0,
-                                    jmldosis: 0,
-                                    jmlstok: element.qty,
-                                    jumlah: element.qty,
-                                    jumlahobat: element.qty,
-                                    jumlahxmakan: element.qty,
-                                    keterangan: element.waktuminum,
-                                    namaproduk: element.namaproduk,
-                                    nilaikonversi: 1,
-                                    no: num,
-                                    produkfk: element.produkfk,
-                                    rke: element.rke,
-                                    route: element.route,
-                                    routefk: element.routefk,
-                                    ruanganfk: ruangan,
-                                    satuanstandar: element.satuanstandar,
-                                    satuanstandarfk: element.objectsatuanstandarfk,
-                                    satuanview: element.satuanstandar,
-                                    satuanviewfk: element.objectsatuanstandarfk,
-                                    stock: 0,
-                                    total: total,
-                                    //jasa : 0,
-                                    noregistrasifk : norec_apd,
 
-                                    tglregistrasi : moment($scope.item.tglregistrasi).format('YYYY-MM-DD hh:mm:ss'),
-                                    jenisobatfk : null,
-                                    kelasfk : $scope.item.idKelas,
-                                    nostrukterimafk : element.nostrukterimafk,
-                                    asalprodukfk : 0,
-                                    jasa : 0,
-                                    kronis : '',
-                                    dosisobat : 0,
-                                }
+                            var total = (parseFloat(element.qty * (element.hargajual - element.hargadiscount)));
+                            subtotal = subtotal + total;
 
-                                
+                            data = {
+                                asalproduk: "",
+                                aturanpakai: element.aturanpakai,
+                                // aturanpakaifk: "",
+                                dosis: element.dosis,
+                                generik: null,
+                                hargadiscount: element.hargadiscount,
+                                hargajual: element.hargajual,
+                                harganetto: element.harganetto,
+                                hargasatuan: element.hargajual,
+                                ismalam: 0,
+                                ispagi: 0,
+                                issiang: 0,
+                                issore: 0,
+                                jeniskemasan: element.jeniskemasan,
+                                jeniskemasanfk: element.jeniskemasanfk,
+                                jenisobatfk: 0,
+                                jmldosis: 0,
+                                jmlstok: element.qty,
+                                jumlah: element.qty,
+                                jumlahobat: element.qty,
+                                jumlahxmakan: element.qty,
+                                keterangan: element.waktuminum,
+                                namaproduk: element.namaproduk,
+                                nilaikonversi: 1,
+                                no: num,
+                                produkfk: element.produkfk,
+                                rke: element.rke,
+                                route: element.route,
+                                routefk: element.routefk,
+                                ruanganfk: ruangan,
+                                satuanstandar: element.satuanstandar,
+                                satuanstandarfk: element.objectsatuanstandarfk,
+                                satuanview: element.satuanstandar,
+                                satuanviewfk: element.objectsatuanstandarfk,
+                                stock: 0,
+                                total: total,
+                                //jasa : 0,
+                                noregistrasifk: norec_apd,
+
+                                tglregistrasi: moment($scope.item.tglregistrasi).format('YYYY-MM-DD hh:mm:ss'),
+                                jenisobatfk: null,
+                                kelasfk: $scope.item.idKelas,
+                                nostrukterimafk: element.nostrukterimafk,
+                                asalprodukfk: 0,
+                                jasa: 0,
+                                kronis: '',
+                                dosisobat: 0,
+                            }
+
+
                             data2.push(data)
                             num++;
                         });
 
-                        
-                        
-                        $scope.item.totalSubTotal=subtotal;
+
+
+                        $scope.item.totalSubTotal = subtotal;
                         debugger
                         $scope.popUpObat.close()
                         $scope.dataGrid = new kendo.data.DataSource({
                             data: data2,
                             pageSize: 10
                         });
-                        
+
                     })
 
                 //toastr.success("Unggah Resep Master Berhasil!");
@@ -308,10 +308,10 @@ define(['initialize'], function (initialize) {
                 // }else{
 
                 // }
-                
+
                 //ash
                 debugger
-                
+
                 $scope.isRouteLoading = true;
                 var paketId = ""
                 var namaPaket = ""
@@ -339,7 +339,7 @@ define(['initialize'], function (initialize) {
 
             function init() {
 
-                 
+
                 $scope.isRouteLoading = true;
 
 
@@ -361,7 +361,7 @@ define(['initialize'], function (initialize) {
                 // alert($user.id);
 
                 debugger;
-                
+
 
 
                 medifirstService.get("emr/get-combo-resep-emr?id=" + medifirstService.getPegawaiLogin().id, true).then(function (dat) {
@@ -375,7 +375,7 @@ define(['initialize'], function (initialize) {
                     $scope.listRuangan = dat.data.ruanganfarmasi;
                     $scope.listDosis = dat.data.satuandosis;
                     $scope.item.ruangan = dat.data.ruanganfarmasi[0]
-                       
+
                     // $scope.listRuangan.splice(3);
                     $scope.listJenisKemasan = dat.data.jeniskemasan;
                     $scope.listProduk = dat.data.produk;
@@ -452,7 +452,7 @@ define(['initialize'], function (initialize) {
 
 
                 });
-//ash
+                //ash
                 $scope.columnGridSsS = [
                     {
                         "field": "no",
@@ -476,7 +476,7 @@ define(['initialize'], function (initialize) {
                         dataSource: new kendo.data.DataSource({
                             data: dataItem.details
                         }),
-    
+
                         columns: [
                             {
                                 "field": "namaproduk",
@@ -506,12 +506,12 @@ define(['initialize'], function (initialize) {
                         ]
                     }
                 };
-    
+
                 // $scope.Tambah = function () {
                 //     $scope.arrayProdukTemp = []
                 //     $scope.popUps.center().open();
                 // }
-    
+
                 $scope.columnGridR = [
                     {
                         "field": "no",
@@ -590,7 +590,7 @@ define(['initialize'], function (initialize) {
 
                 // key 03-17-2024
                 medifirstService.get("tatarekening/get-status-close-pemeriksaan?noregistrasi=" +
-                $scope.item.noregistrasi, true).then(function (dat) {
+                    $scope.item.noregistrasi, true).then(function (dat) {
                         $scope.statusSelesaiPeriksa = dat.data.data
                     });
             }
@@ -947,10 +947,10 @@ define(['initialize'], function (initialize) {
                     return;
                 }
                 debugger
-                if ($scope.item.aturanPakai == undefined) {
-                    alert("Aturan Pakai Belum diisi!!")
-                    return;
-                }
+                // if ($scope.item.aturanPakai == undefined) {
+                //     alert("Aturan Pakai Belum diisi!!")
+                //     return;
+                // }
                 if ($scope.item.stok < $scope.item.jumlah) {
                     alert("Stok tidak cukup!!")
                     return;
@@ -1496,7 +1496,7 @@ define(['initialize'], function (initialize) {
                     alert("Stok tidak cukup!!")
                     return;
                 }
-                
+
 
                 var KetPakai = ""
                 debugger
@@ -1504,11 +1504,11 @@ define(['initialize'], function (initialize) {
                     KetPakai = $scope.item.catatan;
                 }
                 var objectwaktuminumfk = null
-                if($scope.item.waktuminum != undefined){
+                if ($scope.item.waktuminum != undefined) {
                     objectwaktuminumfk = $scope.item.waktuminum.id
                 }
                 var waktuminum = null
-                if($scope.item.waktuminum != undefined){
+                if ($scope.item.waktuminum != undefined) {
                     waktuminum = $scope.item.waktuminum.waktuminum
                 }
 
@@ -1540,7 +1540,7 @@ define(['initialize'], function (initialize) {
                     nomor = data2.length + 1
                 }
 
-                var satdosisfk = null 
+                var satdosisfk = null
                 var satdosistext = ''
 
                 if ($scope.item.satuandosis != undefined || $scope.item.satuandosis != null) {
@@ -1660,8 +1660,8 @@ define(['initialize'], function (initialize) {
                         keterangan: KetPakai,
                         objectwaktuminumfk: $scope.item.waktuminum != undefined ? $scope.item.waktuminum.id : null,
                         waktuminum: $scope.item.waktuminum != undefined ? $scope.item.waktuminum.waktuminum : null,
-                        satuandosisfk : satdosisfk,
-                        satuandosis : satdosistext,
+                        satuandosisfk: satdosisfk,
+                        satuandosis: satdosistext,
                         isobatpulang: isobatpulang,
                         ketobatpulang: obatpulangket
                     }
@@ -1685,14 +1685,14 @@ define(['initialize'], function (initialize) {
                 if ($scope.item.idRuangan != 927 && $scope.item.idRuangan != 917 && $scope.item.idRuangan != 64 && $scope.item.idRuangan != 77 && $scope.item.idRuangan != 922 && $scope.item.idRuangan != 920 && $scope.item.idRuangan != 923 && $scope.item.idRuangan != 919 && $scope.item.idRuangan != 926 && $scope.item.idRuangan != 928 && $scope.item.idRuangan != 934 && $scope.item.idRuangan != 921 && $scope.item.idRuangan != 929 && $scope.item.idRuangan != 931 && $scope.item.idRuangan != 918 && $scope.item.idRuangan != 65 && $scope.item.idRuangan != 924 && $scope.item.idRuangan != 936 && $scope.item.idRuangan != 925) {
                     if (parseFloat(allTotal) > 80000 && !$scope.dialogShown) {
                         var confirm = $mdDialog.confirm()
-                                        .title('Peringatan')
-                                        .textContent('Peringatan, Obat sudah mencapai lebih dari 80.000 yaitu sebesar Rp. ' + allTotal + '\n' + 'Apakah anda tetap akan menlanjutkan?')
-                                        .ariaLabel('Lucky day')
-                                        .cancel('Tidak')
-                                        .ok('Ya')
-                                    $mdDialog.show(confirm).then(function() {
-                                        $scope.dialogShown = true
-                                    })
+                            .title('Peringatan')
+                            .textContent('Peringatan, Obat sudah mencapai lebih dari 80.000 yaitu sebesar Rp. ' + allTotal + '\n' + 'Apakah anda tetap akan menlanjutkan?')
+                            .ariaLabel('Lucky day')
+                            .cancel('Tidak')
+                            .ok('Ya')
+                        $mdDialog.show(confirm).then(function () {
+                            $scope.dialogShown = true
+                        })
                     }
                 }
                 if ($scope.item.jenisKemasan.jeniskemasan != 'Racikan') {
@@ -1837,7 +1837,7 @@ define(['initialize'], function (initialize) {
                         jenisracikan: JR.data.data[0].jenisracikan
                     }
                 });
-                
+
                 $scope.item.produk = {
                     id: dataSelected.produkfk,
                     namaproduk: dataSelected.namaproduk
@@ -1855,7 +1855,7 @@ define(['initialize'], function (initialize) {
                 // $scope.item.waktuminum = {
                 //     waktuminum: dataSelected.waktuminum
                 // }
-                
+
                 // if (dataSelected.kekuatan == undifined || dataSelected.kekuatan == '' || dataSelected.kekuatan == null) {
                 //     $kekuatan = 0
                 // } else {
@@ -1991,7 +1991,7 @@ define(['initialize'], function (initialize) {
 
 
 
-            $scope.reOrder = function (){
+            $scope.reOrder = function () {
                 if ($scope.dataSelectedRiwayat == undefined) {
                     toastr.error('Pilih data dulu')
                     return
@@ -2008,10 +2008,10 @@ define(['initialize'], function (initialize) {
                     $scope.item.tglresepAkhir = new Date($scope.item.tglresepAkhir);
                     if ($scope.dataSelectedRiwayat.cekreseppulang == "✔") {
                         $scope.checkResepPulang = true;
-                    }else{
+                    } else {
                         $scope.checkResepPulang = false;
                     }
-                    
+
                     data2 = dat.data.orderpelayanan
                     for (var i = data2.length - 1; i >= 0; i--) {
 
@@ -2241,7 +2241,7 @@ define(['initialize'], function (initialize) {
                 $scope.popUp.center().open()
             }
 
-//ash 06-06-2023
+            //ash 06-06-2023
             $scope.lihatMasterObat = function () {
                 $scope.popUpObat.close()
                 $scope.popUpObat.center().open()
@@ -2610,7 +2610,7 @@ define(['initialize'], function (initialize) {
                             var arrayS = {
                                 no: 2,
                             };
-                            socket1.emit('order-resep', arrayS)  
+                            socket1.emit('order-resep', arrayS)
                         });
                     } else if ($scope.item.idRuangan == 569 || $scope.item.idRuangan == 936) {
                         let datanotif = {
@@ -2628,7 +2628,7 @@ define(['initialize'], function (initialize) {
                             var arrayS = {
                                 no: 2,
                             };
-                            socket1.emit('order-resep', arrayS)  
+                            socket1.emit('order-resep', arrayS)
                         });
                     }
                 }
