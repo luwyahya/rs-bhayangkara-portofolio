@@ -136,7 +136,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             if (!$scope.item.noTelpPenjamin) {
                 medifirstService.get('registrasi/get-pasienbynocm?noCm=' + $scope.cc.nocm).then(function(res) {
                     if (res.data && res.data.data && res.data.data.length > 0) {
-                        $scope.item.noTelpPenjamin = res.data.data[0].nohp;
+                        $scope.item.noTelpPenjamin = res.data.data[0].notelepon ? res.data.data[0].notelepon : res.data.data[0].nohp;
                     }
                 });
             }
