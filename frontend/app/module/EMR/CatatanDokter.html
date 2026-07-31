@@ -452,7 +452,8 @@
                                         </div>
                                         <div class="grid_12" ng-show="ranap">
                                             <div class="grid_11">
-                                                <button class="btnTemplate1" ng-click="ambilPengkajianMedisRawatInap($index)"><i
+                                                <button class="btnTemplate1"
+                                                    ng-click="ambilPengkajianMedisRawatInap($index)"><i
                                                         class="fa fa-plus-circle"></i>Tambah</button>
                                             </div>
                                         </div>
@@ -612,7 +613,8 @@
                                         </div>
                                         <div class="grid_12" ng-show="ranap">
                                             <div class="grid_11">
-                                                <button class="btnTemplate1" ng-click="ambilDiagnosaPengkajianMedisRawatInap($index)"><i
+                                                <button class="btnTemplate1"
+                                                    ng-click="ambilDiagnosaPengkajianMedisRawatInap($index)"><i
                                                         class="fa fa-plus-circle"></i>Tambah</button>
                                             </div>
                                         </div>
@@ -846,7 +848,7 @@
                                     </div>
                                     <div class="grid_3">
                                         <input c-text-box type="number" filter="" class="k-textbox" ng-model="item.rke"
-                                            id="x" ng-disabled='!showRacikanDose'/>
+                                            id="x" ng-disabled='!showRacikanDose' />
                                     </div>
                                 </div>
                                 <div class="grid_12" style="margin-top: -10px;">
@@ -884,43 +886,49 @@
                                         </div>
                                         <div class="grid_9">
                                             <input style="width: 65%;" kendo-combo-box k-ng-model="item.jenisRacikan"
-                                                k-data-text-field="'jenisracikan'" k-data-value-field="'id'" k-filter="'contains'"
-                                                k-auto-bind="false" k-data-source="listJenisRacikan" />
+                                                k-data-text-field="'jenisracikan'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false"
+                                                k-data-source="listJenisRacikan" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="grid_12" style="margin-top: -10px;" ng-show='showRacikanDose'>
                                     <div class="grid_12">
-                                            <div class="grid_3" style="margin-top: 10px">
-                                                <label  c-label item="item" c-label-text="Jumlah"></label>
-                                            </div>
-                                            <div class="grid_3">
-                                                <input  c-text-box type="number" filter="" class="k-textbox" ng-model="item.jumlahxmakan" />
-                                            </div>
+                                        <div class="grid_3" style="margin-top: 10px">
+                                            <label c-label item="item" c-label-text="Jumlah"></label>
+                                        </div>
+                                        <div class="grid_3">
+                                            <input c-text-box type="number" filter="" class="k-textbox"
+                                                ng-model="item.jumlahxmakan" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="grid_12" style="margin-top: -10px;" ng-show='showRacikanDose'>
                                     <div class="grid_12">
-                                            <div class="grid_3" style="margin-top: 10px">
-                                                <label  c-label item="item" c-label-text="Dosis"></label>
-                                            </div>
-                                            <div class="grid_3" >
-                                                <input c-text-box type="number" filter="" class="k-textbox" ng-model="item.dosis" />
-                                            </div>  
-                                            <div class="grid_6" >                           
-                                                <input  kendo-combo-box k-ng-model="item.satuandosis" k-data-text-field="'satuan'"
-                                                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listDosis"/>
-                                            </div>
-                                    </div>                            
-                                    <div class="grid_3" ng-show = 'false'>
-                                            <label class="manual-gridfor48" c-label item="item" c-label-text="Kekuatan"></label>
-                                                <input style="width: 30%;" c-text-box type="input" filter="" class="k-textbox" ng-model="item.kekuatan"/>
+                                        <div class="grid_3" style="margin-top: 10px">
+                                            <label c-label item="item" c-label-text="Dosis"></label>
+                                        </div>
+                                        <div class="grid_3">
+                                            <input c-text-box type="number" filter="" class="k-textbox"
+                                                ng-model="item.dosis" />
+                                        </div>
+                                        <div class="grid_6">
+                                            <input kendo-combo-box k-ng-model="item.satuandosis"
+                                                k-data-text-field="'satuan'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listDosis" />
+                                        </div>
+                                    </div>
+                                    <div class="grid_3" ng-show='false'>
+                                        <label class="manual-gridfor48" c-label item="item"
+                                            c-label-text="Kekuatan"></label>
+                                        <input style="width: 30%;" c-text-box type="input" filter="" class="k-textbox"
+                                            ng-model="item.kekuatan" />
                                     </div>
                                     <!-- ============================================== -->
                                 </div>
 
                             </div>
-                            
+
                             <div class="grid_3">
 
                                 <!-- 
@@ -952,8 +960,9 @@
                                     </div>
                                     <div class="grid_6" style="margin-top: -6px">
                                         <input kendo-combo-box k-ng-model="item.satuan"
-                                        k-data-text-field="'satuanstandar'" k-data-value-field="'ssid'" k-filter="'contains'"
-                                        k-auto-bind="false" k-data-source="listSatuan" k-on-change='getNilaiKonversi()' />
+                                            k-data-text-field="'satuanstandar'" k-data-value-field="'ssid'"
+                                            k-filter="'contains'" k-auto-bind="false" k-data-source="listSatuan"
+                                            k-on-change='getNilaiKonversi()' />
                                     </div>
                                 </div>
 
@@ -972,9 +981,11 @@
                                         <label c-label item="item" c-label-text="Aturan Pakai"></label>
                                     </div>
                                     <div class="grid_8">
-                                        <input kendo-combo-box k-ng-model="item.aturanPakai" k-data-text-field="'name'"
+                                        <!-- <input kendo-combo-box k-ng-model="item.aturanPakai" k-data-text-field="'name'"
                                             k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
-                                            k-data-source="listAturanPakai" />
+                                            k-data-source="listAturanPakai" /> -->
+                                        <input style="width: 65%;" c-text-box type="input" filter="" class="k-textbox"
+                                            style="margin-top: -1px;" ng-model="item.aturanpakaitxt" />
                                     </div>
 
                                 </div>
@@ -984,16 +995,16 @@
                                         <label c-label item="item" c-label-text="Route"></label>
                                     </div>
                                     <div class="grid_8">
-                                        <input kendo-combo-box k-ng-model="item.route"
-                                            k-data-text-field="'name'" k-data-value-field="'id'"
-                                            k-filter="'contains'" k-auto-bind="false" k-data-source="listRoute" />
+                                        <input kendo-combo-box k-ng-model="item.route" k-data-text-field="'name'"
+                                            k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                                            k-data-source="listRoute" />
                                     </div>
                                 </div>
 
                             </div>
 
                             <div class="grid_3">
-                                
+
                                 <div class="grid_12" ng-show='ShowWaktuMinum'>
                                     <div class="grid_4" style="margin-top: 5px;">
                                         <label c-label item="item" c-label-text="Keterangan"></label>
@@ -1080,17 +1091,19 @@
                                     </div>
                                 </fieldset>
                             </div>
-                        </div> 
-                        
+                        </div>
+
                         <!-- ================================================== -->
 
                         <div class="grid_10">
                             <div class="grid_3">
                                 <div class="grid_7">
-                                    <label c-label item="item" style="font-size: 16px" c-label-text="Konversi :"></label>
+                                    <label c-label item="item" style="font-size: 16px"
+                                        c-label-text="Konversi :"></label>
                                 </div>
                                 <div class="grid_5">
-                                    <label c-label item="item" style="text-align: left;font-size: 16px">{{item.nilaiKonversi}}</label>
+                                    <label c-label item="item"
+                                        style="text-align: left;font-size: 16px">{{item.nilaiKonversi}}</label>
                                 </div>
                             </div>
                             <div class="grid_3">
@@ -1098,7 +1111,8 @@
                                     <label c-label item="item" style="font-size: 16px" c-label-text="Stok :"></label>
                                 </div>
                                 <div class="grid_7">
-                                    <label c-label item="item" style="text-align: left;font-size: 16px">{{item.stok}}</label>
+                                    <label c-label item="item"
+                                        style="text-align: left;font-size: 16px">{{item.stok}}</label>
                                 </div>
                             </div>
                             <div class="grid_3">
@@ -1107,7 +1121,8 @@
                                 </div>
                                 <div class="grid_7">
                                     <label c-label item="item"
-                                        style="text-align: left;font-size: 16px">{{formatRupiah(item.hargaSatuan,"", false)}}</label>
+                                        style="text-align: left;font-size: 16px">{{formatRupiah(item.hargaSatuan,"",
+                                        false)}}</label>
                                 </div>
                             </div>
                             <div class="grid_3">
@@ -1116,14 +1131,15 @@
                                 </div>
                                 <div class="grid_7">
                                     <label c-label item="item"
-                                        style="text-align: left;font-size: 16px">{{formatRupiah(item.total,"", false)}}</label>
+                                        style="text-align: left;font-size: 16px">{{formatRupiah(item.total,"",
+                                        false)}}</label>
                                 </div>
                             </div>
-                
+
                         </div>
 
                         <!-- ================================================== -->
-                        
+
                         <div class="grid_12">
                             <div class="grid_12 borderBox">
                                 <div id="kGrid" kendo-grid k-data-source="dataGrid" k-selectable="'row'"
@@ -1140,7 +1156,8 @@
                                 </div>
                                 <div class="grid_8">
                                     <label c-label item="item"
-                                        style="margin-top: 10px;text-align: left;font-size: 16px">{{formatRupiah(item.totalSubTotal,"", false)}}</label>
+                                        style="margin-top: 10px;text-align: left;font-size: 16px">{{formatRupiah(item.totalSubTotal,"",
+                                        false)}}</label>
                                     <!-- <input c-text-box type="input" style="text-align: right" filter="" class="k-textbox" ng-model="item.totalSubTotal" ng-disabled="true" /> -->
                                 </div>
                             </div>
@@ -1170,19 +1187,21 @@
                             </div>
                             <div class="runtext-container">
                                 <div class="main-runtext">
-                                    <marquee direction="" scrollamount="10" onmouseover="this.stop();" onmouseout="this.start();">
-                    
+                                    <marquee direction="" scrollamount="10" onmouseover="this.stop();"
+                                        onmouseout="this.start();">
+
                                         <div class="holder">
-                    
+
                                             <div class="text-container">
                                                 &nbsp; &nbsp;
                                                 <a data-fancybox-group="gallery" class="fancybox"> <b
                                                         style="font-size: xxx-large;color: red;">PENGUMUMAN: </b><b
-                                                        style="font-size: xx-large;">Setelah input E-Resep, jangan lupa klik simpan yaaa.. Agar datanya masuk ke farmasi.</b></a>
+                                                        style="font-size: xx-large;">Setelah input E-Resep, jangan lupa
+                                                        klik simpan yaaa.. Agar datanya masuk ke farmasi.</b></a>
                                             </div>
-                    
+
                                         </div>
-                    
+
                                     </marquee>
                                 </div>
                             </div>
