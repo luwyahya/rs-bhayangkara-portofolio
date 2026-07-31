@@ -26414,7 +26414,8 @@ FROM
                 'rm.pegawaifk',
                 'rm.tglcetak',
                 'rm.emrpasienfk',
-                'rm.pengobatan'
+                'rm.pengobatan',
+                'rm.diagdok'
             )
             ->Join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
             ->Join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
