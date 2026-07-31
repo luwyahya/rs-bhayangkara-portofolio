@@ -2312,17 +2312,17 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     let noUrutTindakan = 1;
                     let tampungGaNormal = '';
                     let penunjanglab = 'Laboratorium Patologi Klinik : '
-                    let tindakanlab = 'Laboratorium Patologi Klinik : '
+                    let tindakanlab = '\nLaboratorium Patologi Klinik :\n'
                     let penunjangrad = 'Radiologi : '
-                    let tindakanrad = 'Radiologi : '
+                    let tindakanrad = '\nRadiologi :\n'
                     let penunjangpa = 'Laboratorium Patologi Anatomik : '
-                    let tindakanpa = 'Laboratorium Patologi Anatomik : '
+                    let tindakanpa = '\nLaboratorium Patologi Anatomik :\n'
                     let alldiagnosa = '';
                     for (let i = 0; i < emr.length; i++) {
                         if (emr[i].jenispenunjang == 'LAB') {
                             // debugger
                             tampung = tampung + nourut + ". " + emr[i].namaproduk + " = " + "\n"
-                            tindakanlab = tindakanlab + "- " + emr[i].namaproduk + "\n"
+                            tindakanlab = tindakanlab + "  - " + emr[i].namaproduk + "\n"
                             for (let j = 0; j < emr[i].detail.length; j++) {
                                 if (emr[i].detail[j].hasilpenunjang != null) {
                                     if (emr[i].detail[j].flaglab == 'Y') {
@@ -2336,7 +2336,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             penunjanglab = penunjanglab + tampung2
                         } else if (emr[i].jenispenunjang == 'RAD') {
                             tampung = tampung + nourut + ". " + emr[i].namaproduk + " = "
-                            tindakanrad = tindakanrad + "- " + emr[i].namaproduk
+                            tindakanrad = tindakanrad + "  - " + emr[i].namaproduk + "\n"
                             for (let j = 0; j < emr[i].detail.length; j++) {
                                 if (emr[i].detail[j].hasilpenunjang != null) {
                                     tampung4 = emr[i].detail[j].hasilpenunjang
@@ -2358,7 +2358,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             }
                         } else if (emr[i].jenispenunjang == 'LABORATORIUM PATALOGI ANATOMI') {
                             tampung = tampung + nourut + ". " + emr[i].namaproduk + " = "
-                            tindakanpa = tindakanpa + "- " + emr[i].namaproduk
+                            tindakanpa = tindakanpa + "  - " + emr[i].namaproduk + "\n"
                             for (let j = 0; j < emr[i].detail.length; j++) {
                                 if (emr[i].detail[j].hasilpenunjang != null) {
                                     tampung4 = emr[i].detail[j].hasilpenunjang
@@ -2437,13 +2437,13 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     if (penunjangpa == 'Laboratorium Patologi Anatomik : ') {
                         penunjangpa = ''
                     }
-                    if (tindakanlab == 'Laboratorium Patologi Klinik : ') {
+                    if (tindakanlab == '\nLaboratorium Patologi Klinik :\n') {
                         tindakanlab = ''
                     }
-                    if (tindakanrad == 'Radiologi : ') {
+                    if (tindakanrad == '\nRadiologi :\n') {
                         tindakanrad = ''
                     }
-                    if (tindakanpa == 'Laboratorium Patologi Anatomik : ') {
+                    if (tindakanpa == '\nLaboratorium Patologi Anatomik :\n') {
                         tindakanpa = ''
                     }
                     if (obatpulang == '') {
