@@ -4263,7 +4263,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 // }
 
                 var aturanpakai = "";
-                if ($scope.item.aturanPakai) {
+                if ($scope.item.aturanpakaitxt) {
+                    aturanpakai = $scope.item.aturanpakaitxt;
+                } else if ($scope.item.aturanPakai) {
                     aturanpakai = $scope.item.aturanPakai.name;
                 }
                 var produkfk = null
@@ -4307,7 +4309,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     sediaanobat = $scope.item.sediaanobat.id
                 }
                 var aturanPakai = null
-                if ($scope.item.aturanPakai != undefined) {
+                if ($scope.item.aturanpakaitxt != undefined) {
+                    aturanPakai = $scope.item.aturanpakaitxt
+                } else if ($scope.item.aturanPakai != undefined) {
                     aturanPakai = $scope.item.aturanPakai.name
                 }
                 var obatpulangket = 'Obat'
@@ -4360,7 +4364,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             data.jeniskemasan = $scope.item.jenisKemasan.jeniskemasan
                             // data.aturanpakaifk = 0//$scope.item.aturanPakai.id
                             // data.aturanpakai = $scope.item.aturanPakai.name//aturanPakai.name
-                            data.aturanpakai = $scope.item.aturanPakai != undefined ? $scope.item.aturanPakai.name : null//aturanPakai.name
+                            data.aturanpakai = $scope.item.aturanpakaitxt != undefined ? $scope.item.aturanpakaitxt : ($scope.item.aturanPakai != undefined ? $scope.item.aturanPakai.name : null)//aturanPakai.name
                             data.ispagi = $scope.item.chkp
                             data.issiang = $scope.item.chks
                             data.issore = $scope.item.chksr
@@ -4417,7 +4421,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         jeniskemasan: $scope.item.jenisKemasan.jeniskemasan,
                         // aturanpakaifk: 0,//$scope.item.aturanPakai.id, 
                         // aturanpakai: $scope.item.aturanPakai.name,//aturanPakai.name,
-                        aturanpakai: $scope.item.aturanPakai != undefined ? $scope.item.aturanPakai.name : null,//aturanPakai.name,
+                        aturanpakai: $scope.item.aturanpakaitxt != undefined ? $scope.item.aturanpakaitxt : ($scope.item.aturanPakai != undefined ? $scope.item.aturanPakai.name : null),//aturanPakai.name,
                         ispagi: $scope.item.chkp,
                         issiang: $scope.item.chks,
                         issore: $scope.item.chksr,

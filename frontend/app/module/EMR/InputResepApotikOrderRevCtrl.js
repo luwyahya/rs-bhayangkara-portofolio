@@ -1002,8 +1002,8 @@ define(['initialize'], function (initialize) {
                     rke: $scope.item.rke,
                     jeniskemasanfk: $scope.item.jenisKemasan.id,
                     jeniskemasan: $scope.item.jenisKemasan.jeniskemasan,
-                    aturanpakaifk: $scope.item.aturanPakai.id,
-                    aturanpakai: $scope.item.aturanPakai.name, //aturanPakai.name, aturanpakaitxt
+                    aturanpakaifk: 0,
+                    aturanpakai: $scope.item.aturanpakaitxt != undefined ? $scope.item.aturanpakaitxt : ($scope.item.aturanPakai != undefined ? $scope.item.aturanPakai.name : null), //aturanPakai.name, aturanpakaitxt
                     // ispagi: $scope.item.chkp,
                     // issiang: $scope.item.chks,
                     // issore: $scope.item.chksr,
@@ -1080,7 +1080,7 @@ define(['initialize'], function (initialize) {
                     return;
                 }
                 debugger
-                if ($scope.item.aturanPakai == undefined) {
+                if (($scope.item.aturanPakai == undefined || $scope.item.aturanPakai == null) && ($scope.item.aturanpakaitxt == undefined || $scope.item.aturanpakaitxt == null || $scope.item.aturanpakaitxt == '')) {
                     alert("Aturan Pakai Belum diisi!!")
                     return;
                 }
@@ -1133,8 +1133,8 @@ define(['initialize'], function (initialize) {
                     rke: $scope.item.rke,
                     jeniskemasanfk: $scope.item.jenisKemasan.id,
                     jeniskemasan: $scope.item.jenisKemasan.jeniskemasan,
-                    aturanpakaifk: $scope.item.aturanPakai.id,
-                    aturanpakai: $scope.item.aturanPakai.name, //aturanPakai.name, aturanpakaitxt
+                    aturanpakaifk: 0,
+                    aturanpakai: $scope.item.aturanpakaitxt != undefined ? $scope.item.aturanpakaitxt : ($scope.item.aturanPakai != undefined ? $scope.item.aturanPakai.name : null), //aturanPakai.name, aturanpakaitxt
                     // ispagi: $scope.item.chkp,
                     // issiang: $scope.item.chks,
                     // issore: $scope.item.chksr,
@@ -1578,7 +1578,7 @@ define(['initialize'], function (initialize) {
                             data.jeniskemasanfk = $scope.item.jenisKemasan.id
                             data.jeniskemasan = $scope.item.jenisKemasan.jeniskemasan
                             data.aturanpakaifk = 0 //$scope.item.aturanPakai.id
-                            data.aturanpakai = $scope.item.aturanPakai.name //aturanPakai.name aturanpakaitxt
+                            data.aturanpakai = $scope.item.aturanpakaitxt != undefined ? $scope.item.aturanpakaitxt : ($scope.item.aturanPakai != undefined ? $scope.item.aturanPakai.name : null) //aturanPakai.name aturanpakaitxt
                             data.ispagi = $scope.item.chkp
                             data.issiang = $scope.item.chks
                             data.issore = $scope.item.chksr
@@ -1634,7 +1634,7 @@ define(['initialize'], function (initialize) {
                         jeniskemasanfk: $scope.item.jenisKemasan.id,
                         jeniskemasan: $scope.item.jenisKemasan.jeniskemasan,
                         aturanpakaifk: 0, //$scope.item.aturanPakai.id,
-                        aturanpakai: $scope.item.aturanPakai.name, //aturanPakai.name, aturanpakaitxt
+                        aturanpakai: $scope.item.aturanpakaitxt != undefined ? $scope.item.aturanpakaitxt : ($scope.item.aturanPakai != undefined ? $scope.item.aturanPakai.name : null), //aturanPakai.name, aturanpakaitxt
                         ispagi: $scope.item.chkp,
                         issiang: $scope.item.chks,
                         issore: $scope.item.chksr,
