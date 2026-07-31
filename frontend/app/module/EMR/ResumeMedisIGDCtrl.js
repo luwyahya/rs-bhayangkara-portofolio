@@ -590,6 +590,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                                 $scope.item.keadaanUmum = data[i].value; // { id: data[i].value, keadaanumum: data[i].value }
                             }
                         } 
+                        if (data[i].emrdfk == 2426) {
+                            if (!$scope.item.diagnosaDokter) {
+                                $scope.item.diagnosaDokter = data[i].value;
+                            }
+                        }
                         // if (data[i].emrdfk == 2618) {
                         //     if (data[i].value == "1") {
 
