@@ -10,14 +10,15 @@
 namespace App\Http\Controllers\Registrasi;
 
 use App\Http\Controllers\ApiController;
-use App\Master\Kelas;
-use App\Transaksi\KendaliDokumenRekamMedis;
 use App\Master\Agama;
 use App\Master\Alamat;
 use App\Master\AsuransiPasien;
+use App\Master\Faskes;
 use App\Master\FlagGenerateNoCm;
 use App\Master\JenisDiagnosa;
 use App\Master\JenisKelamin;
+use App\Master\Kelas;
+use App\Master\KelompokPasien;
 use App\Master\Pasien;
 use App\Master\Pendidikan;
 use App\Master\Ruangan;
@@ -25,49 +26,49 @@ use App\Master\RunningNumber;
 use App\Master\SettingDataFixed;
 use App\Master\StatusPerkawinan;
 use App\Master\TempatTidur;
-use App\Master\KelompokPasien;
 use App\Master\Tracer;
-use App\Master\Faskes;
+use App\Traits\PelayananPasienTrait;
+use App\Traits\Valet;
 use App\Transaksi\AntrianPasienDiperiksa;
-use App\Transaksi\ListRencanaKontroldanSPRI;
 use App\Transaksi\AntrianPasienRegistrasi;
 use App\Transaksi\BatalRegistrasi;
 use App\Transaksi\DetailDiagnosaPasien;
-use App\Transaksi\PemeriksaanDokterForensik;
 use App\Transaksi\DetailDiagnosaTindakanPasien;
+use App\Transaksi\DiagnosaIdrg;
+use App\Transaksi\DiagnosaInacbg;
 use App\Transaksi\DiagnosaPasien;
 use App\Transaksi\DiagnosaTindakanPasien;
+use App\Transaksi\DokumenPasienMaster;
+use App\Transaksi\DokumenPasienRegistrasi;
+use App\Transaksi\DokumenTransaksi;
+use App\Transaksi\eisall;
 use App\Transaksi\EMRPasien;
 use App\Transaksi\IdentifikasiPasien;
+use App\Transaksi\KendaliDokumenRekamMedis;
+use App\Transaksi\ListRencanaKontroldanSPRI;
 use App\Transaksi\LoggingUser;
 use App\Transaksi\OrderPelayanan;
-use App\Transaksi\DiagnosaIdrg;
 use App\Transaksi\PasienDaftar;
+use App\Transaksi\pasienisoman;
 use App\Transaksi\PasienVisum;
 use App\Transaksi\PelayananPasien;
 use App\Transaksi\PelayananPasienDetail;
 use App\Transaksi\PelayananPasienPetugas;
 use App\Transaksi\PemakaianAsuransi;
+use App\Transaksi\PemeriksaanDokterForensik;
 use App\Transaksi\RegistrasiPelayananPasien;
 use App\Transaksi\RekamMedis;
 use App\Transaksi\RisOrder;
+use App\Transaksi\SendTaskAntrol;
 use App\Transaksi\StrukKirim;
 use App\Transaksi\StrukOrder;
 use App\Transaksi\StrukPraOrder;
 use App\Transaksi\StrukResep;
-use App\Transaksi\TempBilling;
-use App\Transaksi\pasienisoman;
-use App\Transaksi\DokumenPasienMaster;
-use App\Transaksi\DokumenPasienRegistrasi;
-use App\Transaksi\SendTaskAntrol;
-use App\Transaksi\DiagnosaInacbg;
-use App\Transaksi\eisall;
 use App\Transaksi\TandaTanganPpa;
-use Illuminate\Http\Request;
-use App\Traits\PelayananPasienTrait;
-use DB;
-use App\Traits\Valet;
+use App\Transaksi\TempBilling;
 use Carbon\Carbon;
+use DB;
+use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\This;
 use Webpatser\Uuid\Uuid;
 
@@ -26946,5 +26947,51 @@ GROUP BY y.KET
         );
 
         return $this->respond($result);
+    }
+
+    public function postDokumenEkg(Request $request) {
+        $dataLogin = $request->all();
+        DB::beginTransaction();
+        try {
+            $dok = new DokumenTransaksi();
+            $dok->norec = $dok->generateNewId();
+            $dok->kdprofile = 24;
+            $dok->statusenabled = true;
+            $dok->objectruanganfk = $request['objectruanganfk'];
+            $dok->jenisdokumenfk = $request['jenisdokumenfk'];
+            $dok->norec_pd = $request['norec_pd'];
+            $dok->norec_apd = $request['norec_apd'];
+            $dok->dokumen = $request['dokumen'];
+            $dok->nocmfk = $request['nocmfk'];
+            $dok->iduserupload = $dataLogin['userData']['id'];
+            $dok->tglupload = $this->getDateTime()->format('Y-m-d H:i:s');
+            $dok->tgldokumen = $this->getDateTime()->format('Y-m-d H:i:s');
+            $dok->namafile = $request['namafile'];
+            $dok->namapemeriksaan = $request['namapemeriksaan'];
+            $dok->keterangan = $request['keterangan'];
+            $dok->type = $request['type'];
+            $dok->save();
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = 'Gagal !';
+        }
+        if ($transStatus == 'true') {
+            $transMessage = 'Berhasil !';
+            DB::commit();
+            $result = array (
+                "status" => 201,
+                "message" => $transMessage,
+                "as" => "dahlah"
+            );
+        } else {
+            DB::rollBack();
+            $result = array (
+                "status" => 400,
+                "message" => $transMessage
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
 }

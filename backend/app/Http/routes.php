@@ -2867,6 +2867,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-ttd-ppa-1', 'Registrasi\RegistrasiController@getTtdPpa');
             Route::post('save-ttd-ppa', 'Registrasi\RegistrasiController@saveTandaTanganPpa');
             Route::get('get-pasien-antrol', 'Registrasi\RegistrasiController@getPasienAntrol');
+            Route::post('save-dokumen-penunjang', 'Registrasi\RegistrasiController@postDokumenEkg');
 
             Route::group(['prefix' => 'daftar-registrasi'], function () {
                 // 2019-12 penambahan arif awal                
