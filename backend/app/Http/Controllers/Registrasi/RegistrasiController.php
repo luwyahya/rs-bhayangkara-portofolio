@@ -22688,6 +22688,67 @@ GROUP BY y.KET
 
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+
+    public function getPasienPernahDaftarSeminggu($nocm)
+    {
+        // Mengambil waktu detik ini, dan 7 hari ke belakang (rolling 7 days)
+        $tglAwal = date('Y-m-d H:i:s', strtotime('-7 days'));
+        $tglAkhir = date('Y-m-d H:i:s');
+
+        // Menggunakan parameter binding (?) untuk menghindari SQL Injection
+        $data = \DB::select(
+            "SELECT pd.tglregistrasi, pd.noregistrasi, pd.objectruanganasalfk, ru.namaruangan 
+            FROM pasiendaftar_t as pd
+            JOIN ruangan_m as ru on ru.id=pd.objectruanganasalfk
+            JOIN pasien_m as ps on ps.id=pd.nocmfk
+            WHERE ps.nocm = ?
+            AND pd.statusenabled = true
+            AND pd.tglregistrasi >= ?
+            AND pd.tglregistrasi <= ?
+            ORDER BY pd.tglregistrasi ASC",
+            [$nocm, $tglAwal, $tglAkhir]
+        );
+
+        $datad = [];
+
+        foreach ($data as $item) {
+            $datadiag = \DB::table('pasiendaftar_t as pd')
+                ->select(
+                    'pd.noregistrasi',
+                    'pd.objectruanganasalfk',
+                    'pd.tglregistrasi',
+                    'ru.namaruangan',
+                    'dg.namadiagnosa'
+                )
+                ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->join('diagnosapasien_t as dp', 'dp.noregistrasifk', '=', 'apd.norec')
+                ->join('detaildiagnosapasien_t as ddp', 'ddp.objectdiagnosapasienfk', '=', 'dp.norec')
+                ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+                ->where('ddp.objectjenisdiagnosafk', '=', 1)
+                ->where('pd.noregistrasi', '=', $item->noregistrasi)
+                ->orderby('ddp.tglinputdiagnosa', 'desc')
+                ->take(1)
+                ->get();
+
+            foreach ($datadiag as $diag) {
+                $datad[] = array(
+                    'namadiagnosa' => $diag->namadiagnosa,
+                    'objectruanganasalfk' => $diag->objectruanganasalfk
+                );
+            }
+        }
+
+        return response()->json([
+            'data' => $data,
+            'datadiag' => $datadiag,
+            'jml' => count($data),
+            'date' => $date,
+            'message' => 'er@epic',
+        ]);
+    }
+
     public function getPasienPernahDaftar($nocm)
     {
         $date = date('Y-m');

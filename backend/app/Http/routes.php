@@ -2613,6 +2613,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-apd-db-lama', 'Registrasi\RegistrasiController@getAntrianPasienDbLama');
             // 2019-12 penambahan arif akhir
             Route::get('get-pasien-pernah-daftar/{nocm}', 'Registrasi\RegistrasiController@getPasienPernahDaftar');
+            Route::get('get-pasien-pernah-daftar-seminggu/{nocm}', 'Registrasi\RegistrasiController@getPasienPernahDaftar');
             Route::get('get-pasienbynocm', 'Registrasi\RegistrasiController@getPasienByNoCm');
             Route::get('get-data-combo', 'Registrasi\RegistrasiController@getDataCombo');
             Route::get('get-data-combo-reg-lama', 'Registrasi\RegistrasiController@getDataComboRegLama');

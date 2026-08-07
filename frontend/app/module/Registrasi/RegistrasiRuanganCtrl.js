@@ -277,6 +277,33 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     }
                 })
             }
+
+            function cekPsnDaftarThisWeek(nocm) {
+                medifirstService.get('registrasi/get-pasien-pernah-daftar-seminggu/' + nocm).then(function (e) {
+                    if (e.data.jml > 0) {
+                        $scope.diagMingguan = e.data;
+
+                        var jml = e.data.jml + 1;
+                        toastr.warning('Kunjungan ke- ' + jml + ' Dalam kurun waktu 7 hari terakhir ! ', 'Peringatan', {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "0",
+                            "timeOut": "0",
+                            "extendedTimeOut": "0",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut",
+                        });
+                    }
+                });
+            }
             $scope.checkKepesertaanByNoBpjs = function () {
                 // if (!$scope.model.cekNomorPeserta) return;
 
@@ -817,7 +844,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 }
 
             }
-            $scope.setRujukan = async function  (data) {
+            $scope.setRujukan = async function (data) {
                 if (data != undefined) {
                     if ($scope.model.cekpilihManual == true) {
                         $scope.model.noRujukan = data.noKunjungan;
@@ -868,21 +895,21 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                 $scope.sourceDiagnosa.add(xx.data[0])
                                 $scope.model.diagnosa = xx.data[0]
                             })
-                        const response = await medifirstService.get("bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + $scope.item.asalRujukan.id+"&norujukan="+data.noKunjungan, true, true, 10);
-                        if(response.data.response.jumlahSEP==0){
-                            if($scope.item.asalRujukan.id == 1){
+                        const response = await medifirstService.get("bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + $scope.item.asalRujukan.id + "&norujukan=" + data.noKunjungan, true, true, 10);
+                        if (response.data.response.jumlahSEP == 0) {
+                            if ($scope.item.asalRujukan.id == 1) {
                                 $scope.item.jeniskunjungan = 1
-                            }else{
+                            } else {
                                 $scope.item.jeniskunjungan = 4
                             }
-                        }else{
-                            if($scope.item.ruangan.kdinternal != data.poliRujukan.kode){
+                        } else {
+                            if ($scope.item.ruangan.kdinternal != data.poliRujukan.kode) {
                                 $scope.item.jeniskunjungan = 2
-                            }else{
+                            } else {
                                 $scope.item.jeniskunjungan = 3
                             }
                         }
-                        if($scope.item.jeniskunjungan == ''){
+                        if ($scope.item.jeniskunjungan == '') {
                             if ($scope.item.asalRujukan != undefined) {
                                 if ($scope.item.asalRujukan.asalrujukan === "Puskesmas / Klinik") {
                                     $scope.item.jeniskunjungan = 1
@@ -1907,6 +1934,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             };
             if (norecPD == '') {
                 cekPsnDaftarThisMonth($scope.currentNoCm)
+                cekPsnDaftarThisWeek($scope.currentNoCm);
             }
 
             function loadAsuransi() {
@@ -2388,6 +2416,47 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut",
                     });
+                }
+
+                var jmlMinggu = 1;
+                var diagnosaMinggu = '';
+                var isKunjunganSamaMinggu = false;
+
+                if ($scope.diagMingguan != undefined && $scope.diagMingguan.data != undefined) {
+                    for (var i = 0; i < $scope.diagMingguan.data.length; i++) {
+                        if ($scope.item.ruangan.id == $scope.diagMingguan.data[i].objectruanganasalfk) {
+                            jmlMinggu = jmlMinggu + 1;
+                            isKunjunganSamaMinggu = true;
+                        }
+                    };
+
+                    if ($scope.diagMingguan.datadiag != undefined) {
+                        for (var i = 0; i < $scope.diagMingguan.datadiag.length; i++) {
+                            if ($scope.item.ruangan.id == $scope.diagMingguan.datadiag[i].objectruanganasalfk) {
+                                diagnosaMinggu = $scope.diagMingguan.datadiag[i].namadiagnosa;
+                            }
+                        };
+                    }
+
+                    if (isKunjunganSamaMinggu) {
+                        toastr.warning('Kunjungan ke- ' + jmlMinggu + ' Di Ruang ' + $scope.item.ruangan.namaruangan + ' Dalam 7 Hari Terakhir ! Dengan Diagnosa Akhir ' + diagnosaMinggu + '.', 'Peringatan', {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "0",
+                            "timeOut": "0",
+                            "extendedTimeOut": "0",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut",
+                        });
+                    }
                 }
                 var ruanganId = $scope.item.ruangan.id;
 
@@ -3340,7 +3409,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     $scope.hideBtnSimpan = false;
                     return;
                 }
-                if (!$scope.model.generateNoSEP){
+                if (!$scope.model.generateNoSEP) {
                     $scope.SimpanNonGenerate();
                     return;
                 }
@@ -3348,7 +3417,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 if (!$scope.model.generateNoSEP) {
                     $scope.SimpanNonGenerate();
                     return;
-                } 
+                }
                 var listRawRequired = [
                     "item.pasien.namaruangan|k-ng-model|Ruangan",
                     // "item.asalRujukan|ng-model|Asal Rujukan",
@@ -4077,7 +4146,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                             poliTujuans = $scope.insert.poli.kode;
                                             kdJenisPelayanan = "2";
                                         }
-                                    } 
+                                    }
                                 }
                             } else {
                                 if ($scope.insert.poli == undefined) {
@@ -4123,8 +4192,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     referensi = $scope.model.skdp
                     jeniskunjungan = 3
                 }
-                if($scope.item.jeniskunjungan == 3){
-                    if ($scope.model.skdp == undefined ||$scope.model.skdp == '') {
+                if ($scope.item.jeniskunjungan == 3) {
+                    if ($scope.model.skdp == undefined || $scope.model.skdp == '') {
                         alert("Pasien Kontrol Silahkan isi no surat bisa pilih di cari history surat!!")
                         return
                     }
@@ -4132,12 +4201,12 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 }
                 if ($scope.item.kelompokPasien.kelompokpasien == ('BPJS')) {
                     if ($scope.item.ruangan.objectdepartemenfk == 18) {
-                        if($scope.model.cekpilihPascaranap == true){
+                        if ($scope.model.cekpilihPascaranap == true) {
                             $scope.item.jeniskunjungan = 3;
-                        }else if($scope.model.cekpilihManual == true){
+                        } else if ($scope.model.cekpilihManual == true) {
                             $scope.item.jeniskunjungan = 3;
-                        }else{
-                            if($scope.item.jeniskunjungan == ''){
+                        } else {
+                            if ($scope.item.jeniskunjungan == '') {
                                 alert("Pilih rujukan di tombol No Kartu!!")
                                 return
                             }
@@ -4216,7 +4285,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         }
                     }
                 }
-              
+
                 var pasiendaftar = {
                     tglregistrasi: moment($scope.item.tglRegistrasi).format('YYYY-MM-DD HH:mm:ss'),
                     tglcsr: tglcsr,
@@ -4261,7 +4330,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     teleponpenanggungjawab: $scope.item.TeleponP != undefined ? $scope.item.TeleponP : null,
                     isPenanggungJawab: isPenanggungJawab,
                     kodesubspesialisHafis: kodesubspesialisHafis,
-                    kodesubspesialisHafis: kodesubspesialisHafis, 
+                    kodesubspesialisHafis: kodesubspesialisHafis,
                     jeniskunjungan: jeniskunjungan
                 }
                 var antrianpasiendiperiksa = {
@@ -5009,7 +5078,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 } else if ($state.params.noRegistrasi) {
                     noRegistrasi = $state.params.noRegistrasi;
                 }
-                
+
                 if (noRegistrasi !== '') {
                     var baseUrl = 'http://localhost:8000/service/medifirst2000/';
                     if (window.location.hostname.indexOf('localhost') === -1) {
