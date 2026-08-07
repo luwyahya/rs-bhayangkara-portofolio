@@ -1796,104 +1796,100 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
             }
             $scope.CetakLabKlinikLangsung = function (dataItem) {
-                var user = medifirstService.getPegawaiLogin();
-                var diagnosa = "";
-                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.dataSelected.noregistrasi).then(function (data) {
-                    debugger
-                    if (data.data.datas == undefined) {
-                        diagnosa = "-";
-                    } else {
-                        if (data.data.datas[0].namadiagnosa != null) {
-                            diagnosa = data.data.datas[0].namadiagnosa;
-                        } else {
-                            diagnosa = "-";
-                        }
-
-                    }
-                });
-
                 if (dataItem.tglhasil == null) {
                     alert("Hasil Tidak Ditersedia.");
                     return;
-                } else {
-                    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-                    const firstDate = new Date(dataItem.tgllahir);
-                    const secondDate = new Date(dataItem.tglhasil);
-
-                    umurDay = Math.round(Math.abs((firstDate - secondDate) / oneDay));
-                    // umurDay = dataItem.umur
-                    tglpelayanan = dataItem.tglpelayanan
-                    tglhasil = dataItem.tglhasil
-                    tglcetak = dataItem.tglcetak
-                    norecPP = "'" + dataItem.norec_pp + "'"
-                    norecAPD = dataItem.norec_apd
-                    ruangan = dataItem.ruangan
-                    ruanganasal = dataItem.namaruanganasal
-                    dokterpemeriksa = dataItem.dokterpemeriksa
-                    dokterpengirim = dataItem.dokterpengirim
-                    var norec_pp = ''
-                    $scope.item.norec_pp = dataItem.norec_pp;
-                    // loadClaimPp($scope.item.norec_pp)
-                    norec_pp = "'" + dataItem.norec_pp + "'"
-
-                    debugger
-                    // var a = dataItem
-                    // var tgl = moment($scope.item.tglpelayanan).format('YYYY-MM-DD HH:mm:ss')
-                    // var tglhasil = moment($scope.item.tglhasil).format('YYYY-MM-DD HH:mm:ss')
-                    // var dokter = $scope.item.DataPegawai
-                    // var ruangan = $scope.item.Ruangan.namaruangan;
-                    // var dokterPeriksa =  $scope.item.DataPegawaiPemeriksa.namalengkap;
-                    var catatan = "-";
-                    if ($scope.item.catatan != undefined) {
-                        catatan = $scope.item.catatan;
-                    }
-                    var saran = "-";
-                    if ($scope.item.saran != undefined) {
-                        saran = $scope.item.saran;
-                    }
-                    var qr = $scope.dataSelected.noregistrasi;
-                    var analislab = user.namaLengkap;
-
-                    var x = "WHERE (pp.noregistrasifk = '" + norecAPD + "')and (pp.norec in (" + norecPP + ')) and pg2.objectjenispegawaifk=1 and hh.flag is not null'
-                    var y = "http://36.93.6.186:8000/service/medifirst2000/report/cetak-lab?reg=" + $scope.dataSelected.noregistrasi
-                    var data = {
-                        "gambarLogo": "logodokkes.jpg",
-                        "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan", "analislab", "saran", "qr"],
-                        "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
-                            // x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, dokterpemeriksa, catatan
-                            x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, dokterPeriksa.toString(), catatan
-                        ],
-                        "paramType": ["", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
-                    };
-                    var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200) {
-                            //this.response is what you're looking for
-                            // handler(this.response);
-                            console.log(this.response, typeof this.response);
-                            //var res = this.response
-                            //var file = new Blob( [res], {type: 'application/pdf'});
-                            debugger;
-                            var url = window.URL.createObjectURL(this.response)
-                            var pdf = document.getElementById('tempatLaporan');
-                            pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
-                            var win = window.open(url, '_blank');
-                            win.focus();
-                        }
-                    }
-                    if (window.location.hostname.indexOf('localhost') > -1) {
-                        xhr.open('POST', 'http://localhost:8797/generic/report/hasillabKlinik.pdf');
-                    } else {
-                        xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
-                    }
-                    // set `Content-Type` header
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-                    xhr.responseType = 'blob';
-                    // send rquest with JSON payload
-                    xhr.send(JSON.stringify(data));
                 }
 
+                var user = medifirstService.getPegawaiLogin();
+                var diagnosa = "-";
+                var analislab = user.namaLengkap;
+
+                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.dataSelected.noregistrasi).then(function (data) {
+                    if (data.data.datas != undefined && data.data.datas[0].namadiagnosa != null) {
+                        diagnosa = data.data.datas[0].namadiagnosa;
+                    }
+
+                    medifirstService.get("tatarekening/get-petugasbypelayananpasien?norec_pp=" + dataItem.norec_pp).then(function (res) {
+                        if (res.data && res.data.data) {
+                            for (var i = 0; i < res.data.data.length; i++) {
+                                if (res.data.data[i].jpp_id == 10 || res.data.data[i].jenispetugaspe == "Petugas Pelaksana") {
+                                    analislab = res.data.data[i].namalengkap;
+                                    break;
+                                }
+                            }
+                        }
+
+                        const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+                        const firstDate = new Date(dataItem.tgllahir);
+                        const secondDate = new Date(dataItem.tglhasil);
+
+                        var umurDay = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+                        var tglpelayanan = dataItem.tglpelayanan;
+                        var tglhasil = dataItem.tglhasil;
+                        var tglcetak = dataItem.tglcetak;
+                        var norecPP = "'" + dataItem.norec_pp + "'";
+                        var norecAPD = dataItem.norec_apd;
+                        var ruangan = dataItem.ruangan;
+                        var ruanganasal = dataItem.namaruanganasal;
+                        var dokterpemeriksa = dataItem.dokterpemeriksa;
+                        var dokterpengirim = dataItem.dokterpengirim;
+                        var norec_pp = '';
+                        $scope.item.norec_pp = dataItem.norec_pp;
+                        norec_pp = "'" + dataItem.norec_pp + "'";
+
+                        var dokterPeriksa = "-";
+                        if ($scope.item.DataPegawaiPemeriksa != undefined) {
+                            dokterPeriksa = $scope.item.DataPegawaiPemeriksa.namalengkap;
+                        } else if (dokterpemeriksa != undefined) {
+                            dokterPeriksa = dokterpemeriksa;
+                        }
+
+                        var catatan = "-";
+                        if ($scope.item.catatan != undefined) {
+                            catatan = $scope.item.catatan;
+                        }
+                        var saran = "-";
+                        if ($scope.item.saran != undefined) {
+                            saran = $scope.item.saran;
+                        }
+                        var qr = $scope.dataSelected.noregistrasi;
+
+                        var x = "WHERE (pp.noregistrasifk = '" + norecAPD + "')and (pp.norec in (" + norecPP + ')) and pg2.objectjenispegawaifk=1 and hh.flag is not null';
+                        var y = "http://36.93.6.186:8000/service/medifirst2000/report/cetak-lab?reg=" + $scope.dataSelected.noregistrasi;
+                        var data = {
+                            "gambarLogo": "logodokkes.jpg",
+                            "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan", "analislab", "saran", "qr"],
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
+                                x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, dokterPeriksa, catatan, analislab, saran, qr
+                            ],
+                            "paramType": ["", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                        };
+                        
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                console.log(this.response, typeof this.response);
+                                var url = window.URL.createObjectURL(this.response);
+                                var pdf = document.getElementById('tempatLaporan');
+                                pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
+                                var win = window.open(url, '_blank');
+                                win.focus();
+                            }
+                        };
+                        
+                        if (window.location.hostname.indexOf('localhost') > -1) {
+                            xhr.open('POST', 'http://localhost:8797/generic/report/hasillabKlinik.pdf');
+                        } else {
+                            xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                        }
+                        
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                        xhr.responseType = 'blob';
+                        xhr.send(JSON.stringify(data));
+                    });
+                });
             }
             $scope.columnGridLab = {
                 columns: [
