@@ -108,7 +108,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         });
                     })
             }
-             $scope.SearchData2 = function () {
+            $scope.SearchData2 = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.periodeAwal).format('YYYY-MM-DD');
                 var tglAkhir = moment($scope.item.periodeAkhir).format('YYYY-MM-DD');
@@ -1847,16 +1847,23 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     if ($scope.item.catatan != undefined) {
                         catatan = $scope.item.catatan;
                     }
+                    var saran = "-";
+                    if ($scope.item.saran != undefined) {
+                        saran = $scope.item.saran;
+                    }
+                    var qr = $scope.dataSelected.noregistrasi;
+                    var analislab = user.namaLengkap;
 
                     var x = "WHERE (pp.noregistrasifk = '" + norecAPD + "')and (pp.norec in (" + norecPP + ')) and pg2.objectjenispegawaifk=1 and hh.flag is not null'
                     var y = "http://36.93.6.186:8000/service/medifirst2000/report/cetak-lab?reg=" + $scope.dataSelected.noregistrasi
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
-                        "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan"],
+                        "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan", "analislab", "saran", "qr"],
                         "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
-                            x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, dokterpemeriksa, catatan
+                            // x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, dokterpemeriksa, catatan
+                            x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, (typeof dokterPeriksa !== 'undefined' ? dokterPeriksa.toString() : dokterpemeriksa), catatan, analislab, saran, qr
                         ],
-                        "paramType": ["", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                        "paramType": ["", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
                     };
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function () {
@@ -2960,17 +2967,17 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var dt1 = {}
                 var dt2 = []
                 // for (var i = dataSave.length - 1; i >= 0; i--) {
-                    dt1 = {
-                        "metadata": {
-                            "method": "delete_claim"
-                        },
-                        "data": {
-                            "nomor_sep": set.nosep,
-                            "coder_nik": '123123123123',
-                            // "coder_nik": $scope.dataLogin.noIdentitas,
-                        }
+                dt1 = {
+                    "metadata": {
+                        "method": "delete_claim"
+                    },
+                    "data": {
+                        "nomor_sep": set.nosep,
+                        "coder_nik": '123123123123',
+                        // "coder_nik": $scope.dataLogin.noIdentitas,
                     }
-                    dt2.push(dt1)
+                }
+                dt2.push(dt1)
                 // }
 
                 var objData = {
