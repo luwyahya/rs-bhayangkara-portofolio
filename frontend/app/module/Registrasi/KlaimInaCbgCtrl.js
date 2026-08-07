@@ -1842,7 +1842,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     // var tglhasil = moment($scope.item.tglhasil).format('YYYY-MM-DD HH:mm:ss')
                     // var dokter = $scope.item.DataPegawai
                     // var ruangan = $scope.item.Ruangan.namaruangan;
-                    var dokterPeriksa = $scope.item.DataPegawaiPemeriksa.namalengkap;
+                    // var dokterPeriksa =  $scope.item.DataPegawaiPemeriksa.namalengkap;
                     var catatan = "-";
                     if ($scope.item.catatan != undefined) {
                         catatan = $scope.item.catatan;
