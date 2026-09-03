@@ -349,15 +349,13 @@ trait PelayananPasienTrait
     }
     protected function getIdConsumerBPJS()
     {
-        // $set = SettingDataFixed::where('namafield', 'idConsumerBPJS')->first(); // IdConsumerBPJSHarkit
-        // return $set->nilaifield;
-        return "15241";
+        $set = SettingDataFixed::where('namafield', 'idConsumerBPJS')->first(); // IdConsumerBPJSHarkit
+        return $set->nilaifield;
     }
     protected function getIdConsumerBPJSV2()
     {
-        // $set = SettingDataFixed::where('namafield', 'idConsumerBPJSV2')->first(); // IdConsumerBPJSHarkit
-        // return $set->nilaifield;
-        return "15241";
+        $set = SettingDataFixed::where('namafield', 'idConsumerBPJSV2')->first(); // IdConsumerBPJSHarkit
+        return $set->nilaifield;
     }
     protected function getIdConsumerAntrol()
     {
@@ -392,16 +390,13 @@ trait PelayananPasienTrait
     }
     protected function getPasswordConsumerBPJS()
     {
-        // $set = SettingDataFixed::where('namafield', 'PasswordConsumerBPJS')->first(); //PasswordConsumerBPJSHarkit
-        // return $set->nilaifield;
-        return "1pP469D661uL";
+        $set = SettingDataFixed::where('namafield', 'PasswordConsumerBPJS')->first(); //PasswordConsumerBPJSHarkit
+        return $set->nilaifield;
     }
     protected function getPasswordConsumerBPJSV2()
     {
-        // $set = SettingDataFixed::where('namafield', 'passwordConsumerBPJSV2')->first(); //PasswordConsumerBPJSHarkit
-        // return $set->nilaifield;
-
-        return "1pP469D661uL";
+        $set = SettingDataFixed::where('namafield', 'passwordConsumerBPJSV2')->first(); //PasswordConsumerBPJSHarkit
+        return $set->nilaifield;
     }
     protected function getUrlApotik()
     {
