@@ -385,7 +385,13 @@ trait PelayananPasienTrait
     protected function getUserKeyVclaimV2()
     {
         // $set = "e85312a37d852fcb40b7c3154e4b4740";
-        $set = "49411b103d7802fc2cd065ad718350f2";
+        $set = SettingDataFixed::where('namafield', 'userKeyConsumerBPJS')->first(); //PasswordConsumerBPJSHarkit
+      
+        if(!empty($set) && $set->nilaifield != null && $set->nilaifield != ''){
+            return $set->nilaifield;
+        }else{
+            $set = "49411b103d7802fc2cd065ad718350f2";
+        }
         return $set;
     }
     protected function getUrlBrigdingAntrol()
