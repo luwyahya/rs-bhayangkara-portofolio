@@ -364,8 +364,11 @@ trait PelayananPasienTrait
     }
     protected function getPasswordConsumerAntrol()
     {
-        $set = "1pP469D661uL";
+        // $set = "1pP469D661uL";
+        // return $set;
+        $set = "1pP469D661";
         return $set;
+        
     }
     protected function getUserKeyAntrol()
     {
@@ -376,10 +379,13 @@ trait PelayananPasienTrait
     {
         // $set = "6d7be2953648b39c1ff338f6d77f55eb";
         // return $set;
+         $set = "49411b103d7802fc2cd065ad718350f2";
+        return $set;
     }
     protected function getUserKeyVclaimV2()
     {
-        $set = "e85312a37d852fcb40b7c3154e4b4740";
+        // $set = "e85312a37d852fcb40b7c3154e4b4740";
+        $set = "49411b103d7802fc2cd065ad718350f2";
         return $set;
     }
     protected function getUrlBrigdingAntrol()
