@@ -364,7 +364,7 @@ trait PelayananPasienTrait
     }
     protected function getPasswordConsumerAntrol()
     {
-        $set = "1pP469D661uL";
+        $set = "R3lK2XSxZPju";
         return $set;
         // $set = "1pP469D661";
         // return $set;
