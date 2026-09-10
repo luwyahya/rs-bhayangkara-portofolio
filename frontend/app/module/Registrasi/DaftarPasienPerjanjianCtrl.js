@@ -857,8 +857,24 @@ define(['initialize'], function (initialize) {
             $scope.confirmDelete = function () {
                 medifirstService.post("reservasionline/delete", { "norec": $scope.item.norec, "keterangan": $scope.item.keteranganTolak })
                     .then(function (data) {
+                        if ($scope.item.kelompokpasien == 'BPJS') {
+                            saveAntrol($scope.item.noreservasi, $scope.item.keteranganTolak)
+                        }
                         LoadData();
                     })
+            }
+
+            function saveAntrol(kodeBooking, keterangan) {
+                var objSave  = {
+                    "data":
+                    {
+                        "kodebooking": kodeBooking,
+                        "keterangan": keterangan
+                    }
+                }
+                medifirstService.postNonMessage('bridging/bpjs2/mjkn/antrian/batalantrian', objSave).then(function (e) {
+
+                })
             }
 
         }
