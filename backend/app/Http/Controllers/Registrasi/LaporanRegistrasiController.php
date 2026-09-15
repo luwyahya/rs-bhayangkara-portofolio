@@ -5004,6 +5004,7 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
 
     public function getDataLaporanPasienDaftar2(Request $request)
     {
+        ini_set('memory_limit', '512M');
         $tglAwal = $request['tglAwal'];
         $tglAkhir = $request['tglAkhir'];
 
