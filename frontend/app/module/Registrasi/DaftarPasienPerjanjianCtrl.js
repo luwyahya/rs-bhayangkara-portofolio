@@ -369,7 +369,7 @@ define(['initialize'], function (initialize) {
 
                     if (lop == true) {
                         if ((lengthakhir) == j + 1) {
-                            debugger
+                            // debugger
                             $scope.LoadData();
                         } else {
                             break;
@@ -424,7 +424,7 @@ define(['initialize'], function (initialize) {
             }
 
             $scope.KlikCuyy = function (dataItem) {
-                debugger
+                // debugger
                 var noregistrasi = dataItem.noregistrasi;
                 if (dataItem.isjanjidisiapkan == "Batal") {
                     toastr.error('Pasien ' + dataItem.namapasien + '(' + dataItem.nocm + ')' + ' dengan kode reservasi ' + dataItem.noreservasi + ' dengan ruang tujuan ' + dataItem.namaruangan + ' batal melakukan perjanjian/pendaftaran.');
@@ -490,7 +490,7 @@ define(['initialize'], function (initialize) {
             }
 
             function LoadData() {
-                debugger
+                // debugger
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.from).format('YYYY-MM-DD');
                 var tglAkhir = moment($scope.until).format('YYYY-MM-DD');
@@ -564,7 +564,7 @@ define(['initialize'], function (initialize) {
             }
 
             function loadCache() {
-                debugger
+                // debugger
                 var chacePeriode = cacheHelper.get('DaftarPasienPerjanjian');
                 if (chacePeriode != undefined) {
                     $scope.from = new Date(chacePeriode[0]);
@@ -586,7 +586,7 @@ define(['initialize'], function (initialize) {
             $scope.reconfirm = function () {
                 // window.isPerjanjian = $scope.item.noreservasi;
                 // findPasien.CheckNoReconfirm($scope.item.noreservasi).then(function(e) {
-                debugger
+                // debugger
                 if ($scope.item.nocm != undefined || $scope.item.nocm != null) {
                     if ($scope.item.noidentitas == undefined || $scope.item.noidentitas == null || $scope.item.noidentitas == '') {
                         toastr.error('NIK Belum Benar, Harap Perbaiki NIK pasien Terlebih dahulu');
@@ -628,7 +628,7 @@ define(['initialize'], function (initialize) {
                     cacheHelper.set('CacheRegisOnline', cahce);
                     // var isMenuDinamis = JSON.parse(localStorage.getItem('isMenuDinamis'))
                     // if(isMenuDinamis && isMenuDinamis == true){
-                    debugger
+                    // debugger
                     // if ($scope.item.objectruanganfk == 322) {
                     //     $state.go('RegistrasiPasienBaruMCU', {
                     //         noRec: $scope.item.norec
@@ -656,7 +656,7 @@ define(['initialize'], function (initialize) {
                         data: data
                     }
                     medifirstService.post('bridging/bpjs2/mjkn/antrian/UpdateWaktuTaskId', objSave).then(function (e) {
-                        debugger
+                        // debugger
                         // body...
                     })
                     if ($scope.item.noregistrasi != null) {
@@ -705,7 +705,7 @@ define(['initialize'], function (initialize) {
                 }
             }
             $scope.cetakTracer = function () {
-                debugger
+                // debugger
                 if ($scope.item == undefined) {
                     toastr.error('Pilih Dulu NoRegistrasi Pasien')
                     return
@@ -741,7 +741,7 @@ define(['initialize'], function (initialize) {
                 });
             }
             $scope.cetakulangtracer = function () {
-                debugger
+                // debugger
                 var noregistrasi = $scope.item.noregistrasi
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
