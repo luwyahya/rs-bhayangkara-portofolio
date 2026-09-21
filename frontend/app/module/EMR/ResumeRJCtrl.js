@@ -2105,6 +2105,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					$scope.listJenisKelamin = e.data.jeniskelamin
 					$scope.listPenjamin = e.data.rekanan
 				})
+
 				medifirstService.getPart("emr/get-combo-icd9", true, true, 10).then(function (data) {
 					$scope.listDiagnosaTindakan = data;
 				});
@@ -2141,6 +2142,31 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				// }, (error) => {
 				// 	$scope.isRouteLoading = false;
 				// 	throw error;
+				// })
+
+				
+				// medifirstService.get('emr/get-value-from-cppt-new?noRegistrasi=' + $scope.cc.noregistrasi)
+				// .then(function (dat) {
+				// 	console.log(dat.data.data);
+				// 	if (dat.data.data.length > 0) {
+				// 		for (let i = 0; i < dat.data.data.length; i++) {
+				// 			if (dat.data.data[i].emrdfk == 853) {
+				// 				$scope.item.diagnosaDokter = dat.data.data[i].value
+				// 			}
+				// 			if (dat.data.data[i].emrdfk == 851) {
+				// 				$scope.item.keluhanUtama = dat.data.data[i].value
+				// 			}
+				// 			if (dat.data.data[i].emrdfk == 852) {
+				// 				$scope.item.pemeriksaanFisik = dat.data.data[i].value
+				// 			}
+				// 			if ([854].includes(dat.data.data[i].emrdfk)) {
+				// 				$scope.item.pengobatan =
+				// 					($scope.item.pengobatan ? $scope.item.pengobatan + '\n' : '')
+				// 					+ dat.data.data[i].value;
+				// 			}
+
+				// 		}
+				// 	}
 				// })
 
 				medifirstService.get('emr/get-resume-medis-rj/' + $scope.cc.noregistrasi).then(function (dat) {
@@ -2216,6 +2242,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 							$scope.item.penjamin = $scope.cc.namarekanan
 							norec_emrr = result[0].emrpasienfk
 							loadDiagnosa()
+							cekYangBisaOtomatis()
 						} else {
 							cekYangBisaOtomatis()
 							loadTindakan()
@@ -2898,29 +2925,44 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				} else {
 					orf = 'true'
 				}
-				medifirstService.get('emr/get-value-from-cppt-dok?noRegistrasi=' + $scope.cc.noregistrasi + '&orf=' + orf)
-					.then(function (dat) {
-						console.log(dat.data.data);
-						if (dat.data.data.length > 0) {
-							for (let i = 0; i < dat.data.data.length; i++) {
-								if (dat.data.data[i].emrdfk == 853) {
-									$scope.item.diagnosaDokter = dat.data.data[i].value
-								}
-								if (dat.data.data[i].emrdfk == 851) {
-									$scope.item.keluhanUtama = dat.data.data[i].value
-								}
-								if (dat.data.data[i].emrdfk == 852) {
-									$scope.item.pemeriksaanFisik = dat.data.data[i].value
-								}
-								if ([854].includes(dat.data.data[i].emrdfk)) {
-									$scope.item.pengobatan =
-										($scope.item.pengobatan ? $scope.item.pengobatan + '\n' : '')
-										+ dat.data.data[i].value;
-								}
+				// medifirstService.get('emr/get-value-from-cppt-dok?noRegistrasi=' + $scope.cc.noregistrasi + '&orf=' + orf)
+				// 	.then(function (dat) {
+				// 		console.log(dat.data.data);
+				// 		if (dat.data.data.length > 0) {
+				// 			for (let i = 0; i < dat.data.data.length; i++) {
+				// 				if (dat.data.data[i].emrdfk == 853) {
+				// 					$scope.item.diagnosaDokter = dat.data.data[i].value
+				// 				}
+				// 				if (dat.data.data[i].emrdfk == 851) {
+				// 					$scope.item.keluhanUtama = dat.data.data[i].value
+				// 				}
+				// 				if (dat.data.data[i].emrdfk == 852) {
+				// 					$scope.item.pemeriksaanFisik = dat.data.data[i].value
+				// 				}
+				// 				if ([854].includes(dat.data.data[i].emrdfk)) {
+				// 					$scope.item.pengobatan =
+				// 						($scope.item.pengobatan ? $scope.item.pengobatan + '\n' : '')
+				// 						+ dat.data.data[i].value;
+				// 				}
 
-							}
-						}
-					})
+				// 			}
+				// 		}
+				// 	})
+
+				medifirstService.get('emr/get-value-from-cppt-dok-new?noRegistrasi=' + $scope.cc.noregistrasi + '&orf=' + orf)
+				.then(function (dat) {
+					console.log(dat.data.data);
+					var resData = dat.data.data;
+
+					if (resData && resData.length > 0) {
+						let cppt = resData[0];
+
+						$scope.item.keluhanUtama = cppt.subjective;
+						$scope.item.pemeriksaanFisik = cppt.objective;
+						$scope.item.diagnosaDokter = cppt.assesment;
+						$scope.item.pengobatan = cppt.plann;
+					}
+				});
 				medifirstService.get("farmasi/get-pengkajian-pasien?nocm=" + $scope.cc.nocm, true).then(function (m) {
 					$scope.item.alergi = "";
 					if (m.data.Alergi[0] != undefined) {
