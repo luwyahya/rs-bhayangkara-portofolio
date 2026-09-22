@@ -1010,6 +1010,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-pengkajian-awal-medis-ranap', 'EMR\EMRController@getPengkajianAwalMedisRawatInap');
             Route::get('get-value-from-cppt', 'EMR\EMRController@getValueCppt');
             Route::get('get-value-from-cppt-dok', 'EMR\EMRController@getValueCpptDok'); //key
+            Route::get('get-value-from-cppt-dok-new', 'EMR\EMRController@getValueCPPTNew'); //key
             Route::get('get-value-from-ass-igd', 'EMR\EMRController@getValueAssIGD'); //key
             Route::get('get-value-asesmen-rehab', 'EMR\EMRController@getValueAssRehab'); //key
             Route::get('get-value-triase', 'EMR\EMRController@getValueTriaseIGD'); //key

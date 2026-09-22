@@ -1811,10 +1811,10 @@ define(['initialize'], function (initialize) {
                     toastr.warning('Tanggal dan Jam Terapi belum diisi!')
                     return
                 }
-                if ($scope.item.obj[1901300317] == undefined && $scope.item.obj[1901300319] == undefined && $scope.item.obj[1901300321] == undefined) {
-                    toastr.warning('Pilih salah satu penerima penjelasan!')
-                    return
-                }
+                // if ($scope.item.obj[1901300317] == undefined && $scope.item.obj[1901300319] == undefined && $scope.item.obj[1901300321] == undefined) {
+                //     toastr.warning('Pilih salah satu penerima penjelasan!')
+                //     return
+                // }
                 if ($scope.item.obj[1901300323] == undefined && $scope.item.obj[1901300324] == undefined && $scope.item.obj[1901300325] == undefined && $scope.item.obj[1901300326] == undefined && $scope.item.obj[1901300327] == undefined && $scope.item.obj[1901300328] == undefined && $scope.item.obj[1901300329] == undefined) {
                     toastr.warning('Pilih salah satu keputusan pulang!')
                     return

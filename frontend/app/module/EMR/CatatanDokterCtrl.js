@@ -3330,25 +3330,37 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             function loadOrderPenunjang() {
                 medifirstService.get('emr/get-order-penunjang-to-cppt?norec_pd=' + $scope.cc.norec_pd).then(function (dat) {
                     let hasil = '';
-                    if (dat.data.length > 0) {
+                    if (dat.data && dat.data.length > 0) {
 
                         for (let i = 0; i < dat.data.length; i++) {
                             if (dat.data[i].keteranganorder == "Order Farmasi") {
-                                hasil = hasil + "E-Resep : " + dat.data[i].namaproduk + " \n"
+                                if (dat.data[i].namaproduk != null) {
+                                    hasil = hasil + "E-Resep : " + dat.data[i].namaproduk + " \n";
+                                }
                             } else if (dat.data[i].keteranganorder == "Order Laboratorium") {
 
-                                if (a.data[i].namaproduk != null) { //ash 2023-09-05
-                                    hasil = hasil + "LAB : " + dat.data[i].namaproduk + " \n"
+                                if (dat.data[i].namaproduk != null) { //ash 2023-09-05
+                                    hasil = hasil + "LAB : " + dat.data[i].namaproduk + " \n";
                                 }
                             } else if (dat.data[i].keteranganorder == "Order Radiologi") {
 
-                                if (a.data[i].namaproduk != null) { //ash 2023-09-05
-                                    hasil = hasil + "RAD : " + dat.data[i].namaproduk + " \n"
+                                if (dat.data[i].namaproduk != null) { //ash 2023-09-05
+                                    hasil = hasil + "RAD : " + dat.data[i].namaproduk + " \n";
                                 }
                             }
                         }
 
-                        $scope.data.names[0].p = hasil;
+                        if (hasil !== '') {
+                            let currentP = ($scope.data && $scope.data.names && $scope.data.names[0] && $scope.data.names[0].p) ? $scope.data.names[0].p : "P :";
+                            if (currentP.indexOf(hasil.trim()) === -1) {
+                                if (!currentP.endsWith("\n") && currentP !== "") {
+                                    currentP += "\n";
+                                }
+                                if ($scope.data && $scope.data.names && $scope.data.names[0]) {
+                                    $scope.data.names[0].p = currentP + hasil;
+                                }
+                            }
+                        }
                     }
                 })
             }
@@ -5032,6 +5044,30 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
                     $scope.dataGridResep = group
                     console.log(group)
+                    if (group && group.length > 0 && $scope.data && $scope.data.names && $scope.data.names[0]) {
+                        let resepStr = '';
+                        for (let g = 0; g < group.length; g++) {
+                            let details = group[g].details || [];
+                            for (let d = 0; d < details.length; d++) {
+                                let dt = details[d];
+                                let namaObat = dt.namaproduk || dt.keteranganracikan || '';
+                                if (namaObat) {
+                                    let lineStr = "E-Resep : " + namaObat + (dt.aturanpakai ? (" (" + dt.aturanpakai + ")") : "");
+                                    let currentP = $scope.data.names[0].p || "";
+                                    if (currentP.indexOf(namaObat) === -1) {
+                                        resepStr += lineStr + "\n";
+                                    }
+                                }
+                            }
+                        }
+                        if (resepStr !== '') {
+                            let currentP = $scope.data.names[0].p || "P :";
+                            if (!currentP.endsWith("\n") && currentP !== "") {
+                                currentP += "\n";
+                            }
+                            $scope.data.names[0].p = currentP + resepStr;
+                        }
+                    }
                     $scope.isRouteLoading = false;
                 });
                 // $scope.riwayatForm = false
@@ -5104,11 +5140,50 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
                         $scope.dataGridResep = group
                         console.log(group)
+                        if (group && group.length > 0 && $scope.data && $scope.data.names && $scope.data.names[0]) {
+                            let resepStr = '';
+                            for (let g = 0; g < group.length; g++) {
+                                let details = group[g].details || [];
+                                for (let d = 0; d < details.length; d++) {
+                                    let dt = details[d];
+                                    let namaObat = dt.namaproduk || dt.keteranganracikan || '';
+                                    if (namaObat) {
+                                        let lineStr = "E-Resep : " + namaObat + (dt.aturanpakai ? (" (" + dt.aturanpakai + ")") : "");
+                                        let currentP = $scope.data.names[0].p || "";
+                                        if (currentP.indexOf(namaObat) === -1) {
+                                            resepStr += lineStr + "\n";
+                                        }
+                                    }
+                                }
+                            }
+                            if (resepStr !== '') {
+                                let currentP = $scope.data.names[0].p || "P :";
+                                if (!currentP.endsWith("\n") && currentP !== "") {
+                                    currentP += "\n";
+                                }
+                                $scope.data.names[0].p = currentP + resepStr;
+                            }
+                        }
                         $scope.isRouteLoading = false;
                     });
                 $scope.riwayatForm = false
                 $scope.riwayatFormResep = true
                 $scope.inputObatOrder = false;
+            }
+
+            $scope.klikDetail = function (dataSelectedResepDetail) {
+                if (!dataSelectedResepDetail) return;
+                let namaObat = dataSelectedResepDetail.namaproduk || dataSelectedResepDetail.keteranganracikan || '';
+                if (namaObat && $scope.data && $scope.data.names && $scope.data.names[0]) {
+                    let lineStr = "E-Resep : " + namaObat + (dataSelectedResepDetail.aturanpakai ? (" (" + dataSelectedResepDetail.aturanpakai + ")") : "");
+                    let currentP = $scope.data.names[0].p || "P :";
+                    if (currentP.indexOf(namaObat) === -1) {
+                        if (!currentP.endsWith("\n") && currentP !== "") {
+                            currentP += "\n";
+                        }
+                        $scope.data.names[0].p = currentP + lineStr + "\n";
+                    }
+                }
             }
             $scope.columnGridResep = [
 

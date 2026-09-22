@@ -55,6 +55,12 @@ define(["initialize", "Configuration"], function (initialize, config) {
           }
         }
       });
+      $scope.dataDaftarPasienPulang2 = new kendo.data.DataSource({
+        data: [],
+        pageSize: 100,
+        serverPaging: false,
+        schema: { model: {} }
+      });
 
       // Helper function untuk refresh kendo grid dengan multiple approaches
       function refreshKendoGrid(gridId) {
@@ -133,8 +139,8 @@ define(["initialize", "Configuration"], function (initialize, config) {
       // $scope.item.tanggalAwalKlaimBerkas = $scope.now;
       // $scope.item.tanggalAkhirKlaimBerkas = $scope.now;
 
-      // $scope.item.periodeAwal = new Date(moment($scope.now).format("YYYY-MM-DD 00:00"));
-      // $scope.item.periodeAkhir = new Date(moment($scope.now).format("YYYY-MM-DD 23:59"));
+      $scope.item.periodeAwal = new Date(moment($scope.now).format("YYYY-MM-DD 00:00"));
+      $scope.item.periodeAkhir = new Date(moment($scope.now).format("YYYY-MM-DD 23:59"));
       // $scope.item.tglAwalKirim = new Date(moment($scope.now).format('YYYY-MM-DD 00:00'));
       // $scope.item.tglAkhirKirim = new Date(moment($scope.now).format('YYYY-MM-DD 23:59'))
       // $scope.item.tglAwalPulangVerif = new Date(moment($scope.now).format('YYYY-MM-DD 00:00'));
@@ -174,13 +180,12 @@ define(["initialize", "Configuration"], function (initialize, config) {
       $scope.isCetakAll = false;
 
       $scope.formatRupiah = function (value, currency) {
-        return (
-          currency +
-          " " +
-          parseFloat(value)
-            .toFixed(2)
-            .replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
-        );
+        var numericValue = parseFloat(value);
+        if (!Number.isFinite(numericValue)) {
+          numericValue = 0;
+        }
+
+        return (currency || "") + " " + numericValue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
       };
       medifirstService.getPart("emr/get-combo-icd10", true, true, 10).then(function (data) {
         $scope.sourceDiagnosisPrimer = data;
@@ -8362,6 +8367,71 @@ define(["initialize", "Configuration"], function (initialize, config) {
         { value: "SEND CLAIM", name: "SEND CLAIM" },
         { value: "EDIT CLAIM", name: "EDIT CLAIM" },
       ];
+
+      $scope.SearchData2 = function () {
+        $scope.isRouteLoading = true;
+        var tglAwal = moment($scope.item.periodeAwal).format("YYYY-MM-DD");
+        var tglAkhir = moment($scope.item.periodeAkhir).format("YYYY-MM-DD");
+
+        medifirstService.get("bridging/inacbg/get-cari-daftar-pasien-belumClaim?tglAwal=" + tglAwal + "&tglAkhir=" + tglAkhir).then(function (e) {
+          $scope.isRouteLoading = false;
+          var data2 = e.data;
+          $scope.dataDaftarPasienPulang2 = new kendo.data.DataSource({
+            data: data2,
+            pageSize: 100,
+            total: data2.length,
+            serverPaging: false,
+            schema: { model: {} }
+          });
+        }, function () {
+          $scope.isRouteLoading = false;
+        });
+      };
+
+      $scope.columnDaftarPasienPulang = {
+        toolbar: ["excel"],
+        excel: {
+          fileName: "DaftarBelumSendClaim.xlsx",
+          allPages: true
+        },
+        excelExport: function (e) {
+          var sheet = e.workbook.sheets[0];
+          sheet.frozenRows = 2;
+          sheet.mergedCells = ["A1:K1"];
+          sheet.name = "Orders";
+          sheet.rows.splice(0, 0, {
+            cells: [{
+              value: "Daftar Belum Send Claim",
+              fontSize: 20,
+              textAlign: "center",
+              background: "#ffffff"
+            }],
+            type: "header",
+            height: 70
+          });
+        },
+        selectable: "row",
+        dataBound: onDataBound,
+        pageable: true,
+        columns: [
+          { field: "no", title: "No", width: "30px" },
+          { field: "tglmasuk", title: "Tgl Registrasi", width: "80px" },
+          { field: "noregistrasi", title: "NoReg", width: "90px" },
+          { field: "nocm", title: "NoRM", width: "70px", template: "<span class='style-center'>#: nocm #</span>" },
+          { field: "namapasien", title: "Nama Pasien", width: "150px", template: "<span class='style-left'>#: namapasien #</span>" },
+          { field: "namadpjp", title: "Nama DPJP", width: "70px", template: "<span class='style-center'>#: namadpjp #</span>" },
+          { field: "tglpulang", title: "Tgl Pulang", width: "80px" },
+          { field: "nosep", title: "No SEP", width: "150px", template: '# if( nosep==null || nosep=="") {# - # } else {# #= nosep # #} #' },
+          { field: "statusgrouping", title: "Status Grouping", width: "150px", template: '# if( statusgrouping==null || statusgrouping=="") {# - # } else {# #= statusgrouping # #} #' },
+          { field: "totalbiayars", title: "Biaya RS", width: "150px", template: "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: totalbiayars #', 'Rp. ')}}</span>" },
+          { field: "totalpiutangpenjamin", title: "Klaim Inacbg", width: "150px", template: "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: totalpiutangpenjamin #', 'Rp. ')}}</span>" },
+          { field: "biayanaikkelas", title: "Biaya Naik Kelas", width: "150px", template: "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: biayanaikkelas #', 'Rp. ')}}</span>" },
+          { field: "cbgcode", title: "Kode CBG", width: "70px", template: "<span class='style-center'>#: cbgcode #</span>" },
+          { field: "cbgdescription", title: "Description", width: "150px" },
+          { field: "kddiagnosa", title: "Kode Diagnosa", width: "70px", template: "<span class='style-center'>#: kddiagnosa #</span>" },
+          { field: "isdiagnosis", title: "Diagnosa", width: "150px" }
+        ]
+      };
 
       function LoadDataSendKlaim() {
         $scope.isRouteLoading = true;

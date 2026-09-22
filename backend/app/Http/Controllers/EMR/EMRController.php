@@ -8528,89 +8528,131 @@ class EMRController  extends ApiController
     // key
     public function getValueCpptDok(Request $request)
     {
-        try {
+    try {
             $emrPasien = DB::table('emrpasien_t as ep')
-    ->join('pegawai_m as pg', 'ep.pegawaifk', '=', 'pg.id')
-    ->select('ep.noemr', 'ep.emrfk', 'ep.tglemr')
-    ->where('ep.statusenabled', true)
-    ->where('ep.emrfk', 518)
-    ->where('ep.noregistrasifk', $request['noRegistrasi'])
-    ->orderBy('ep.tglemr')
-    ->limit(2)
-    ->get();
+            ->join('pegawai_m as pg', 'ep.pegawaifk', '=', 'pg.id')
+            ->select('ep.noemr', 'ep.emrfk', 'ep.tglemr')
+            ->where('ep.statusenabled', true)
+            ->where('ep.emrfk', 518)
+            ->where('ep.noregistrasifk', $request['noRegistrasi'])
+            ->orderBy('ep.tglemr')
+            ->limit(2)
+            ->get();
 
-    $emrPasien = json_decode(json_encode($emrPasien), true);
+        $emrPasien = json_decode(json_encode($emrPasien), true);
 
-    if (!empty($emrPasien)) {
-        $noemrList = array_column($emrPasien, 'noemr');
-        $emrfkList = array_column($emrPasien, 'emrfk');
-    
-        if ($request['orf'] != 'false') {
-            $detailEmr = DB::select(DB::raw("
-            SELECT value, emrdfk, tgl, statusenabled
-            FROM emrpasiend_t
-            WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
-            AND emrfk IN ('" . implode("','", $emrfkList) . "')
-            AND statusenabled = true
-            AND tgl IN (
-                SELECT DISTINCT tgl
-                FROM emrpasiend_t
-                WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
-                AND emrfk IN ('" . implode("','", $emrfkList) . "')
-                AND statusenabled = true
-                AND value LIKE '%Dokter%'
-                ORDER BY tgl DESC
-                LIMIT 1
-            )
-            ORDER BY tgl DESC
-        "));
-        } else {
-            $detailEmr = DB::select(DB::raw("
-            SELECT value, emrdfk, tgl, statusenabled
-            FROM emrpasiend_t
-            WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
-            AND emrfk IN ('" . implode("','", $emrfkList) . "')
-            AND statusenabled = true
-            AND tgl IN (
-                SELECT DISTINCT tgl
-                FROM emrpasiend_t
-                WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
-                AND emrfk IN ('" . implode("','", $emrfkList) . "')
-                AND statusenabled = true
-                ORDER BY tgl DESC
-                LIMIT 1
-            )
-            ORDER BY tgl DESC
-        "));
-
-        $filteredDetailEmr = array_filter($detailEmr, function($item) {
-            return stripos($item->value, 'p :') !== false;
-        });
-
-        if (empty($filteredDetailEmr)) {
-            $detailEmr = DB::select(DB::raw("
+        if (!empty($emrPasien)) {
+            $noemrList = array_column($emrPasien, 'noemr');
+            $emrfkList = array_column($emrPasien, 'emrfk');
+        
+            if ($request['orf'] != 'false') {
+                $detailEmr = DB::select(DB::raw("
                 SELECT value, emrdfk, tgl, statusenabled
                 FROM emrpasiend_t
                 WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
                 AND emrfk IN ('" . implode("','", $emrfkList) . "')
                 AND statusenabled = true
+                AND tgl IN (
+                    SELECT DISTINCT tgl
+                    FROM emrpasiend_t
+                    WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
+                    AND emrfk IN ('" . implode("','", $emrfkList) . "')
+                    AND statusenabled = true
+                    AND value LIKE '%Dokter%'
+                    ORDER BY tgl DESC
+                    LIMIT 1
+                )
                 ORDER BY tgl DESC
             "));
+            } else {
+                $detailEmr = DB::select(DB::raw("
+                SELECT value, emrdfk, tgl, statusenabled
+                FROM emrpasiend_t
+                WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
+                AND emrfk IN ('" . implode("','", $emrfkList) . "')
+                AND statusenabled = true
+                AND tgl IN (
+                    SELECT DISTINCT tgl
+                    FROM emrpasiend_t
+                    WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
+                    AND emrfk IN ('" . implode("','", $emrfkList) . "')
+                    AND statusenabled = true
+                    ORDER BY tgl DESC
+                    LIMIT 1
+                )
+                ORDER BY tgl DESC
+            "));
+
+            $filteredDetailEmr = array_filter($detailEmr, function($item) {
+                return stripos($item->value, 'p :') !== false;
+            });
+
+            if (empty($filteredDetailEmr)) {
+                $detailEmr = DB::select(DB::raw("
+                    SELECT value, emrdfk, tgl, statusenabled
+                    FROM emrpasiend_t
+                    WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
+                    AND emrfk IN ('" . implode("','", $emrfkList) . "')
+                    AND statusenabled = true
+                    ORDER BY tgl DESC
+                "));
+            }
+            }
+        
+            $response = [
+                "message" => "Oke",
+                'messageCode' => 200,
+                "data" => $detailEmr
+            ];
+        } else {
+            $response = [
+                "message" => "Data EMR Pasien tidak ditemukan",
+                'messageCode' => 404,
+                "data" => []
+            ];
         }
+            } catch (\Exception $e) {
+                $response = [
+                    "message" => $e->errorInfo,
+                    "messageCode" => 500
+                ];
+            }
+            return $this->respond($response);
         }
-    
-        $response = [
-            "message" => "Oke",
-            'messageCode' => 200,
-            "data" => $detailEmr
-        ];
-    } else {
-        $response = [
-            "message" => "Data EMR Pasien tidak ditemukan",
-            'messageCode' => 404,
-            "data" => []
-        ];
-    }
+
+    // key
+
+    public function getValueCPPTNew(Request $request)
+    {
+        try {
+            $emrPasien = DB::table('emrpasien_t as ep')
+                ->join('pegawai_m as pg', 'ep.pegawaifk', '=', 'pg.id')
+                ->select('ep.noemr', 'ep.emrfk', 'ep.tglemr')
+                ->where('ep.statusenabled', true)
+                ->where('ep.emrfk', 518) 
+                ->where('ep.noregistrasifk', $request['noRegistrasi'])
+                ->orderBy('ep.tglemr', 'desc')
+                ->first();
+            // $detailEmr = DB::table('emrpasiend_t')
+            //     ->select('value', 'emrdfk')
+            //     ->where('emrpasienfk', $emrPasien->noemr)
+            //     ->where('emrfk', $emrPasien->emrfk)
+            //     ->where('tgl', $emrPasien->tglemr)
+            //     ->get();
+
+            $dataCPPT = DB::table('tempemr_t')
+                ->select('subjective', 'objective', 'assesment', 'plann')
+                ->where('emrpasienfk', $emrPasien->noemr)
+                ->where('emrfk', $emrPasien->emrfk)
+                ->where('profesi', 'Dokter')
+                ->get();
+
+            $detailEmr = $dataCPPT;
+            $response = [
+                "message" => "Oke",
+                'messageCode' => 200,
+                "data" => $detailEmr
+            ];
         } catch (\Exception $e) {
             $response = [
                 "message" => $e->errorInfo,
@@ -8619,8 +8661,6 @@ class EMRController  extends ApiController
         }
         return $this->respond($response);
     }
-
-    // key
     public function getValueAssIGD(Request $request)
     {
         try {
