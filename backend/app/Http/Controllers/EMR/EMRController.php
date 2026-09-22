@@ -7275,22 +7275,22 @@ class EMRController  extends ApiController
                 $datas['penunjang']['child'] = $penunjang;
             }
         }
-        array_push($ini, $datas['dkm']);
-        array_push($ini, $datas['history']); //yang histori ini dipatok ya wajib ada sisanya yang bawahnya klo kosong dia gak muncul
-        // array_push($ini, $datas['igd']); // pindah kebawah yaa jadi yang ada isinya aja yang dimunculin
-        // array_push($ini, $datas['ranap']);
-        // array_push($ini, $datas['rajal']);
-        // array_push($ini, $datas['penunjang']);
-        if($datas['igd']['child'] != null) {
+        if (isset($datas['dkm'])) {
+            array_push($ini, $datas['dkm']);
+        }
+        if (isset($datas['history'])) {
+            array_push($ini, $datas['history']);
+        }
+        if (isset($datas['igd']['child']) && !empty($datas['igd']['child'])) {
             array_push($ini, $datas['igd']);
         }
-        if($datas['ranap']['child'] != null) {
+        if (isset($datas['ranap']['child']) && !empty($datas['ranap']['child'])) {
             array_push($ini, $datas['ranap']);
         }
-        if($datas['rajal']['child'] != null) {
+        if (isset($datas['rajal']['child']) && !empty($datas['rajal']['child'])) {
             array_push($ini, $datas['rajal']);
         }
-        if($datas['penunjang']['child'] != null) {
+        if (isset($datas['penunjang']['child']) && !empty($datas['penunjang']['child'])) {
             array_push($ini, $datas['penunjang']);
         }
         // foreach ($datas as $items) {
