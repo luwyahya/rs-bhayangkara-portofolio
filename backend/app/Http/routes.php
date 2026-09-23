@@ -1482,11 +1482,13 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-detail-reg-farmasi', 'Farmasi\PelayananResepController@getDetailRegApotik');
             Route::get('get-daftar-paket-obat-pasien', 'Farmasi\PelayananResepController@getDaftarPaketObatPasien');
             Route::post('save-hapus-pelayananobat', 'Farmasi\PelayananResepController@DeletePelayananObat');
+            Route::post('save-hapus-pelayananobat', 'Farmasi\PelayananResepController@DeletePelayananObat');
             Route::post('save-hapus-pelayananobatperitem', 'Farmasi\PelayananResepController@DeletePelayananObatPerItem');
             Route::post('save-hapus-pelayananobatperitemtap', 'Farmasi\PelayananResepController@DeletePelayananObatPerItemtap');
 
             Route::post('save-hapus-pelayananobatperitemt23', 'Farmasi\PelayananResepController@DeletePelayananObatPerItem23');
             Route::get('get-histori-obat', 'Farmasi\PelayananResepController@getHistoriObat');
+            Route::get('get-histori-obat-cppt', 'Farmasi\PelayananResepController@getHistoriObatCPPT');
 
 
 

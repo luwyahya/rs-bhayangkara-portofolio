@@ -4986,7 +4986,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             function loadRiwayat(params) {
                 $scope.isRouteLoading = true;
                 // medifirstService.get("emr/get-transaksi-pelayanan?nocm=" + $scope.cc.nocm, true).then(function (dat) {
-                medifirstService.get("farmasi/get-histori-obat?&nocm=" + $scope.cc.nocm, true).then(function (dat) {
+                medifirstService.get("farmasi/get-histori-obat-cppt?&nocm=" + $scope.cc.nocm + "&noreg=" + $scope.cc.noregistrasi, true).then(function (dat) {
                     let group = [];
                     if (dat.statResponse == true) {
                         for (var i = 0; i < dat.data.length; i++) {
