@@ -5042,6 +5042,99 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         }
                     }
 
+                    // $scope.dataGridResep = group
+                    // console.log(group)
+                    // if (group && group.length > 0 && $scope.data && $scope.data.names && $scope.data.names[0]) {
+                    //     let resepStr = '';
+                    //     for (let g = 0; g < group.length; g++) {
+                    //         let details = group[g].details || [];
+                    //         for (let d = 0; d < details.length; d++) {
+                    //             let dt = details[d];
+                    //             let namaObat = dt.namaproduk || dt.keteranganracikan || '';
+                    //             if (namaObat) {
+                    //                 let lineStr = "E-Resep : " + namaObat + (dt.aturanpakai ? (" (" + dt.aturanpakai + ")") : "");
+                    //                 let currentP = $scope.data.names[0].p || "";
+                    //                 if (currentP.indexOf(namaObat) === -1) {
+                    //                     resepStr += lineStr + "\n";
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    //     if (resepStr !== '') {
+                    //         let currentP = $scope.data.names[0].p || "P :";
+                    //         if (!currentP.endsWith("\n") && currentP !== "") {
+                    //             currentP += "\n";
+                    //         }
+                    //         $scope.data.names[0].p = currentP + resepStr;
+                    //     }
+                    // }
+
+                    if (resepStr !== '') {
+                            let currentP = $scope.data.names[0].p || "P :";
+                            if (!currentP.endsWith("\n") && currentP !== "") {
+                                currentP += "\n";
+                            }
+                            $scope.data.names[0].p = currentP + resepStr;
+                        }
+                    $scope.isRouteLoading = false;
+                });
+
+                medifirstService.get("farmasi/get-histori-obat?&nocm=" + $scope.cc.nocm + "&noreg=" + $scope.cc.noregistrasi, true).then(function (dat) {
+                    let group = [];
+                    if (dat.statResponse == true) {
+                        for (var i = 0; i < dat.data.length; i++) {
+                            dat.data[i].no = i + 1
+                            dat.data[i].total = parseFloat(dat.data[i].jumlah) * (parseFloat(dat.data[i].hargasatuan) - parseFloat(dat.data[i].hargadiscount))
+                            dat.data[i].total = parseFloat(dat.data[i].total) + parseFloat(dat.data[i].jasa)
+                            if (dat.data[i].reseppulang == '1') {
+                                dat.data[i].cekreseppulang = '✔'
+                            } else {
+                                dat.data[i].cekreseppulang = '-'
+                            }
+                            if (dat.data[i].jumlahkronis == null) {
+                                dat.data[i].jumlahkronis = "✘";
+                                // ✅
+                            }
+                        }
+                        var array = dat.data;
+                        let sama = false
+
+                        for (let i in array) {
+                            array[i].count = 1
+                            sama = false
+                            for (let x in group) {
+                                if (group[x].noresep == array[i].noresep) {
+                                    sama = true;
+                                    group[x].count = parseFloat(group[x].count) + parseFloat(array[i].count)
+
+                                }
+                            }
+                            if (sama == false) {
+                                var dataDetail0 = [];
+                                for (var f = 0; f < array.length; f++) {
+                                    if (array[i].noresep == array[f].noresep) {
+                                        dataDetail0.push(array[f]);
+                                    };
+                                }
+                                let result = {
+                                    noregistrasi: array[i].noregistrasi,
+                                    tglpelayanan: array[i].tglpelayanan,
+                                    norec_resep: array[i].norec_resep,
+                                    tglorder: array[i].tglorder,
+                                    noresep: array[i].noresep,
+                                    count: array[i].count,
+                                    aturanpakai: array[i].aturanpakai,
+                                    namaruangandepo: array[i].namaruangandepo,
+                                    namaruangan: array[i].namaruangan,
+                                    dokter: array[i].dokter,
+                                    cekreseppulang: array[i].cekreseppulang,
+                                    details: dataDetail0
+                                }
+                                group.push(result)
+                            }
+                        }
+                    }
+
                     $scope.dataGridResep = group
                     console.log(group)
                     if (group && group.length > 0 && $scope.data && $scope.data.names && $scope.data.names[0]) {
@@ -5059,13 +5152,6 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                                     }
                                 }
                             }
-                        }
-                        if (resepStr !== '') {
-                            let currentP = $scope.data.names[0].p || "P :";
-                            if (!currentP.endsWith("\n") && currentP !== "") {
-                                currentP += "\n";
-                            }
-                            $scope.data.names[0].p = currentP + resepStr;
                         }
                     }
                     $scope.isRouteLoading = false;
