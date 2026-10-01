@@ -1060,20 +1060,24 @@
             </div>
         </div>
     </div>
-    <div kendo-window="popUpPulang" k-title="'Pasien Pulang'" k-width="900" k-height="300" k-visible="false">
-        <div class="grid_12">
-            <div class="grid_6">
-                <div class="grid_12">
-                    <label c-label item="item" c-label-text="Status Pulang"></label>
-                </div>
-                <div class="clear"></div>
+    <div kendo-window="popUpPulang" k-title="'Pasien Pulang'" k-width="950" k-visible="false">
 
-                <div class="grid_12">
-                    <input style="width: 100%;" kendo-combo-box k-ng-model="pulang.statuspulang"
-                        k-data-text-field="'namaexternal'" k-data-value-field="'id'" k-filter="'contains'"
-                        k-auto-bind="false" k-data-source="liststatuspulang" k-on-change="kondisi()" />
-                </div>
+        <div class="grid_12" style="display: flex; align-items: flex-end; gap: 10px; margin-bottom: 5px;">
+            <div style="width: 280px;">
+                <label c-label item="item" c-label-text="Status Pulang"></label>
+                <input style="width: 100%;" kendo-combo-box k-ng-model="pulang.statuspulang"
+                    k-data-text-field="'namaexternal'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="liststatuspulang" k-on-change="kondisi()" />
             </div>
+            <div>
+                <button class="btnTemplate1" 
+                        style="margin: 0; padding: 0 16px; height: 30px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;" 
+                        ng-click="simpanPulang()">
+                    <i class="fa fa-save"></i> Simpan
+                </button>
+            </div>
+        </div>
+        <div class="clear"></div>
 
             <div class="panel panel-default container_12" ng-show="pulang.statuspulang.id == 16">
                 <fieldset class="effect-shadow" style=" border-radius: 4px">
@@ -1267,11 +1271,19 @@
                 </div>-->
             </div>
 
-            <div class="grid_6" style="margin-top: 16px">
-                <button class="btnTemplate1" style="margin-left: 0;" ng-click="simpanPulang()">Simpan</button>
+            <div class="clear"></div>
+
+            <!-- Tabel Riwayat TTV Pasien Saat Pulang (Full Width di Bawah) -->
+            <div class="grid_12" style="margin-top: 20px; width: 100%; clear: both;">
+                <fieldset class="effect-shadow" style="border-radius: 4px; padding: 12px;">
+                    <legend><b>Riwayat Tanda-Tanda Vital (TTV) Pasien</b></legend>
+                    <div kendo-grid k-data-source="sourceTtv" k-options="ttvGridOptions"></div>
+                </fieldset>
             </div>
+            <div class="clear"></div>
         </div>
     </div>
+
     <div kendo-window="popUpDiagnosa" k-title="'Diagnosa Fre Text'" k-width="800" k-height="200" k-visible="false">
         <div class="grid_12">
             <div class="grid_12">

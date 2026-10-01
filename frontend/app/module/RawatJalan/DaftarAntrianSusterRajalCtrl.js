@@ -28,6 +28,77 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.item.tanggalRencakaKontrol = $scope.now;
             $scope.dataPasienSelected = {};
             $scope.isRouteLoading = false;
+            // Konfigurasi Kendo Grid untuk Riwayat TTV Pasien Pulang
+            $scope.ttvGridOptions = {
+                pageable: {
+                    pageSize: 5,
+                    messages: {
+                        display: "{0} - {1} dari {2} data",
+                        empty: "Tidak ada data TTV"
+                    }
+                },
+                scrollable: false,
+                columns: [
+                    { field: "tgl", title: "Waktu / Tgl EMR", width: "160px" },
+                    { field: "tekanandarah", title: "TD (mmHg)", width: "100px", attributes: { style: "text-align: center" } },
+                    { field: "nadi", title: "Nadi (x/m)", width: "90px", attributes: { style: "text-align: center" } },
+                    { field: "pernapasan", title: "Napas (x/m)", width: "95px", attributes: { style: "text-align: center" } },
+                    { field: "suhu", title: "Suhu (°C)", width: "85px", attributes: { style: "text-align: center" } },
+                    { field: "spo2", title: "SpO2 (%)", width: "85px", attributes: { style: "text-align: center" } },
+                    { field: "kesadaran", title: "Kesadaran", width: "130px" }
+                ]
+            };
+            function getRiwayatTtvPulang(noRegistrasi) {
+                $scope.sourceTtv = new kendo.data.DataSource({ data: [] });
+                if (!noRegistrasi) return;
+
+                medifirstService.get('emr/get-vital-sign-2?noRegistrasi=' + noRegistrasi).then(function (res) {
+                    var dataArray = [];
+                    if (res && res.data) {
+                        dataArray = Array.isArray(res.data) ? res.data : (res.data.data ? res.data.data : []);
+                    }
+                    console.log('Data TTV Noreg ' + noRegistrasi + ':', dataArray);
+
+                    if (dataArray && dataArray.length > 0) {
+                        var grouped = {};
+                        for (var i = 0; i < dataArray.length; i++) {
+                            var item = dataArray[i];
+                            var waktu = item.tgl ? item.tgl : '-';
+                            if (!grouped[waktu]) {
+                                grouped[waktu] = {
+                                    tgl: waktu,
+                                    tekanandarah: '-',
+                                    nadi: '-',
+                                    pernapasan: '-',
+                                    suhu: '-',
+                                    spo2: '-',
+                                    kesadaran: '-'
+                                };
+                            }
+                            if (item.tekanandarah) grouped[waktu].tekanandarah = item.tekanandarah;
+                            if (item.nadi) grouped[waktu].nadi = item.nadi;
+                            if (item.pernapasan) grouped[waktu].pernapasan = item.pernapasan;
+                            if (item.suhu) grouped[waktu].suhu = item.suhu;
+                            if (item.spo2) grouped[waktu].spo2 = item.spo2;
+                            if (item.kesadaran) {
+                                grouped[waktu].kesadaran = item.kesadaran.indexOf('~') !== -1 ? item.kesadaran.split('~')[1] : item.kesadaran;
+                            }
+                        }
+
+                        var listData = [];
+                        for (var key in grouped) {
+                            listData.push(grouped[key]);
+                        }
+
+                        $scope.sourceTtv = new kendo.data.DataSource({
+                            data: listData,
+                            pageSize: 5
+                        });
+                    }
+                }, function (error) {
+                    console.error('Gagal memuat data TTV:', error);
+                });
+            }
             $rootScope.isOpen = true;
             $scope.cboUbahDokter = true;
             $scope.norecPDbuttonSelected = "";
@@ -2256,6 +2327,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 //     return;
                 // }
                 // if (dataPasienSelected.isonline != "-") {
+                // Panggil TTV Pulang
+                if (dataPasienSelected && dataPasienSelected.noregistrasi) {
+                    getRiwayatTtvPulang(dataPasienSelected.noregistrasi);
+                }
                 if (dataPasienSelected.statusschedule != "" && dataPasienSelected.objectruanganfk != "569") {
                     if (dataPasienSelected.istaskantrol == 3 || dataPasienSelected.istaskantrol == null) {
                         toastr.error('Pengiriman Task Id 5 Tidak Bisa Dilakukan, Task Id Saat ini adalah ' + dataPasienSelected.istaskantrol, 'Info')
