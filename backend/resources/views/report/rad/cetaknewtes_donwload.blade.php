@@ -997,7 +997,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                     <td width="17"></td>
                                     <td width="136">
                                         <p align="left">
-                                            <img src="{{ public_path('service/img/pol.png') }}" style="width: 150px" border="0" />
+                                            <img src="{{ public_path('service/img/polri.png') }}" style="width: 150px" border="0" />
                                         </p>
                                     </td>
                                     <td width="697">
@@ -1359,7 +1359,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                     <td width="17"></td>
                                     <td width="136">
                                         <p align="left">
-                                            <img src="{{ public_path('service/img/pol.png') }}" style="width: 150px" border="0" />
+                                            <img src="{{ public_path('service/img/polri.png') }}" style="width: 150px" border="0" />
                                         </p>
                                     </td>
                                     <td width="697">
@@ -1893,7 +1893,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                                             </td>
                                                             <td width="105">
                                                             <p align="left">
-                                                                <img src="{{ public_path('service/img/pol.png') }}" style="width: 80px" border="0">
+                                                                <img src="{{ public_path('service/img/polri.png') }}" style="width: 80px" border="0">
                                                             </p>
                                                             </td>
                                                             <td align="center">
@@ -2154,7 +2154,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                                     </td>
                                                     <td width="105">
                                                     <p align="right">
-                                                        <img src="{{ public_path('service/img/pol.png') }}" style="width: 80px" border="0">
+                                                        <img src="{{ public_path('service/img/polri.png') }}" style="width: 80px" border="0">
                                                     </p>
                                                     </td>
                                                     <td width="105">
@@ -2392,7 +2392,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                                             </td>
                                                             <td width="105">
                                                             <p align="left">
-                                                                <img src="{{ public_path('service/img/pol.png') }}" style="width: 80px" border="0">
+                                                                <img src="{{ public_path('service/img/polri.png') }}" style="width: 80px" border="0">
                                                             </p>
                                                             </td>
                                                             <td align="center">
@@ -3418,7 +3418,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                             <table width="100%" style="border: none; margin-top: 10px;">
                                 <tr style="border:none;">
                                     <td style="border:none">
-                                        <img src="{{ public_path('service/img/pol.png') }}" style="width: 80px" border="0">
+                                        <img src="{{ public_path('service/img/polri.png') }}" style="width: 80px" border="0">
                                     </td>
                                     <td style="border:none; border-right: 2px solid black;">
                                         <div style="text-align: center;">
@@ -3964,7 +3964,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                             <table width="100%" style="border: none; margin-top: 10px;">
                                 <tr style="border:none;">
                                     <td width="10%" style="padding: 0; margin: 0;">
-                                        <img src="{{ public_path('service/img/pol.png') }}" style="width: 100px" border="0" />
+                                        <img src="{{ public_path('service/img/polri.png') }}" style="width: 100px" border="0" />
                                     </td>
                                     <td width="50%" style="margin-left: -23%; margin-right: 20%">
                                         <p align="left">
@@ -5426,7 +5426,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                             <table width="100%" style="border: none; margin-top: 10px;">
                                 <tr style="border:none;">
                                     <td width="10%" style="padding: 0; margin: 0;">
-                                        <img src="{{ public_path('service/img/pol.png') }}" style="width: 100px" border="0" />
+                                        <img src="{{ public_path('service/img/polri.png') }}" style="width: 100px" border="0" />
                                     </td>
                                     <td width="50%" style="margin-left: -23%; margin-right: 20%">
                                         <p align="left">
@@ -5745,7 +5745,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                             <tr>
                                                 </td>
                                                 <td width="10%" style="border: 2px solid black; border-right:none; text-align:center;">
-                                                    <img src="{{ public_path('service/img/pol.png') }}" style="width: 80px; display:block; margin:auto;">
+                                                    <img src="{{ public_path('service/img/polri.png') }}" style="width: 80px; display:block; margin:auto;">
                                                 </td>
                                                 <td width="20%" style="border-top:2px solid black; border-bottom:2px solid black; border-right:2px solid black; padding-left:4px;">
                                                     <h2 style="font-size:7pt; margin:0;">KEPOLISIAN DAERAH JAWA BARAT</h2>
@@ -5861,7 +5861,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                     <td style="text-align: left" width="50%">
                                     </td>
                                     <td style="text-align: center" width="50%">
-                                        Bandung, {{ isset($dataReport['laporanTindakanFix']['43']) ? \Carbon\Carbon::parse($dataReport['laporanTindakanFix']['43'])->format('Y-m-d H:i') : '-' }}
+                                        Cianjur, {{ isset($dataReport['laporanTindakanFix']['43']) ? \Carbon\Carbon::parse($dataReport['laporanTindakanFix']['43'])->format('Y-m-d H:i') : '-' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -5896,7 +5896,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                     <tr>
                         <td width="50%">
                             <p align="left">
-                                <img src="{{ public_path('service/img/pol.png') }}" style="width: 100px" border="0" />
+                                <img src="{{ public_path('service/img/polri.png') }}" style="width: 100px" border="0" />
                             </p>
                         </td>
                         <td width="50%%">Nama : {{$dataReport['namapasienjk']}} <br> RM/No. Regis : {{$dataReport['nocm']}} / {{$dataReport['noregistrasi']}} <br> TTL : {{substr($dataReport['tgllahir'],0,10)}} / - <br> JK : {{$dataReport['jeniskelamin']}} <br> Ruangan : {{$dataReport['lastruangan']}}</td>
@@ -6920,7 +6920,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                         <tbody>
                             <tr>
                                 <td width="50%" style="padding: 0; margin: 0;">
-                                    <img src="{{ public_path('service/img/pol.png') }}" style="width: 100px" border="0" />
+                                    <img src="{{ public_path('service/img/polri.png') }}" style="width: 100px" border="0" />
                                 </td>
                                 <td width="50%" style="margin-left: -23%; margin-right: 20%">
                                     <p align="left">
@@ -7367,7 +7367,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                 <tbody>
                     <tr>
                         <td width="50%" style="padding: 0; margin: 0;">
-                                <img src="{{ public_path('service/img/pol.png') }}" style="width: 100px" border="0" />
+                                <img src="{{ public_path('service/img/polri.png') }}" style="width: 100px" border="0" />
                         </td>
                         <td width="70%" style="margin-left: -35%">
                             <p align="center">
@@ -7493,7 +7493,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                     <table width="100%" style="border: 1px solid #000; border-bottom:none; margin-top: 10px;">
                                         <tr style="border:none;">
                                             <td width="10%" style="padding: 0; margin: 0;">
-                                                <img src="{{ public_path('service/img/pol.png') }}" style="width: 100px" border="0" />
+                                                <img src="{{ public_path('service/img/polri.png') }}" style="width: 100px" border="0" />
                                             </td>
                                             <td style="width:30%; border:none; border-right: 1px solid black;">
                                                 <div style="text-align: left;">
@@ -7675,7 +7675,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                         </tr>
                                         <tr style="text-align: center; border: 1px solid #000">
                                             <td style="border: 1px solid #000;">
-                                                Bandung, {{ isset($laporan['tanggaloperasi']) && $laporan['tanggaloperasi'] != '' ? \Carbon\Carbon::parse($laporan['tanggaloperasi'])->timezone('Asia/Jakarta')->format('Y-m-d') : '-' }}<br>
+                                                Cianjur, {{ isset($laporan['tanggaloperasi']) && $laporan['tanggaloperasi'] != '' ? \Carbon\Carbon::parse($laporan['tanggaloperasi'])->timezone('Asia/Jakarta')->format('Y-m-d') : '-' }}<br>
                                                 Pembedah <br>
                                                 @if ($laporan['ttddokterbedahop'] != '')
                                                 <img src="{{ $laporan['ttddokterbedahop'] }}" alt="QR Code Pembedah" style="width: 50px"/>
@@ -7772,7 +7772,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                 <tr>
                                     <td width="125">
                                         <p align="left">
-                                            <img src="{{ public_path('service/img/pol.png') }}" style="width: 80px; margin-left: 380px; margin-top: 20px;" border="0">
+                                            <img src="{{ public_path('service/img/polri.png') }}" style="width: 80px; margin-left: 380px; margin-top: 20px;" border="0">
                                         </p>   
                                     </td>
                                 </tr>
@@ -8097,7 +8097,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                     </td> -->
                     <td style="text-align: center">
                         <font style="font-size: 12pt; margin-left:400px;" face="Arial">
-                    Bandung, {{ App\Traits\Valet::getDateIndo($dataReport['tglregistrasi']).' '.substr($dataReport['tglregistrasi'],1,0)   }}
+                    Cianjur, {{ App\Traits\Valet::getDateIndo($dataReport['tglregistrasi']).' '.substr($dataReport['tglregistrasi'],1,0)   }}
                     </font>
                     <br>
                     </td>
@@ -8152,7 +8152,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                     <tr>
                         <td width="50%">
                             <p align="left">
-                                <img src="{{ public_path('service/img/pol.png') }}" style="width: 100px" border="0" />
+                                <img src="{{ public_path('service/img/polri.png') }}" style="width: 100px" border="0" />
                             </p>
                         </td>
                         <td width="50%%">Nama : {{$dataReport['namapasienjk']}} <br> RM/No. Regis : {{$dataReport['nocm']}} / {{$dataReport['noregistrasi']}} <br> TTL : {{substr($dataReport['tgllahir'],0,10)}} / {{$dataReport['umur']}} <br> JK : {{$dataReport['jeniskelamin']}} <br> Ruangan : Instalasi Gawat Darurat (IGD)</td>
@@ -8727,7 +8727,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                     <td width="2%"></td>
                     <td width="16%">
                         <p align="left">
-                            <img src="{{ public_path('service/img/pol.png') }}" style="width: 100px" border="0" />
+                            <img src="{{ public_path('service/img/polri.png') }}" style="width: 100px" border="0" />
                         </p>
                     </td>
                     <td width="82%">
@@ -8813,7 +8813,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                 <td width="17"></td>
                                 <td width="136">
                                     <p align="left">
-                                        <img src="{{ public_path('service/img/pol.png') }}" style="width: 150px" border="0" />
+                                        <img src="{{ public_path('service/img/polri.png') }}" style="width: 150px" border="0" />
                                     </p>
                                 </td>
                                 <td width="697">
@@ -9113,7 +9113,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                 <td width="17"></td>
                                 <td width="136">
                                     <p align="left">
-                                        <img src="{{ public_path('service/img/pol.png') }}" style="width: 150px" border="0" />
+                                        <img src="{{ public_path('service/img/polri.png') }}" style="width: 150px" border="0" />
                                     </p>
                                 </td>
                                 <td width="697">
@@ -12462,7 +12462,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                             <table width="{{$pageWidth}}" style="border: none; margin-top: 10px;">
                                 <tr style="border:none;">
                                     <td style="border:none">
-                                        <img src="{{ public_path('service/img/pol.png') }}" style="width: 80px" border="0">
+                                        <img src="{{ public_path('service/img/polri.png') }}" style="width: 80px" border="0">
                                     </td>
                                     <td style="border:none; border-right: 2px solid black;">
                                         <div style="text-align: center;">
@@ -12534,7 +12534,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                             <table style="border: none; border-collapse: collapse" width="{{$pageWidth}}">
                             <tr style="border: none;">
                                 <td style="border: none;">
-                                    <span>Bandung, {{isset($dataReport['pendampingRehabFix']['3553']) ? \Carbon\Carbon::parse($dataReport['pendampingRehabFix']['3553'])->format('Y-m-d') : '-'}}</span>
+                                    <span>Cianjur, {{isset($dataReport['pendampingRehabFix']['3553']) ? \Carbon\Carbon::parse($dataReport['pendampingRehabFix']['3553'])->format('Y-m-d') : '-'}}</span>
                                 </td>
                             </tr>
                             <tr style="border: none;">
@@ -12593,7 +12593,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                             <table width="{{$pageWidth}}" style="border: none; margin-top: 10px;">
                                 <tr style="border:none;">
                                     <td style="border:none">
-                                        <img src="{{ public_path('service/img/pol.png') }}" style="width: 80px" border="0">
+                                        <img src="{{ public_path('service/img/polri.png') }}" style="width: 80px" border="0">
                                     </td>
                                     <td style="border:none; border-right: 2px solid black;">
                                         <div style="text-align: center;">
@@ -13219,7 +13219,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                 </td>
                                 <td style="width: 70%;border: none;"></td>
                                 <td style="border: none; text-align:center">
-                                    <span>Bandung, {{isset($dataReport['pengkajianAwalMedisRIFix']['43']) ? \Carbon\Carbon::parse($dataReport['pengkajianAwalMedisRIFix']['43'])->format('Y-m-d') : '-'}}</span><br><br>
+                                    <span>Cianjur, {{isset($dataReport['pengkajianAwalMedisRIFix']['43']) ? \Carbon\Carbon::parse($dataReport['pengkajianAwalMedisRIFix']['43'])->format('Y-m-d') : '-'}}</span><br><br>
                                     <span>DPJP</span><br>
                                     @if(isset($dataReport['pengkajianAwalMedisRIFix']['12579']))
                                         <img src={{ $dataReport['pengkajianAwalMedisRIFix']['12579'] }} style="width: 80px" border="0" />
@@ -13678,7 +13678,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                             <tr>
                                                 </td>
                                                 <td width="10%" style="border: 2px solid black; border-right:none; text-align:center;">
-                                                    <img src="{{ public_path('service/img/pol.png') }}" style="width: 80px; display:block; margin:auto;">
+                                                    <img src="{{ public_path('service/img/polri.png') }}" style="width: 80px; display:block; margin:auto;">
                                                 </td>
                                                 <td width="20%" style="border-top:2px solid black; border-bottom:2px solid black; border-right:2px solid black; padding-left:4px;">
                                                     <h2 style="font-size:7pt; margin:0;">KEPOLISIAN DAERAH JAWA BARAT</h2>
@@ -13766,7 +13766,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                                             <tr>
                                                                 <td width="55%"></td>
                                                                 <td width="45%" style="text-align:center;">
-                                                                    <font style="font-size: 11pt" face="Arial">Bandung, {{ \Carbon\Carbon::parse($dataReport['KonsultasiFix'][0]['tglorder'])->format('d-m-Y') }} Jam : {{ \Carbon\Carbon::parse($dataReport['KonsultasiFix'][0]['tglorder'])->format('H:i') }}</font>
+                                                                    <font style="font-size: 11pt" face="Arial">Cianjur, {{ \Carbon\Carbon::parse($dataReport['KonsultasiFix'][0]['tglorder'])->format('d-m-Y') }} Jam : {{ \Carbon\Carbon::parse($dataReport['KonsultasiFix'][0]['tglorder'])->format('H:i') }}</font>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -13878,7 +13878,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                                         <tr>
                                                             <td width="55%"></td>
                                                             <td width="45%" style="text-align:center;">
-                                                                <font style="font-size: 11pt" face="Arial">Bandung, {{ \Carbon\Carbon::parse($dataReport['KonsultasiFix'][0]['tgljawab'])->format('d-m-Y') }} Jam : {{ \Carbon\Carbon::parse($dataReport['KonsultasiFix'][0]['tgljawab'])->format('H:i') }} </font>
+                                                                <font style="font-size: 11pt" face="Arial">Cianjur, {{ \Carbon\Carbon::parse($dataReport['KonsultasiFix'][0]['tgljawab'])->format('d-m-Y') }} Jam : {{ \Carbon\Carbon::parse($dataReport['KonsultasiFix'][0]['tgljawab'])->format('H:i') }} </font>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -13915,6 +13915,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
             </div>
         @endif
         <br>
+        @if(!empty($dataReport['datarincianproduk']))
         <div id="cetakbilling">
             <div id="cetak-container">
                 <div align="center">
@@ -13924,7 +13925,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
                                 <td width="2%"></td>
                                 <td width="16%">
                                     <p align="center">
-                                        <img src="{{ public_path('service/img/pol.png') }}" style="width: 100px" border="0" />
+                                        <img src="{{ public_path('service/img/polri.png') }}" style="width: 100px" border="0" />
                                     </p>
                                 </td>
                                 <td width="82%">
@@ -14069,6 +14070,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
             <div style="break-after:page"></div>
             </div>
         </div>
+        @endif
     <?php } ?>
 </body>
 </html>
