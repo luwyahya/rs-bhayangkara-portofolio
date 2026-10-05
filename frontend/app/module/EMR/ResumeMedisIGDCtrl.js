@@ -2410,15 +2410,15 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     tampungdiagnosa9
                     for (let i = 0; i < tampungdiagnosa.length; i++) {
                         if (tampungdiagnosa[i].jenisdiagnosa == "Primary") {
-                            diagnosautama = diagnosautama + tampungdiagnosa[i].kddiagnosa + ' - ' + tampungdiagnosa[i].namadiagnosa
+                            diagnosautama = diagnosautama + tampungdiagnosa[i].namadiagnosa
                             kddiagnosautama = tampungdiagnosa[i].kddiagnosa
                         } else if (tampungdiagnosa[i].jenisdiagnosa == "Diagnosa Awal") {
-                            diagnosaawal = diagnosaawal + tampungdiagnosa[i].kddiagnosa + ' - ' + tampungdiagnosa[i].namadiagnosa + "\n"
+                            diagnosaawal = diagnosaawal + tampungdiagnosa[i].namadiagnosa + "\n"
                             kddiagnosaawal = tampungdiagnosa[i].kddiagnosa
                         } else {
                             // diagnosasekunder = diagnosasekunder + nourutsekunder + ". " + tampungdiagnosa[i].namadiagnosa + "\n"
                             // kddiagnosasekunder = kddiagnosasekunder + "Kode:	  ICD - 10 : " + tampungdiagnosa[i].kddiagnosa + "\n"
-                            diagnosasekunder = diagnosasekunder + tampungdiagnosa[i].kddiagnosa + ' - ' + tampungdiagnosa[i].namadiagnosa + "\n"
+                            diagnosasekunder = diagnosasekunder + tampungdiagnosa[i].namadiagnosa + "\n"
                             kddiagnosasekunder = tampungdiagnosa[i].kddiagnosa
                         }
                         nourutsekunder = nourutsekunder + 1
@@ -2427,7 +2427,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         diagnosatindakan = '-'
                     }
                     for (let i = 0; i < tampungdiagnosa9.length; i++) {
-                        diagnosatindakan = diagnosatindakan + nouruttindakan + ". " + tampungdiagnosa9[i].kddiagnosatindakan + ' - ' + tampungdiagnosa9[i].namadiagnosatindakan + "\n"
+                        diagnosatindakan = diagnosatindakan + nouruttindakan + ". " + tampungdiagnosa9[i].namadiagnosatindakan + "\n"
                         kddiagnosatindakan = kddiagnosatindakan + "Kode: ICD - 9 - CM : " + tampungdiagnosa9[i].kddiagnosatindakan + "\n"
                         nouruttindakan = nouruttindakan + 1;
                     }

@@ -623,7 +623,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 			</band>
 		</groupHeader>
 	</group> -->
-	<!-- <group name="Diagnosa">
+	<group name="Diagnosa">
 		<groupHeader>
 			<band height="74">
 				<staticText>
@@ -661,7 +661,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
-	</group> -->
+	</group>
 	<group name="tindakan medis">
 		<groupHeader>
 			<band height="36">
